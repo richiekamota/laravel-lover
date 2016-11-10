@@ -7,7 +7,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+    use Uuids;
     use Notifiable;
+
+    /*
+     * A User is the basis for the whole site. A User can have a number
+     * of Roles with each Role providing access to sections of the site
+     */
 
     /**
      * The attributes that are mass assignable.
@@ -15,7 +21,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'first_name', 'last_name', 'email', 'password', 'tenant_code', 'role'
     ];
 
     /**
@@ -26,4 +32,13 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function name()
+    {
+        return $this->first_name . " " . $this->last_name;
+    }
+
+
+
+
 }
