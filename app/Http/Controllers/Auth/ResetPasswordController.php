@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace Portal\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use Portal\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class ResetPasswordController extends Controller
@@ -19,6 +19,13 @@ class ResetPasswordController extends Controller
     */
 
     use ResetsPasswords;
+
+    /**
+     * Where to redirect users after login / registration.
+     *
+     * @var string
+     */
+    protected $redirectTo = '/login';
 
     /**
      * Create a new controller instance.
