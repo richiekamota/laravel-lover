@@ -28,7 +28,7 @@ class UnitPolicy
     }
 
     /**
-     * Determine whether the user can view the unit.
+     * Determine whether the users can view the unit.
      *
      * @param  \Portal\User  $user
      * @param  \Portal\Unit  $unit
@@ -40,7 +40,7 @@ class UnitPolicy
     }
 
     /**
-     * Determine whether the user can create units.
+     * Determine whether the users can create units.
      *
      * @param  \Portal\User  $user
      * @return mixed
@@ -51,7 +51,7 @@ class UnitPolicy
     }
 
     /**
-     * Determine whether the user can update the unit.
+     * Determine whether the users can update the unit.
      *
      * @param  \Portal\User  $user
      * @param  \Portal\Unit  $unit
@@ -63,7 +63,7 @@ class UnitPolicy
     }
 
     /**
-     * Determine whether the user can delete the unit.
+     * Determine whether the users can delete the unit.
      *
      * @param  \Portal\User  $user
      * @param  \Portal\Unit  $unit

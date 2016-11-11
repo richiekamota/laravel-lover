@@ -28,7 +28,7 @@ class ItemPolicy
     }
 
     /**
-     * Determine whether the user can view the item.
+     * Determine whether the users can view the item.
      *
      * @param  \Portal\User  $user
      * @param  \Portal\Item  $item
@@ -40,7 +40,7 @@ class ItemPolicy
     }
 
     /**
-     * Determine whether the user can create items.
+     * Determine whether the users can create items.
      *
      * @param  \Portal\User  $user
      * @return mixed
@@ -51,7 +51,7 @@ class ItemPolicy
     }
 
     /**
-     * Determine whether the user can update the item.
+     * Determine whether the users can update the item.
      *
      * @param  \Portal\User  $user
      * @param  \Portal\Item  $item
@@ -63,7 +63,7 @@ class ItemPolicy
     }
 
     /**
-     * Determine whether the user can delete the item.
+     * Determine whether the users can delete the item.
      *
      * @param  \Portal\User  $user
      * @param  \Portal\Item  $item

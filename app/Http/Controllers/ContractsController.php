@@ -18,8 +18,8 @@ class ContractsController extends Controller
 
     /**
      * Display a listing of the resource
-     * that belongs to this user based on passed in ID
-     * of the current Authed user.
+     * that belongs to this users based on passed in ID
+     * of the current Authed users.
      *
      * @return \Illuminate\Http\Response
      */

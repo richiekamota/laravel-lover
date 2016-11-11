@@ -28,7 +28,7 @@ class LocationPolicy
     }
 
     /**
-     * Determine whether the user can view the location.
+     * Determine whether the users can view the location.
      *
      * @param  \Portal\User  $user
      * @param  \Portal\Location  $location
@@ -40,7 +40,7 @@ class LocationPolicy
     }
 
     /**
-     * Determine whether the user can create locations.
+     * Determine whether the users can create locations.
      *
      * @param  \Portal\User  $user
      * @return mixed
@@ -51,7 +51,7 @@ class LocationPolicy
     }
 
     /**
-     * Determine whether the user can update the location.
+     * Determine whether the users can update the location.
      *
      * @param  \Portal\User  $user
      * @param  \Portal\Location  $location
@@ -63,7 +63,7 @@ class LocationPolicy
     }
 
     /**
-     * Determine whether the user can delete the location.
+     * Determine whether the users can delete the location.
      *
      * @param  \Portal\User  $user
      * @param  \Portal\Location  $location
