@@ -4,7 +4,7 @@ namespace Portal\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class ContractsController extends Controller
+class ApplicationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,25 +17,13 @@ class ContractsController extends Controller
     }
 
     /**
-     * Display a listing of the resource
-     * that belongs to this users based on passed in ID
-     * of the current Authed users.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function indexForUser()
-    {
-        //
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        //
+        return view('application-form.form');
     }
 
     /**

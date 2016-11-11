@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'Laravel',
+    'name' => 'MyDomain Portal',
 
     /*
     |--------------------------------------------------------------------------
@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Africa/Johannesburg',
 
     /*
     |--------------------------------------------------------------------------
@@ -177,6 +177,11 @@ return [
         // Portal\Providers\BroadcastServiceProvider::class,
         Portal\Providers\EventServiceProvider::class,
         Portal\Providers\RouteServiceProvider::class,
+
+        /*
+         * External Service Providers...
+         */
+
 
     ],
 
