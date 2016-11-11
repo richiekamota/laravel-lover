@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'timezone' => 'SAST',
+    'timezone' => 'Africa/Johannesburg',
 
     /*
     |--------------------------------------------------------------------------
@@ -177,6 +177,11 @@ return [
         // Portal\Providers\BroadcastServiceProvider::class,
         Portal\Providers\EventServiceProvider::class,
         Portal\Providers\RouteServiceProvider::class,
+
+        /*
+         * External Service Providers...
+         */
+        
 
     ],
 
