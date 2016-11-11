@@ -1493,5 +1493,113 @@ select {
 @include foundation-top-bar;
 @include foundation-visibility-classes;
 @include foundation-float-classes;*/
+.align-right {
+  -webkit-box-pack: end;
+  justify-content: flex-end; }
+
+.align-center {
+  -webkit-box-pack: center;
+  justify-content: center; }
+
+.align-justify {
+  -webkit-box-pack: justify;
+  justify-content: space-between; }
+
+.align-spaced {
+  justify-content: space-around; }
+
+.align-top {
+  -webkit-box-align: start;
+  align-items: flex-start; }
+
+.align-self-top {
+  align-self: flex-start; }
+
+.align-bottom {
+  -webkit-box-align: end;
+  align-items: flex-end; }
+
+.align-self-bottom {
+  align-self: flex-end; }
+
+.align-middle {
+  -webkit-box-align: center;
+  align-items: center; }
+
+.align-self-middle {
+  -ms-grid-row-align: center;
+  align-self: center; }
+
+.align-stretch {
+  -webkit-box-align: stretch;
+  align-items: stretch; }
+
+.align-self-stretch {
+  -ms-grid-row-align: stretch;
+  align-self: stretch; }
+
+.small-order-1 {
+  -webkit-box-ordinal-group: 2;
+  order: 1; }
+
+.small-order-2 {
+  -webkit-box-ordinal-group: 3;
+  order: 2; }
+
+.small-order-3 {
+  -webkit-box-ordinal-group: 4;
+  order: 3; }
+
+.small-order-4 {
+  -webkit-box-ordinal-group: 5;
+  order: 4; }
+
+.small-order-5 {
+  -webkit-box-ordinal-group: 6;
+  order: 5; }
+
+.small-order-6 {
+  -webkit-box-ordinal-group: 7;
+  order: 6; }
+
+@media screen and (min-width: 40em) {
+  .medium-order-1 {
+    -webkit-box-ordinal-group: 2;
+    order: 1; }
+  .medium-order-2 {
+    -webkit-box-ordinal-group: 3;
+    order: 2; }
+  .medium-order-3 {
+    -webkit-box-ordinal-group: 4;
+    order: 3; }
+  .medium-order-4 {
+    -webkit-box-ordinal-group: 5;
+    order: 4; }
+  .medium-order-5 {
+    -webkit-box-ordinal-group: 6;
+    order: 5; }
+  .medium-order-6 {
+    -webkit-box-ordinal-group: 7;
+    order: 6; } }
+
+@media screen and (min-width: 64em) {
+  .large-order-1 {
+    -webkit-box-ordinal-group: 2;
+    order: 1; }
+  .large-order-2 {
+    -webkit-box-ordinal-group: 3;
+    order: 2; }
+  .large-order-3 {
+    -webkit-box-ordinal-group: 4;
+    order: 3; }
+  .large-order-4 {
+    -webkit-box-ordinal-group: 5;
+    order: 4; }
+  .large-order-5 {
+    -webkit-box-ordinal-group: 6;
+    order: 5; }
+  .large-order-6 {
+    -webkit-box-ordinal-group: 7;
+    order: 6; } }
 
 /*# sourceMappingURL=app.css.map */

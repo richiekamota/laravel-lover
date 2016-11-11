@@ -24,7 +24,7 @@
     <div id="app">
         <nav>
 
-          <div class="row">
+          <div class="row align-middle">
 
             <div class="columns">
               <a href="{{ url('/') }}">

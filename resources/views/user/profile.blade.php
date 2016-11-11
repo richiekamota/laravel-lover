@@ -3,10 +3,10 @@
 @section('content')
   <div class="row">
     <div class="medium-8 medium-offset-2">
-      <h2>{{ Auth::user()->name() }}</h2>
-      <div class="panel-body">
+      <h1>{{ Auth::user()->name() }}</h1>
 
-          This is the users profile
+      <div>
+          <p>This is the users profile</p>
 
           <h4>
               Tenant ID: {{ Auth::user()->tenant_id }}
@@ -16,7 +16,6 @@
               There will be a list of the users contracts including links
               to download them as PDF
           </p>
-
       </div>
     </div>
   </div>
