@@ -10,6 +10,9 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
 
@@ -22,12 +25,12 @@
 </head>
 <body>
     <div id="app">
-        <nav>
+        <nav class="header">
 
           <div class="row align-middle">
 
             <div class="columns">
-              <a href="{{ url('/') }}">
+              <a href="{{ url('/') }}" class="header__link">
                   {{ config('app.name', 'Laravel') }}
               </a>
             </div>
@@ -36,24 +39,28 @@
               <ul class="menu align-right">
                   <!-- Authentication Links -->
                   @if (Auth::guest())
-                      <li><a href="{{ url('/login') }}">Login</a></li>
-                      <li><a href="{{ url('/register') }}">Register</a></li>
+                      <li>
+                        <a href="{{ url('/login') }}" class="header__link header__link--nav">Login</a>
+                      </li>
+                      <li>
+                        <a href="{{ url('/register') }}" class="header__link header__link--nav">Register</a>
+                      </li>
                   @else
                       <li>
-                          <a href="#">
-                              {{ Auth::user()->name() }} <span class="caret"></span>
+                          <a href="#1" class="header__link header__link--nav">
+                              {{ Auth::user()->name() }}
                           </a>
                       </li>
 
                       <li>
-                          <a href="{{ url('/profile') }}">
+                          <a href="{{ url('/profile') }}" class="header__link header__link--nav">
                               Profile
                           </a>
                       </li>
                       <li>
                           <a href="{{ url('/logout') }}"
                               onclick="event.preventDefault();
-                                       document.getElementById('logout-form').submit();">
+                                       document.getElementById('logout-form').submit();" class="header__link header__link--nav">
                               Logout
                           </a>
 

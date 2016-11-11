@@ -2,9 +2,9 @@
 
 @section('content')
   <div class="row">
-      <div class="medium-8 medium-offset-2">
+      <div class="medium-6 medium-offset-3">
 
-          <h2>Register</h2>
+          <h1>Register</h1>
           <div class="panel-body">
               <form role="form" method="POST" action="{{ url('/register') }}">
                   {{ csrf_field() }}

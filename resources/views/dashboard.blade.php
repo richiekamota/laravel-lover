@@ -3,9 +3,9 @@
 @section('content')
   <div class="row">
       <div class="medium-8 medium-offset-2">
-          <h2>Dashboard</h2>
+          <h1>Dashboard</h1>
 
-          <div class="panel">
+          <div>
               <p>
                   This is your dashboard
               </p>

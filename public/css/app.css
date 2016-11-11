@@ -376,7 +376,7 @@ html {
 body {
   padding: 0;
   margin: 0;
-  font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+  font-family: "Raleway", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
   font-weight: normal;
   line-height: 1.5;
   color: #0a0a0a;
@@ -1601,5 +1601,23 @@ select {
   .large-order-6 {
     -webkit-box-ordinal-group: 7;
     order: 6; } }
+
+.header {
+  border-bottom: 1px solid #636b6f;
+  padding-top: 10px;
+  padding-bottom: 10px; }
+  .header__link {
+    color: #636b6f;
+    padding: 0 25px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    text-decoration: none;
+    text-transform: uppercase; }
+    .header__link--nav:hover {
+      color: #000;
+      box-shadow: 0 -1px 0 #000;
+      -webkit-transition: 700ms box-shadow;
+      transition: 700ms box-shadow; }
 
 /*# sourceMappingURL=app.css.map */

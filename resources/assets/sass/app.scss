@@ -6,9 +6,6 @@
 // Variables
 @import "variables";
 
-// Bootstrap
-// @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
-
 // Foundation
 @import 'settings';
 @import "node_modules/foundation-sites/scss/foundation";
@@ -54,3 +51,8 @@
 @include foundation-visibility-classes;
 @include foundation-float-classes;*/
 @include foundation-flex-classes;
+
+// Sites imports
+@import "header";
+@import "form";
+@import "global";

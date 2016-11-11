@@ -5,7 +5,7 @@
 
     <div class="medium-6 medium-offset-3">
 
-        <h2>Login</h2>
+        <h1>Login</h1>
 
         <form role="form" method="POST" action="{{ url('/login') }}">
             {{ csrf_field() }}
