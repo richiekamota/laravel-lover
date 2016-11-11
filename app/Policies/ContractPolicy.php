@@ -28,7 +28,7 @@ class ContractPolicy
     }
 
     /**
-     * Determine whether the user can view the contract.
+     * Determine whether the users can view the contract.
      *
      * @param  \Portal\User  $user
      * @param  \Portal\Contract  $contract
@@ -40,7 +40,7 @@ class ContractPolicy
     }
 
     /**
-     * Determine whether the user can create contracts.
+     * Determine whether the users can create contracts.
      *
      * @param  \Portal\User  $user
      * @return mixed
@@ -51,7 +51,7 @@ class ContractPolicy
     }
 
     /**
-     * Determine whether the user can update the contract.
+     * Determine whether the users can update the contract.
      *
      * @param  \Portal\User  $user
      * @param  \Portal\Contract  $contract
@@ -63,7 +63,7 @@ class ContractPolicy
     }
 
     /**
-     * Determine whether the user can delete the contract.
+     * Determine whether the users can delete the contract.
      *
      * @param  \Portal\User  $user
      * @param  \Portal\Contract  $contract

@@ -28,7 +28,7 @@ class UnitTypePolicy
     }
 
     /**
-     * Determine whether the user can view the unitType.
+     * Determine whether the users can view the unitType.
      *
      * @param  \Portal\User  $user
      * @param  \Portal\UnitType  $unitType
@@ -40,7 +40,7 @@ class UnitTypePolicy
     }
 
     /**
-     * Determine whether the user can create unitTypes.
+     * Determine whether the users can create unitTypes.
      *
      * @param  \Portal\User  $user
      * @return mixed
@@ -51,7 +51,7 @@ class UnitTypePolicy
     }
 
     /**
-     * Determine whether the user can update the unitType.
+     * Determine whether the users can update the unitType.
      *
      * @param  \Portal\User  $user
      * @param  \Portal\UnitType  $unitType
@@ -63,7 +63,7 @@ class UnitTypePolicy
     }
 
     /**
-     * Determine whether the user can delete the unitType.
+     * Determine whether the users can delete the unitType.
      *
      * @param  \Portal\User  $user
      * @param  \Portal\UnitType  $unitType
