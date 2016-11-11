@@ -2,7 +2,7 @@
 
 @section('content')
   <div class="row">
-    <div class="medium-8 medium-offset-2">
+    <div class="medium-6 medium-offset-3">
       <h1>{{ Auth::user()->name() }}</h1>
 
       <div>
