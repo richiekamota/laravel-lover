@@ -1,27 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">{{ Auth::user()->name() }}</div>
-                    <div class="panel-body">
+  <div class="row">
+    <div class="medium-8 medium-offset-2">
+      <h2>{{ Auth::user()->name() }}</h2>
+      <div class="panel-body">
 
-                        This is the users profile
+          This is the users profile
 
-                        <h4>
-                            Tenant ID: {{ Auth::user()->tenant_id }}
-                        </h4>
+          <h4>
+              Tenant ID: {{ Auth::user()->tenant_id }}
+          </h4>
 
-                        <p>
-                            There will be a list of the users contracts including links
-                            to download them as PDF
-                        </p>
+          <p>
+              There will be a list of the users contracts including links
+              to download them as PDF
+          </p>
 
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
+  </div>
 @endsection
