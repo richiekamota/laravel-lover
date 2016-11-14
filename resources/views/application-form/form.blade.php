@@ -1,8 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="row">
+        <div class="medium-6 medium-offset-3">
+            <h1 class="-text-center">Appliction form in here</h1>
+            if step 1
+            <application-form></application-form>
+            if step 2
 
-    <h1>Appliction form in here</h1>
+        </div>
+    </div>
+
+    
+
+    
     <!--
     Step 1
     first_name* - text
