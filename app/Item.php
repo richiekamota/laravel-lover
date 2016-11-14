@@ -3,23 +3,22 @@
 namespace Portal;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Item extends Model
 {
 
     use Uuids;
+    use SoftDeletes;
 
     /*
      * An Item is a description of a cost to the leaseholder.
      * There can be many Items on a Contract.
      */
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name', 'description', 'value'
     ];
+
+    protected $dates = ['deleted_at'];
 }

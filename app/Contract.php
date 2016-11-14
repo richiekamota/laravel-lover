@@ -3,11 +3,13 @@
 namespace Portal;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Contract extends Model
 {
 
     use Uuids;
+    use SoftDeletes;
 
     /*
      * The contract is the formal agreement between
@@ -25,6 +27,8 @@ class Contract extends Model
     protected $fillable = [
         'start_date', 'end_date', 'user_id', 'unit_id', 'document_id'
     ];
+
+    protected $dates = ['deleted_at'];
 
     public function user()
     {
