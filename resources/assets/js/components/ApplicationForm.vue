@@ -2,6 +2,34 @@
 
     <form role="form" method="POST" v-bind:action="formAction" v-on:submit.prevent>
 
+        <h5>Click tests</h5>
+
+        <div>
+            <a v-on:click="clickTest(1)" >Step 1</a> <br>
+            <a v-on:click="clickTest(2)" v-show="showStep >= 2">Step 2</a> <br>
+            <a v-on:click="clickTest(3)">Step 3</a> <br>
+            <a v-on:click="clickTest(4)">Step 4</a> <br>
+        </div>
+
+        <h5>Accordion test</h5>
+
+        <div class="accordion">
+            <button class="accordion__heading" v-on:click="accordionToggle(1, $event)" ref="accordion1" data-accordion="1" >Section 1</button>
+            <div class="accordion__content">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+
+            <button class="accordion__heading" v-on:click="accordionToggle(2, $event)" ref="accordion2" data-accordion="2">Section 2</button>
+            <div class="accordion__content">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+
+            <button class="accordion__heading" v-on:click="accordionToggle(3, $event)" ref="accordion3" data-accordion="3">Section 3</button>
+            <div id="foo" class="accordion__content">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+        </div>
+
         <!-- START Step 1 -->
 
         <template v-if="showStep == 1">
@@ -215,10 +243,11 @@
                     <input type="text" name="employer_salary" v-model="appForm.employer_salary" required>
                 </label>
 
-                <button type="submit" class="success button" v-on:click="submitStep(3)">
-                    Save Step 3
-                </button>
             </template>
+
+            <button type="submit" class="success button" v-on:click="submitStep(3)">
+                Save Step 3
+            </button>
 
         </template>
 
@@ -406,6 +435,46 @@
         },
         methods:{
             testXHR: function() {
+            },
+
+            clickTest: function(step) {
+                console.log("Step clicked is ", step);
+            },
+
+            accordionToggle: function(step, event) {
+                event.preventDefault();
+                console.log("Step for accordion is", step);
+                console.log("Accordion event target is ", event.target);
+                console.log("Next sibling is" , event.target.nextElementSibling);
+                //console.log("Accordion element is ", elem);
+
+                let selectedElement = event.target;
+
+                selectedElement.classList.toggle("accordion__heading--active");
+                selectedElement.nextElementSibling.classList.toggle("accordion__content--active");
+
+                if(step != 2) {
+                    //let nextItem = 'accordion' + (step + 1);
+                    //console.log("Next item on the list is ", nextItem);
+                    //console.log("Refs are", this.$refs);
+                    let nextStep = step + 1;
+                    console.log("next step is ", nextStep);
+                    let nextAccordion = document.querySelector('[data-accordion="' + nextStep + '"]');
+
+                    nextAccordion.click();
+
+                    console.log("Next accordion is ", nextAccordion);
+
+                    // console.log("Vue el", this.$el.data-accordion);
+                    // console.log("Vue el", this.$el.data-accordion);
+
+                    //console.log(this.$refs.accordion2);
+                    //console.log(this.$refs.nextItem);
+
+                    // This is the equivalent of this.$refs.accordion2.click();
+                    //this.$refs.accordion2.click();
+                    //this.$refs.nextItem.click();
+                }
             },
 
             submitStep: function(step) {
