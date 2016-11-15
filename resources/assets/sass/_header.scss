@@ -1,0 +1,25 @@
+.header {
+
+  border-bottom: 1px solid #636b6f;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  &__link {
+    color: #636b6f;
+    padding: 0 25px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+
+    &--nav {
+      &:hover {
+        color: #000;
+        box-shadow: 0 -1px 0 #000;
+        transition: 700ms box-shadow;
+      }
+    }
+
+  }
+}

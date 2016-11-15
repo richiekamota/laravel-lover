@@ -15,6 +15,9 @@ require('./bootstrap');
 
 Vue.component('example', require('./components/Example.vue'));
 
+// Application form.
+Vue.component('application-form', require('./components/ApplicationForm.vue'));
+
 const app = new Vue({
     el: '#app'
 });
