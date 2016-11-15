@@ -2,7 +2,8 @@
 
     <form role="form" method="POST" v-bind:action="formAction" v-on:submit.prevent>
 
-        <h5>Accordion test</h5>
+        <h5>Accordion test <i class="fa fa-youtube-play" aria-hidden="true"></i> asa
+        </h5>
 
         <div class="accordion">
 
@@ -110,8 +111,13 @@
                         </select>
                     </label>
 
-                    <button type="submit" class="success button" v-on:click="submitStep(1)">
-                        Save and continue
+                    <button type="submit" class="success button" v-on:click="submitStep(1)" v-bind:disabled="loading">
+                        <span v-if="loading">
+                            <loading></loading>
+                        </span>
+                        <span v-else>
+                            Save and continue
+                        </span>
                     </button>
 
                 </template>
@@ -164,8 +170,13 @@
                         </label>
                     </template>
 
-                    <button type="submit" class="success button" v-on:click="submitStep(2)">
-                        Save and continue
+                    <button type="submit" class="success button" v-on:click="submitStep(2)" v-bind:disabled="loading">
+                        <span v-if="loading">
+                            <loading></loading>
+                        </span>
+                        <span v-else>
+                            Save and continue
+                        </span>
                     </button>
                 </template>
             </div>
@@ -233,8 +244,13 @@
 
                     </template>
 
-                    <button type="submit" class="success button" v-on:click="submitStep(3)">
-                        Save and continue
+                    <button type="submit" class="success button" v-on:click="submitStep(3)" v-bind:disabled="loading">
+                        <span v-if="loading">
+                            <loading></loading>
+                        </span>
+                        <span v-else>
+                            Save and continue
+                        </span>
                     </button>
 
                 </template>
@@ -242,8 +258,6 @@
             </div>
 
             <!-- END Step 3 -->
-
-
 
             <button class="accordion__heading" v-on:click="accordionToggle(4, $event)" ref="accordion4" data-accordion="4">Step 4:Details of the resident applying to occupy the premises</button>
             <!-- START Step 4 -->
@@ -349,12 +363,79 @@
                         </select>
                     </label>
 
-                    <button type="submit" class="success button" v-on:click="submitStep(4)">
-                        Save and continue
+                    <button type="submit" class="success button" v-on:click="submitStep(4)" v-bind:disabled="loading">
+                        <span v-if="loading">
+                            <loading></loading>
+                        </span>
+                        <span v-else>
+                            Save and continue
+                        </span>
                     </button>
                 </template>
             </div>
             <!-- END Step 4 -->
+
+            <button class="accordion__heading" v-on:click="accordionToggle(5, $event)" ref="accordion5" data-accordion="5">Step 5: Details of the premises</button>
+            <!-- START Step 5 -->
+            <div class="accordion__content">
+
+                <!-- Unit Location -->
+                <label for="unit_location">
+                    Unit Location
+                    <input type="text" name="unit_location" v-model="appForm.unit_location" required>
+                </label>
+
+                <!-- Unit Type -->
+                <label for="unit_type">
+                    Unit Type
+                    <select name="unit_type" v-model="appForm.unit_type" required>
+                        <option value="studio">Studio</option>
+                        <option value="classic studio">Classic Studio</option>
+                        <option value="premium studio">Premium Studio</option>
+                        <option value="deluxe studio">Deluxe Studio</option>
+                        <option value="twin studio">Twin Studio</option>
+                        <option value="2 bedroom unit">2 bedroom studio</option>
+                    </select>
+                </label>
+
+                <!-- Unit Lease Length -->
+                <label for="unit_lease_length">
+                    Unit lease length
+                    <input type="text" name="unit_lease_length" v-model="appForm.unit_lease_length" required>
+                </label>
+
+                <!-- Unit Car parking -->
+                <label for="unit_car_parking">
+                    Motor vehicle parking bay
+                    <input type="checkbox" name="unit_car_parking" v-model="appForm.unit_car_parking">
+                </label>
+
+                <!-- Unit Bike parking -->
+                <label for="unit_bike_parking">
+                    Motorcycle vehicle parking bay
+                    <input type="checkbox" name="unit_bike_parking" v-model="appForm.unit_bike_parking">
+                </label>
+
+                <!-- Unit TV -->
+                <label for="unit_tv">
+                    10 Channel DSTV bouqet
+                    <input type="checkbox" name="unit_tv" v-model="appForm.unit_tv">
+                </label>
+
+                <!-- Unit Storeroom -->
+                <label for="unit_storeroom">
+                    Storeroom
+                    <input type="checkbox" name="unit_storeroom" v-model="appForm.unit_storeroom">
+                </label>
+
+                <!-- Unity occupation date -->
+                <label for="unit_occupation_date">
+                    Date Of Birth
+                    <input type="date" class="flatpickr" name="unit_occupation_date" v-model="appForm.unit_occupation_date" required>
+                </label>
+
+            </div>
+            <!-- END Step 5 -->
         </div>
 
     </form>
@@ -414,18 +495,30 @@
                     resident_landlord_phone_mobile: '',
                     resident_study_location: '',
                     resident_study_year: '',
-                    resident_gender: ''
+                    resident_gender: '',
+                // Step 5
+                    unit_location: '',
+                    unit_type: '',
+                    unit_lease_length: '',
+                    unit_car_parking: '',
+                    unit_bike_parking: '',
+                    unit_tv: '',
+                    unit_storeroom: '',
+                    unit_occupation_date: ''
 
             };
             let formAction = "/step-1";
             return {
                 appForm: appForm,
                 formAction: formAction,
-                showStep: ''
+                showStep: '',
+                loading: false
             };
         },
         mounted() {
             console.log('Component ready.');
+
+            console.log("Processing is", this.loading);
 
             this.showStep = this.step;
 
@@ -459,12 +552,11 @@
                     this.showStep = step + 1;
 
                     // Proceed to the next part of the accordion.
-                    let currentAccordion = document.querySelector('[data-accordion="' + step + '"]');
-                    currentAccordion.click();
+                    let currentAccordion = 'accordion' + step;
+                    this.$refs[currentAccordion].click();
 
-                    let nextStep = step + 1;
-                    let nextAccordion = document.querySelector('[data-accordion="' + nextStep + '"]');
-                    nextAccordion.click();
+                    let nextAccordion = 'accordion' + (step + 1);
+                    this.$refs[nextAccordion].click();
                 });
 
             }

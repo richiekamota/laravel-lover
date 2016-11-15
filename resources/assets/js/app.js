@@ -15,8 +15,12 @@ require('./bootstrap');
 
 Vue.component('example', require('./components/Example.vue'));
 
+// Loading utility.
+Vue.component('loading', require('./components/Loading.vue'));
+
 // Application form.
 Vue.component('application-form', require('./components/ApplicationForm.vue'));
+
 
 const app = new Vue({
     el: '#app'
