@@ -1,6 +1,6 @@
 <template>
 
-    <form role="form" method="POST" v-bind:action="formAction" v-on:submit.prevent>
+    <form role="form" method="POST" v-bind:action="formAction" v-on:submit.prevent ref="appForm">
 
         <h5>Accordion test <i class="fa fa-youtube-play" aria-hidden="true"></i> asa
         </h5>
@@ -14,6 +14,7 @@
             <div class="accordion__content">
 
                 <template v-if="showStep >= 1">
+
                     <h2>Step 1: Details of the leaseholder applying to rent the premises</h2>
                     <!-- First Name -->
                     <label for="first_name">
@@ -96,7 +97,10 @@
                     <!-- Marital Status -->
                     <label for="marital_status">
                         Marital Status
-                        <input type="text" name="marital_status" v-model="appForm.marital_status">
+                        <select name="marital_status" v-model="appForm.marital_status" required>
+                            <option value="married">Married</option>
+                            <option value="Not married">Not married</option>
+                        </select>
                     </label>
 
                     <!-- TODO: Use vbind to check if maritial status is check and then make this required. -->
@@ -104,7 +108,7 @@
                     <!-- Married Type -->
                     <label for="married_type">
                         If married, please select the appropriate option
-                        <select name="married_type" v-model="appForm.married_type">
+                        <select name="married_type" v-model="appForm.married_type" v-bind:required="appForm.marital_status == 'married'">
                             <option value="In community of property">In community of property</option>
                             <option value="ANC">ANC</option>
                             <option value="Accrual System">Accrual System</option>
@@ -688,6 +692,8 @@
             },
 
             submitStep: function(step) {
+
+                console.log("Valid", this.$refs.appForm.checkValidity());
 
                 this.$http.post(
                     this.formAction,

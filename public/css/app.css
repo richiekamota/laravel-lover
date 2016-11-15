@@ -1732,6 +1732,16 @@ select {
     opacity: 1;
     max-height: 1500px; }
 
+.accordion input:valid,
+.accordion input:in-range {
+  background: #d9f2d9;
+  border-color: #40bf40; }
+
+.accordion input:invalid,
+.accordion input:out-of-range {
+  border-color: #bf4040;
+  background: #f2d9d9; }
+
 .-text-center {
   text-align: center; }
 

@@ -33,4 +33,16 @@
       max-height: 1500px;
     }
   }
+
+  input:valid,
+  input:in-range {
+    background:hsl(120, 50%, 90%);
+    border-color:hsl(120, 50%, 50%);
+  }
+
+  input:invalid,
+  input:out-of-range {
+    border-color:hsl(0, 50%, 50%);
+    background:hsl(0, 50%, 90%);
+  }
 }
