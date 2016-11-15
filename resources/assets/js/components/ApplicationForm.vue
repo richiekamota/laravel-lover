@@ -434,8 +434,121 @@
                     <input type="date" class="flatpickr" name="unit_occupation_date" v-model="appForm.unit_occupation_date" required>
                 </label>
 
+                <button type="submit" class="success button" v-on:click="submitStep(5)" v-bind:disabled="loading">
+                        <span v-if="loading">
+                            <loading></loading>
+                        </span>
+                    <span v-else>
+                            Save and continue
+                        </span>
+                </button>
+
             </div>
             <!-- END Step 5 -->
+
+            <button class="accordion__heading" v-on:click="accordionToggle(6, $event)" ref="accordion6" data-accordion="6">Step 6: General Details</button>
+            <!-- START Step 6 -->
+            <div class="accordion__content">
+                <!-- Judgements -->
+                <label for="judgements">
+                    Judgements
+                    <input type="checkbox" name="judgements" v-model="appForm.judgements">
+                </label>
+
+                <!-- Unit Storeroom -->
+                <label for="judgements_details">
+                    Judgement Details
+                    <textarea name="judgements_details" v-model="appForm.judgements_details"></textarea>
+                </label>
+
+                <button type="submit" class="success button" v-on:click="submitStep(6)" v-bind:disabled="loading">
+                        <span v-if="loading">
+                            <loading></loading>
+                        </span>
+                    <span v-else>
+                            Save and continue
+                        </span>
+                </button>
+            </div>
+            <!-- END Step 6 -->
+
+            <button class="accordion__heading" v-on:click="accordionToggle(7, $event)" ref="accordion7" data-accordion="7">Step 7: Required supporting documents</button>
+            <!-- START Step 7 -->
+            <div class="accordion__content">
+
+                <!-- Resident ID -->
+                <label for="resident_id">
+                    Resident ID
+                    <input type="file" name="resident_id">
+                </label>
+
+                <!-- Resident Study permit -->
+                <label for="resident_study_permit">
+                    Resident Study Permit
+                    <input type="file" name="resident_study_permit">
+                </label>
+
+                <!-- Resident Acceptance -->
+                <label for="resident_acceptance">
+                    Resident Acceptance
+                    <input type="file" name="resident_acceptance">
+                </label>
+
+                <!-- Resident Financial Aid -->
+                <label for="resident_financial_aid">
+                    Resident Financial Aid
+                    <input type="file" name="resident_financial_aid">
+                </label>
+
+                <!-- Resident Address proof -->
+                <label for="leaseholder_address_proof">
+                    Resident Proof of Address
+                    <input type="file" name="leaseholder_address_proof">
+                </label>
+
+                <!-- Resident Address proof -->
+                <label for="leaseholder_payslip">
+                    Leaseholder's payslip
+                    <input type="file" name="leaseholder_payslip">
+                </label>
+
+                <button type="submit" class="success button" v-on:click="submitStep(7)" v-bind:disabled="loading">
+                        <span v-if="loading">
+                            <loading></loading>
+                        </span>
+                    <span v-else>
+                            Save and continue
+                        </span>
+                </button>
+
+            </div>
+            <!-- END Step 7 -->
+
+            <button class="accordion__heading" v-on:click="accordionToggle(8, $event)" ref="accordion8" data-accordion="8">Step 8</button>
+            <!-- START Step 8 -->
+            <div class="accordion__content">
+                <!-- Comments -->
+                <label for="comments">
+                    Resident Financial Aid
+                    <textarea name="comments" v-model="appForm.comments"></textarea>
+                </label>
+
+                <!-- Confirm -->
+                <label for="confirm">
+                    Confirm
+                    <input type="checkbox" name="confirm" v-model="appForm.confirm">
+                </label>
+
+                <button type="submit" class="success button" v-on:click="submitStep(8)" v-bind:disabled="loading">
+                        <span v-if="loading">
+                            <loading></loading>
+                        </span>
+                    <span v-else>
+                            Save and continue
+                        </span>
+                </button>
+            </div>
+            <!-- END Step 8 -->
         </div>
 
     </form>
@@ -504,8 +617,20 @@
                     unit_bike_parking: '',
                     unit_tv: '',
                     unit_storeroom: '',
-                    unit_occupation_date: ''
-
+                    unit_occupation_date: '',
+                // Step 6
+                    judgements: '',
+                    judgements_details: '',
+                // Step 7
+                    resident_id: '',
+                    resident_study_permit: '',
+                    resident_acceptance: '',
+                    resident_financial_aid: '',
+                    leaseholder_address_proof: '',
+                    leaseholder_payslip: '',
+                // Step 8
+                    comments: '',
+                    confirm: '',
             };
             let formAction = "/step-1";
             return {
@@ -517,8 +642,6 @@
         },
         mounted() {
             console.log('Component ready.');
-
-            console.log("Processing is", this.loading);
 
             this.showStep = this.step;
 
@@ -549,14 +672,18 @@
                 }, (err) => {
                     console.log("Submitted error", err);
 
-                    this.showStep = step + 1;
+                    // 8 Is the last step.
+                    if(step != 8) {
+                        this.showStep = step + 1;
 
-                    // Proceed to the next part of the accordion.
-                    let currentAccordion = 'accordion' + step;
-                    this.$refs[currentAccordion].click();
+                        // Proceed to the next part of the accordion.
+                        let currentAccordion = 'accordion' + step;
+                        this.$refs[currentAccordion].click();
 
-                    let nextAccordion = 'accordion' + (step + 1);
-                    this.$refs[nextAccordion].click();
+                        let nextAccordion = 'accordion' + (step + 1);
+                        this.$refs[nextAccordion].click();
+                    }
+
                 });
 
             }
