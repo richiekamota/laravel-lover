@@ -388,15 +388,17 @@
                 <!-- Unit Type -->
                 <label for="unit_type">
                     Unit Type
-                    <select name="unit_type" v-model="appForm.unit_type" required>
-                        <option value="studio">Studio</option>
-                        <option value="classic studio">Classic Studio</option>
-                        <option value="premium studio">Premium Studio</option>
-                        <option value="deluxe studio">Deluxe Studio</option>
-                        <option value="twin studio">Twin Studio</option>
-                        <option value="2 bedroom unit">2 bedroom studio</option>
+                    <select name="unit_type" v-model="appForm.unit_type" required v-on:change="roomInfo($event)">
+                        <option v-for="unit in unitTypes" v-bind:value="unit.id" v-bind:data-info="unit.info">
+                            {{ unit.name }}
+                        </option>
                     </select>
                 </label>
+
+                <p v-show="unitTypeInfo">
+                    Unit Description: <br>
+                    {{ unitTypeInfo }}
+                </p>
 
                 <!-- Unit Lease Length -->
                 <label for="unit_lease_length">
@@ -632,11 +634,29 @@
                     comments: '',
                     confirm: '',
             };
+            let unitTypes = [
+                {
+                    id: '1',
+                    name: 'Studio',
+                    rental: 'R3850.00 per month',
+                    deposit: 'R7700 once-off (R3850 as security deposit and R3850 as damage deposit',
+                    info: 'Open plan studio, furnished with single base & matteress, desk, wardrobe, kitchenette with prep bowl & induction hot plate, mini-refrigerator, bnathhroom pod'
+                },
+                {
+                    id: '2',
+                    name: 'Premium Studio',
+                    rental: 'R5000.00 per month',
+                    deposit: 'R10000 once-off (R5000 as security deposit and R3850 as damage deposit',
+                    info: 'Premium studio description'
+                }
+            ];
             let formAction = "/step-1";
             return {
                 appForm: appForm,
                 formAction: formAction,
                 showStep: '',
+                unitTypes: unitTypes,
+                unitTypeInfo: '',
                 loading: false
             };
         },
@@ -660,6 +680,11 @@
                     selectedElement.classList.toggle("accordion__heading--active");
                     selectedElement.nextElementSibling.classList.toggle("accordion__content--active");
                 }
+            },
+
+            roomInfo: function(event) {
+                let sel = event.target;
+                this.unitTypeInfo = sel.options[sel.selectedIndex].getAttribute('data-info');
             },
 
             submitStep: function(step) {
