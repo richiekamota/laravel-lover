@@ -1717,6 +1717,8 @@ select {
   transition: 0.4s; }
   .accordion__heading--active, .accordion__heading:hover {
     background-color: #ddd; }
+  .accordion__heading--disabled {
+    opacity: 0.3; }
 
 .accordion__content {
   padding: 0 18px;
