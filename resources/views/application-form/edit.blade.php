@@ -4,7 +4,7 @@
 
     <div class="row">
         <div class="medium-6 medium-offset-3">
-            Boom
+            <application-form :step="{{$applicationForm->step}}"></application-form>
         </div>
     </div>
 
