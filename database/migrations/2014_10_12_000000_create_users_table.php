@@ -20,11 +20,12 @@ class CreateUsersTable extends Migration
             $table->string('last_name', 191);
             $table->string('email', 191)->unique();
             $table->string('password', 191);
-            $table->enum('role', ['admin', 'application', 'finance', 'tenant']);
+            $table->enum('role', ['admin', 'application', 'finance', 'tenant'])->default('tenant');
             $table->string('tenant_code', 191)->nullable();
 
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -35,6 +36,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::drop('users');
+        Schema::dropIfExists('users');
     }
 }

@@ -19,7 +19,9 @@ class CreateItemsTable extends Migration
             $table->string('name', 191);
             $table->text('description')->nullable();
             $table->integer('cost');
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

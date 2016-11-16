@@ -18,17 +18,13 @@ class Contract extends Model
      * the items are attached by the company admin staff
      */
 
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'start_date', 'end_date', 'user_id', 'unit_id', 'document_id'
     ];
 
     protected $dates = ['deleted_at'];
+
+    public $incrementing = false;
 
     public function user()
     {

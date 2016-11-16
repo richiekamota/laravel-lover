@@ -13,8 +13,13 @@ class LocationsController extends Controller
      */
     public function index()
     {
-        //
+
+        // abort unless Auth > tenant
+
+        // return view('locations.index');
+
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -23,7 +28,11 @@ class LocationsController extends Controller
      */
     public function create()
     {
-        //
+
+        // abort unless Auth > tenant
+
+        // return view('locations.create');
+
     }
 
     /**
@@ -34,7 +43,32 @@ class LocationsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        // abort unless Auth > tenant
+
+        DB::beginTransaction();
+
+        try {
+
+            // Store the location in the DB
+
+            DB::commit();
+
+        } catch (\Exception $e) {
+
+            \Log::info($e);
+
+            //Bugsnag::notifyException($e);
+
+            DB::rollback();
+
+            return Response::json([
+                'error'   => 'locations_store_error',
+                'message' => trans('portal.locations_store_error'),
+            ], 422);
+
+        }
+
     }
 
     /**
@@ -45,7 +79,11 @@ class LocationsController extends Controller
      */
     public function show($id)
     {
-        //
+
+        // abort unless Auth > tenant
+
+        // return view('locations.show');
+
     }
 
     /**
@@ -56,7 +94,9 @@ class LocationsController extends Controller
      */
     public function edit($id)
     {
+
         //
+
     }
 
     /**

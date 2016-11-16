@@ -82,6 +82,7 @@ Route::resource('contracts', 'ContractsController');
 
 Route::get('/application-form', 'ApplicationController@create');
 Route::post('/application-form', 'ApplicationController@store');
+Route::get('/application-form/{id}/edit', 'ApplicationController@edit');
 Route::post('/section-2', 'ApplicationController@sectionTwo');
 Route::post('/section-3', 'ApplicationController@sectionThree');
 Route::post('/section-4', 'ApplicationController@sectionFour');

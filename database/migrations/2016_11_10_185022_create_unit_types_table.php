@@ -28,6 +28,7 @@ class CreateUnitTypesTable extends Migration
             $table->boolean('storeroom')->default(0);
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
