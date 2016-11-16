@@ -23,6 +23,7 @@ class CreateContractsTable extends Migration
             $table->dateTime('end_date');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

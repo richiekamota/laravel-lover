@@ -14,6 +14,7 @@ class CreateApplicationTable extends Migration
     public function up()
     {
         Schema::create('applications', function (Blueprint $table) {
+
             $table->uuid('id');
             $table->primary('id');
             $table->uuid('user_id');
@@ -21,16 +22,16 @@ class CreateApplicationTable extends Migration
             $table->enum('step', [1,2,3,4,5,6,7,8]);
 
             // Step 1
-            $table->integer('sa_id_number', 191)->nullable();
-            $table->integer('passport_number', 191)->nullable();
+            $table->integer('sa_id_number');
+            $table->string('passport_number', 191);
             $table->dateTime('dob');
             $table->string('nationality', 191);
             $table->string('phone_mobile', 191);
-            $table->string('phone_home ', 191);
-            $table->string('phone_work ', 191);
+            $table->string('phone_home', 191);
+            $table->string('phone_work', 191);
             $table->text('current_address');
             $table->enum('marital_status', ['Single', 'Married', 'Divorced', 'Widowed']);
-            $table->enum('married_type ', ['In community of property', 'ANC', 'Accural System']);
+            $table->enum('married_type', ['In community of property', 'ANC', 'Accural System']);
             // Step 2
             $table->boolean('current_property_owner');
             $table->enum('rental_time', ['12', '24', '36', '48'])->nullable();
@@ -50,8 +51,8 @@ class CreateApplicationTable extends Migration
             // Step 4
             $table->string('resident_first_name', 191);
             $table->string('resident_last_name', 191);
-            $table->integer('resident_sa_id_number', 191);
-            $table->integer('resident_passport_number', 191);
+            $table->integer('resident_sa_id_number');
+            $table->string('resident_passport_number', 191);
             $table->dateTime('resident_dob');
             $table->string('resident_nationality', 191);
             $table->string('resident_phone_mobile', 191);
@@ -76,19 +77,20 @@ class CreateApplicationTable extends Migration
             $table->boolean('judgements');
             $table->text('judgements_details');
             // Step 7
-            $table->uuid('resident_id');
-            $table->uuid('resident_study_permit');
-            $table->uuid('resident_acceptance');
-            $table->uuid('resident_financial_aid');
-            $table->uuid('leaseholder_id');
-            $table->uuid('leaseholder_address_proof');
-            $table->uuid('leaseholder_payslip');
+            $table->uuid('resident_id')->nullable();
+            $table->uuid('resident_study_permit')->nullable();
+            $table->uuid('resident_acceptance')->nullable();
+            $table->uuid('resident_financial_aid')->nullable();
+            $table->uuid('leaseholder_id')->nullable();
+            $table->uuid('leaseholder_address_proof')->nullable();
+            $table->uuid('leaseholder_payslip')->nullable();
             // Step 8
             $table->text('comments');
             $table->boolean('confirm');
             $table->dateTime('confirm_time');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

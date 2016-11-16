@@ -23,6 +23,7 @@ class CreateUnitsTable extends Migration
             $table->uuid('contract_id')->nullable();
 
             $table->timestamps();
+            $table->softDeletes();
         });
 
     }

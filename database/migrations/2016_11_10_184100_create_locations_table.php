@@ -23,6 +23,7 @@ class CreateLocationsTable extends Migration
             $table->string('code', 191);
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
