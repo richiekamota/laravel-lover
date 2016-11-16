@@ -58,7 +58,7 @@
                     <!-- Date of birth DOB -->
                     <label for="dob">
                         Date Of Birth
-                        <Flatpickr :options='{}' v-model="appForm.dob" required/>
+                        <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' v-model="appForm.dob" required/>
                     </label>
 
                     <!-- Nationality -->
@@ -305,7 +305,7 @@
                     <!-- Resident Date of birth DOB -->
                     <label for="resident_dob">
                         Date Of Birth
-                        <Flatpickr :options='{}' name="resident_dob" v-model="appForm.resident_dob" required />
+                        <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="resident_dob" v-model="appForm.resident_dob" required />
                     </label>
 
                     <!-- Resident Nationality -->
@@ -445,7 +445,7 @@
                 <!-- Unity occupation date -->
                 <label for="unit_occupation_date">
                     Date Of Birth
-                    <Flatpickr :options='{}' name="unit_occupation_date" v-model="appForm.unit_occupation_date" required/>
+                    <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="unit_occupation_date" v-model="appForm.unit_occupation_date" required/>
                 </label>
 
                 <button type="submit" class="success button" v-on:click="submitStep(5)" v-bind:disabled="loading">
