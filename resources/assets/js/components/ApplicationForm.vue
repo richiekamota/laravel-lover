@@ -578,7 +578,7 @@
         components: {
             Flatpickr
         },
-        props: ['step'],
+        props: ['step', 'formApplicationId'],
         data: () => {
             let appForm = {
                 // Step 1
@@ -717,14 +717,9 @@
                 this.loading = true;
 
                 this.$http.post(
-                    '/section-' + step,
+                    '/step-' + step + '/' + this.formApplicationId,
                     JSON.stringify(this.appForm)
                  ).then((response) => {
-                    console.log("Submitted", response);
-                    this.loading = false;
-                }, (err) => {
-                    console.log("Submitted error", err);
-
                     // 8 Is the last step.
                     if(step != 8) {
                         this.showStep = step + 1;
@@ -736,9 +731,17 @@
                         let nextAccordion = 'accordion' + (step + 1);
                         this.$refs[nextAccordion].click();
                     }
+                    this.loading = false;
+                }, (err) => {
+                    console.log("An error occured", err);
+                    swal({
+                      title: "Error!",
+                      text: err.body.message,
+                      type: "error",
+                      confirmButtonText: "Ok"
+                    });
 
                     this.loading = false;
-
                 });
 
             }

@@ -135,6 +135,49 @@ class ApplicationController extends Controller
     }
 
     /**
+     * Update the application form for Step One.
+     *
+     * @param Request $request
+     * @param  int $id
+     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     */
+    public function stepOne( Request $request, $id )
+    {
+
+        DB::beginTransaction();
+
+        try {
+
+            // Update the form against this user
+
+            // Force an error
+            return Response::json( [
+                'error'   => 'application_form_step1_error',
+                'message' => trans( 'portal.application_form_step1_error' ),
+            ], 422 );
+
+            DB::commit();
+
+        } catch (\Exception $e) {
+
+            \Log::info( $e );
+
+            //Bugsnag::notifyException($e);
+
+            DB::rollback();
+
+            return Response::json( [
+                'error'   => 'application_form_step1_error',
+                'message' => trans( 'portal.application_form_step1_error' ),
+            ], 422 );
+
+        }
+
+
+    }
+
+    /**
      * Update the application form for Step Two.
      *
      * @param Request $request
