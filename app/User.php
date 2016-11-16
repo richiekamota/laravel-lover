@@ -19,12 +19,14 @@ class User extends Authenticatable
      */
 
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'password', 'tenant_code', 'role'
+        'id', 'first_name', 'last_name', 'email', 'password', 'tenant_code', 'role'
     ];
 
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public $incrementing = false;
 
     protected $dates = ['deleted_at'];
 

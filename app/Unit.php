@@ -20,6 +20,8 @@ class Unit extends Model
 
     protected $dates = ['deleted_at'];
 
+    public $incrementing = false;
+
     public function location()
     {
         return $this->hasOne('Portal\Location');

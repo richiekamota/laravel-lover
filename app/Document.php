@@ -22,6 +22,8 @@ class Document extends Model
 
     protected $dates = ['deleted_at'];
 
+    public $incrementing = false;
+
     public function user()
     {
         return $this->hasOne('Portal\User');

@@ -20,4 +20,6 @@ class Location extends Model
     ];
 
     protected $dates = ['deleted_at'];
+
+    public $incrementing = false;
 }

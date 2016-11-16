@@ -6,7 +6,7 @@
             <h1>Application Form</h1>
             <button class="accordion__heading">Step 1: Details of the leaseholder applying to rent the premises</button>
             <div class="panel-body">
-                <form role="form" method="POST" action="{{ url('/register') }}">
+                <form role="form" method="POST" action="{{ url('/application-form') }}">
                     {{ csrf_field() }}
                     <label for="first_name" class="form-group{{ $errors->has('first_name') ? ' has-error' : '' }}">
                         First name
@@ -46,11 +46,6 @@
                             <strong>{{ $errors->first('password') }}</strong>
                         </span>
                         @endif
-                    </label>
-
-                    <label for="password-confirm">
-                        Confirm Password
-                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
                     </label>
 
                     <button type="submit" class="button success">
