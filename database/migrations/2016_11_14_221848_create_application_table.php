@@ -26,11 +26,11 @@ class CreateApplicationTable extends Migration
             $table->dateTime('dob');
             $table->string('nationality', 191);
             $table->string('phone_mobile', 191);
-            $table->string('phone_home ', 191);
-            $table->string('phone_work ', 191);
+            $table->string('phone_home', 191);
+            $table->string('phone_work', 191);
             $table->text('current_address');
             $table->enum('marital_status', ['Single', 'Married', 'Divorced', 'Widowed']);
-            $table->enum('married_type ', ['In community of property', 'ANC', 'Accural System']);
+            $table->enum('married_type', ['In community of property', 'ANC', 'Accural System']);
             // Step 2
             $table->boolean('current_property_owner');
             $table->enum('rental_time', ['12', '24', '36', '48'])->nullable();

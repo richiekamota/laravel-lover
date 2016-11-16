@@ -2,9 +2,6 @@
 
     <form role="form" method="POST" v-bind:action="formAction" v-on:submit.prevent ref="appForm">
 
-        <h5>Accordion test <i class="fa fa-youtube-play" aria-hidden="true"></i> asa
-        </h5>
-
         <div class="accordion">
 
             <button class="accordion__heading" v-on:click="accordionToggle(1, $event)" ref="accordion1" data-accordion="1" >Step 1: Details of the leaseholder applying to rent the premises</button>
@@ -73,19 +70,19 @@
                     <!-- Cellphone Number -->
                     <label for="phone_mobile">
                         Telephone (Mobile)
-                        <input type="text" name="phone_mobile" v-model="appForm.phone_mobile" required>
+                        <input type="tel" name="phone_mobile" v-model="appForm.phone_mobile" required>
                     </label>
 
                     <!-- Home telephone number -->
                     <label for="phone_home">
                         Telephone (Home)
-                        <input type="text" name="phone_home" v-model="appForm.phone_home">
+                        <input type="tel" name="phone_home" v-model="appForm.phone_home">
                     </label>
 
                     <!-- Work telephone number -->
                     <label for="phone_work">
                         Telephone (Work)
-                        <input type="text" name="phone_work" v-model="appForm.phone_work">
+                        <input type="tel" name="phone_work" v-model="appForm.phone_work">
                     </label>
 
                     <!-- Current Address -->
@@ -98,8 +95,10 @@
                     <label for="marital_status">
                         Marital Status
                         <select name="marital_status" v-model="appForm.marital_status" required>
-                            <option value="married">Married</option>
-                            <option value="Not married">Not married</option>
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                            <option value="Divorced">Divorced</option>
+                            <option value="Widowed">Widowed</option>
                         </select>
                     </label>
 
@@ -108,10 +107,10 @@
                     <!-- Married Type -->
                     <label for="married_type">
                         If married, please select the appropriate option
-                        <select name="married_type" v-model="appForm.married_type" v-bind:required="appForm.marital_status == 'married'">
+                        <select name="married_type" v-model="appForm.married_type" v-bind:required="appForm.marital_status == 'Married'">
                             <option value="In community of property">In community of property</option>
                             <option value="ANC">ANC</option>
-                            <option value="Accrual System">Accrual System</option>
+                            <option value="Accural System">Accural System</option>
                         </select>
                     </label>
 
@@ -146,13 +145,18 @@
                         <!-- Rental Time -->
                         <label for="rental_time">
                             How long have you rented there
-                            <input type="text" name="rental_time" v-model="appForm.rental_time" required>
+                            <select name="rental_time" v-model="appForm.rental_time">
+                                <option value="12">12 Months</option>
+                                <option value="24">24 Months</option>
+                                <option value="36">36 Months</option>
+                                <option value="48">48 Months</option>
+                            </select>
                         </label>
 
                         <!-- Rental Amount -->
                         <label for="rental_amount">
                             Monthly rental amount
-                            <input type="text" name="rental_amount" v-model="appForm.rental_amount" required>
+                            <input type="number" name="rental_amount" v-model="appForm.rental_amount" required>
                         </label>
 
                         <!-- Rental Name -->
@@ -362,8 +366,9 @@
                     <label for="resident_gender">
                         What is your gender
                         <select name="resident_gender" v-model="appForm.resident_gender" required>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Unlisted">Unlisted</option>
                         </select>
                     </label>
 
@@ -407,7 +412,10 @@
                 <!-- Unit Lease Length -->
                 <label for="unit_lease_length">
                     Unit lease length
-                    <input type="text" name="unit_lease_length" v-model="appForm.unit_lease_length" required>
+                    <select name="unit_lease_length" v-model="appForm.unit_lease_length" required>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
                 </label>
 
                 <!-- Unit Car parking -->
@@ -694,12 +702,14 @@
             submitStep: function(step) {
 
                 console.log("Valid", this.$refs.appForm.checkValidity());
+                this.loading = true;
 
                 this.$http.post(
-                    this.formAction,
+                    '/section-' + step,
                     JSON.stringify(this.appForm)
                  ).then((response) => {
                     console.log("Submitted", response);
+                    this.loading = false;
                 }, (err) => {
                     console.log("Submitted error", err);
 
@@ -714,6 +724,8 @@
                         let nextAccordion = 'accordion' + (step + 1);
                         this.$refs[nextAccordion].click();
                     }
+
+                    this.loading = false;
 
                 });
 
