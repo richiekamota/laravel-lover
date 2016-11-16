@@ -4,7 +4,8 @@
     <div class="row">
         <div class="medium-6 medium-offset-3">
             <h1>Application Form</h1>
-            <button class="accordion__heading">Step 1: Details of the leaseholder applying to rent the premises</button>
+            <p>Thanks for choosing MyDomain as your student accommodation provider. To get started simply fill in the following application form.</p>
+            <p>The first step is to create an account with us. We use this account to communicate with you during the application process and if successful this account will be your portal to the MyDomain team.</p>
             <div class="panel-body">
                 <form role="form" method="POST" action="{{ url('/application-form') }}">
                     {{ csrf_field() }}
@@ -56,8 +57,8 @@
 
                 <button class="accordion__heading">Step 1: Details of the leaseholder applying to rent the premises</button>
                 <button class="accordion__heading">Step 2: Details of the leaseholder applying to rent the premises</button>
-                <button class="accordion__heading">Step 1: Details of the leaseholder applying to rent the premises</button>
-                <button class="accordion__heading">Step 1: Details of the leaseholder applying to rent the premises</button>
+                <button class="accordion__heading">Step 3: Details of the leaseholder applying to rent the premises</button>
+                <button class="accordion__heading">Step 4: Details of the leaseholder applying to rent the premises</button>
 
             </div>
         </div>
