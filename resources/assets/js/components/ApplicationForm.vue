@@ -2,7 +2,7 @@
 
     <form role="form" method="POST" v-bind:action="formAction" v-on:submit.prevent>
 
-        <h5>Accordion test</h5>
+        <h1>Application Form</h1>
 
         <div class="accordion">
 

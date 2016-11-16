@@ -13,12 +13,13 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'Portal\Item' => 'Portal\Policies\ItemPolicy',
-        'Portal\Unit' => 'Portal\Policies\UnitPolicy',
-        'Portal\Model' => 'Portal\Policies\ModelPolicy',
-        'Portal\Location' => 'Portal\Policies\LocationPolicy',
-        'Portal\Contract' => 'Portal\Policies\ContractPolicy',
-        'Portal\UnitType' => 'Portal\Policies\UnitTypePolicy',
+        'Portal\Item'        => 'Portal\Policies\ItemPolicy',
+        'Portal\Unit'        => 'Portal\Policies\UnitPolicy',
+        'Portal\Model'       => 'Portal\Policies\ModelPolicy',
+        'Portal\Location'    => 'Portal\Policies\LocationPolicy',
+        'Portal\Contract'    => 'Portal\Policies\ContractPolicy',
+        'Portal\UnitType'    => 'Portal\Policies\UnitTypePolicy',
+        'Portal\Application' => 'Portal\Policies\ApplicationPolicy',
     ];
 
     /**

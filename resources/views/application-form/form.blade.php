@@ -52,7 +52,9 @@
                     <button type="submit" class="button success">
                         Save and continue
                     </button>
-                    <a href="/login">Already have a login?</a>
+                    @if(!Auth::check())
+                        <a href="/login">Already have a login?</a>
+                    @endif
                 </form>
 
                 <button class="accordion__heading">Step 1: Details of the leaseholder applying to rent the premises</button>

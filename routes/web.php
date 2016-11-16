@@ -13,6 +13,10 @@
 
 Auth::routes();
 
+Route::get('/register', function(){
+    return redirect('/login');
+});
+
 Route::get('/', 'HomeController@index');
 
 Route::get('/dashboard', 'DashboardController@index');
@@ -83,11 +87,12 @@ Route::resource('contracts', 'ContractsController');
 Route::get('/application-form', 'ApplicationController@create');
 Route::post('/application-form', 'ApplicationController@store');
 Route::get('/application-form/{id}/edit', 'ApplicationController@edit');
-Route::post('/section-2', 'ApplicationController@sectionTwo');
-Route::post('/section-3', 'ApplicationController@sectionThree');
-Route::post('/section-4', 'ApplicationController@sectionFour');
-Route::post('/section-5', 'ApplicationController@sectionFive');
-Route::post('/section-6', 'ApplicationController@sectionSix');
-Route::post('/section-7', 'ApplicationController@sectionSeven');
-Route::post('/section-8', 'ApplicationController@sectionEight');
+Route::post('/step-1/{id}', 'ApplicationController@stepOne');
+Route::post('/step-2/{id}', 'ApplicationController@stepTwo');
+Route::post('/step-3/{id}', 'ApplicationController@stepThree');
+Route::post('/step-4/{id}', 'ApplicationController@stepFour');
+Route::post('/step-5/{id}', 'ApplicationController@stepFive');
+Route::post('/step-6/{id}', 'ApplicationController@stepSix');
+Route::post('/step-7/{id}', 'ApplicationController@stepSeven');
+Route::post('/step-8/{id}', 'ApplicationController@stepEight');
 Route::get('/application-form/{id}', 'ApplicationController@show');

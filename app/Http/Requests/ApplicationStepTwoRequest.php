@@ -25,11 +25,11 @@ class ApplicationStepTwoRequest extends FormRequest
     {
         return [
             'current_property_owner' => 'required',
-            'rental_time'            => 'required_if:current_property_owner,false|in:\'12\', \'24\', \'36\', \'48\'',
+            'rental_time'            => 'required_if:current_property_owner,false|in:12, 24, 36, 48',
             'rental_amount'          => 'required_if:current_property_owner,false|integer',
-            'rental_name'            => 'required_if:current_property_owner,false|max,191',
-            'rental_phone_home'      => 'required_if:current_property_owner,false|max,191',
-            'rental_phone_mobile'    => 'required_if:current_property_owner,false|max,191',
+            'rental_name'            => 'required_if:current_property_owner,false|max:191',
+            'rental_phone_home'      => 'required_if:current_property_owner,false|max:191',
+            'rental_phone_mobile'    => 'required_if:current_property_owner,false|max:191',
         ];
     }
 }
