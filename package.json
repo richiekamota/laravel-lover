@@ -5,6 +5,7 @@
     "dev": "gulp watch"
   },
   "devDependencies": {
+    "dropzone": "^4.3.0",
     "flatpickr": "^2.0.8",
     "foundation-sites": "6.2.4",
     "gulp": "^3.9.1",
@@ -14,7 +15,6 @@
     "laravel-elixir-webpack-official": "^1.0.2",
     "lodash": "^4.16.2",
     "vue": "^2.0.1",
-    "vue-resource": "^1.0.3",
-    "vue-validator": "^3.0.0-alpha.1"
+    "vue-resource": "^1.0.3"
   }
 }

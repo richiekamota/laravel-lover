@@ -493,37 +493,37 @@
                 <!-- Resident ID -->
                 <label for="resident_id">
                     Resident ID
-                    <input type="file" name="resident_id">
+                    <div id="resident_id" name="resident_id" class="dropzone"></div>
                 </label>
 
                 <!-- Resident Study permit -->
                 <label for="resident_study_permit">
                     Resident Study Permit
-                    <input type="file" name="resident_study_permit">
+                    <div id="resident_study_permit" name="resident_study_permit" class="dropzone"></div>
                 </label>
 
                 <!-- Resident Acceptance -->
                 <label for="resident_acceptance">
                     Resident Acceptance
-                    <input type="file" name="resident_acceptance">
+                    <div id="resident_acceptance" name="resident_acceptance" class="dropzone"></div>
                 </label>
 
                 <!-- Resident Financial Aid -->
                 <label for="resident_financial_aid">
                     Resident Financial Aid
-                    <input type="file" name="resident_financial_aid">
+                    <div id="resident_financial_aid" name="resident_financial_aid" class="dropzone"></div>
                 </label>
 
                 <!-- Resident Address proof -->
                 <label for="leaseholder_address_proof">
                     Resident Proof of Address
-                    <input type="file" name="leaseholder_address_proof">
+                    <div id="leaseholder_address_proof" name="leaseholder_address_proof" class="dropzone"></div>
                 </label>
 
                 <!-- Resident Address proof -->
                 <label for="leaseholder_payslip">
                     Leaseholder's payslip
-                    <input type="file" name="leaseholder_payslip">
+                    <div id="leaseholder_payslip" name="leaseholder_payslip" class="dropzone"></div>
                 </label>
 
                 <button type="submit" class="success button" v-on:click="submitStep(7)" v-bind:disabled="loading">
@@ -679,6 +679,14 @@
 
             // Toggle the accordion based on the parameter passed
             document.querySelector('[data-accordion="' + this.step + '"]').click();
+
+            // Add dropzones
+            new Dropzone("#resident_id", { url: "/file/post"});
+            new Dropzone("#resident_study_permit", { url: "/file/post"});
+            new Dropzone("#resident_acceptance", { url: "/file/post"});
+            new Dropzone("#resident_financial_aid", { url: "/file/post"});
+            new Dropzone("#leaseholder_address_proof", { url: "/file/post"});
+            new Dropzone("#leaseholder_payslip", { url: "/file/post"});
         },
         methods:{
 

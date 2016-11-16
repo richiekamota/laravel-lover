@@ -52,6 +52,9 @@
 //@include foundation-float-classes;
 @include foundation-flex-classes;
 
+// Third Party
+@import "third_party/dropzone";
+
 // Sites imports
 @import "header";
 @import "form";
