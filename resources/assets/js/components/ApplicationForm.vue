@@ -1,8 +1,6 @@
 <template>
 
-    <form role="form" method="POST" v-bind:action="formAction" v-on:submit.prevent>
-
-        <h5>Accordion test</h5>
+    <form role="form" method="POST" v-bind:action="formAction" v-on:submit.prevent ref="appForm">
 
         <div class="accordion">
 
@@ -13,6 +11,7 @@
             <div class="accordion__content">
 
                 <template v-if="showStep >= 1">
+
                     <h2>Step 1: Details of the leaseholder applying to rent the premises</h2>
                     <!-- First Name -->
                     <label for="first_name">
@@ -59,7 +58,7 @@
                     <!-- Date of birth DOB -->
                     <label for="dob">
                         Date Of Birth
-                        <input type="date" class="flatpickr" name="dob" v-model="appForm.dob" required>
+                        <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' v-model="appForm.dob" required/>
                     </label>
 
                     <!-- Nationality -->
@@ -71,19 +70,19 @@
                     <!-- Cellphone Number -->
                     <label for="phone_mobile">
                         Telephone (Mobile)
-                        <input type="text" name="phone_mobile" v-model="appForm.phone_mobile" required>
+                        <input type="tel" name="phone_mobile" v-model="appForm.phone_mobile" required>
                     </label>
 
                     <!-- Home telephone number -->
                     <label for="phone_home">
                         Telephone (Home)
-                        <input type="text" name="phone_home" v-model="appForm.phone_home">
+                        <input type="tel" name="phone_home" v-model="appForm.phone_home">
                     </label>
 
                     <!-- Work telephone number -->
                     <label for="phone_work">
                         Telephone (Work)
-                        <input type="text" name="phone_work" v-model="appForm.phone_work">
+                        <input type="tel" name="phone_work" v-model="appForm.phone_work">
                     </label>
 
                     <!-- Current Address -->
@@ -95,7 +94,12 @@
                     <!-- Marital Status -->
                     <label for="marital_status">
                         Marital Status
-                        <input type="text" name="marital_status" v-model="appForm.marital_status">
+                        <select name="marital_status" v-model="appForm.marital_status" required>
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                            <option value="Divorced">Divorced</option>
+                            <option value="Widowed">Widowed</option>
+                        </select>
                     </label>
 
                     <!-- TODO: Use vbind to check if maritial status is check and then make this required. -->
@@ -103,15 +107,20 @@
                     <!-- Married Type -->
                     <label for="married_type">
                         If married, please select the appropriate option
-                        <select name="married_type" v-model="appForm.married_type">
+                        <select name="married_type" v-model="appForm.married_type" v-bind:required="appForm.marital_status == 'Married'">
                             <option value="In community of property">In community of property</option>
                             <option value="ANC">ANC</option>
-                            <option value="Accrual System">Accrual System</option>
+                            <option value="Accural System">Accural System</option>
                         </select>
                     </label>
 
-                    <button type="submit" class="success button" v-on:click="submitStep(1)">
-                        Save and continue
+                    <button type="submit" class="success button" v-on:click="submitStep(1)" v-bind:disabled="loading">
+                        <span v-if="loading">
+                            <loading></loading>
+                        </span>
+                        <span v-else>
+                            Save and continue
+                        </span>
                     </button>
 
                 </template>
@@ -136,13 +145,18 @@
                         <!-- Rental Time -->
                         <label for="rental_time">
                             How long have you rented there
-                            <input type="text" name="rental_time" v-model="appForm.rental_time" required>
+                            <select name="rental_time" v-model="appForm.rental_time">
+                                <option value="12">12 Months</option>
+                                <option value="24">24 Months</option>
+                                <option value="36">36 Months</option>
+                                <option value="48">48 Months</option>
+                            </select>
                         </label>
 
                         <!-- Rental Amount -->
                         <label for="rental_amount">
                             Monthly rental amount
-                            <input type="text" name="rental_amount" v-model="appForm.rental_amount" required>
+                            <input type="number" name="rental_amount" v-model="appForm.rental_amount" required>
                         </label>
 
                         <!-- Rental Name -->
@@ -164,8 +178,13 @@
                         </label>
                     </template>
 
-                    <button type="submit" class="success button" v-on:click="submitStep(2)">
-                        Save and continue
+                    <button type="submit" class="success button" v-on:click="submitStep(2)" v-bind:disabled="loading">
+                        <span v-if="loading">
+                            <loading></loading>
+                        </span>
+                        <span v-else>
+                            Save and continue
+                        </span>
                     </button>
                 </template>
             </div>
@@ -233,8 +252,13 @@
 
                     </template>
 
-                    <button type="submit" class="success button" v-on:click="submitStep(3)">
-                        Save and continue
+                    <button type="submit" class="success button" v-on:click="submitStep(3)" v-bind:disabled="loading">
+                        <span v-if="loading">
+                            <loading></loading>
+                        </span>
+                        <span v-else>
+                            Save and continue
+                        </span>
                     </button>
 
                 </template>
@@ -242,8 +266,6 @@
             </div>
 
             <!-- END Step 3 -->
-
-
 
             <button class="accordion__heading" v-on:click="accordionToggle(4, $event)" ref="accordion4" data-accordion="4">Step 4:Details of the resident applying to occupy the premises</button>
             <!-- START Step 4 -->
@@ -283,7 +305,7 @@
                     <!-- Resident Date of birth DOB -->
                     <label for="resident_dob">
                         Date Of Birth
-                        <input type="date" class="flatpickr" name="resident_dob" v-model="appForm.resident_dob" required>
+                        <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="resident_dob" v-model="appForm.resident_dob" required />
                     </label>
 
                     <!-- Resident Nationality -->
@@ -344,17 +366,203 @@
                     <label for="resident_gender">
                         What is your gender
                         <select name="resident_gender" v-model="appForm.resident_gender" required>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Unlisted">Unlisted</option>
                         </select>
                     </label>
 
-                    <button type="submit" class="success button" v-on:click="submitStep(4)">
-                        Save and continue
+                    <button type="submit" class="success button" v-on:click="submitStep(4)" v-bind:disabled="loading">
+                        <span v-if="loading">
+                            <loading></loading>
+                        </span>
+                        <span v-else>
+                            Save and continue
+                        </span>
                     </button>
                 </template>
             </div>
             <!-- END Step 4 -->
+
+            <button class="accordion__heading" v-on:click="accordionToggle(5, $event)" ref="accordion5" data-accordion="5">Step 5: Details of the premises</button>
+            <!-- START Step 5 -->
+            <div class="accordion__content">
+
+                <!-- Unit Location -->
+                <label for="unit_location">
+                    Unit Location
+                    <input type="text" name="unit_location" v-model="appForm.unit_location" required>
+                </label>
+
+                <!-- Unit Type -->
+                <label for="unit_type">
+                    Unit Type
+                    <select name="unit_type" v-model="appForm.unit_type" required v-on:change="roomInfo($event)">
+                        <option v-for="unit in unitTypes" v-bind:value="unit.id" v-bind:data-info="unit.info">
+                            {{ unit.name }}
+                        </option>
+                    </select>
+                </label>
+
+                <p v-show="unitTypeInfo">
+                    Unit Description: <br>
+                    {{ unitTypeInfo }}
+                </p>
+
+                <!-- Unit Lease Length -->
+                <label for="unit_lease_length">
+                    Unit lease length
+                    <select name="unit_lease_length" v-model="appForm.unit_lease_length" required>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                </label>
+
+                <!-- Unit Car parking -->
+                <label for="unit_car_parking">
+                    Motor vehicle parking bay
+                    <input type="checkbox" name="unit_car_parking" v-model="appForm.unit_car_parking">
+                </label>
+
+                <!-- Unit Bike parking -->
+                <label for="unit_bike_parking">
+                    Motorcycle vehicle parking bay
+                    <input type="checkbox" name="unit_bike_parking" v-model="appForm.unit_bike_parking">
+                </label>
+
+                <!-- Unit TV -->
+                <label for="unit_tv">
+                    10 Channel DSTV bouqet
+                    <input type="checkbox" name="unit_tv" v-model="appForm.unit_tv">
+                </label>
+
+                <!-- Unit Storeroom -->
+                <label for="unit_storeroom">
+                    Storeroom
+                    <input type="checkbox" name="unit_storeroom" v-model="appForm.unit_storeroom">
+                </label>
+
+                <!-- Unity occupation date -->
+                <label for="unit_occupation_date">
+                    Date Of Birth
+                    <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="unit_occupation_date" v-model="appForm.unit_occupation_date" required/>
+                </label>
+
+                <button type="submit" class="success button" v-on:click="submitStep(5)" v-bind:disabled="loading">
+                        <span v-if="loading">
+                            <loading></loading>
+                        </span>
+                    <span v-else>
+                            Save and continue
+                        </span>
+                </button>
+
+            </div>
+            <!-- END Step 5 -->
+
+            <button class="accordion__heading" v-on:click="accordionToggle(6, $event)" ref="accordion6" data-accordion="6">Step 6: General Details</button>
+            <!-- START Step 6 -->
+            <div class="accordion__content">
+                <!-- Judgements -->
+                <label for="judgements">
+                    Judgements
+                    <input type="checkbox" name="judgements" v-model="appForm.judgements">
+                </label>
+
+                <!-- Unit Storeroom -->
+                <label for="judgements_details">
+                    Judgement Details
+                    <textarea name="judgements_details" v-model="appForm.judgements_details"></textarea>
+                </label>
+
+                <button type="submit" class="success button" v-on:click="submitStep(6)" v-bind:disabled="loading">
+                        <span v-if="loading">
+                            <loading></loading>
+                        </span>
+                    <span v-else>
+                            Save and continue
+                        </span>
+                </button>
+            </div>
+            <!-- END Step 6 -->
+
+            <button class="accordion__heading" v-on:click="accordionToggle(7, $event)" ref="accordion7" data-accordion="7">Step 7: Required supporting documents</button>
+            <!-- START Step 7 -->
+            <div class="accordion__content">
+
+                <!-- Resident ID -->
+                <label for="resident_id">
+                    Resident ID
+                    <div id="resident_id" name="resident_id" class="dropzone"></div>
+                </label>
+
+                <!-- Resident Study permit -->
+                <label for="resident_study_permit">
+                    Resident Study Permit
+                    <div id="resident_study_permit" name="resident_study_permit" class="dropzone"></div>
+                </label>
+
+                <!-- Resident Acceptance -->
+                <label for="resident_acceptance">
+                    Resident Acceptance
+                    <div id="resident_acceptance" name="resident_acceptance" class="dropzone"></div>
+                </label>
+
+                <!-- Resident Financial Aid -->
+                <label for="resident_financial_aid">
+                    Resident Financial Aid
+                    <div id="resident_financial_aid" name="resident_financial_aid" class="dropzone"></div>
+                </label>
+
+                <!-- Resident Address proof -->
+                <label for="leaseholder_address_proof">
+                    Resident Proof of Address
+                    <div id="leaseholder_address_proof" name="leaseholder_address_proof" class="dropzone"></div>
+                </label>
+
+                <!-- Resident Address proof -->
+                <label for="leaseholder_payslip">
+                    Leaseholder's payslip
+                    <div id="leaseholder_payslip" name="leaseholder_payslip" class="dropzone"></div>
+                </label>
+
+                <button type="submit" class="success button" v-on:click="submitStep(7)" v-bind:disabled="loading">
+                        <span v-if="loading">
+                            <loading></loading>
+                        </span>
+                    <span v-else>
+                            Save and continue
+                        </span>
+                </button>
+
+            </div>
+            <!-- END Step 7 -->
+
+            <button class="accordion__heading" v-on:click="accordionToggle(8, $event)" ref="accordion8" data-accordion="8">Step 8</button>
+            <!-- START Step 8 -->
+            <div class="accordion__content">
+                <!-- Comments -->
+                <label for="comments">
+                    Resident Financial Aid
+                    <textarea name="comments" v-model="appForm.comments"></textarea>
+                </label>
+
+                <!-- Confirm -->
+                <label for="confirm">
+                    Confirm
+                    <input type="checkbox" name="confirm" v-model="appForm.confirm">
+                </label>
+
+                <button type="submit" class="success button" v-on:click="submitStep(8)" v-bind:disabled="loading">
+                        <span v-if="loading">
+                            <loading></loading>
+                        </span>
+                    <span v-else>
+                            Save and continue
+                        </span>
+                </button>
+            </div>
+            <!-- END Step 8 -->
         </div>
 
     </form>
@@ -362,10 +570,15 @@
 </template>
 
 <script>
-    const Flatpickr = require("flatpickr");
+
+    import Flatpickr from '../../../../node_modules/vue-flatpickr/vue-flatpickr-default.vue';
+
 
     export default {
-        props: ['step'],
+        components: {
+            Flatpickr
+        },
+        props: ['step', 'formApplicationId'],
         data: () => {
             let appForm = {
                 // Step 1
@@ -414,14 +627,54 @@
                     resident_landlord_phone_mobile: '',
                     resident_study_location: '',
                     resident_study_year: '',
-                    resident_gender: ''
-
+                    resident_gender: '',
+                // Step 5
+                    unit_location: '',
+                    unit_type: '',
+                    unit_lease_length: '',
+                    unit_car_parking: '',
+                    unit_bike_parking: '',
+                    unit_tv: '',
+                    unit_storeroom: '',
+                    unit_occupation_date: '',
+                // Step 6
+                    judgements: '',
+                    judgements_details: '',
+                // Step 7
+                    resident_id: '',
+                    resident_study_permit: '',
+                    resident_acceptance: '',
+                    resident_financial_aid: '',
+                    leaseholder_address_proof: '',
+                    leaseholder_payslip: '',
+                // Step 8
+                    comments: '',
+                    confirm: '',
             };
+            let unitTypes = [
+                {
+                    id: '1',
+                    name: 'Studio',
+                    rental: 'R3850.00 per month',
+                    deposit: 'R7700 once-off (R3850 as security deposit and R3850 as damage deposit',
+                    info: 'Open plan studio, furnished with single base & matteress, desk, wardrobe, kitchenette with prep bowl & induction hot plate, mini-refrigerator, bnathhroom pod'
+                },
+                {
+                    id: '2',
+                    name: 'Premium Studio',
+                    rental: 'R5000.00 per month',
+                    deposit: 'R10000 once-off (R5000 as security deposit and R3850 as damage deposit',
+                    info: 'Premium studio description'
+                }
+            ];
             let formAction = "/step-1";
             return {
                 appForm: appForm,
                 formAction: formAction,
-                showStep: ''
+                showStep: '',
+                unitTypes: unitTypes,
+                unitTypeInfo: '',
+                loading: false
             };
         },
         mounted() {
@@ -431,6 +684,14 @@
 
             // Toggle the accordion based on the parameter passed
             document.querySelector('[data-accordion="' + this.step + '"]').click();
+
+            // Add dropzones
+            new Dropzone("#resident_id", { url: "/file/post"});
+            new Dropzone("#resident_study_permit", { url: "/file/post"});
+            new Dropzone("#resident_acceptance", { url: "/file/post"});
+            new Dropzone("#resident_financial_aid", { url: "/file/post"});
+            new Dropzone("#leaseholder_address_proof", { url: "/file/post"});
+            new Dropzone("#leaseholder_payslip", { url: "/file/post"});
         },
         methods:{
 
@@ -446,25 +707,41 @@
                 }
             },
 
+            roomInfo: function(event) {
+                let sel = event.target;
+                this.unitTypeInfo = sel.options[sel.selectedIndex].getAttribute('data-info');
+            },
+
             submitStep: function(step) {
+                console.log("Valid", this.$refs.appForm.checkValidity());
+                this.loading = true;
 
                 this.$http.post(
-                    this.formAction,
+                    '/step-' + step + '/' + this.formApplicationId,
                     JSON.stringify(this.appForm)
                  ).then((response) => {
-                    console.log("Submitted", response);
+                    // 8 Is the last step.
+                    if(step != 8) {
+                        this.showStep = step + 1;
+
+                        // Proceed to the next part of the accordion.
+                        let currentAccordion = 'accordion' + step;
+                        this.$refs[currentAccordion].click();
+
+                        let nextAccordion = 'accordion' + (step + 1);
+                        this.$refs[nextAccordion].click();
+                    }
+                    this.loading = false;
                 }, (err) => {
-                    console.log("Submitted error", err);
+                    console.log("An error occured", err);
+                    swal({
+                      title: "Error!",
+                      text: err.body.message,
+                      type: "error",
+                      confirmButtonText: "Ok"
+                    });
 
-                    this.showStep = step + 1;
-
-                    // Proceed to the next part of the accordion.
-                    let currentAccordion = document.querySelector('[data-accordion="' + step + '"]');
-                    currentAccordion.click();
-
-                    let nextStep = step + 1;
-                    let nextAccordion = document.querySelector('[data-accordion="' + nextStep + '"]');
-                    nextAccordion.click();
+                    this.loading = false;
                 });
 
             }
