@@ -11,6 +11,9 @@
               </p>
               <p>
                   Soon we will be showing the list of incoming applications.
+
+                  <h5>Requirements</h5>
+
               </p>
           </div>
       </div>
