@@ -24,8 +24,8 @@ class ApplicationStepOneRequest extends FormRequest
     public function rules()
     {
         return [
-            'sa_id_number'    => 'required_unless:passport_number',
-            'passport_number' => 'required_unless:sa_id_number',
+            'sa_id_number'    => 'required_if:passport_number,""',
+            'passport_number' => 'required_if:sa_id_number,""',
             'dob'             => 'required|date',
             'nationality'     => 'required',
             'phone_mobile'    => 'sometimes',
@@ -33,7 +33,7 @@ class ApplicationStepOneRequest extends FormRequest
             'phone_work'      => 'sometimes',
             'current_address' => 'required',
             'marital_status'  => 'required',
-            'married_type'    => 'required_if:marital_status,married',
+            'married_type'    => 'required_if:marital_status,"Married"',
         ];
     }
 }

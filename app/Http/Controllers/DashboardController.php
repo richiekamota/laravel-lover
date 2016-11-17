@@ -2,7 +2,10 @@
 
 namespace Portal\Http\Controllers;
 
+use Auth;
+use Gate;
 use Illuminate\Http\Request;
+use Portal\Application;
 
 class DashboardController extends Controller
 {
@@ -22,6 +25,25 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+
+        // If the user is not a tenant
+        if (Gate::denies('is-tenant')) {
+
+            $openApplications = Application::whereStatus('open')->get();
+
+            $pendingApplications = Application::whereStatus('pending')->get();
+
+            $allApplications = Application::whereStatus('declined')->orWhereStatus('approved')->get();
+
+            return view('dashboard', compact('openApplications', 'pendingApplications', 'allApplications'));
+
+        } else {
+
+            $openApplications = Auth::user()->applications;
+
+            return view('dashboard', compact('openApplications'));
+
+        }
+
     }
 }

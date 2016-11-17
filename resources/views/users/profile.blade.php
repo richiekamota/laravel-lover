@@ -6,16 +6,11 @@
       <h1>{{ Auth::user()->name() }}</h1>
 
       <div>
+
           <p>This is the users profile</p>
 
-          <h4>
-              Tenant ID: {{ Auth::user()->tenant_id }}
-          </h4>
+          <p>Eventually the user can update their details within the system</p>
 
-          <p>
-              There will be a list of the users contracts including links
-              to download them as PDF
-          </p>
       </div>
     </div>
   </div>

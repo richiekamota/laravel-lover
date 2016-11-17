@@ -83,7 +83,6 @@ class Application extends Model
 
     public function user()
     {
-
         return $this->hasOne( 'Portal\User' );
     }
 

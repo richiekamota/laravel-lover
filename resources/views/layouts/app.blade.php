@@ -42,24 +42,10 @@
                       <li>
                         <a href="{{ url('/login') }}" class="header__link header__link--nav">Login</a>
                       </li>
-                      <li>
-                        <a href="{{ url('/register') }}" class="header__link header__link--nav">Register</a>
-                      </li>
                   @else
                       <li>
-                          <a href="#1" class="header__link header__link--nav">
-                              {{ Auth::user()->name() }}
-                          </a>
-                      </li>
-
-                      <li>
-                          <a href="{{ url('/profile') }}" class="header__link header__link--nav">
-                              Profile
-                          </a>
-                      </li>
-                      <li>
                           <a href="{{ url('/logout') }}"
-                              onclick="event.preventDefault();
+                             onclick="event.preventDefault();
                                        document.getElementById('logout-form').submit();" class="header__link header__link--nav">
                               Logout
                           </a>
@@ -67,6 +53,16 @@
                           <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                               {{ csrf_field() }}
                           </form>
+                      </li>
+                      <li>
+                          <a href="{{ url('/profile') }}" class="header__link header__link--nav">
+                              Profile
+                          </a>
+                      </li>
+                      <li>
+                          <a href="/dashboard" class="header__link header__link--nav">
+                              Dashboard
+                          </a>
                       </li>
                   @endif
               </ul>

@@ -2,6 +2,8 @@
 
     <form role="form" method="POST" v-bind:action="formAction" v-on:submit.prevent ref="appForm">
 
+        <h1>Application Form</h1>
+
         <div class="accordion">
 
             <button class="accordion__heading" v-on:click="accordionToggle(1, $event)" ref="accordion1" data-accordion="1" >Step 1: Details of the leaseholder applying to rent the premises</button>
