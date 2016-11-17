@@ -60,7 +60,7 @@
                     <!-- Date of birth DOB -->
                     <label for="dob">
                         Date Of Birth
-                        <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="dob" v-model="appForm.dob" required/>
+                        <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="dob" v-model="appForm.dob" @update='appForm.dob = $event' required/>
                     </label>
 
                     <!-- Nationality -->
@@ -317,7 +317,7 @@
                     <!-- Resident Date of birth DOB -->
                     <label for="resident_dob">
                         Date Of Birth
-                        <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="resident_dob" v-model="appForm.resident_dob" required />
+                        <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="resident_dob" v-model="appForm.resident_dob" @update='appForm.resident_dob = $event' required />
                     </label>
 
                     <!-- Resident Nationality -->
@@ -460,10 +460,10 @@
                     <input type="checkbox" name="unit_storeroom" v-model="appForm.unit_storeroom">
                 </label>
 
-                <!-- Unity occupation date -->
+                <!-- Unit occupation date -->
                 <label for="unit_occupation_date">
-                    Date Of Birth
-                    <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="unit_occupation_date" v-model="appForm.unit_occupation_date" required/>
+                    Unit Occupation Date
+                    <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="unit_occupation_date" v-model="appForm.unit_occupation_date" @update='appForm.unit_occupation_date = $event' required/ >
                 </label>
 
                 <div v-if="appForm.step5" v-html="appForm.step5"></div>
@@ -746,6 +746,11 @@
                     selectedElement.classList.toggle("accordion__heading--active");
                     selectedElement.nextElementSibling.classList.toggle("accordion__content--active");
                 }
+            },
+
+            update (val) {
+              this.msg = val
+              console.log("Update", val);
             },
 
             roomInfo: function(event) {
