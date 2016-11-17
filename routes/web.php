@@ -21,7 +21,7 @@ Route::get('/', 'HomeController@index');
 
 Route::get('/dashboard', 'DashboardController@index');
 
-Route::get('/profile', 'UserController@profile');
+Route::get('/profile', 'UsersController@profile');
 
 /*
 |--------------------------------------------------------------------------

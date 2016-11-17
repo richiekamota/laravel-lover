@@ -5,7 +5,7 @@ namespace Portal\Http\Controllers;
 use Gate;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class UsersController extends Controller
 {
 
     /**
