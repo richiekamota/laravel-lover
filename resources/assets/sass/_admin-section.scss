@@ -26,4 +26,9 @@
 
 .application {
   background-color: #ddd;
+  padding: 0px 20px;
+
+  &:nth-child(even) {
+    background-color: #eee;
+  }
 }

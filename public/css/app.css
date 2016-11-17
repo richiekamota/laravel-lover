@@ -2914,6 +2914,9 @@ body.stop-scrolling {
       background-color: #C1C1C1; }
 
 .application {
-  background-color: #ddd; }
+  background-color: #ddd;
+  padding: 0px 20px; }
+  .application:nth-child(even) {
+    background-color: #eee; }
 
 /*# sourceMappingURL=app.css.map */

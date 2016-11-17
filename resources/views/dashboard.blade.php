@@ -30,45 +30,41 @@
                         <!-- The Application row -->
                         <div class="application">
                             <div class="row">
-                                <div class="small-7 columns application-title">
-                                    Application 1
+                                <div class="small-7 columns">
+                                    <h3 class="application__title">Application 1</h3>
                                 </div>
 
-                                <div class="small-5 columns application-actions -text-right">
+                                <div class="small-5 columns application-actions -text-right align-middle">
                                     <a href="#1">Go to application</a>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- The Application form -->
-                        <div class="application-form">
+                        <!-- Duplication application row -->
+                        <div class="application">
                             <div class="row">
-                                <div class="medium-10 columns">
-                                    <h5>Application here</h5>
-                                    <div class="row">
-                                        <div class="medium-3 columns">
-                                            <strong>Unit lease length</strong>
-                                        </div>
-                                        <div class="medium-9 columns">
-                                            11
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="medium-3 columns">
-                                            <strong>Landlord's work phone number</strong>
-                                        </div>
-                                        <div class="medium-9 columns">
-                                            +111483148021
-                                        </div>
-                                    </div>
+                                <div class="small-7 columns">
+                                    <h3 class="application__title">Application 2</h3>
                                 </div>
-                                <div class="medium-2 columns application-actions -text-right">
-                                    <a href="#1">Approve</a>
-                                    <a href="#2">Deny</a>
+
+                                <div class="small-5 columns application-actions -text-right align-middle">
+                                    <a href="#1">Go to application</a>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="application">
+                            <div class="row">
+                                <div class="small-7 columns">
+                                    <h3 class="application__title">Application 3</h3>
+                                </div>
+
+                                <div class="small-5 columns application-actions -text-right align-middle">
+                                    <a href="#1">Go to application</a>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
