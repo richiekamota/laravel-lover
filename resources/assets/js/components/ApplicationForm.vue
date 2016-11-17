@@ -60,7 +60,7 @@
                     <!-- Date of birth DOB -->
                     <label for="dob">
                         Date Of Birth
-                        <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' v-model="appForm.dob" required/>
+                        <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="dob" v-model="appForm.dob" required/>
                     </label>
 
                     <!-- Nationality -->
@@ -94,7 +94,7 @@
                     <!-- Current Address -->
                     <label for="current_address">
                         Address where you currently stay
-                        <input type="text" name="current_address" v-model="appForm.current_address">
+                        <input type="text" name="current_address" v-model="appForm.current_address" required>
                     </label>
 
                     <!-- Marital Status -->
@@ -119,6 +119,8 @@
                             <option value="Accural System">Accural System</option>
                         </select>
                     </label>
+
+                    <div v-if="appForm.step1" v-html="appForm.step1"></div>
 
                     <button type="submit" class="success button" v-on:click="submitStep(1)" v-bind:disabled="loading">
                         <span v-if="loading">
@@ -183,6 +185,8 @@
                             <input type="text" name="rental_phone_mobile" v-model="appForm.rental_phone_mobile" required>
                         </label>
                     </template>
+
+                    <div v-if="appForm.step2" v-html="appForm.step2"></div>
 
                     <button type="submit" class="success button" v-on:click="submitStep(2)" v-bind:disabled="loading">
                         <span v-if="loading">
@@ -257,6 +261,8 @@
                         </label>
 
                     </template>
+
+                    <div v-if="appForm.step3" v-html="appForm.step3"></div>
 
                     <button type="submit" class="success button" v-on:click="submitStep(3)" v-bind:disabled="loading">
                         <span v-if="loading">
@@ -382,6 +388,8 @@
                         </select>
                     </label>
 
+                    <div v-if="appForm.step4" v-html="appForm.step4"></div>
+
                     <button type="submit" class="success button" v-on:click="submitStep(4)" v-bind:disabled="loading">
                         <span v-if="loading">
                             <loading></loading>
@@ -458,6 +466,8 @@
                     <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="unit_occupation_date" v-model="appForm.unit_occupation_date" required/>
                 </label>
 
+                <div v-if="appForm.step5" v-html="appForm.step5"></div>
+
                 <button type="submit" class="success button" v-on:click="submitStep(5)" v-bind:disabled="loading">
                         <span v-if="loading">
                             <loading></loading>
@@ -484,6 +494,8 @@
                     Judgement Details
                     <textarea name="judgements_details" v-model="appForm.judgements_details"></textarea>
                 </label>
+
+                <div v-if="appForm.step6" v-html="appForm.step6"></div>
 
                 <button type="submit" class="success button" v-on:click="submitStep(6)" v-bind:disabled="loading">
                         <span v-if="loading">
@@ -536,6 +548,8 @@
                     <div id="leaseholder_payslip" name="leaseholder_payslip" class="dropzone"></div>
                 </label>
 
+                <div v-if="appForm.step7" v-html="appForm.step7"></div>
+
                 <button type="submit" class="success button" v-on:click="submitStep(7)" v-bind:disabled="loading">
                         <span v-if="loading">
                             <loading></loading>
@@ -562,6 +576,8 @@
                     Confirm
                     <input type="checkbox" name="confirm" v-model="appForm.confirm">
                 </label>
+
+                <div v-if="appForm.step8" v-html="appForm.step8"></div>
 
                 <button type="submit" class="success button" v-on:click="submitStep(8)" v-bind:disabled="loading">
                         <span v-if="loading">
@@ -593,6 +609,7 @@
         data: () => {
             let appForm = {
                 // Step 1
+                    step1: '',
                     myForm: '',
                     first_name: '',
                     last_name: '',
@@ -609,6 +626,7 @@
                     marital_status: '',
                     married_type: '',
                 // Step 2
+                    step2: '',
                     current_property_owner: '',
                     rental_time: '',
                     rental_amount: '',
@@ -616,6 +634,7 @@
                     rental_phone_home: '',
                     rental_phone_mobile: '',
                 // Step 3
+                    step3: '',
                     selfemployed: '',
                     occupation: '',
                     current_monthly_expenses: '',
@@ -624,6 +643,7 @@
                     employer_email: '',
                     employer_salary: '',
                 // Step 4
+                    step4: '',
                     resident_first_name: '',
                     resident_last_name: '',
                     resident_sa_id_number: '',
@@ -640,6 +660,7 @@
                     resident_study_year: '',
                     resident_gender: '',
                 // Step 5
+                    step5: '',
                     unit_location: '',
                     unit_type: '',
                     unit_lease_length: '',
@@ -649,9 +670,11 @@
                     unit_storeroom: '',
                     unit_occupation_date: '',
                 // Step 6
+                    step6: '',
                     judgements: '',
                     judgements_details: '',
                 // Step 7
+                    step7: '',
                     resident_id: '',
                     resident_study_permit: '',
                     resident_acceptance: '',
@@ -731,8 +754,8 @@
             },
 
             submitStep: function(step) {
-                console.log("Valid", this.$refs.appForm.checkValidity());
                 this.loading = true;
+                var stepMessage = 'step' + step;
 
                 this.$http.post(
                     '/step-' + step + '/' + this.formApplicationId,
@@ -750,11 +773,26 @@
                         this.$refs[nextAccordion].click();
                     }
                     this.loading = false;
+                    // If we are successful, there might not be any message to say so let's set it to default.
+                    this.appForm[stepMessage] = '';
                 }, (err) => {
                     console.log("An error occured", err);
+                    let errorMessage = '';
+                    if(err.body.message) {
+                        errorMessage = err.body.message;
+                    } else {
+                        // This should occur if there are any validation errors.
+                        // Let's iterate over the list of errors.
+                        Object.keys(err.body).forEach(function (key) {
+                         let obj = err.body[key];
+                         obj = obj.toString();
+                         errorMessage = errorMessage + obj + '\r \n';
+                        });
+                    }
+                    this.appForm[stepMessage] = errorMessage.replace(/\r/g, "<br/>");
                     swal({
                       title: "Error!",
-                      text: err.body.message,
+                      text: errorMessage,
                       type: "error",
                       confirmButtonText: "Ok"
                     });
