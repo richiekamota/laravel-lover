@@ -64,7 +64,11 @@
                     <!-- Nationality -->
                     <label for="nationality">
                         Nationality
-                        <input type="text" name="nationality" v-model="appForm.nationality" required>
+                        <select name="nationality" v-model="appForm.nationality" required v-on:change="roomInfo($event)" required>
+                            <option v-for="country in countries" v-bind:value="country.nationality">
+                                {{ country.nationality }}
+                            </option>
+                        </select>
                     </label>
 
                     <!-- Cellphone Number -->
@@ -311,7 +315,11 @@
                     <!-- Resident Nationality -->
                     <label for="resident_nationality">
                         Nationality
-                        <input type="text" name="resident_nationality" v-model="appForm.resident_nationality" required>
+                        <select name="resident_nationality" v-model="appForm.resident_nationality" required v-on:change="roomInfo($event)" required>
+                            <option v-for="country in countries" v-bind:value="country.nationality">
+                                {{ country.nationality }}
+                            </option>
+                        </select>
                     </label>
 
                     <!-- Resident Mobile phone number -->
@@ -572,6 +580,7 @@
 <script>
 
     import Flatpickr from '../../../../node_modules/vue-flatpickr/vue-flatpickr-default.vue';
+    import { Data } from '../data.js';
 
 
     export default {
@@ -674,7 +683,8 @@
                 showStep: '',
                 unitTypes: unitTypes,
                 unitTypeInfo: '',
-                loading: false
+                loading: false,
+                countries: ''
             };
         },
         mounted() {
@@ -684,6 +694,12 @@
 
             // Toggle the accordion based on the parameter passed
             document.querySelector('[data-accordion="' + this.step + '"]').click();
+
+            // Setup the countries which contains the nationalities
+            // Instantiate our data class
+            let getData = new Data;
+
+            this.countries = getData.getCountries();
 
             // Add dropzones
             new Dropzone("#resident_id", { url: "/file/post"});
