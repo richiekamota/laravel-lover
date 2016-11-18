@@ -2721,7 +2721,8 @@ body.stop-scrolling {
     .accordion__heading--active, .accordion__heading:hover {
       background-color: #ddd; }
     .accordion__heading--disabled {
-      opacity: 0.3; }
+      opacity: 0.65;
+      cursor: not-allowed; }
   .accordion__content {
     padding: 0 18px;
     background-color: white;
