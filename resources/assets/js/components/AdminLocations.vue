@@ -2,10 +2,6 @@
     <div>
         <div>this is template body</div>
     </div>
-
-    <div class="row">
-
-    </div>
 </template>
 <script>
 

@@ -244,4 +244,5 @@ class ApplicationApiTest extends TestCase
             ->assertResponseStatus(200);
 
     }
+
 }
