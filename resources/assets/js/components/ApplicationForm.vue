@@ -737,7 +737,7 @@
 
                 this.$http.post(
                     '/step-' + step + '/' + this.formApplicationId,
-                    JSON.stringify(this.appForm)
+                    JSON.stringify(this.formatStepData(step))
                  ).then((response) => {
                     // 8 Is the last step.
                     if(step != 8) {
@@ -778,6 +778,99 @@
                     this.loading = false;
                 });
 
+            },
+
+            formatStepData(step) {
+                switch(step) {
+                    case 1:
+                        return {
+                            sa_id_number : this.appForm.sa_id_number,
+                            passport_number : this.appForm.passport_number,
+                            dob: this.appForm.dob,
+                            nationality: this.appForm.nationality,
+                            phone_mobile: this.appForm.phone_mobile,
+                            phone_home: this.appForm.phone_home,
+                            phone_work: this.appForm.phone_work,
+                            current_address: this.appForm.current_address,
+                            marital_status: this.appForm.marital_status,
+                            married_type: this.appForm.married_type,
+                        };
+                        break;
+                    case 2:
+                        return {
+                            current_property_owner: this.appForm.current_property_owner,
+                            rental_time: this.appForm.rental_time,
+                            rental_amount: this.appForm.rental_amount,
+                            rental_name: this.appForm.rental_name,
+                            rental_phone_home: this.appForm.rental_phone_home,
+                            rental_phone_mobile: this.appForm.rental_phone_mobile,
+                        };
+                        break;
+                    case 3:
+                        return {
+                            selfemployed: this.appForm.selfemployed,
+                            occupation: this.appForm.occupation,
+                            current_monthly_expenses: this.appForm.current_monthly_expenses,
+                            employer_company: this.appForm.employer_company,
+                            employer_phone_work: this.appForm.employer_phone_work,
+                            employer_email: this.appForm.employer_email,
+                            employer_salary: this.appForm.employer_salary,
+                        };
+                        break;
+                    case 4:
+                        return {
+                            resident_first_name: this.appForm.resident_first_name,
+                            resident_last_name: this.appForm.resident_last_name,
+                            resident_sa_id_number: this.appForm.resident_sa_id_number,
+                            resident_passport_number: this.appForm.resident_passport_number,
+                            resident_dob: this.appForm.resident_dob,
+                            resident_nationality: this.appForm.resident_nationality,
+                            resident_phone_mobile: this.appForm.resident_phone_mobile,
+                            resident_email: this.appForm.resident_email,
+                            resident_current_address: this.appForm.resident_current_address,
+                            resident_landlord: this.appForm.resident_landlord,
+                            resident_landlord_phone_work: this.appForm.resident_landlord_phone_work,
+                            resident_landlord_phone_mobile: this.appForm.resident_landlord_phone_mobile,
+                            resident_study_location: this.appForm.resident_study_location,
+                            resident_study_year: this.appForm.resident_study_year,
+                            resident_gender: this.appForm.resident_gender,
+                        };
+                        break;
+                    case 5:
+                        return {
+                            unit_location: this.appForm.unit_location,
+                            unit_type: this.appForm.unit_type,
+                            unit_lease_length: this.appForm.unit_lease_length,
+                            unit_car_parking: this.appForm.unit_car_parking,
+                            unit_bike_parking: this.appForm.unit_bike_parking,
+                            unit_tv: this.appForm.unit_tv,
+                            unit_storeroom: this.appForm.unit_storeroom,
+                            unit_occupation_date: this.appForm.unit_occupation_date,
+                        };
+                        break;
+                    case 6:
+                        return {
+                            judgements: this.appForm.judgements,
+                            judgements_details: this.appForm.judgements_details,
+                        };
+                        break;
+                    case 7:
+                        return {
+                            resident_id: this.appForm.resident_id,
+                            resident_study_permit: this.appForm.resident_study_permit,
+                            resident_acceptance: this.appForm.resident_acceptance,
+                            resident_financial_aid: this.appForm.resident_financial_aid,
+                            leaseholder_address_proof: this.appForm.leaseholder_address_proof,
+                            leaseholder_payslip: this.appForm.leaseholder_payslip,
+                        };
+                        break;
+                    case 8:
+                        return {
+                            comments: this.appForm.comments,
+                            confirm: this.appForm.confirm,
+                        };
+                        break;
+                }
             }
 
         }
