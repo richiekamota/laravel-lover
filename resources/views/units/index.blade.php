@@ -3,5 +3,6 @@
 @section('content')
 
     {{-- Content in here --}}
+    Index blade
 
 @endsection

@@ -16,7 +16,7 @@ class LocationsController extends Controller
 
         // abort unless Auth > tenant
 
-        // return view('locations.index');
+         return view('locations.index');
 
     }
 

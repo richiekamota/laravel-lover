@@ -1,7 +1,8 @@
-@extends('layouts.app')
+@extends('dashboard')
 
-@section('content')
+@section('dashboard-content')
 
-    {{-- Content in here --}}
+    <h1>Add Location</h1>
+    <admin-locations/>
 
 @endsection

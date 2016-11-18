@@ -21,6 +21,8 @@ Vue.component('loading', require('./components/Loading.vue'));
 // Application form.
 Vue.component('application-form', require('./components/ApplicationForm.vue'));
 
+// Admin Location, unit and unit types form.
+Vue.component('admin-locations', require('./components/AdminLocations.vue'));
 
 const app = new Vue({
     el: '#app'
