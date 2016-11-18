@@ -23,7 +23,6 @@ class ApplicationFormTest extends TestCase
             ->type('test@portal.com', 'email')
             ->type('password', 'password')
             ->press('Save and continue')
-            ->see('First Last')
             ->see('Profile');
 
     }
