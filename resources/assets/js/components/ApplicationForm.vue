@@ -15,29 +15,6 @@
                 <template v-if="showStep >= 1">
 
                     <h2>Step 1: Details of the leaseholder applying to rent the premises</h2>
-                    <!-- First Name -->
-                    <label for="first_name">
-                        First Name
-                        <input type="text" name="first_name" v-model="appForm.first_name" required autofocus>
-                    </label>
-
-                    <!-- Last Name -->
-                    <label for="last_name">
-                        Last Name
-                        <input type="text" name="last_name" v-model="appForm.last_name" required>
-                    </label>
-
-                    <!-- Email -->
-                    <label for="email">
-                        E-Mail Address
-                        <input id="email" type="email" name="email" v-model="appForm.email" required>
-                    </label>
-
-                    <!-- Password -->
-                    <label for="password">
-                        Password
-                        <input id="password" type="password" name="password" v-model="appForm.password" required>
-                    </label>
 
                     <!-- TODO: Chekc if ID number has been filled in, make passport number not required and vice versa -->
 
@@ -611,10 +588,6 @@
                 // Step 1
                     step1: '',
                     myForm: '',
-                    first_name: '',
-                    last_name: '',
-                    email: '',
-                    password: '',
                     sa_id_number: '',
                     passport_number: '',
                     dob: '',
