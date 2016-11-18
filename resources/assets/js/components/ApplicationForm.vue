@@ -137,7 +137,7 @@
 
             <!-- END Step 1 -->
 
-            <button class="accordion__heading" v-on:click="accordionToggle(2, $event)" ref="accordion2" data-accordion="2">Step 2</button>
+            <button class="accordion__heading" v-on:click="accordionToggle(2, $event)" ref="accordion2" v-bind:class="{ 'accordion__heading--disabled' : showStep <  2}" data-accordion="2">Step 2</button>
             <!-- START Step 2 -->
             <div class="accordion__content">
                 <template v-if="showStep >= 2">
@@ -200,7 +200,7 @@
             </div>
             <!-- END Step 2 -->
 
-            <button class="accordion__heading" v-on:click="accordionToggle(3, $event)" ref="accordion3" data-accordion="3">Step 3: Employment details</button>
+            <button class="accordion__heading" v-on:click="accordionToggle(3, $event)" ref="accordion3" v-bind:class="{ 'accordion__heading--disabled' : showStep <  3}" data-accordion="3">Step 3: Employment details</button>
             <!-- START Step 3 -->
 
             <div class="accordion__content">
@@ -279,7 +279,7 @@
 
             <!-- END Step 3 -->
 
-            <button class="accordion__heading" v-on:click="accordionToggle(4, $event)" ref="accordion4" data-accordion="4">Step 4:Details of the resident applying to occupy the premises</button>
+            <button class="accordion__heading" v-on:click="accordionToggle(4, $event)" ref="accordion4" v-bind:class="{ 'accordion__heading--disabled' : showStep <  4}" data-accordion="4">Step 4:Details of the resident applying to occupy the premises</button>
             <!-- START Step 4 -->
             <div class="accordion__content">
 
@@ -402,7 +402,7 @@
             </div>
             <!-- END Step 4 -->
 
-            <button class="accordion__heading" v-on:click="accordionToggle(5, $event)" ref="accordion5" data-accordion="5">Step 5: Details of the premises</button>
+            <button class="accordion__heading" v-on:click="accordionToggle(5, $event)" ref="accordion5" v-bind:class="{ 'accordion__heading--disabled' : showStep <  5}" data-accordion="5">Step 5: Details of the premises</button>
             <!-- START Step 5 -->
             <div class="accordion__content">
 
@@ -480,7 +480,7 @@
             </div>
             <!-- END Step 5 -->
 
-            <button class="accordion__heading" v-on:click="accordionToggle(6, $event)" ref="accordion6" data-accordion="6">Step 6: General Details</button>
+            <button class="accordion__heading" v-on:click="accordionToggle(6, $event)" ref="accordion6" v-bind:class="{ 'accordion__heading--disabled' : showStep <  6}" data-accordion="6">Step 6: General Details</button>
             <!-- START Step 6 -->
             <div class="accordion__content">
                 <!-- Judgements -->
@@ -508,7 +508,7 @@
             </div>
             <!-- END Step 6 -->
 
-            <button class="accordion__heading" v-on:click="accordionToggle(7, $event)" ref="accordion7" data-accordion="7">Step 7: Required supporting documents</button>
+            <button class="accordion__heading" v-on:click="accordionToggle(7, $event)" ref="accordion7" v-bind:class="{ 'accordion__heading--disabled' : showStep <  7}" data-accordion="7">Step 7: Required supporting documents</button>
             <!-- START Step 7 -->
             <div class="accordion__content">
 
@@ -562,7 +562,7 @@
             </div>
             <!-- END Step 7 -->
 
-            <button class="accordion__heading" v-on:click="accordionToggle(8, $event)" ref="accordion8" data-accordion="8">Step 8</button>
+            <button class="accordion__heading" v-on:click="accordionToggle(8, $event)" ref="accordion8" v-bind:class="{ 'accordion__heading--disabled' : showStep <  8}" data-accordion="8">Step 8</button>
             <!-- START Step 8 -->
             <div class="accordion__content">
                 <!-- Comments -->
