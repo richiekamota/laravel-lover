@@ -30,3 +30,13 @@ $factory->define(Portal\Application::class, function (Faker\Generator $faker) {
         'step'    => '1'
     ];
 });
+
+$factory->define(Portal\Location::class, function (Faker\Generator $faker) {
+
+    return [
+        'name'  => $faker->name,
+        'address'    => $faker->address,
+        'city' => $faker->city,
+        'region' => $faker->city,
+    ];
+});
