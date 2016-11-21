@@ -1,11 +1,24 @@
 <template>
     <div>
         <div class="row">
-            <div class="small-12 columns">
+
+            <div class="small-12 medium-6 columns">
                 <h1>Locations</h1>
             </div>
+
+            <div class="small-12 medium-6 columns align-middle -text-right">
+                <button type="submit" class="success button -margin-bottom-0" v-on:click="addEntry =! addEntry">
+                    <span v-if="!addEntry">
+                        Show addition form
+                    </span>
+                    <span v-else>
+                        Hide addition form
+                    </span>
+                </button>
+            </div>
+
             <div class="columns">
-                <div class="row">
+                <div class="row" v-show="addEntry">
                     <div class="small-12 columns">
                         <!-- START Location input form -->
                         <label for="locationName">
@@ -163,7 +176,8 @@
                     city: '',
                     region: '',
                     code: '',
-                }
+                },
+                addEntry: false,
             }
         },
         mounted() {
@@ -274,6 +288,10 @@
             accordionToggle: function(index, event) {
                 event.preventDefault();
                 let selectedElement = event.target;
+
+                // Lets check the initial classes to see if we should close the current accordion or open a new one.
+                let shouldClose = !selectedElement.classList.contains('accordion__heading--active');
+
                 // Let's close all accordions fist
                 if(this.$el.querySelector(".accordion__heading--active")) {
                     this.$el.querySelectorAll(".accordion__heading--active").forEach(function(element) {
@@ -284,8 +302,11 @@
                         element.classList.toggle("accordion__content--active");
                     });
                 }
-                selectedElement.classList.toggle("accordion__heading--active");
-                selectedElement.nextElementSibling.classList.toggle("accordion__content--active");
+                // If the button was open, we don't want to reopen it.
+                if(shouldClose) {
+                    selectedElement.classList.toggle("accordion__heading--active");
+                    selectedElement.nextElementSibling.classList.toggle("accordion__content--active");
+                }
 
                 // Let's load up the editable object with the selected item
                 // Let's wait for the previous accordion animation to finish then do this.

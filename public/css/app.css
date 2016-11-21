@@ -2745,6 +2745,9 @@ body.stop-scrolling {
 .-text-right {
   text-align: right; }
 
+.-margin-bottom-0 {
+  margin-bottom: 0; }
+
 .windows8 {
   position: relative;
   width: 24px;
