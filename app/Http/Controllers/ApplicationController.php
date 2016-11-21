@@ -132,6 +132,7 @@ class ApplicationController extends Controller
         $applicationForm = Application::find($id);
 
         // abort unless logged in and the ID must belong to the user
+        // TODO update this to a policy method
         abort_unless(Auth::check() && $applicationForm->user_id == Auth::user()->id, 401);
 
         // return the view to the user

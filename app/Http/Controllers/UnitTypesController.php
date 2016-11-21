@@ -2,7 +2,11 @@
 
 namespace Portal\Http\Controllers;
 
-use Illuminate\Http\Request;
+use DB;
+use Portal\Http\Requests\UnitTypeCreateRequest;
+use Portal\Http\Requests\UnitTypeEditRequest;
+use Portal\UnitType;
+use Response;
 
 class UnitTypesController extends Controller
 {
@@ -13,50 +17,56 @@ class UnitTypesController extends Controller
      */
     public function index()
     {
-        //
-    }
+        // abort unless Auth > tenant
+        $this->authorize('view', UnitType::class);
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $unitTypes = UnitType::all();
+
+        return view('unit-types.index', compact('unitTypes'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function store(UnitTypeCreateRequest $request)
     {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        // abort unless Auth > tenant
+        $this->authorize('create', UnitType::class);
+
+        DB::beginTransaction();
+
+        try {
+
+            // Store the location in the DB
+            $unitType = UnitType::create($request->all());
+
+            DB::commit();
+
+            return Response::json([
+                'message' => trans('portal.unitType_store_complete'),
+                'data' => $unitType->toArray()
+            ], 200);
+
+        } catch (\Exception $e) {
+
+            \Log::info($e);
+
+            //Bugsnag::notifyException($e);
+
+            DB::rollback();
+
+            return Response::json([
+                'error'   => 'unitType_store_error',
+                'message' => trans('portal.unitType_store_error'),
+            ], 422);
+
+        }
+
     }
 
     /**
@@ -64,11 +74,43 @@ class UnitTypesController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(UnitTypeEditRequest $request, $id)
     {
-        //
+
+        // abort unless Auth > tenant
+        $this->authorize('update', UnitType::class);
+
+        DB::beginTransaction();
+
+        try {
+
+            UnitType::findOrFail($id)->update($request->all());
+
+            DB::commit();
+
+            return Response::json([
+                'message' => trans('portal.unitType_edit_complete'),
+                'data' => UnitType::findOrFail($id)->toArray()
+            ], 200);
+
+        } catch (\Exception $e) {
+
+            \Log::info($e);
+
+            //Bugsnag::notifyException($e);
+
+            DB::rollback();
+
+            return Response::json([
+                'error'   => 'unitType_edit_error',
+                'message' => trans('portal.unitType_edit_error'),
+            ], 422);
+
+        }
+
     }
 
     /**
