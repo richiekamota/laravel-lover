@@ -6,14 +6,40 @@
             </div>
             <div class="columns">
                 <div class="row">
-                    <div class="columns">
-                        <label for="location">
-                            Location
-                            <input type="text" ref="locationInput" name="location">
+                    <div class="small-12 columns">
+                        <!-- START Location input form -->
+                        <label for="locationName">
+                            Location name*
+                            <input type="text" ref="locationInput" name="locationName" v-model="newLocation.name">
+                        </label>
+
+                        <label for="locationAddress">
+                            Address*
+                            <textarea ref="locationAddress" name="locationAddress" v-model="newLocation.address"></textarea>
+                        </label>
+
+                        <label for="locationCity">
+                            City*
+                            <select ref="locationCity" name="locationCity" v-model="newLocation.city">
+                                <option value=""></option>
+                                <option v-for="city in cities" v-bind:value="city">
+                                    {{ city }}
+                                </option>
+                            </select>
+                        </label>
+
+                        <label for="locationRegion">
+                            Region*
+                            <input type="text" ref="locationRegion" name="locationRegion" v-model="newLocation.region">
+                        </label>
+
+                        <label for="locationCode">
+                            Code
+                            <input type="text" ref="locationCode" name="locationCode" v-model="newLocation.code">
                         </label>
                     </div>
 
-                    <div class="shrink columns align-self-bottom">
+                    <div class="small-12 columns">
                         <button type="submit" class="success button" v-on:click="addLocation" v-bind:disabled="loading">
                             <span v-if="loading">
                                 <loading></loading>
@@ -23,6 +49,7 @@
                             </span>
                         </button>
                     </div>
+                    <!-- END Location input form -->
                 </div>
 
                 <!-- START List Section -->
@@ -30,32 +57,49 @@
                     <template v-for="(location, index) in locations" >
                         <div class="small-12 columns">
                             <!-- Row Title -->
-                            <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{ location.title }}</button>
-                            <!-- Edit form -->
+                            <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{ location.name }}</button>
+                            <!-- START Edit form -->
                             <div class="accordion__content">
+                                <label for="editLocationName">
+                                    Location name
+                                    <input type="text" ref="editLocationInput" name="editLocationName" v-model="editItem.name">
+                                </label>
 
-                                <div class="row">
-                                    <div class="columns">
-                                        <label for="edit-location">
-                                            Location
-                                            <input type="text" name="edit-location" v-model="editItem.title">
-                                        </label>
-                                    </div>
+                                <label for="editLocationAddress">
+                                    Address
+                                    <textarea ref="editLocationAddress" name="editLocationAddress" v-model="editItem.address"></textarea>
+                                </label>
 
-                                    <div class="shrink columns align-self-bottom">
-                                        <button type="submit" class="success button" v-on:click="editLocation" v-bind:disabled="loading">
-                                            <span v-if="loading">
-                                                <loading></loading>
-                                            </span>
-                                                            <span v-else>
-                                                Edit location
-                                            </span>
-                                        </button>
-                                    </div>
-                                </div>
+                                <label for="editLocationCity">
+                                    City
+                                    <select ref="editLocationCity" name="editLocationCity" v-model="editItem.city">
+                                        <option value=""></option>
+                                        <option v-for="city in cities" v-bind:value="city">
+                                            {{ city }}
+                                        </option>
+                                    </select>
+                                </label>
 
+                                <label for="editLocationRegion">
+                                    Region
+                                    <input type="text" ref="editLocationRegion" name="editLocationRegion" v-model="editItem.region">
+                                </label>
+
+                                <label for="editLocationCode">
+                                    Code
+                                    <input type="text" ref="editLocationCode" name="editLocationCode" v-model="editItem.code">
+                                </label>
+
+                                <button type="submit" class="success button" v-on:click="editLocation" v-bind:disabled="loading">
+                                    <span v-if="loading">
+                                        <loading></loading>
+                                    </span>
+                                    <span v-else>
+                                        Edit location
+                                    </span>
+                                </button>
                             </div>
-                        </div>
+                            <!-- END Edit form -->
                     </template>
                 </div>
                 <!-- END List Section -->
@@ -71,11 +115,55 @@
             return{
                 locations: [],
                 loading: false,
+                cities: [
+                    "Atlantis",
+                    "Bellville",
+                    "Blue Downs",
+                    "Brackenfell",
+                    "Cape Town",
+                    "Crossroads",
+                    "Durbanville",
+                    "Eerste River",
+                    "Elsie's River",
+                    "Fish Hoek",
+                    "Goodwood",
+                    "Gordon's Bay",
+                    "Guguletu",
+                    "Hout Bay",
+                    "Khayelitsha",
+                    "Kraaifontein",
+                    "Kuils River",
+                    "Langa",
+                    "Macassar",
+                    "Melkbosstrand",
+                    "Mfuleni",
+                    "Milnerton",
+                    "Mitchell's Plain",
+                    "Noordhoek",
+                    "Nyanga",
+                    "Observatory",
+                    "Parow",
+                    "Simon's Town",
+                    "Somerset West",
+                    "Southern Suburbs",
+                    "Strand"
+                ],
                 editItem: {
                     id: '',
-                    title: '',
+                    name: '',
+                    address: '',
+                    city: '',
+                    region: '',
+                    code: '',
                     arrayIndex: '',
                 },
+                newLocation: {
+                    name: '',
+                    address: '',
+                    city: '',
+                    region: '',
+                    code: '',
+                }
             }
         },
         mounted() {
@@ -93,35 +181,50 @@
                     title: 'Muizenberg'
                 },
             ];
-            this.locations = locationData;
+            this.locations = JSON.parse(this.propLocations);
         },
         methods: {
             addLocation : function() {
                 this.loading = true;
 
                 this.$http.post(
-                    '/add-location',
-                    JSON.stringify(this.$refs.locationInput.value)
+                    '/locations',
+                    JSON.stringify(this.newLocation)
                 ).then((response) => {
                     this.loading = false;
-                }, (err) => {
                     // If the response is successful, let's take the ID of the response
                     // We then add it to the locations object.
-                    let newLocation = {
-                        id:     Math.floor((Math.random() * 100) + 1),
-                        title:  this.$refs.locationInput.value
+                    let newLocationToAdd = response.data.data;
+                    this.locations.push(newLocationToAdd);
+                    // Reset the new location.
+                    this.newLocation = {
+                        name: '',
+                        address: '',
+                        city: '',
+                        region: '',
+                        code: '',
                     };
-                    this.locations.push(newLocation);
-                    this.$refs.locationInput.value = '';
                     this.loading = false;
-
-                    console.log("The locations are ", this.locations);
-
-
+                }, (err) => {
+                    this.loading = false;
                     // THere is an error, let's display an alert.
+
+                    let errorMessage = '';
+                    if(err.body.message) {
+                        errorMessage = err.body.message;
+                    } else {
+                        // This should occur if there are any validation errors.
+                        // Let's iterate over the list of errors.
+                        Object.keys(err.body).forEach(function (key) {
+                         let obj = err.body[key];
+                         obj = obj.toString();
+                         errorMessage = errorMessage + obj + '\r \n';
+                        });
+                    }
+
                     swal({
                       title: "Error!",
-                      text: 'Some error',
+                      text: errorMessage,
                       type: "error",
                       confirmButtonText: "Ok"
                     });
@@ -132,22 +235,35 @@
             editLocation: function() {
                 this.loading = true;
 
-                this.$http.post(
-                    '/edit-location/' + this.editItem.id,
+                this.$http.patch(
+                    '/locations/' + this.editItem.id,
                     JSON.stringify(this.editItem)
                 ).then((response) => {
-                    this.loading = false;
-                }, (err) => {
                     // If the response is successful, lets set the name to the edited object
                     this.loading = false;
                     this.locations[this.editItem.index] = this.editItem;
                     // To prevent reactivity from going accross, let's reassign the object.
                     this.createEditableObject(this.editItem.index);
+                }, (err) => {
+                    this.loading = false;
+                    // THere is an error, let's display an alert.
+                    let errorMessage = '';
+                    if(err.body.message) {
+                        errorMessage = err.body.message;
+                    } else {
+                        // This should occur if there are any validation errors.
+                        // Let's iterate over the list of errors.
+                        Object.keys(err.body).forEach(function (key) {
+                         let obj = err.body[key];
+                         obj = obj.toString();
+                         errorMessage = errorMessage + obj + '\r \n';
+                        });
+                    }
 
                     // THere is an error, let's display an alert.
                     swal({
                       title: "Error!",
-                      text: 'Some error',
+                      text: errorMessage,
                       type: "error",
                       confirmButtonText: "Ok"
                     });
@@ -187,7 +303,11 @@
                 this.editItem = {};
                 this.editItem.index = index;
                 this.editItem.id = this.locations[index].id;
-                this.editItem.title = this.locations[index].title;
+                this.editItem.name = this.locations[index].name;
+                this.editItem.address = this.locations[index].address;
+                this.editItem.city = this.locations[index].city;
+                this.editItem.region = this.locations[index].region;
+                this.editItem.code = this.locations[index].code;
             }
 
         }
