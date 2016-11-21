@@ -9,12 +9,9 @@
 
             <!-- Show or hide addtion form button -->
             <div class="small-12 medium-6 columns align-middle -text-right">
-                <button type="submit" class="success button -margin-bottom-0" v-on:click="addEntry =! addEntry">
-                    <span v-if="!addEntry">
-                        Show addition form
-                    </span>
-                    <span v-else>
-                        Hide addition form
+                <button type="submit" class="success button -margin-bottom-0" v-on:click="addEntry =! addEntry" v-if="!addEntry">
+                    <span >
+                        Add location
                     </span>
                 </button>
             </div>
@@ -221,6 +218,7 @@
                         code: '',
                     };
                     this.loading = false;
+                    this.addEntry = false;
                 }, (err) => {
                     this.loading = false;
                     // THere is an error, let's display an alert.
@@ -260,6 +258,7 @@
                     this.locations[this.editItem.index] = this.editItem;
                     // To prevent reactivity from going accross, let's reassign the object.
                     this.createEditableObject(this.editItem.index);
+                    this.closeAllAccordions();
                 }, (err) => {
                     this.loading = false;
                     // THere is an error, let's display an alert.
@@ -295,15 +294,8 @@
                 let shouldClose = !selectedElement.classList.contains('accordion__heading--active');
 
                 // Let's close all accordions fist
-                if(this.$el.querySelector(".accordion__heading--active")) {
-                    this.$el.querySelectorAll(".accordion__heading--active").forEach(function(element) {
-                        element.classList.toggle("accordion__heading--active");
-                    });
+                this.closeAllAccordions();
 
-                    this.$el.querySelectorAll(".accordion__content--active").forEach(function(element) {
-                        element.classList.toggle("accordion__content--active");
-                    });
-                }
                 // If the button was open, we don't want to reopen it.
                 if(shouldClose) {
                     selectedElement.classList.toggle("accordion__heading--active");
@@ -319,10 +311,26 @@
                 }, 200)
             },
 
+            closeAllAccordions() {
+                if(this.$el.querySelector(".accordion__heading--active")) {
+                    this.$el.querySelectorAll(".accordion__heading--active").forEach(function(element) {
+                        element.classList.toggle("accordion__heading--active");
+                    });
+
+                    this.$el.querySelectorAll(".accordion__content--active").forEach(function(element) {
+                        element.classList.toggle("accordion__content--active");
+                    });
+                }
+            },
+
             createEditableObject(index) {
                  // If we want to assign a completly new object which will not update the other form due to
                  // reactivity, we must manually assign whatever is needed.
                  // We also need the array index so when we update succesfully we know which index to update.
+
+                 // TODO is this not better if we take the entire object and delete the obserable instead?
+                //this.editItem = this.locations[index];
+                //console.log("This edit item is", this.editItem);
                 this.editItem = {};
                 this.editItem.index = index;
                 this.editItem.id = this.locations[index].id;
