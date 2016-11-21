@@ -2,10 +2,12 @@
     <div>
         <div class="row">
 
+            <!-- Title -->
             <div class="small-12 medium-6 columns">
                 <h1>Locations</h1>
             </div>
 
+            <!-- Show or hide addtion form button -->
             <div class="small-12 medium-6 columns align-middle -text-right">
                 <button type="submit" class="success button -margin-bottom-0" v-on:click="addEntry =! addEntry">
                     <span v-if="!addEntry">
@@ -57,7 +59,7 @@
                             <span v-if="loading">
                                 <loading></loading>
                             </span>
-                                <span v-else>
+                            <span v-else>
                                 Add location
                             </span>
                         </button>
@@ -123,7 +125,7 @@
 <script>
 
     export default{
-        props: ['propLocations'],
+        props: ['propLocations', ''],
         data(){
             return{
                 locations: [],
