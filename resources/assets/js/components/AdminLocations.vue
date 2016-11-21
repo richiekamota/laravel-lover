@@ -33,7 +33,6 @@
                             <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{ location.title }}</button>
                             <!-- Edit form -->
                             <div class="accordion__content">
-                                {{ editItem }}
 
                                 <div class="row">
                                     <div class="columns">
@@ -69,6 +68,17 @@
     export default{
         props: ['propLocations'],
         data(){
+            return{
+                locations: [],
+                loading: false,
+                editItem: {
+                    id: '',
+                    title: '',
+                    arrayIndex: '',
+                },
+            }
+        },
+        mounted() {
             let locationData = [
                 {
                     id: '1',
@@ -83,19 +93,7 @@
                     title: 'Muizenberg'
                 },
             ];
-
-            return{
-                locations: [],
-                loading: false,
-                editItem: {
-                    id: '',
-                    title: '',
-                    arrayIndex: '',
-                },
-            }
-        },
-        mounted() {
-            //this.locations = this.locationData;
+            this.locations = locationData;
         },
         methods: {
             addLocation : function() {
@@ -116,6 +114,9 @@
                     this.locations.push(newLocation);
                     this.$refs.locationInput.value = '';
                     this.loading = false;
+
+                    console.log("The locations are ", this.locations);
+
 
                     // THere is an error, let's display an alert.
                     swal({
