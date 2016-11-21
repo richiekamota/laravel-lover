@@ -1,14 +1,19 @@
 <template>
     <div>
         <div class="row">
+            <div class="small-12 columns">
+                <h1>Locations</h1>
+            </div>
             <div class="columns">
+                <div class="row">
+                    <div class="columns">
+                        <label for="location">
+                            Location
+                            <input type="text" ref="locationInput" name="location">
+                        </label>
+                    </div>
 
-                <!-- Location Section -->
-                <template v-if="showType == 'location'">
-                    Location 2
-                    <input type="text" ref="locationInput">
-
-                    <div class="row column">
+                    <div class="shrink columns align-self-bottom">
                         <button type="submit" class="success button" v-on:click="addLocation" v-bind:disabled="loading">
                             <span v-if="loading">
                                 <loading></loading>
@@ -18,46 +23,51 @@
                             </span>
                         </button>
                     </div>
+                </div>
 
-                    <!-- START List Section -->
-                    <div class="row">
-                        <template v-for="(location, index) in locations" >
+                <!-- START List Section -->
+                <div class="row">
+                    <template v-for="(location, index) in locations" >
+                        <div class="small-12 columns">
                             <!-- Row Title -->
-                            <div class="small-12 columns" v-on:click="editLocationForm(index)">
-                                {{ location.title }}
-                            </div>
+                            <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{ location.title }}</button>
                             <!-- Edit form -->
-                            <div class="small-12 columns">
-                                <ApplicationFormEdit :editable-object="location" @update='location.title = $event' />
+                            <div class="accordion__content">
+                                {{ editItem }}
+
+                                <div class="row">
+                                    <div class="columns">
+                                        <label for="edit-location">
+                                            Location
+                                            <input type="text" name="edit-location" v-model="editItem.title">
+                                        </label>
+                                    </div>
+
+                                    <div class="shrink columns align-self-bottom">
+                                        <button type="submit" class="success button" v-on:click="editLocation" v-bind:disabled="loading">
+                                            <span v-if="loading">
+                                                <loading></loading>
+                                            </span>
+                                                            <span v-else>
+                                                Edit location
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+
                             </div>
-                        </template>
-                    </div>
-                    <!-- END List Section -->
-
-                </template>
-
-                <!-- Unit Section -->
-                <template v-if="showType == 'unit'">
-                    Units
-                </template>
-
-                <!-- Unit Type section -->
-                <template v-if="showType == 'unitType'">
-                    Unit Type
-                </template>
+                        </div>
+                    </template>
+                </div>
+                <!-- END List Section -->
             </div>
         </div>
     </div>
 </template>
 <script>
 
-    import ApplicationFormEdit from './ApplicationFormEdit.vue';
-
     export default{
-        props: ['propType','propLocations', 'propUnits', 'propUnitTypes'],
-        components:{
-            ApplicationFormEdit
-        },
+        props: ['propLocations'],
         data(){
             let locationData = [
                 {
@@ -75,16 +85,17 @@
             ];
 
             return{
-                showType: '',
                 locations: [],
-                units: [],
-                unitTypes:[],
-                loading: false
+                loading: false,
+                editItem: {
+                    id: '',
+                    title: '',
+                    arrayIndex: '',
+                },
             }
         },
         mounted() {
-            console.log("Mounted");
-            this.showType = 'location';
+            //this.locations = this.locationData;
         },
         methods: {
             addLocation : function() {
@@ -117,8 +128,65 @@
 
             },
 
-            editLocationForm: function(index) {
-                console.log("Clicked item is", this.locations[index]);
+            editLocation: function() {
+                this.loading = true;
+
+                this.$http.post(
+                    '/edit-location/' + this.editItem.id,
+                    JSON.stringify(this.editItem)
+                ).then((response) => {
+                    this.loading = false;
+                }, (err) => {
+                    // If the response is successful, lets set the name to the edited object
+                    this.loading = false;
+                    this.locations[this.editItem.index] = this.editItem;
+                    // To prevent reactivity from going accross, let's reassign the object.
+                    this.createEditableObject(this.editItem.index);
+
+                    // THere is an error, let's display an alert.
+                    swal({
+                      title: "Error!",
+                      text: 'Some error',
+                      type: "error",
+                      confirmButtonText: "Ok"
+                    });
+                });
+
+            },
+
+            accordionToggle: function(index, event) {
+                event.preventDefault();
+                let selectedElement = event.target;
+                // Let's close all accordions fist
+                if(this.$el.querySelector(".accordion__heading--active")) {
+                    this.$el.querySelectorAll(".accordion__heading--active").forEach(function(element) {
+                        element.classList.toggle("accordion__heading--active");
+                    });
+
+                    this.$el.querySelectorAll(".accordion__content--active").forEach(function(element) {
+                        element.classList.toggle("accordion__content--active");
+                    });
+                }
+                selectedElement.classList.toggle("accordion__heading--active");
+                selectedElement.nextElementSibling.classList.toggle("accordion__content--active");
+
+                // Let's load up the editable object with the selected item
+                // Let's wait for the previous accordion animation to finish then do this.
+                setTimeout(() => {
+                    // If we want to use vue with it's reactivity use the below
+                    //this.editItem = this.locations[index];
+                    this.createEditableObject(index);
+                }, 200)
+            },
+
+            createEditableObject(index) {
+                 // If we want to assign a completly new object which will not update the other form due to
+                 // reactivity, we must manually assign whatever is needed.
+                 // We also need the array index so when we update succesfully we know which index to update.
+                this.editItem = {};
+                this.editItem.index = index;
+                this.editItem.id = this.locations[index].id;
+                this.editItem.title = this.locations[index].title;
             }
 
         }
