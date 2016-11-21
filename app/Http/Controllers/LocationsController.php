@@ -2,7 +2,13 @@
 
 namespace Portal\Http\Controllers;
 
+use Auth;
+use DB;
 use Illuminate\Http\Request;
+use Portal\Http\Requests\LocationCreateRequest;
+use Portal\Http\Requests\LocationEditRequest;
+use Portal\Location;
+use Response;
 
 class LocationsController extends Controller
 {
@@ -15,44 +21,40 @@ class LocationsController extends Controller
     {
 
         // abort unless Auth > tenant
+        $this->authorize('view', Location::class);
 
-         return view('locations.index');
+        $locations = Location::all();
 
-    }
-
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
-        // abort unless Auth > tenant
-
-        // return view('locations.create');
+        return view('locations.index', compact('locations'));
 
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request|LocationCreateRequest $request
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(LocationCreateRequest $request)
     {
 
         // abort unless Auth > tenant
+        $this->authorize('create', Location::class);
 
         DB::beginTransaction();
 
         try {
 
             // Store the location in the DB
+            $location = Location::create($request->all());
 
             DB::commit();
+
+            return Response::json([
+                'message' => trans('portal.locations_store_complete'),
+                'data' => $location->toArray()
+            ], 200);
 
         } catch (\Exception $e) {
 
@@ -72,43 +74,46 @@ class LocationsController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-
-        // abort unless Auth > tenant
-
-        // return view('locations.show');
-
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-
-        //
-
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(LocationEditRequest $request, $id)
     {
-        //
+
+        // abort unless Auth > tenant
+        $this->authorize('update', Location::class);
+
+        DB::beginTransaction();
+
+        try {
+
+            Location::findOrFail($id)->update($request->all());
+
+            DB::commit();
+
+            return Response::json([
+                'message' => trans('portal.locations_edit_complete'),
+                'data' => Location::findOrFail($id)->toArray()
+            ], 200);
+
+        } catch (\Exception $e) {
+
+            \Log::info($e);
+
+            //Bugsnag::notifyException($e);
+
+            DB::rollback();
+
+            return Response::json([
+                'error'   => 'locations_edit_error',
+                'message' => trans('portal.locations_edit_error'),
+            ], 422);
+
+        }
     }
 
     /**

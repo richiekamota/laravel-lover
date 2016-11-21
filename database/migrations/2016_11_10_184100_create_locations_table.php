@@ -20,7 +20,7 @@ class CreateLocationsTable extends Migration
             $table->text('address');
             $table->string('city', 191);
             $table->string('region', 191);
-            $table->string('code', 191);
+            $table->string('code', 191)->nullable();
 
             $table->timestamps();
             $table->softDeletes();
