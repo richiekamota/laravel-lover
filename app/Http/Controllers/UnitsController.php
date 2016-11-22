@@ -3,6 +3,7 @@
 namespace Portal\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Portal\Location;
 
 class UnitsController extends Controller
 {
@@ -14,7 +15,8 @@ class UnitsController extends Controller
     public function index()
     {
         //
-        return view('units.index');
+        $locations = Location::all();
+        return view('units.index', compact('locations'));
     }
 
     /**

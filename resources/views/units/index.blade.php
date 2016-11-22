@@ -2,5 +2,5 @@
 
 @section('dashboard-content')
     <h1>Yo</h1>
-    <admin-units prop-locations=""/>
+    <admin-units prop-locations="{{$locations}}"/>
 @endsection

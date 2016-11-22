@@ -67,10 +67,10 @@
                     <!-- END Location input form -->
                 </div>
 
-                <!-- START List Section -->
+            <!-- START List Section -->
                 <div class="row">
                     <template v-for="(location, index) in locations" >
-                        <div class="small-12 columns">
+                        <div class="small-12 columns" v-show="index >= pagination.from && index <= pagination.to">
                             <!-- Row Title -->
                             <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{ location.name }}</button>
                             <!-- START Edit form -->
@@ -116,6 +116,11 @@
                             </div>
                             <!-- END Edit form -->
                     </template>
+
+                    <!-- START Pagination buttons -->
+                    <button v-on:click="pagination.currentPage = pagination.currentPage - 1; calculatePagination()" v-show="pagination.previousPage > 0">Previous</button>
+                    <button v-on:click="pagination.currentPage = pagination.currentPage + 1; calculatePagination()" v-show="pagination.nextPage <= pagination.maxPages">Next</button>
+                    <!-- END Pagination buttons -->
                 </div>
                 <!-- END List Section -->
             </div>
@@ -123,46 +128,13 @@
     </div>
 </template>
 <script>
-
-    export default{
-        props: ['propLocations', ''],
+    export default {
+        props: ['propLocations'],
         data(){
             return{
                 locations: [],
                 loading: false,
-                cities: [
-                    "Atlantis",
-                    "Bellville",
-                    "Blue Downs",
-                    "Brackenfell",
-                    "Cape Town",
-                    "Crossroads",
-                    "Durbanville",
-                    "Eerste River",
-                    "Elsie's River",
-                    "Fish Hoek",
-                    "Goodwood",
-                    "Gordon's Bay",
-                    "Guguletu",
-                    "Hout Bay",
-                    "Khayelitsha",
-                    "Kraaifontein",
-                    "Kuils River",
-                    "Langa",
-                    "Macassar",
-                    "Melkbosstrand",
-                    "Mfuleni",
-                    "Milnerton",
-                    "Mitchell's Plain",
-                    "Noordhoek",
-                    "Nyanga",
-                    "Observatory",
-                    "Parow",
-                    "Simon's Town",
-                    "Somerset West",
-                    "Southern Suburbs",
-                    "Strand"
-                ],
+                cities: [],
                 editItem: {
                     id: '',
                     name: '',
@@ -178,6 +150,16 @@
                     city: '',
                     region: '',
                     code: '',
+                },
+                pagination: {
+                    total: 1,
+                    from: 0,
+                    to: 1,
+                    per_page: 2,
+                    currentPage: 1,
+                    nextPage: 1,
+                    previousPage: 1,
+                    maxPages: 0
                 },
                 addEntry: false,
             }
@@ -198,6 +180,7 @@
                 },
             ];
             this.locations = JSON.parse(this.propLocations);
+            this.calculatePagination();
         },
         methods: {
             addLocation : function() {
@@ -335,6 +318,18 @@
                         region: '',
                         code: '',
                     };
+            },
+
+            calculatePagination() {
+                this.pagination.total = this.locations.length;
+                // Since Arrays start from 0, we must subtract an additional 1.
+                this.pagination.from = this.pagination.currentPage - (this.pagination.per_page -1);
+                this.pagination.to = this.pagination.currentPage;
+                this.pagination.nextPage = this.pagination.currentPage + 1;
+                this.pagination.previousPage = this.pagination.currentPage - 1;
+                // Since Arrays start at 0 we need to increment this value
+                this.pagination.maxPages = (this.pagination.total / this.pagination.per_page) + 1;
+                console.log("Pagination is ",this.pagination);
             }
 
         }
