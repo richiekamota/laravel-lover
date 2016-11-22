@@ -26,7 +26,7 @@
                         </label>
 
                         <label for="unitTypeDescription">
-                            Description*
+                            Description
                             <textarea ref="unitTypeDescription" id="unitTypeDescription" name="unitTypeDescription" v-model="newUnitType.description"></textarea>
                         </label>
 
@@ -319,12 +319,12 @@
                         description: '',
                         location_id: '',
                         cost: '',
-                        wifi: '',
-                        electricity: '',
-                        dstv: '',
-                        parking_car: '',
-                        parking_bike: '',
-                        storeroom: ''
+                        wifi: false,
+                        electricity: false,
+                        dstv: false,
+                        parking_car: false,
+                        parking_bike: false,
+                        storeroom: false
                     };
             },
 
