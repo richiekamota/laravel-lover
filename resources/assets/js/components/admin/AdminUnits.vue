@@ -23,6 +23,32 @@
                 <div class="row" v-show="addEntry">
                     <div class="small-12 columns">
                         <!-- START Location input form -->
+
+                        <label for="locationId">
+                            Location*
+                            <select ref="locationId" id="locationId" name="locationId" v-model="newLocation.location_id">
+                                <option value=""></option>
+                                <option v-for="location in locations" v-bind:value="location.id">
+                                    {{ location.name }}
+                                </option>
+                            </select>
+                        </label>
+
+                        <label for="locationCode">
+                            Code
+                            <input type="text" ref="locationCode" name="locationCode" v-model="newLocation.code">
+                        </label>
+
+                        <label for="locationId">
+                            Unit Type*
+                            <select ref="locationId" id="locationId" name="locationId" v-model="newLocation.location_id">
+                                <option value=""></option>
+                                <option v-for="location in locations" v-bind:value="location.id">
+                                    {{ location.name }}
+                                </option>
+                            </select>
+                        </label>
+
                         <label for="locationName">
                             Location name*
                             <input type="text" ref="locationInput" name="locationName" v-model="newLocation.name">
@@ -48,10 +74,7 @@
                             <input type="text" ref="locationRegion" name="locationRegion" v-model="newLocation.region">
                         </label>
 
-                        <label for="locationCode">
-                            Code
-                            <input type="text" ref="locationCode" name="locationCode" v-model="newLocation.code">
-                        </label>
+
                     </div>
 
                     <div class="small-12 columns">
@@ -119,6 +142,9 @@
 
                     <!-- START Pagination buttons -->
                     <button v-on:click="pagination.currentPage = pagination.currentPage - 1; calculatePagination()" v-show="pagination.previousPage > 0">Previous</button>
+                    <template v-for="n in pagination.maxPages">
+                        <button v-on:click="pagination.currentPage = n; calculatePagination()" v-show=" n !=  pagination.currentPage" > {{n}} </button>
+                    </template>
                     <button v-on:click="pagination.currentPage = pagination.currentPage + 1; calculatePagination()" v-show="pagination.nextPage <= pagination.maxPages">Next</button>
                     <!-- END Pagination buttons -->
                 </div>
