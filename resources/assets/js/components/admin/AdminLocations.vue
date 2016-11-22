@@ -22,17 +22,17 @@
                         <!-- START Location input form -->
                         <label for="locationName">
                             Location name*
-                            <input type="text" ref="locationInput" name="locationName" v-model="newLocation.name">
+                            <input type="text" id="locationName" ref="locationInput" name="locationName" v-model="newLocation.name">
                         </label>
 
                         <label for="locationAddress">
                             Address*
-                            <textarea ref="locationAddress" name="locationAddress" v-model="newLocation.address"></textarea>
+                            <textarea ref="locationAddress" id="locationAddress" name="locationAddress" v-model="newLocation.address"></textarea>
                         </label>
 
                         <label for="locationCity">
                             City*
-                            <select ref="locationCity" name="locationCity" v-model="newLocation.city">
+                            <select ref="locationCity" id="locationCity" name="locationCity" v-model="newLocation.city">
                                 <option value=""></option>
                                 <option v-for="city in cities" v-bind:value="city">
                                     {{ city }}
@@ -42,12 +42,12 @@
 
                         <label for="locationRegion">
                             Region*
-                            <input type="text" ref="locationRegion" name="locationRegion" v-model="newLocation.region">
+                            <input type="text" id="locationRegion" ref="locationRegion" name="locationRegion" v-model="newLocation.region">
                         </label>
 
                         <label for="locationCode">
                             Code
-                            <input type="text" ref="locationCode" name="locationCode" v-model="newLocation.code">
+                            <input type="text" id="locationCode" ref="locationCode" name="locationCode" v-model="newLocation.code">
                         </label>
                     </div>
 
@@ -74,17 +74,17 @@
                             <div class="accordion__content">
                                 <label for="editLocationName">
                                     Location name
-                                    <input type="text" ref="editLocationInput" name="editLocationName" v-model="editLocation.name">
+                                    <input type="text" id="editLocationName" ref="editLocationInput" name="editLocationName" v-model="editLocation.name">
                                 </label>
 
                                 <label for="editLocationAddress">
                                     Address
-                                    <textarea ref="editLocationAddress" name="editLocationAddress" v-model="editLocation.address"></textarea>
+                                    <textarea ref="editLocationAddress" id="editLocationAddress" name="editLocationAddress" v-model="editLocation.address"></textarea>
                                 </label>
 
                                 <label for="editLocationCity">
                                     City
-                                    <select ref="editLocationCity" name="editLocationCity" v-model="editLocation.city">
+                                    <select ref="editLocationCity" id="editLocationCity" name="editLocationCity" v-model="editLocation.city">
                                         <option value=""></option>
                                         <option v-for="city in cities" v-bind:value="city">
                                             {{ city }}
@@ -94,12 +94,12 @@
 
                                 <label for="editLocationRegion">
                                     Region
-                                    <input type="text" ref="editLocationRegion" name="editLocationRegion" v-model="editLocation.region">
+                                    <input type="text" id="editLocationRegion" ref="editLocationRegion" name="editLocationRegion" v-model="editLocation.region">
                                 </label>
 
                                 <label for="editLocationCode">
                                     Code
-                                    <input type="text" ref="editLocationCode" name="editLocationCode" v-model="editLocation.code">
+                                    <input type="text" id="editLocationCode" ref="editLocationCode" name="editLocationCode" v-model="editLocation.code">
                                 </label>
 
                                 <button type="submit" class="success button" v-on:click="updateLocation" v-bind:disabled="loading">
@@ -169,18 +169,13 @@
                     code: '',
                     arrayIndex: '',
                 },
-                newLocation: {
-                    name: '',
-                    address: '',
-                    city: '',
-                    region: '',
-                    code: '',
-                },
+                newLocation: {},
                 addEntry: false,
             }
         },
         mounted() {
             this.locations = JSON.parse(this.propLocations);
+            this.newLocation = this.initializeLocation();
         },
         methods: {
             addLocation : function() {
@@ -197,39 +192,14 @@
                     let newLocationToAdd = response.data.data;
                     this.locations.push(newLocationToAdd);
                     // Reset the new location.
-                    this.newLocation = {
-                        name: '',
-                        address: '',
-                        city: '',
-                        region: '',
-                        code: '',
-                    };
+                    this.newLocation = this.initializeLocation();
                     this.addEntry = false;
 
                 }, (err) => {
 
                     this.loading = false;
 
-                    // There is an error, let's display an alert.
-                    let errorMessage = '';
-                    if(err.body.message) {
-                        errorMessage = err.body.message;
-                    } else {
-                        // This should occur if there are any validation errors.
-                        // Let's iterate over the list of errors.
-                        Object.keys(err.body).forEach(function (key) {
-                         let obj = err.body[key];
-                         obj = obj.toString();
-                         errorMessage = errorMessage + obj + '\r \n';
-                        });
-                    }
-                    // Show the sweet alert
-                    swal({
-                      title: "Error!",
-                      text: errorMessage,
-                      type: "error",
-                      confirmButtonText: "Ok"
-                    });
+                    this.displayError(err);
                 });
 
             },
@@ -253,26 +223,7 @@
                 }, (err) => {
                     this.loading = false;
                     // There is an error, let's display an alert.
-                    let errorMessage = '';
-                    if(err.body.message) {
-                        errorMessage = err.body.message;
-                    } else {
-                        // This should occur if there are any validation errors.
-                        // Let's iterate over the list of errors.
-                        Object.keys(err.body).forEach(function (key) {
-                         let obj = err.body[key];
-                         obj = obj.toString();
-                         errorMessage = errorMessage + obj + '\r \n';
-                        });
-                    }
-
-                    // THere is an error, let's display an alert.
-                    swal({
-                      title: "Error!",
-                      text: errorMessage,
-                      type: "error",
-                      confirmButtonText: "Ok"
-                    });
+                    this.displayError(err);
                 });
 
             },
@@ -331,6 +282,40 @@
                 this.editLocation.city = this.locations[index].city;
                 this.editLocation.region = this.locations[index].region;
                 this.editLocation.code = this.locations[index].code;
+            },
+
+            displayError(err) {
+                // There is an error, let's display an alert.
+                let errorMessage = '';
+                if(err.body.message) {
+                    errorMessage = err.body.message;
+                } else {
+                    // This should occur if there are any validation errors.
+                    // Let's iterate over the list of errors.
+                    Object.keys(err.body).forEach(function (key) {
+                     let obj = err.body[key];
+                     obj = obj.toString();
+                     errorMessage = errorMessage + obj + '\r \n';
+                    });
+                }
+
+                // THere is an error, let's display an alert.
+                swal({
+                  title: "Error!",
+                  text: errorMessage,
+                  type: "error",
+                  confirmButtonText: "Ok"
+                });
+            },
+
+            initializeLocation() {
+                return {
+                        name: '',
+                        address: '',
+                        city: '',
+                        region: '',
+                        code: '',
+                    };
             }
 
         }

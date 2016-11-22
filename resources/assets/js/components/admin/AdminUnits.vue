@@ -213,13 +213,7 @@
                     let newLocationToAdd = response.data.data;
                     this.locations.push(newLocationToAdd);
                     // Reset the new location.
-                    this.newLocation = {
-                        name: '',
-                        address: '',
-                        city: '',
-                        region: '',
-                        code: '',
-                    };
+                    this.newLocation = this.initializeLocation();
                     this.loading = false;
                 }, (err) => {
                     this.loading = false;
@@ -331,6 +325,16 @@
                 this.editItem.city = this.locations[index].city;
                 this.editItem.region = this.locations[index].region;
                 this.editItem.code = this.locations[index].code;
+            },
+
+            initializeLocation() {
+                return {
+                        name: '',
+                        address: '',
+                        city: '',
+                        region: '',
+                        code: '',
+                    };
             }
 
         }

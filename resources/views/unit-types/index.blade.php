@@ -1,6 +1,5 @@
 @extends('dashboard')
 
 @section('dashboard-content')
-    <h1>Yo</h1>
-    <admin-unit-types prop-locations=""/>
+    <admin-unit-types prop-locations="{{$locations}}" prop-unit-types="{{$unitTypes}}"/>
 @endsection
