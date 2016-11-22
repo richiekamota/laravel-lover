@@ -323,13 +323,12 @@
             calculatePagination() {
                 this.pagination.total = this.locations.length;
                 // Since Arrays start from 0, we must subtract an additional 1.
-                this.pagination.from = this.pagination.currentPage - (this.pagination.per_page -1);
-                this.pagination.to = this.pagination.currentPage;
+                this.pagination.from = (this.pagination.currentPage - 1) * this.pagination.per_page;
+                this.pagination.to = this.pagination.from + this.pagination.per_page - 1;
                 this.pagination.nextPage = this.pagination.currentPage + 1;
                 this.pagination.previousPage = this.pagination.currentPage - 1;
                 // Since Arrays start at 0 we need to increment this value
-                this.pagination.maxPages = (this.pagination.total / this.pagination.per_page) + 1;
-                console.log("Pagination is ",this.pagination);
+                this.pagination.maxPages = (this.pagination.total / this.pagination.per_page);
             }
 
         }
