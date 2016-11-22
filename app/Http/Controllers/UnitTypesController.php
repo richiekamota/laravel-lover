@@ -5,6 +5,7 @@ namespace Portal\Http\Controllers;
 use DB;
 use Portal\Http\Requests\UnitTypeCreateRequest;
 use Portal\Http\Requests\UnitTypeEditRequest;
+use Portal\Location;
 use Portal\UnitType;
 use Response;
 
@@ -21,8 +22,9 @@ class UnitTypesController extends Controller
         $this->authorize('view', UnitType::class);
 
         $unitTypes = UnitType::all();
+        $locations = Location::all();
 
-        return view('unit-types.index', compact('unitTypes'));
+        return view('unit-types.index', compact('unitTypes', 'locations'));
     }
 
     /**

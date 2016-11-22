@@ -3,5 +3,5 @@
 @section('content')
 
     {{-- Content in here --}}
-
+    Show blade
 @endsection

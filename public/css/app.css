@@ -2742,6 +2742,12 @@ body.stop-scrolling {
 .-text-center {
   text-align: center; }
 
+.-text-right {
+  text-align: right; }
+
+.-margin-bottom-0 {
+  margin-bottom: 0; }
+
 .windows8 {
   position: relative;
   width: 24px;
@@ -2897,5 +2903,24 @@ body.stop-scrolling {
   100% {
     opacity: 0;
     -webkit-transform: rotate(900deg); } }
+
+.admin-menu {
+  background-color: #efefef;
+  box-shadow: 0px 0 1px #000;
+  height: 94.5vh; }
+  .admin-menu__links {
+    padding-left: 0; }
+  .admin-menu__link {
+    color: #000;
+    text-decoration: none;
+    font-size: 18px; }
+    .admin-menu__link:hover {
+      background-color: #C1C1C1; }
+
+.application {
+  background-color: #ddd;
+  padding: 0px 20px; }
+  .application:nth-child(even) {
+    background-color: #eee; }
 
 /*# sourceMappingURL=app.css.map */
