@@ -9,12 +9,9 @@
 
             <!-- Show or hide addtion form button -->
             <div class="small-12 medium-6 columns align-middle -text-right">
-                <button type="submit" class="success button -margin-bottom-0" v-on:click="addEntry =! addEntry">
-                    <span v-if="!addEntry">
-                        Show addition form
-                    </span>
-                    <span v-else>
-                        Hide addition form
+                <button type="submit" class="success button -margin-bottom-0" v-on:click="addEntry =! addEntry" v-if="!addEntry">
+                    <span >
+                        Add unit
                     </span>
                 </button>
             </div>
@@ -26,7 +23,7 @@
 
                         <label for="locationId">
                             Location*
-                            <select ref="locationId" id="locationId" name="locationId" v-model="newLocation.location_id">
+                            <select ref="locationId" id="locationId" name="locationId" v-model="newUnit.location_id">
                                 <option value=""></option>
                                 <option v-for="location in locations" v-bind:value="location.id">
                                     {{ location.name }}
@@ -36,45 +33,18 @@
 
                         <label for="locationCode">
                             Code
-                            <input type="text" ref="locationCode" name="locationCode" v-model="newLocation.code">
+                            <input type="text" ref="locationCode" name="locationCode" v-model="newUnit.code">
                         </label>
 
                         <label for="locationId">
                             Unit Type*
-                            <select ref="locationId" id="locationId" name="locationId" v-model="newLocation.location_id">
+                            <select ref="locationId" id="locationId" name="locationId" v-model="newUnit.type_id">
                                 <option value=""></option>
-                                <option v-for="location in locations" v-bind:value="location.id">
-                                    {{ location.name }}
+                                <option v-for="unitType in unitTypes" v-bind:value="unitType.id">
+                                    {{ unitType.name }}
                                 </option>
                             </select>
                         </label>
-
-                        <label for="locationName">
-                            Location name*
-                            <input type="text" ref="locationInput" name="locationName" v-model="newLocation.name">
-                        </label>
-
-                        <label for="locationAddress">
-                            Address*
-                            <textarea ref="locationAddress" name="locationAddress" v-model="newLocation.address"></textarea>
-                        </label>
-
-                        <label for="locationCity">
-                            City*
-                            <select ref="locationCity" name="locationCity" v-model="newLocation.city">
-                                <option value=""></option>
-                                <option v-for="city in cities" v-bind:value="city">
-                                    {{ city }}
-                                </option>
-                            </select>
-                        </label>
-
-                        <label for="locationRegion">
-                            Region*
-                            <input type="text" ref="locationRegion" name="locationRegion" v-model="newLocation.region">
-                        </label>
-
-
                     </div>
 
                     <div class="small-12 columns">
@@ -83,7 +53,7 @@
                                 <loading></loading>
                             </span>
                             <span v-else>
-                                Add location
+                                Add unit
                             </span>
                         </button>
                     </div>
@@ -98,34 +68,30 @@
                             <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{ location.name }}</button>
                             <!-- START Edit form -->
                             <div class="accordion__content">
-                                <label for="editLocationName">
-                                    Location name
-                                    <input type="text" ref="editLocationInput" name="editLocationName" v-model="editItem.name">
-                                </label>
 
-                                <label for="editLocationAddress">
-                                    Address
-                                    <textarea ref="editLocationAddress" name="editLocationAddress" v-model="editItem.address"></textarea>
-                                </label>
-
-                                <label for="editLocationCity">
-                                    City
-                                    <select ref="editLocationCity" name="editLocationCity" v-model="editItem.city">
+                                <label for="locationId">
+                                    Location*
+                                    <select ref="locationId" id="locationId" name="locationId" v-model="newUnit.location_id">
                                         <option value=""></option>
-                                        <option v-for="city in cities" v-bind:value="city">
-                                            {{ city }}
+                                        <option v-for="location in locations" v-bind:value="location.id">
+                                            {{ location.name }}
                                         </option>
                                     </select>
                                 </label>
 
-                                <label for="editLocationRegion">
-                                    Region
-                                    <input type="text" ref="editLocationRegion" name="editLocationRegion" v-model="editItem.region">
+                                <label for="locationCode">
+                                    Code
+                                    <input type="text" ref="locationCode" name="locationCode" v-model="newUnit.code">
                                 </label>
 
-                                <label for="editLocationCode">
-                                    Code
-                                    <input type="text" ref="editLocationCode" name="editLocationCode" v-model="editItem.code">
+                                <label for="typeId">
+                                    Unit Type*
+                                    <select ref="typeId" id="typeId" name="typeId" v-model="newUnit.type_id">
+                                        <option value=""></option>
+                                        <option v-for="unitType in unitTypes" v-bind:value="unitType.id">
+                                            {{ unitType.name }}
+                                        </option>
+                                    </select>
                                 </label>
 
                                 <button type="submit" class="success button" v-on:click="editLocation" v-bind:disabled="loading">
@@ -133,7 +99,7 @@
                                         <loading></loading>
                                     </span>
                                     <span v-else>
-                                        Edit location
+                                        Update location
                                     </span>
                                 </button>
                             </div>
@@ -155,28 +121,22 @@
 </template>
 <script>
     export default {
-        props: ['propLocations'],
+        props: ['propLocations', 'propUnitTypes'],
         data(){
             return{
                 locations: [],
+                unitTypes: [],
+                units: [],
                 loading: false,
-                cities: [],
-                editItem: {
+                editUnit: {
                     id: '',
-                    name: '',
-                    address: '',
-                    city: '',
-                    region: '',
+                    location_id: '',
                     code: '',
-                    arrayIndex: '',
+                    type_id: '',
+                    user_id: '',
+                    contract_id: '',
                 },
-                newLocation: {
-                    name: '',
-                    address: '',
-                    city: '',
-                    region: '',
-                    code: '',
-                },
+                newUnit: {},
                 pagination: {
                     total: 1,
                     from: 0,
@@ -191,21 +151,9 @@
             }
         },
         mounted() {
-            let locationData = [
-                {
-                    id: '1',
-                    title: 'Woodstock'
-                },
-                {
-                    id: '2',
-                    title: 'Obz'
-                },
-                {
-                    id: '3',
-                    title: 'Muizenberg'
-                },
-            ];
             this.locations = JSON.parse(this.propLocations);
+            this.unitTypes = JSON.parse(this.propUnitTypes);
+            this.newUnit = this.initializeUnit();
             this.calculatePagination();
         },
         methods: {
@@ -213,40 +161,21 @@
                 this.loading = true;
 
                 this.$http.post(
-                    '/locations',
-                    JSON.stringify(this.newLocation)
+                    '/units',
+                    JSON.stringify(this.newUnit)
                 ).then((response) => {
                     this.loading = false;
                     // If the response is successful, let's take the ID of the response
-                    // We then add it to the locations object.
-                    let newLocationToAdd = response.data.data;
-                    this.locations.push(newLocationToAdd);
-                    // Reset the new location.
-                    this.newLocation = this.initializeLocation();
+                    // We then add it to the units object.
+                    let newUnitToAdd = response.data.data;
+                    this.units.push(newUnitToAdd);
+                    // Reset the new unit.
+                    this.newUnit = this.initializeUnit();
                     this.loading = false;
                 }, (err) => {
                     this.loading = false;
                     // THere is an error, let's display an alert.
-
-                    let errorMessage = '';
-                    if(err.body.message) {
-                        errorMessage = err.body.message;
-                    } else {
-                        // This should occur if there are any validation errors.
-                        // Let's iterate over the list of errors.
-                        Object.keys(err.body).forEach(function (key) {
-                         let obj = err.body[key];
-                         obj = obj.toString();
-                         errorMessage = errorMessage + obj + '\r \n';
-                        });
-                    }
-
-                    swal({
-                      title: "Error!",
-                      text: errorMessage,
-                      type: "error",
-                      confirmButtonText: "Ok"
-                    });
+                    this.displayError(err);
                 });
 
             },
@@ -255,37 +184,18 @@
                 this.loading = true;
 
                 this.$http.patch(
-                    '/locations/' + this.editItem.id,
-                    JSON.stringify(this.editItem)
+                    '/units/' + this.editUnit.id,
+                    JSON.stringify(this.editUnit)
                 ).then((response) => {
                     // If the response is successful, lets set the name to the edited object
                     this.loading = false;
-                    this.locations[this.editItem.index] = this.editItem;
+                    this.units[this.editUnit.index] = this.editUnit;
                     // To prevent reactivity from going accross, let's reassign the object.
-                    this.createEditableObject(this.editItem.index);
+                    this.createEditableObject(this.editUnit.index);
                 }, (err) => {
                     this.loading = false;
                     // THere is an error, let's display an alert.
-                    let errorMessage = '';
-                    if(err.body.message) {
-                        errorMessage = err.body.message;
-                    } else {
-                        // This should occur if there are any validation errors.
-                        // Let's iterate over the list of errors.
-                        Object.keys(err.body).forEach(function (key) {
-                         let obj = err.body[key];
-                         obj = obj.toString();
-                         errorMessage = errorMessage + obj + '\r \n';
-                        });
-                    }
-
-                    // THere is an error, let's display an alert.
-                    swal({
-                      title: "Error!",
-                      text: errorMessage,
-                      type: "error",
-                      confirmButtonText: "Ok"
-                    });
+                    this.displayError(err);
                 });
 
             },
@@ -317,7 +227,7 @@
                 // Let's wait for the previous accordion animation to finish then do this.
                 setTimeout(() => {
                     // If we want to use vue with it's reactivity use the below
-                    //this.editItem = this.locations[index];
+                    //this.editUnit = this.units[index];
                     this.createEditableObject(index);
                 }, 200)
             },
@@ -326,23 +236,45 @@
                  // If we want to assign a completly new object which will not update the other form due to
                  // reactivity, we must manually assign whatever is needed.
                  // We also need the array index so when we update succesfully we know which index to update.
-                this.editItem = {};
-                this.editItem.index = index;
-                this.editItem.id = this.locations[index].id;
-                this.editItem.name = this.locations[index].name;
-                this.editItem.address = this.locations[index].address;
-                this.editItem.city = this.locations[index].city;
-                this.editItem.region = this.locations[index].region;
-                this.editItem.code = this.locations[index].code;
+                this.editUnit = {};
+                this.editUnit.index = index;
+                this.editUnit.id = this.units[index].id;
+                this.editUnit.location_id = this.units[index].location_id;
+                this.editUnit.code = this.units[index].code;
+                this.editUnit.type_id  = this.units[index].type_id;
+                this.editUnit.user_id = '';
+                this.editUnit.contract_id = '';
             },
 
-            initializeLocation() {
+            displayError(err) {
+                // There is an error, let's display an alert.
+                let errorMessage = '';
+                if(err.body.message) {
+                    errorMessage = err.body.message;
+                } else {
+                    // This should occur if there are any validation errors.
+                    // Let's iterate over the list of errors.
+                    Object.keys(err.body).forEach(function (key) {
+                     let obj = err.body[key];
+                     obj = obj.toString();
+                     errorMessage = errorMessage + obj + '\r \n';
+                    });
+                }
+
+                // THere is an error, let's display an alert.
+                swal({
+                  title: "Error!",
+                  text: errorMessage,
+                  type: "error",
+                  confirmButtonText: "Ok"
+                });
+            },
+
+            initializeUnit() {
                 return {
-                        name: '',
-                        address: '',
-                        city: '',
-                        region: '',
+                        location_id: '',
                         code: '',
+                        type_id: ''
                     };
             },
 
