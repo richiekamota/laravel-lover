@@ -74,17 +74,17 @@
                             <div class="accordion__content">
                                 <label for="editLocationName">
                                     Location name
-                                    <input type="text" ref="editLocationInput" name="editLocationName" v-model="editItem.name">
+                                    <input type="text" ref="editLocationInput" name="editLocationName" v-model="editLocation.name">
                                 </label>
 
                                 <label for="editLocationAddress">
                                     Address
-                                    <textarea ref="editLocationAddress" name="editLocationAddress" v-model="editItem.address"></textarea>
+                                    <textarea ref="editLocationAddress" name="editLocationAddress" v-model="editLocation.address"></textarea>
                                 </label>
 
                                 <label for="editLocationCity">
                                     City
-                                    <select ref="editLocationCity" name="editLocationCity" v-model="editItem.city">
+                                    <select ref="editLocationCity" name="editLocationCity" v-model="editLocation.city">
                                         <option value=""></option>
                                         <option v-for="city in cities" v-bind:value="city">
                                             {{ city }}
@@ -94,20 +94,20 @@
 
                                 <label for="editLocationRegion">
                                     Region
-                                    <input type="text" ref="editLocationRegion" name="editLocationRegion" v-model="editItem.region">
+                                    <input type="text" ref="editLocationRegion" name="editLocationRegion" v-model="editLocation.region">
                                 </label>
 
                                 <label for="editLocationCode">
                                     Code
-                                    <input type="text" ref="editLocationCode" name="editLocationCode" v-model="editItem.code">
+                                    <input type="text" ref="editLocationCode" name="editLocationCode" v-model="editLocation.code">
                                 </label>
 
-                                <button type="submit" class="success button" v-on:click="editLocation" v-bind:disabled="loading">
+                                <button type="submit" class="success button" v-on:click="updateLocation" v-bind:disabled="loading">
                                     <span v-if="loading">
                                         <loading></loading>
                                     </span>
                                     <span v-else>
-                                        Edit location
+                                        Update location
                                     </span>
                                 </button>
                             </div>
@@ -121,7 +121,7 @@
 </template>
 <script>
 
-    export default{
+    export default {
         props: ['propLocations'],
         data(){
             return{
@@ -160,7 +160,7 @@
                     "Southern Suburbs",
                     "Strand"
                 ],
-                editItem: {
+                editLocation: {
                     id: '',
                     name: '',
                     address: '',
@@ -180,24 +180,11 @@
             }
         },
         mounted() {
-            let locationData = [
-                {
-                    id: '1',
-                    title: 'Woodstock'
-                },
-                {
-                    id: '2',
-                    title: 'Obz'
-                },
-                {
-                    id: '3',
-                    title: 'Muizenberg'
-                },
-            ];
             this.locations = JSON.parse(this.propLocations);
         },
         methods: {
             addLocation : function() {
+
                 this.loading = true;
 
                 this.$http.post(
@@ -217,12 +204,13 @@
                         region: '',
                         code: '',
                     };
-                    this.loading = false;
                     this.addEntry = false;
-                }, (err) => {
-                    this.loading = false;
-                    // THere is an error, let's display an alert.
 
+                }, (err) => {
+
+                    this.loading = false;
+
+                    // There is an error, let's display an alert.
                     let errorMessage = '';
                     if(err.body.message) {
                         errorMessage = err.body.message;
@@ -235,7 +223,7 @@
                          errorMessage = errorMessage + obj + '\r \n';
                         });
                     }
-
+                    // Show the sweet alert
                     swal({
                       title: "Error!",
                       text: errorMessage,
@@ -246,22 +234,25 @@
 
             },
 
-            editLocation: function() {
+            updateLocation: function() {
+
                 this.loading = true;
 
                 this.$http.patch(
-                    '/locations/' + this.editItem.id,
-                    JSON.stringify(this.editItem)
+                    '/locations/' + this.editLocation.id,
+                    JSON.stringify(this.editLocation)
                 ).then((response) => {
+
                     // If the response is successful, lets set the name to the edited object
                     this.loading = false;
-                    this.locations[this.editItem.index] = this.editItem;
+                    this.locations[this.editLocation.index] = this.editLocation;
                     // To prevent reactivity from going accross, let's reassign the object.
-                    this.createEditableObject(this.editItem.index);
+                    this.createEditableObject(this.editLocation.index);
                     this.closeAllAccordions();
+
                 }, (err) => {
                     this.loading = false;
-                    // THere is an error, let's display an alert.
+                    // There is an error, let's display an alert.
                     let errorMessage = '';
                     if(err.body.message) {
                         errorMessage = err.body.message;
@@ -306,7 +297,7 @@
                 // Let's wait for the previous accordion animation to finish then do this.
                 setTimeout(() => {
                     // If we want to use vue with it's reactivity use the below
-                    //this.editItem = this.locations[index];
+                    //this.editLocation = this.locations[index];
                     this.createEditableObject(index);
                 }, 200)
             },
@@ -324,21 +315,22 @@
             },
 
             createEditableObject(index) {
-                 // If we want to assign a completly new object which will not update the other form due to
+                 // If we want to assign a completely new object which will not update the other form due to
                  // reactivity, we must manually assign whatever is needed.
-                 // We also need the array index so when we update succesfully we know which index to update.
+                 // We also need the array index so when we update successfully we know which index to update.
 
                  // TODO is this not better if we take the entire object and delete the obserable instead?
-                //this.editItem = this.locations[index];
-                //console.log("This edit item is", this.editItem);
-                this.editItem = {};
-                this.editItem.index = index;
-                this.editItem.id = this.locations[index].id;
-                this.editItem.name = this.locations[index].name;
-                this.editItem.address = this.locations[index].address;
-                this.editItem.city = this.locations[index].city;
-                this.editItem.region = this.locations[index].region;
-                this.editItem.code = this.locations[index].code;
+                /*this.editLocation = this.locations[index];
+                delete this.editLocation.__ob__;*/
+                //console.log("This edit item is", this.editLocation);
+                this.editLocation = {};
+                this.editLocation.index = index;
+                this.editLocation.id = this.locations[index].id;
+                this.editLocation.name = this.locations[index].name;
+                this.editLocation.address = this.locations[index].address;
+                this.editLocation.city = this.locations[index].city;
+                this.editLocation.region = this.locations[index].region;
+                this.editLocation.code = this.locations[index].code;
             }
 
         }
