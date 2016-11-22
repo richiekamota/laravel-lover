@@ -1,7 +1,6 @@
-@extends('layouts.app')
+@extends('dashboard')
 
-@section('content')
-
-    {{-- Content in here --}}
-
+@section('dashboard-content')
+    <h1>Yo</h1>
+    <admin-unit-types prop-locations=""/>
 @endsection

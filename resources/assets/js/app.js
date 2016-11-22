@@ -23,6 +23,7 @@ Vue.component('application-form', require('./components/ApplicationForm.vue'));
 
 // Admin Location, unit and unit types form.
 Vue.component('admin-locations', require('./components/admin/AdminLocations.vue'));
+Vue.component('admin-unit-types', require('./components/admin/AdminUnitTypes.vue'));
 Vue.component('admin-units', require('./components/admin/AdminUnits.vue'));
 
 const app = new Vue({

@@ -11,8 +11,8 @@
                 <li><a href="#4" class="admin-menu__link">Four</a></li>
 
                 <li><a href="{{ url('/locations') }}" class="admin-menu__link">Add locations</a></li>
+                <li><a href="{{ url('/unit-types') }}" class="admin-menu__link">Add unit type</a></li>
                 <li><a href="{{ url('/units') }}" class="admin-menu__link">Add units</a></li>
-                <li><a href="#4" class="admin-menu__link">Add unit type</a></li>
             </ul>
         </div>
 
