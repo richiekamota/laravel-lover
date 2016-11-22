@@ -98,19 +98,19 @@
                             <!-- START Edit form -->
                             <div class="accordion__content">
 
-                                <label for="unitTypeName">
+                                <label for="editUnitTypeName">
                                     Unit type name*
-                                    <input type="text" id="unitTypeName" ref="unitTypeName" name="unitTypeName" v-model="editUnitType.name">
+                                    <input type="text" id="editUnitTypeName" ref="editUnitTypeName" name="editUnitTypeName" v-model="editUnitType.name">
                                 </label>
 
-                                <label for="unitTypeDescription">
+                                <label for="editUnitTypeDescription">
                                     Description*
-                                    <textarea ref="unitTypeDescription" id="unitTypeDescription" name="unitTypeDescription" v-model="editUnitType.description"></textarea>
+                                    <textarea ref="editUnitTypeDescription" id="editUnitTypeDescription" name="editUnitTypeDescription" v-model="editUnitType.description"></textarea>
                                 </label>
 
-                                <label for="locationId">
+                                <label for="editLocationId">
                                     Location*
-                                    <select ref="locationId" id="locationId" name="locationId" v-model="editUnitType.location_id">
+                                    <select ref="editLocationId" id="editLocationId" name="editLocationId" v-model="editUnitType.location_id">
                                         <option value=""></option>
                                         <option v-for="location in locations" v-bind:value="location.id">
                                             {{ location.name }}
@@ -118,19 +118,19 @@
                                     </select>
                                 </label>
 
-                                <label for="unitTypeCost">
+                                <label for="edutUnitTypeCost">
                                     Unit type Cost*
-                                    <input type="number" id="unitTypeCost" ref="unitTypeCost" name="unitTypeCost" v-model="editUnitType.cost">
+                                    <input type="number" id="edutUnitTypeCost" ref="edutUnitTypeCost" name="edutUnitTypeCost" v-model="editUnitType.cost">
                                 </label>
 
-                                <label for="unitTypeWifi">
+                                <label for="editUnitTypeWifi">
                                     Wifi
-                                    <input type="checkbox" id="unitTypeCost" ref="unitTypeWifi" name="unitTypeWifi" v-model="editUnitType.wifi">
+                                    <input type="checkbox" id="editUnitTypeWifi" ref="editUnitTypeWifi" name="editUnitTypeWifi" v-model="editUnitType.wifi">
                                 </label>
 
-                                <label for="unitTypeElectricity">
+                                <label for="editUnitTypeElectricity">
                                     Electricity
-                                    <input type="checkbox" id="unitTypeElectricity" ref="unitTypeElectricity" name="unitTypeElectricity" v-model="editUnitType.electricity">
+                                    <input type="checkbox" id="editUnitTypeElectricity" ref="editUnitTypeElectricity" name="editUnitTypeElectricity" v-model="editUnitType.electricity">
                                 </label>
 
                                 <label for="unitTypeDstv">
@@ -201,6 +201,7 @@
             this.locations = JSON.parse(this.propLocations);
             this.newUnitType = this.initializeUnitType();
             this.unitTypes = JSON.parse(this.propUnitTypes);
+            console.log("The unit types are ", this.unitTypes);
         },
         methods: {
             addUnitType : function() {
@@ -239,7 +240,7 @@
 
                     // If the response is successful, lets set the name to the edited object
                     this.loading = false;
-                    this.locations[this.editUnitType.index] = this.editUnitType;
+                    this.unitTypes[this.editUnitType.index] = this.editUnitType;
                     // To prevent reactivity from going accross, let's reassign the object.
                     this.createEditableObject(this.editUnitType.index);
                     this.closeAllAccordions();
@@ -299,17 +300,17 @@
                 //console.log("This edit item is", this.editUnitType);
                 this.editUnitType = {};
                 this.editUnitType.index = index;
-                this.editUnitType.id = this.locations[index].id;
-                this.editUnitType.name = this.locations[index].name;
-                this.editUnitType.description = this.locations[index].description;
-                this.editUnitType.location_id = this.locations[index].location_id;
-                this.editUnitType.cost = this.locations[index].cost;
-                this.editUnitType.wifi = this.locations[index].wifi;
-                this.editUnitType.electricity = this.locations[index].electricity;
-                this.editUnitType.dstv = this.locations[index].dstv;
-                this.editUnitType.parking_car = this.locations[index].parking_car;
-                this.editUnitType.parking_bike = this.locations[index].parking_bike;
-                this.editUnitType.storeroom = this.locations[index].storeroom;
+                this.editUnitType.id = this.unitTypes[index].id;
+                this.editUnitType.name = this.unitTypes[index].name;
+                this.editUnitType.description = this.unitTypes[index].description;
+                this.editUnitType.location_id = this.unitTypes[index].location_id;
+                this.editUnitType.cost = this.unitTypes[index].cost;
+                this.editUnitType.wifi = this.unitTypes[index].wifi;
+                this.editUnitType.electricity = this.unitTypes[index].electricity;
+                this.editUnitType.dstv = this.unitTypes[index].dstv;
+                this.editUnitType.parking_car = this.unitTypes[index].parking_car;
+                this.editUnitType.parking_bike = this.unitTypes[index].parking_bike;
+                this.editUnitType.storeroom = this.unitTypes[index].storeroom;
             },
 
             initializeUnitType() {
