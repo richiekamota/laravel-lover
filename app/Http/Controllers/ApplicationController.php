@@ -12,6 +12,8 @@ use Portal\Http\Requests\ApplicationStepFourRequest;
 use Portal\Http\Requests\ApplicationStepOneRequest;
 use Portal\Http\Requests\ApplicationStepThreeRequest;
 use Portal\Http\Requests\ApplicationStepTwoRequest;
+use Portal\Location;
+use Portal\UnitType;
 use Portal\User;
 use Response;
 
@@ -135,8 +137,11 @@ class ApplicationController extends Controller
         // TODO update this to a policy method
         abort_unless(Auth::check() && $applicationForm->user_id == Auth::user()->id, 401);
 
+        $unitTypes = UnitType::all();
+        $locations = Location::all();
+
         // return the view to the user
-        return view('application-form.edit', compact('applicationForm'));
+        return view('application-form.edit', compact('applicationForm', 'unitTypes', 'locations'));
 
     }
 

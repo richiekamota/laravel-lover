@@ -386,14 +386,18 @@
                 <!-- Unit Location -->
                 <label for="unit_location">
                     Unit Location
-                    <input type="text" name="unit_location" v-model="appForm.unit_location" required>
+                    <select name="unit_location" v-model="appForm.unit_location" required>
+                        <option></option>
+                        <option v-for="location in locations" v-bind:value="location.id"> {{location.name}} </option>
+                    </select>
                 </label>
 
                 <!-- Unit Type -->
                 <label for="unit_type">
                     Unit Type
                     <select name="unit_type" v-model="appForm.unit_type" required v-on:change="roomInfo($event)">
-                        <option v-for="unit in unitTypes" v-bind:value="unit.id" v-bind:data-info="unit.info">
+                        <option></option>
+                        <option v-for="unit in unitTypes" v-bind:value="unit.id" v-bind:data-description="unit.description" v-if="appForm.unit_location == unit.location_id">
                             {{ unit.name }}
                         </option>
                     </select>
@@ -440,7 +444,7 @@
                 <!-- Unit occupation date -->
                 <label for="unit_occupation_date">
                     Unit Occupation Date
-                    <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="unit_occupation_date" v-model="appForm.unit_occupation_date" @update='appForm.unit_occupation_date = $event' required/ >
+                    <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="unit_occupation_date" v-model="appForm.unit_occupation_date" @update='appForm.unit_occupation_date = $event' required />
                 </label>
 
                 <div v-if="appForm.step5" v-html="appForm.step5"></div>
@@ -582,7 +586,7 @@
         components: {
             Flatpickr
         },
-        props: ['step', 'formApplicationId'],
+        props: ['step', 'formApplicationId', 'propLocations', 'propUnitTypes'],
         data: () => {
             let appForm = {
                 // Step 1
@@ -658,36 +662,19 @@
                     comments: '',
                     confirm: '',
             };
-            let unitTypes = [
-                {
-                    id: '1',
-                    name: 'Studio',
-                    rental: 'R3850.00 per month',
-                    deposit: 'R7700 once-off (R3850 as security deposit and R3850 as damage deposit',
-                    info: 'Open plan studio, furnished with single base & matteress, desk, wardrobe, kitchenette with prep bowl & induction hot plate, mini-refrigerator, bnathhroom pod'
-                },
-                {
-                    id: '2',
-                    name: 'Premium Studio',
-                    rental: 'R5000.00 per month',
-                    deposit: 'R10000 once-off (R5000 as security deposit and R3850 as damage deposit',
-                    info: 'Premium studio description'
-                }
-            ];
             let formAction = "/step-1";
             return {
                 appForm: appForm,
+                locations: [],
+                unitTypes: [],
                 formAction: formAction,
                 showStep: '',
-                unitTypes: unitTypes,
                 unitTypeInfo: '',
                 loading: false,
                 countries: ''
             };
         },
         mounted() {
-            console.log('Component ready.');
-
             this.showStep = this.step;
 
             // Toggle the accordion based on the parameter passed
@@ -698,6 +685,8 @@
             let getData = new Data;
 
             this.countries = getData.getCountries();
+            this.locations = JSON.parse(this.propLocations);
+            this.unitTypes = JSON.parse(this.propUnitTypes);
 
             // Add dropzones
             new Dropzone("#resident_id", { url: "/file/post"});
@@ -728,7 +717,7 @@
 
             roomInfo: function(event) {
                 let sel = event.target;
-                this.unitTypeInfo = sel.options[sel.selectedIndex].getAttribute('data-info');
+                this.unitTypeInfo = sel.options[sel.selectedIndex].getAttribute('data-description');
             },
 
             submitStep: function(step) {
