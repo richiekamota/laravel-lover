@@ -1,6 +1,6 @@
 @extends('dashboard')
 
 @section('dashboard-content')
-    <h1>Yo</h1>
+    {{-- TODO: Pass in the unit type, replace the list which gets populated with the unit, adjust the pagination. --}}
     <admin-units prop-locations="{{$locations}}" prop-unit-types="{{$unitTypes}}"/>
 @endsection
