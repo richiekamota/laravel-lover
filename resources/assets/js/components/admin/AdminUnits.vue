@@ -20,9 +20,16 @@
             <!-- START Filter Section -->
 
             <div class="small-12 columns">
-                <button v-on:click="filterByCode">
-                    Filter
-                </button>
+                <div class="row">
+                    <div class="columns">
+                        <input type="text" placeholder="Filter by everything" ref="filterInput">
+                    </div>
+                    <div class="columns shrink">
+                        <button v-on:click="filter" class="button">
+                            Filter
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <!-- END Filter Section -->
@@ -292,31 +299,26 @@
                     };
             },
 
-            filterByCode() {
+            filter() {
                 // Let's get a fresh list before filter.
                 this.filteredUnits = this.locations;
 
-                this.filteredUnits = this.filteredUnits.filter((unit) => {
-                    /*if (unit.code == '123') {
-                        return true;
-                    }*/
-                    //return true;
-
-                     // Let's iterate over the attributes of the unit.
-                    var isValid = false;
-                    Object.keys(unit).forEach(function (key) {
-                        let obj = unit[key];
-                        //console.log("The object is ", obj);
-                        if(obj == '123') {
-                            isValid = true;
-                        }
-                        //obj = obj.toString();
+                // If the input field is blank, let's not apply filter logic and return everything.
+                if(this.$refs['filterInput'].value != '') {
+                    this.filteredUnits = this.filteredUnits.filter((unit) => {
+                        // Let's iterate over the attributes of the unit.
+                        var isValid = false;
+                        var filteredInput = this.$refs['filterInput'].value;
+                        Object.keys(unit).forEach(function (key) {
+                            let obj = unit[key];
+                            if(obj == filteredInput) {
+                                isValid = true;
+                            }
+                        });
+                        return isValid;
                     });
-                    console.log("Is valid is" , isValid);
-                    return isValid;
-
-                });
-                console.log("Filtered units are " , this.filteredUnits);
+                }
+                this.pagination.currentPage = 1;
                 this.calculatePagination();
             },
 
