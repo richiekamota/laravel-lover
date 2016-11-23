@@ -398,7 +398,7 @@
                     <select name="unit_type" v-model="appForm.unit_type" required v-on:change="roomInfo($event)">
                         <option></option>
                         <option v-for="unit in unitTypes" v-bind:value="unit.id" v-bind:data-description="unit.description" v-if="appForm.unit_location == unit.location_id">
-                            {{ unit.name }}
+                            {{ unit.name }} - R{{ unit.cost }}
                         </option>
                     </select>
                 </label>
