@@ -125,11 +125,16 @@
                     </template>
 
                     <!-- START Pagination buttons -->
-                    <button v-on:click="pagination.currentPage = pagination.currentPage - 1; calculatePagination()" v-show="pagination.previousPage > 0">Previous</button>
-                    <template v-for="n in pagination.maxPages">
-                        <button v-on:click="pagination.currentPage = n; calculatePagination()" v-show=" n !=  pagination.currentPage" > {{n}} </button>
-                    </template>
-                    <button v-on:click="pagination.currentPage = pagination.currentPage + 1; calculatePagination()" v-show="pagination.nextPage <= pagination.maxPages">Next</button>
+                    <div class="row">
+                        <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+                            <!-- <li class="pagination-previous" v-on:click="pagination.currentPage = pagination.currentPage - 1; calculatePagination()" v-bind:class="{disabled: pagination.previousPage > 0}" >Previous</li> -->
+                            <template v-for="n in pagination.maxPages">
+                                <li class="current" v-show="n ==  pagination.currentPage"><span class="show-for-sr">You're on page</span> {{n}} </li>
+                                <li><a v-bind:aria-label="'Page ' + n" v-on:click="pagination.currentPage = n; calculatePagination()" v-show="n !=  pagination.currentPage" > {{n}}</a></li>
+                            </template>
+                            <!-- <li class="pagination-next" v-on:click="pagination.currentPage = pagination.currentPage + 1; calculatePagination()" v-show="pagination.nextPage <= pagination.maxPages"><a aria-label="Next page">Next</a></li> -->
+                        </ul>
+                    </div>
                     <!-- END Pagination buttons -->
                 </div>
                 <!-- END List Section -->
@@ -317,8 +322,9 @@
                         });
                         return isValid;
                     });
+
+                    this.pagination.currentPage = 1;
                 }
-                this.pagination.currentPage = 1;
                 this.calculatePagination();
             },
 
