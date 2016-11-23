@@ -16,6 +16,17 @@
                 </button>
             </div>
 
+
+            <!-- START Filter Section -->
+
+            <div class="small-12 columns">
+                <button v-on:click="filterByCode">
+                    Filter
+                </button>
+            </div>
+
+            <!-- END Filter Section -->
+
             <div class="columns">
                 <div class="row" v-show="addEntry">
                     <div class="small-12 columns">
@@ -33,7 +44,7 @@
 
                         <label for="locationCode">
                             Code
-                            <input type="text" ref="locationCode" name="locationCode" v-model="newUnit.code">
+                            <input type="text" id="locationCode" ref="locationCode" name="locationCode" v-model="newUnit.code">
                         </label>
 
                         <label for="locationId">
@@ -48,7 +59,7 @@
                     </div>
 
                     <div class="small-12 columns">
-                        <button type="submit" class="success button" v-on:click="addLocation" v-bind:disabled="loading">
+                        <button type="submit" class="success button" v-on:click="addUnit" v-bind:disabled="loading">
                             <span v-if="loading">
                                 <loading></loading>
                             </span>
@@ -62,16 +73,16 @@
 
             <!-- START List Section -->
                 <div class="row">
-                    <template v-for="(location, index) in locations" >
+                    <template v-for="(filteredUnit, index) in filteredUnits" >
                         <div class="small-12 columns" v-show="index >= pagination.from && index <= pagination.to">
                             <!-- Row Title -->
-                            <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{ location.name }}</button>
+                            <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{ filteredUnit.code }}</button>
                             <!-- START Edit form -->
                             <div class="accordion__content">
 
-                                <label for="locationId">
+                                <label for="editLocationId">
                                     Location*
-                                    <select ref="locationId" id="locationId" name="locationId" v-model="newUnit.location_id">
+                                    <select ref="editLocationId" id="editLocationId" name="editLocationId" v-model="editUnit.location_id">
                                         <option value=""></option>
                                         <option v-for="location in locations" v-bind:value="location.id">
                                             {{ location.name }}
@@ -79,14 +90,14 @@
                                     </select>
                                 </label>
 
-                                <label for="locationCode">
+                                <label for="editLocationCode">
                                     Code
-                                    <input type="text" ref="locationCode" name="locationCode" v-model="newUnit.code">
+                                    <input type="text" id="editLocationCode" ref="editLocationCode" name="editLocationCode" v-model="editUnit.code">
                                 </label>
 
-                                <label for="typeId">
+                                <label for="editTypeId">
                                     Unit Type*
-                                    <select ref="typeId" id="typeId" name="typeId" v-model="newUnit.type_id">
+                                    <select ref="editTypeId" id="editTypeId" name="editTypeId" v-model="editUnit.type_id">
                                         <option value=""></option>
                                         <option v-for="unitType in unitTypes" v-bind:value="unitType.id">
                                             {{ unitType.name }}
@@ -94,12 +105,12 @@
                                     </select>
                                 </label>
 
-                                <button type="submit" class="success button" v-on:click="editLocation" v-bind:disabled="loading">
+                                <button type="submit" class="success button" v-on:click="editUnit" v-bind:disabled="loading">
                                     <span v-if="loading">
                                         <loading></loading>
                                     </span>
                                     <span v-else>
-                                        Update location
+                                        Update unit
                                     </span>
                                 </button>
                             </div>
@@ -127,6 +138,7 @@
                 locations: [],
                 unitTypes: [],
                 units: [],
+                filteredUnits: [],
                 loading: false,
                 editUnit: {
                     id: '',
@@ -154,10 +166,12 @@
             this.locations = JSON.parse(this.propLocations);
             this.unitTypes = JSON.parse(this.propUnitTypes);
             this.newUnit = this.initializeUnit();
+            // Let's assign the units to the filtered units so later we can filter out what we don't need
+            this.filteredUnits = this.locations;
             this.calculatePagination();
         },
         methods: {
-            addLocation : function() {
+            addUnit : function() {
                 this.loading = true;
 
                 this.$http.post(
@@ -180,7 +194,7 @@
 
             },
 
-            editLocation: function() {
+            editUnit: function() {
                 this.loading = true;
 
                 this.$http.patch(
@@ -278,15 +292,43 @@
                     };
             },
 
+            filterByCode() {
+                // Let's get a fresh list before filter.
+                this.filteredUnits = this.locations;
+
+                this.filteredUnits = this.filteredUnits.filter((unit) => {
+                    /*if (unit.code == '123') {
+                        return true;
+                    }*/
+                    //return true;
+
+                     // Let's iterate over the attributes of the unit.
+                    var isValid = false;
+                    Object.keys(unit).forEach(function (key) {
+                        let obj = unit[key];
+                        //console.log("The object is ", obj);
+                        if(obj == '123') {
+                            isValid = true;
+                        }
+                        //obj = obj.toString();
+                    });
+                    console.log("Is valid is" , isValid);
+                    return isValid;
+
+                });
+                console.log("Filtered units are " , this.filteredUnits);
+                this.calculatePagination();
+            },
+
             calculatePagination() {
-                this.pagination.total = this.locations.length;
+                this.pagination.total = this.filteredUnits.length;
                 // Since Arrays start from 0, we must subtract an additional 1.
                 this.pagination.from = (this.pagination.currentPage - 1) * this.pagination.per_page;
                 this.pagination.to = this.pagination.from + this.pagination.per_page - 1;
                 this.pagination.nextPage = this.pagination.currentPage + 1;
                 this.pagination.previousPage = this.pagination.currentPage - 1;
                 // Since Arrays start at 0 we need to increment this value
-                this.pagination.maxPages = (this.pagination.total / this.pagination.per_page);
+                this.pagination.maxPages = Math.round((this.pagination.total / this.pagination.per_page));
             }
 
         }
