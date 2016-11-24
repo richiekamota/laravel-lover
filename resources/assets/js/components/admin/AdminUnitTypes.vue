@@ -77,7 +77,7 @@
                     </div>
 
                     <div class="small-12 columns">
-                        <button type="submit" class="success button" v-on:click="addUnitType" v-bind:disabled="loading">
+                        <button type="submit" name="addUnitType" class="success button" v-on:click="addUnitType" v-bind:disabled="loading">
                             <span v-if="loading">
                                 <loading></loading>
                             </span>
@@ -111,16 +111,15 @@
                                 <label for="editLocationId">
                                     Location*
                                     <select ref="editLocationId" id="editLocationId" name="editLocationId" v-model="editUnitType.location_id">
-                                        <option value=""></option>
                                         <option v-for="location in locations" v-bind:value="location.id">
                                             {{ location.name }}
                                         </option>
                                     </select>
                                 </label>
 
-                                <label for="edutUnitTypeCost">
+                                <label for="editUnitTypeCost">
                                     Unit type Cost*
-                                    <input type="number" id="edutUnitTypeCost" ref="edutUnitTypeCost" name="edutUnitTypeCost" v-model="editUnitType.cost">
+                                    <input type="number" id="editUnitTypeCost" ref="editUnitTypeCost" name="editUnitTypeCost" v-model="editUnitType.cost">
                                 </label>
 
                                 <label for="editUnitTypeWifi">
