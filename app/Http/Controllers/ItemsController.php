@@ -17,7 +17,7 @@ class ItemsController extends Controller
 
         // abort unless Auth > tenant
 
-        // return view('items.index');
+        return view('items.index');
 
     }
 
