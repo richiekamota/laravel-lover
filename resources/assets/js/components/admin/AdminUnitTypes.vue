@@ -9,7 +9,7 @@
 
             <!-- Show or hide addtion form button -->
             <div class="small-12 medium-6 columns align-middle -text-right">
-                <button type="submit" class="success button -margin-bottom-0" v-on:click="addEntry =! addEntry" v-if="!addEntry">
+                <button type="submit" name="showAddForm" class="success button -margin-bottom-0" v-on:click="addEntry =! addEntry" v-if="!addEntry">
                     <span >
                         Add Unit Type
                     </span>
@@ -153,7 +153,7 @@
                                     <input type="checkbox" id="unitTypeStoreroom" ref="unitTypeStoreroom" name="unitTypeStoreroom" v-model="editUnitType.storeroom">
                                 </label>
 
-                                <button type="submit" class="success button" v-on:click="updateUnitType" v-bind:disabled="loading">
+                                <button type="submit" name="addUnitType" class="success button" v-on:click="updateUnitType" v-bind:disabled="loading">
                                     <span v-if="loading">
                                         <loading></loading>
                                     </span>

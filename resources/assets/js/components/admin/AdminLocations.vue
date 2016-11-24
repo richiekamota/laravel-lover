@@ -9,8 +9,8 @@
 
             <!-- Show or hide addtion form button -->
             <div class="small-12 medium-6 columns align-middle -text-right">
-                <button type="submit" class="success button -margin-bottom-0" v-on:click="addEntry =! addEntry" v-if="!addEntry">
-                    <span >
+                <button type="submit" name="showAddForm" class="success button -margin-bottom-0" v-on:click="addEntry =! addEntry" v-if="!addEntry">
+                    <span>
                         Add location
                     </span>
                 </button>
@@ -52,7 +52,7 @@
                     </div>
 
                     <div class="small-12 columns">
-                        <button type="submit" class="success button" v-on:click="addLocation" v-bind:disabled="loading">
+                        <button type="submit" name="addLocation" class="success button" v-on:click="addLocation" v-bind:disabled="loading">
                             <span v-if="loading">
                                 <loading></loading>
                             </span>

@@ -9,7 +9,7 @@
 
             <!-- Show or hide addtion form button -->
             <div class="small-12 medium-6 columns align-middle -text-right">
-                <button type="submit" class="success button -margin-bottom-0" v-on:click="addEntry =! addEntry" v-if="!addEntry">
+                <button type="submit" name="showAddForm" class="success button -margin-bottom-0" v-on:click="addEntry =! addEntry" v-if="!addEntry">
                     <span >
                         Add unit
                     </span>
@@ -66,7 +66,7 @@
                     </div>
 
                     <div class="small-12 columns">
-                        <button type="submit" class="success button" v-on:click="addUnit" v-bind:disabled="loading">
+                        <button type="submit" name="addUnit" class="success button" v-on:click="addUnit" v-bind:disabled="loading">
                             <span v-if="loading">
                                 <loading></loading>
                             </span>
