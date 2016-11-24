@@ -85,7 +85,6 @@
                                 <label for="editLocationCity">
                                     City
                                     <select ref="editLocationCity" id="editLocationCity" name="editLocationCity" v-model="editLocation.city">
-                                        <option value=""></option>
                                         <option v-for="city in cities" v-bind:value="city">
                                             {{ city }}
                                         </option>
