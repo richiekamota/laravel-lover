@@ -7,15 +7,19 @@ use DB;
 use Illuminate\Http\Request;
 use Portal\Application;
 use Portal\Http\Requests\ApplicationCreateRequest;
+use Portal\Http\Requests\ApplicationStepEightRequest;
 use Portal\Http\Requests\ApplicationStepFiveRequest;
 use Portal\Http\Requests\ApplicationStepFourRequest;
 use Portal\Http\Requests\ApplicationStepOneRequest;
+use Portal\Http\Requests\ApplicationStepSevenRequest;
+use Portal\Http\Requests\ApplicationStepSixRequest;
 use Portal\Http\Requests\ApplicationStepThreeRequest;
 use Portal\Http\Requests\ApplicationStepTwoRequest;
 use Portal\Location;
 use Portal\UnitType;
 use Portal\User;
 use Response;
+use Validator;
 
 class ApplicationController extends Controller
 {
@@ -37,7 +41,7 @@ class ApplicationController extends Controller
     public function create()
     {
 
-        return view('application-form.form');
+        return view( 'application-form.form' );
     }
 
     /**
@@ -45,9 +49,10 @@ class ApplicationController extends Controller
      * and create the application form against this user.
      *
      * @param Request|ApplicationCreateRequest $request
+     *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|User
      */
-    public function store(ApplicationCreateRequest $request)
+    public function store( ApplicationCreateRequest $request )
     {
 
         // Validation handled in Request
@@ -55,26 +60,26 @@ class ApplicationController extends Controller
         try {
 
             // Create a new user account and log them in
-            User::create([
-                'first_name' => $request['first_name'],
-                'last_name'  => $request['last_name'],
-                'email'      => $request['email'],
-                'password'   => bcrypt($request['password']),
+            User::create( [
+                'first_name' => $request[ 'first_name' ],
+                'last_name'  => $request[ 'last_name' ],
+                'email'      => $request[ 'email' ],
+                'password'   => bcrypt( $request[ 'password' ] ),
                 'role'       => 'tenant'
-            ]);
+            ] );
 
-            if (Auth::attempt(['email' => $request['email'], 'password' => $request['password']])) {
+            if (Auth::attempt( ['email' => $request[ 'email' ], 'password' => $request[ 'password' ]] )) {
 
                 // Create a new application form
-                Application::create([
+                Application::create( [
                     'user_id' => Auth::user()->id,
                     'status'  => 'draft',
                     'step'    => '1'
-                ]);
+                ] );
 
-                $applicationForm = Application::whereUserId(Auth::user()->id)
-                    ->whereStatus('draft')
-                    ->whereStep(1)
+                $applicationForm = Application::whereUserId( Auth::user()->id )
+                    ->whereStatus( 'draft' )
+                    ->whereStep( 1 )
                     ->first();
 
                 // Redirect to the edit form page
@@ -84,19 +89,19 @@ class ApplicationController extends Controller
                 );
 
             } else {
-                \Log::info('error authing user');
+                \Log::info( 'error authing user' );
             }
 
         } catch (\Exception $e) {
 
-            \Log::info($e);
+            \Log::info( $e );
 
             //Bugsnag::notifyException($e);
 
-            return Response::json([
+            return Response::json( [
                 'error'   => 'application_form_step1_error',
-                'message' => trans('portal.application_form_step1_error'),
-            ], 422);
+                'message' => trans( 'portal.application_form_step1_error' ),
+            ], 422 );
 
         }
 
@@ -109,7 +114,7 @@ class ApplicationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show( $id )
     {
 
         // abort unless logged in
@@ -127,21 +132,21 @@ class ApplicationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit( $id )
     {
 
         // Find the application based on the ID
-        $applicationForm = Application::find($id);
+        $applicationForm = Application::find( $id );
 
         // abort unless logged in and the ID must belong to the user
         // TODO update this to a policy method
-        abort_unless(Auth::check() && $applicationForm->user_id == Auth::user()->id, 401);
+        abort_unless( Auth::check() && $applicationForm->user_id == Auth::user()->id, 401 );
 
         $unitTypes = UnitType::all();
         $locations = Location::all();
 
         // return the view to the user
-        return view('application-form.edit', compact('applicationForm', 'unitTypes', 'locations'));
+        return view( 'application-form.edit', compact( 'applicationForm', 'unitTypes', 'locations' ) );
 
     }
 
@@ -150,39 +155,40 @@ class ApplicationController extends Controller
      *
      * @param Request|ApplicationStepOneRequest $request
      * @param  int $id
+     *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function stepOne(ApplicationStepOneRequest $request, $id)
+    public function stepOne( ApplicationStepOneRequest $request, $id )
     {
 
-        $applicationForm = Application::find($id);
+        $applicationForm = Application::find( $id );
 
-        $this->authorize('update', $applicationForm);
+        $this->authorize( 'update', $applicationForm );
 
         DB::beginTransaction();
 
         try {
 
             $data = $request->all();
-            $data['step'] = 2;
+            $data[ 'step' ] = 2;
 
             // Update the form
-            $applicationForm->update($data);
+            $applicationForm->update( $data );
 
             DB::commit();
 
         } catch (\Exception $e) {
 
-            \Log::info($e);
+            \Log::info( $e );
 
             //Bugsnag::notifyException($e);
 
             DB::rollback();
 
-            return Response::json([
+            return Response::json( [
                 'error'   => 'application_form_step1_error',
-                'message' => trans('portal.application_form_step1_error'),
-            ], 422);
+                'message' => trans( 'portal.application_form_step1_error' ),
+            ], 422 );
 
         }
 
@@ -194,39 +200,40 @@ class ApplicationController extends Controller
      *
      * @param Request|ApplicationStepTwoRequest $request
      * @param  int $id
+     *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function stepTwo(ApplicationStepTwoRequest $request, $id)
+    public function stepTwo( ApplicationStepTwoRequest $request, $id )
     {
 
-        $applicationForm = Application::find($id);
+        $applicationForm = Application::find( $id );
 
-        $this->authorize('update', $applicationForm);
+        $this->authorize( 'update', $applicationForm );
 
         DB::beginTransaction();
 
         try {
 
             $data = $request->all();
-            $data['step'] = 3;
+            $data[ 'step' ] = 3;
 
             // Update the form
-            $applicationForm->update($data);
+            $applicationForm->update( $data );
 
             DB::commit();
 
         } catch (\Exception $e) {
 
-            \Log::info($e);
+            \Log::info( $e );
 
             //Bugsnag::notifyException($e);
 
             DB::rollback();
 
-            return Response::json([
+            return Response::json( [
                 'error'   => 'application_form_step2_error',
-                'message' => trans('portal.application_form_step2_error'),
-            ], 422);
+                'message' => trans( 'portal.application_form_step2_error' ),
+            ], 422 );
 
         }
 
@@ -240,37 +247,37 @@ class ApplicationController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function stepThree(ApplicationStepThreeRequest $request, $id)
+    public function stepThree( ApplicationStepThreeRequest $request, $id )
     {
 
-        $applicationForm = Application::find($id);
+        $applicationForm = Application::find( $id );
 
-        $this->authorize('update', $applicationForm);
+        $this->authorize( 'update', $applicationForm );
 
         DB::beginTransaction();
 
         try {
 
             $data = $request->all();
-            $data['step'] = 4;
+            $data[ 'step' ] = 4;
 
             // Update the form
-            $applicationForm->update($data);
+            $applicationForm->update( $data );
 
             DB::commit();
 
         } catch (\Exception $e) {
 
-            \Log::info($e);
+            \Log::info( $e );
 
             //Bugsnag::notifyException($e);
 
             DB::rollback();
 
-            return Response::json([
+            return Response::json( [
                 'error'   => 'application_form_step3_error',
-                'message' => trans('portal.application_form_step3_error'),
-            ], 422);
+                'message' => trans( 'portal.application_form_step3_error' ),
+            ], 422 );
 
         }
 
@@ -285,37 +292,37 @@ class ApplicationController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function stepFour(ApplicationStepFourRequest $request, $id)
+    public function stepFour( ApplicationStepFourRequest $request, $id )
     {
 
-        $applicationForm = Application::find($id);
+        $applicationForm = Application::find( $id );
 
-        $this->authorize('update', $applicationForm);
+        $this->authorize( 'update', $applicationForm );
 
         DB::beginTransaction();
 
         try {
 
             $data = $request->all();
-            $data['step'] = 5;
+            $data[ 'step' ] = 5;
 
             // Update the form
-            $applicationForm->update($data);
+            $applicationForm->update( $data );
 
             DB::commit();
 
         } catch (\Exception $e) {
 
-            \Log::info($e);
+            \Log::info( $e );
 
             //Bugsnag::notifyException($e);
 
             DB::rollback();
 
-            return Response::json([
+            return Response::json( [
                 'error'   => 'application_form_step4_error',
-                'message' => trans('portal.application_form_step4_error'),
-            ], 422);
+                'message' => trans( 'portal.application_form_step4_error' ),
+            ], 422 );
 
         }
 
@@ -330,37 +337,37 @@ class ApplicationController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function stepFive(ApplicationStepFiveRequest $request, $id)
+    public function stepFive( ApplicationStepFiveRequest $request, $id )
     {
 
-        $applicationForm = Application::find($id);
+        $applicationForm = Application::find( $id );
 
-        $this->authorize('update', $applicationForm);
+        $this->authorize( 'update', $applicationForm );
 
         DB::beginTransaction();
 
         try {
 
             $data = $request->all();
-            $data['step'] = 6;
+            $data[ 'step' ] = 6;
 
             // Update the form
-            $applicationForm->update($data);
+            $applicationForm->update( $data );
 
             DB::commit();
 
         } catch (\Exception $e) {
 
-            \Log::info($e);
+            \Log::info( $e );
 
             //Bugsnag::notifyException($e);
 
             DB::rollback();
 
-            return Response::json([
+            return Response::json( [
                 'error'   => 'application_form_step5_error',
-                'message' => trans('portal.application_form_step5_error'),
-            ], 422);
+                'message' => trans( 'portal.application_form_step5_error' ),
+            ], 422 );
 
         }
 
@@ -375,38 +382,136 @@ class ApplicationController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function stepSix(Request $request, $id)
+    public function stepSix( ApplicationStepSixRequest $request, $id )
     {
 
-        $applicationForm = Application::find($id);
+        $applicationForm = Application::find( $id );
 
-        $this->authorize('update', $applicationForm);
+        $this->authorize( 'update', $applicationForm );
 
         DB::beginTransaction();
 
         try {
 
             $data = $request->all();
-            $data['step'] = 7;
+            $data[ 'step' ] = 7;
 
             // Update the form
-            $applicationForm->update($data);
+            $applicationForm->update( $data );
 
 
             DB::commit();
 
         } catch (\Exception $e) {
 
-            \Log::info($e);
+            \Log::info( $e );
 
             //Bugsnag::notifyException($e);
 
             DB::rollback();
 
-            return Response::json([
+            return Response::json( [
                 'error'   => 'application_form_step6_error',
-                'message' => trans('portal.application_form_step6_error'),
-            ], 422);
+                'message' => trans( 'portal.application_form_step6_error' ),
+            ], 422 );
+
+        }
+
+
+    }
+
+    /**
+     * Update the application form for Step Seven.
+     * We don't use the route validation as this is all doc
+     * uploads and we check them in the next step
+     *
+     * @param Request|ApplicationStepSevenRequest $request
+     * @param  int $id
+     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     */
+    public function stepSeven( ApplicationStepSevenRequest $request, $id )
+    {
+
+        $applicationForm = Application::find( $id );
+
+        $this->authorize( 'update', $applicationForm );
+
+        DB::beginTransaction();
+
+        try {
+
+            // Update the form
+            $applicationForm->update( [
+                'step' => 7
+            ] );
+
+            DB::commit();
+
+        } catch (\Exception $e) {
+
+            \Log::info( $e );
+
+            //Bugsnag::notifyException($e);
+
+            DB::rollback();
+
+            return Response::json( [
+                'error'   => 'application_form_step6_error',
+                'message' => trans( 'portal.application_form_step6_error' ),
+            ], 422 );
+
+        }
+
+
+    }
+
+    /**
+     * Update the application form for Step Eight.
+     *
+     * @param Request|ApplicationStepEightRequest|ApplicationStepSevenRequest $request
+     * @param  int $id
+     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     */
+    public function stepEight( ApplicationStepEightRequest $request, $id )
+    {
+
+        $applicationForm = Application::find( $id );
+
+        $this->authorize( 'update', $applicationForm );
+
+        DB::beginTransaction();
+
+        try {
+
+            // Validate everything!!!
+            $validator = $this->validator( $applicationForm->toArray() );
+
+            if ($validator->fails()) {
+                return Response::json( [
+                    'error'   => 'application_form_step8_validation_error',
+                    'message' => $validator->errors()
+                ], 422 );
+            }
+
+            // Update the form
+            $applicationForm->update( $request->all() );
+
+            DB::commit();
+
+        } catch (\Exception $e) {
+
+            \Log::info( $e );
+
+            //Bugsnag::notifyException($e);
+
+            DB::rollback();
+
+            return Response::json( [
+                'error'   => 'application_form_step6_error',
+                'message' => trans( 'portal.application_form_step6_error' ),
+            ], 422 );
 
         }
 
@@ -420,11 +525,82 @@ class ApplicationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy( $id )
     {
 
         // abort unless logged in user owns this application form
         // It must also not be submission
 
     }
+
+    /**
+     * Get a validator for an incoming store request.
+     *
+     * @param  array $data
+     *
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator( array $data )
+    {
+
+        return Validator::make( $data, [
+            'sa_id_number'                   => 'required_if:passport_number,""',
+            'passport_number'                => 'required_if:sa_id_number,""',
+            'dob'                            => 'required|date',
+            'nationality'                    => 'required',
+            'phone_mobile'                   => 'sometimes',
+            'phone_home'                     => 'sometimes',
+            'phone_work'                     => 'sometimes',
+            'current_address'                => 'required',
+            'marital_status'                 => 'required',
+            'married_type'                   => 'required_if:marital_status,"Married"',
+            'current_property_owner'         => 'required',
+            'rental_time'                    => 'required_if:current_property_owner,false|in:12, 24, 36, 48|nullable',
+            'rental_amount'                  => 'required_if:current_property_owner,false|integer|nullable',
+            'rental_name'                    => 'required_if:current_property_owner,false|max:191',
+            'rental_phone_home'              => 'required_if:current_property_owner,false|max:191',
+            'rental_phone_mobile'            => 'required_if:current_property_owner,false|max:191',
+            'selfemployed'                   => 'required|boolean',
+            'occupation'                     => 'required',
+            'current_monthly_expenses'       => 'required',
+            'employer_company'               => 'required_if:selfemployed,false|max:191',
+            'employer_name'                  => 'required_if:selfemployed,false|max:191',
+            'employer_phone_work'            => 'required_if:selfemployed,false|max:191',
+            'employer_email'                 => 'required_if:selfemployed,false|max:191',
+            'employer_salary'                => 'required_if:selfemployed,false|max:191',
+            'resident_first_name'            => 'required|max:191',
+            'resident_last_name'             => 'required|max:191',
+            'resident_sa_id_number'          => 'required_if:resident_passport_number,""|max:191',
+            'resident_passport_number'       => 'required_if:resident_sa_id_number,""|max:191',
+            'resident_dob'                   => 'required|date',
+            'resident_nationality'           => 'required|max:191',
+            'resident_phone_mobile'          => 'required|max:191',
+            'resident_email'                 => 'required|email|max:191',
+            'resident_current_address'       => 'required|max:191',
+            'resident_landlord'              => 'required|max:191',
+            'resident_landlord_phone_work'   => 'required|max:191',
+            'resident_landlord_phone_mobile' => 'required|max:191',
+            'resident_study_location'        => 'required|max:191',
+            'resident_study_year'            => 'required|numeric|max:10',
+            'resident_gender'                => 'required|in:Male,Female,Unlisted',
+            'unit_location'                  => 'required',
+            'unit_type'                      => 'required',
+            'unit_lease_length'              => 'required',
+            'unit_car_parking'               => 'required',
+            'unit_bike_parking'              => 'required',
+            'unit_tv'                        => 'required',
+            'unit_storeroom'                 => 'required',
+            'unit_occupation_date'           => 'required',
+            'judgements'                     => 'required|boolean',
+            'judgements_details'             => 'required_unless:judgements,false',
+            'resident_id'                    => 'required',
+            'resident_study_permit'          => 'required',
+            'resident_acceptance'            => 'required',
+            'resident_financial_aid'         => 'required',
+            'leaseholder_id'                 => 'required',
+            'leaseholder_address_proof'      => 'required',
+            'leaseholder_payslip'            => 'required'
+        ] );
+    }
+
 }

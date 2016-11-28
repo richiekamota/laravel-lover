@@ -13,7 +13,8 @@ class ApplicationStepEightRequest extends FormRequest
      */
     public function authorize()
     {
-        return TRUE;
+
+        return true;
     }
 
     /**
@@ -23,8 +24,10 @@ class ApplicationStepEightRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
-            //
+            'confirm'      => 'required',
+            'confirm_time' => 'required'
         ];
     }
 }

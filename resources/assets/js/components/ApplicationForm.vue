@@ -412,8 +412,8 @@
                 <label for="unit_lease_length">
                     Unit lease length
                     <select name="unit_lease_length" v-model="appForm.unit_lease_length" required>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
+                        <option value="11">11 months</option>
+                        <option value="12">12 months</option>
                     </select>
                 </label>
 
@@ -642,14 +642,14 @@
                     unit_location: '',
                     unit_type: '',
                     unit_lease_length: '',
-                    unit_car_parking: '',
-                    unit_bike_parking: '',
-                    unit_tv: '',
-                    unit_storeroom: '',
+                    unit_car_parking: false,
+                    unit_bike_parking: false,
+                    unit_tv: false,
+                    unit_storeroom: false,
                     unit_occupation_date: '',
                 // Step 6
                     step6: '',
-                    judgements: '',
+                    judgements: false,
                     judgements_details: '',
                 // Step 7
                     step7: '',

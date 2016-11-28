@@ -13,7 +13,7 @@ class ApplicationStepSixRequest extends FormRequest
      */
     public function authorize()
     {
-        return TRUE;
+        return true;
     }
 
     /**
@@ -23,8 +23,10 @@ class ApplicationStepSixRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
-            //
+            'judgements'         => 'required|boolean',
+            'judgements_details' => 'required|required_if:judgements,true',
         ];
     }
 }

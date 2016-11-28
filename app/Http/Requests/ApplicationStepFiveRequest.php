@@ -13,7 +13,8 @@ class ApplicationStepFiveRequest extends FormRequest
      */
     public function authorize()
     {
-        return TRUE;
+
+        return true;
     }
 
     /**
@@ -23,8 +24,16 @@ class ApplicationStepFiveRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
-            //
+            'unit_location'        => 'required',
+            'unit_type'            => 'required',
+            'unit_lease_length'    => 'required',
+            'unit_car_parking'     => 'required|boolean',
+            'unit_bike_parking'    => 'required|boolean',
+            'unit_tv'              => 'required|boolean',
+            'unit_storeroom'       => 'required|boolean',
+            'unit_occupation_date' => 'required|date',
         ];
     }
 }
