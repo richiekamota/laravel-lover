@@ -2,19 +2,32 @@
 
 @section('content')
     <div class="row expanded">
-        <div class="medium-3 large-2 columns admin-menu">
-            <h4 class="-text-center">Admin Menu</h4>
-            <ul class="menu vertical admin-menu__links">
-                <li><a href="#1" class="admin-menu__link admin-menu__link--active">One</a></li>
-                <li><a href="#2" class="admin-menu__link">Two</a></li>
-                <li><a href="#3" class="admin-menu__link">Three</a></li>
-                <li><a href="#4" class="admin-menu__link">Four</a></li>
+        @if(!Gate::check('is-tenant'))
+            <div class="medium-3 large-2 columns admin-menu">
+                <h4 class="-text-center">Admin Menu</h4>
+                <ul class="menu vertical admin-menu__links">
+                    <li><a href="#1" class="admin-menu__link admin-menu__link--active">One</a></li>
+                    <li><a href="#2" class="admin-menu__link">Two</a></li>
+                    <li><a href="#3" class="admin-menu__link">Three</a></li>
+                    <li><a href="#4" class="admin-menu__link">Four</a></li>
 
-                <li><a href="{{ url('/locations') }}" class="admin-menu__link">Add locations</a></li>
-                <li><a href="{{ url('/unit-types') }}" class="admin-menu__link">Add unit type</a></li>
-                <li><a href="{{ url('/units') }}" class="admin-menu__link">Add units</a></li>
-            </ul>
-        </div>
+                    <li><a href="{{ url('/locations') }}" class="admin-menu__link">Add locations</a></li>
+                    <li><a href="{{ url('/unit-types') }}" class="admin-menu__link">Add unit type</a></li>
+                    <li><a href="{{ url('/units') }}" class="admin-menu__link">Add units</a></li>
+                </ul>
+            </div>
+        @endif
+
+        @if(Gate::check('is-tenant'))
+            <div class="medium-3 large-2 columns admin-menu">
+                <h4 class="-text-center">Tenant Menu</h4>
+                <ul class="menu vertical admin-menu__links">
+                    <li><a href="{{ url('/locations') }}" class="admin-menu__link">Application form</a></li>
+                    <li><a href="{{ url('/unit-types') }}" class="admin-menu__link">Contract page</a></li>
+                    <li><a href="{{ url('/units') }}" class="admin-menu__link">Profile page</a></li>
+                </ul>
+            </div>
+        @endif
 
         <div class="medium-9 large-10 columns">
             <div class="row">
