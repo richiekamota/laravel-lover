@@ -163,8 +163,11 @@ class ApplicationController extends Controller
 
         try {
 
+            $data = $request->all();
+            $data['step'] = 2;
+
             // Update the form
-            $applicationForm->update($request->all());
+            $applicationForm->update($data);
 
             DB::commit();
 
@@ -204,9 +207,11 @@ class ApplicationController extends Controller
 
         try {
 
-            // Update the form against this user
+            $data = $request->all();
+            $data['step'] = 3;
 
-            $applicationForm->update($request->all());
+            // Update the form
+            $applicationForm->update($data);
 
             DB::commit();
 
@@ -246,8 +251,11 @@ class ApplicationController extends Controller
 
         try {
 
+            $data = $request->all();
+            $data['step'] = 4;
+
             // Update the form
-            $applicationForm->update($request->all());
+            $applicationForm->update($data);
 
             DB::commit();
 
@@ -288,8 +296,11 @@ class ApplicationController extends Controller
 
         try {
 
+            $data = $request->all();
+            $data['step'] = 5;
+
             // Update the form
-            $applicationForm->update($request->all());
+            $applicationForm->update($data);
 
             DB::commit();
 
@@ -330,8 +341,11 @@ class ApplicationController extends Controller
 
         try {
 
+            $data = $request->all();
+            $data['step'] = 6;
+
             // Update the form
-            $applicationForm->update($request->all());
+            $applicationForm->update($data);
 
             DB::commit();
 
@@ -372,8 +386,12 @@ class ApplicationController extends Controller
 
         try {
 
+            $data = $request->all();
+            $data['step'] = 7;
+
             // Update the form
-            $applicationForm->update($request->all());
+            $applicationForm->update($data);
+
 
             DB::commit();
 

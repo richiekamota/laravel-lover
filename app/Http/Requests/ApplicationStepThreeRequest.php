@@ -13,7 +13,8 @@ class ApplicationStepThreeRequest extends FormRequest
      */
     public function authorize()
     {
-        return TRUE;
+
+        return true;
     }
 
     /**
@@ -23,8 +24,16 @@ class ApplicationStepThreeRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
-            //
+            'selfemployed'             => 'required|boolean',
+            'occupation'               => 'required',
+            'current_monthly_expenses' => 'required',
+            'employer_company'         => 'required_if:selfemployed,false|max:191',
+            'employer_name'            => 'required_if:selfemployed,false|max:191',
+            'employer_phone_work'      => 'required_if:selfemployed,false|max:191',
+            'employer_email'           => 'required_if:selfemployed,false|max:191',
+            'employer_salary'          => 'required_if:selfemployed,false|max:191',
         ];
     }
 }

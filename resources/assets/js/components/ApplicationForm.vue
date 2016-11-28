@@ -99,7 +99,7 @@
 
                     <div v-if="appForm.step1" v-html="appForm.step1"></div>
 
-                    <button type="submit" class="success button" v-on:click="submitStep(1)" v-bind:disabled="loading">
+                    <button type="submit" id="step1-save" class="success button" v-on:click="submitStep(1)" v-bind:disabled="loading">
                         <span v-if="loading">
                             <loading></loading>
                         </span>
@@ -165,7 +165,7 @@
 
                     <div v-if="appForm.step2" v-html="appForm.step2"></div>
 
-                    <button type="submit" class="success button" v-on:click="submitStep(2)" v-bind:disabled="loading">
+                    <button type="submit" id="step2-save" class="success button" v-on:click="submitStep(2)" v-bind:disabled="loading">
                         <span v-if="loading">
                             <loading></loading>
                         </span>
@@ -241,7 +241,7 @@
 
                     <div v-if="appForm.step3" v-html="appForm.step3"></div>
 
-                    <button type="submit" class="success button" v-on:click="submitStep(3)" v-bind:disabled="loading">
+                    <button type="submit" id="step3-save" class="success button" v-on:click="submitStep(3)" v-bind:disabled="loading">
                         <span v-if="loading">
                             <loading></loading>
                         </span>
@@ -367,7 +367,7 @@
 
                     <div v-if="appForm.step4" v-html="appForm.step4"></div>
 
-                    <button type="submit" class="success button" v-on:click="submitStep(4)" v-bind:disabled="loading">
+                    <button type="submit" id="step4-save" class="success button" v-on:click="submitStep(4)" v-bind:disabled="loading">
                         <span v-if="loading">
                             <loading></loading>
                         </span>
@@ -449,7 +449,7 @@
 
                 <div v-if="appForm.step5" v-html="appForm.step5"></div>
 
-                <button type="submit" class="success button" v-on:click="submitStep(5)" v-bind:disabled="loading">
+                <button type="submit" id="step5-save" class="success button" v-on:click="submitStep(5)" v-bind:disabled="loading">
                         <span v-if="loading">
                             <loading></loading>
                         </span>
@@ -478,7 +478,7 @@
 
                 <div v-if="appForm.step6" v-html="appForm.step6"></div>
 
-                <button type="submit" class="success button" v-on:click="submitStep(6)" v-bind:disabled="loading">
+                <button type="submit" id="step6-save" class="success button" v-on:click="submitStep(6)" v-bind:disabled="loading">
                         <span v-if="loading">
                             <loading></loading>
                         </span>
@@ -531,7 +531,7 @@
 
                 <div v-if="appForm.step7" v-html="appForm.step7"></div>
 
-                <button type="submit" class="success button" v-on:click="submitStep(7)" v-bind:disabled="loading">
+                <button type="submit" id="step7-save" class="success button" v-on:click="submitStep(7)" v-bind:disabled="loading">
                         <span v-if="loading">
                             <loading></loading>
                         </span>
@@ -560,7 +560,7 @@
 
                 <div v-if="appForm.step8" v-html="appForm.step8"></div>
 
-                <button type="submit" class="success button" v-on:click="submitStep(8)" v-bind:disabled="loading">
+                <button type="submit" id="step8-save" class="success button" v-on:click="submitStep(8)" v-bind:disabled="loading">
                         <span v-if="loading">
                             <loading></loading>
                         </span>
@@ -604,7 +604,7 @@
                     married_type: '',
                 // Step 2
                     step2: '',
-                    current_property_owner: '',
+                    current_property_owner: false,
                     rental_time: '',
                     rental_amount: '',
                     rental_name: '',
@@ -612,9 +612,10 @@
                     rental_phone_mobile: '',
                 // Step 3
                     step3: '',
-                    selfemployed: '',
+                    selfemployed: false,
                     occupation: '',
                     current_monthly_expenses: '',
+                    employer_name: '',
                     employer_company: '',
                     employer_phone_work: '',
                     employer_email: '',
@@ -800,6 +801,7 @@
                             selfemployed: this.appForm.selfemployed,
                             occupation: this.appForm.occupation,
                             current_monthly_expenses: this.appForm.current_monthly_expenses,
+                            employer_name: this.appForm.employer_name,
                             employer_company: this.appForm.employer_company,
                             employer_phone_work: this.appForm.employer_phone_work,
                             employer_email: this.appForm.employer_email,

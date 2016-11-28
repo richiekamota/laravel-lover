@@ -13,7 +13,8 @@ class ApplicationStepFourRequest extends FormRequest
      */
     public function authorize()
     {
-        return TRUE;
+
+        return true;
     }
 
     /**
@@ -23,8 +24,23 @@ class ApplicationStepFourRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
-            //
+            'resident_first_name'            => 'required|max:191',
+            'resident_last_name'             => 'required|max:191',
+            'resident_sa_id_number'          => 'required|max:191',
+            'resident_passport_number'       => 'required|max:191',
+            'resident_dob'                   => 'required|date',
+            'resident_nationality'           => 'required|max:191',
+            'resident_phone_mobile'          => 'required|max:191',
+            'resident_email'                 => 'required|email|max:191',
+            'resident_current_address'       => 'required|max:191',
+            'resident_landlord'              => 'required|max:191',
+            'resident_landlord_phone_work'   => 'required|max:191',
+            'resident_landlord_phone_mobile' => 'required|max:191',
+            'resident_study_location'        => 'required|max:191',
+            'resident_study_year'            => 'required|numeric|max:1',
+            'resident_gender'                => 'required|in:Male,Female,Unlisted',
         ];
     }
 }

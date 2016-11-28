@@ -1,14 +1,14 @@
 module.exports = {
     'Admin Login' : function (client) {
         client
-            .url('http://dev.portal-mydomain.co.za/login')
+            .url('http://localhost:8000/login')
             .waitForElementVisible('body', 1000)
             .assert.title('MyDomain Portal')
-            .setValue('#email', 'gio@incendiaryblue.com')
-            .setValue('#password', 'password')
+            .setValue('#email', 'first_last@test.com')
+            .setValue('#password', 'qwerty')
             .click('button.button')
             .pause(1000)
-            .url('http://dev.portal-mydomain.co.za/unit-types')
+            .url('http://localhost:8000/unit-types')
     },
 
     'Admin Add Unit Type' : function(client) {

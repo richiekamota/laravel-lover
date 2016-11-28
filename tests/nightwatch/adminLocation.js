@@ -1,11 +1,11 @@
 module.exports = {
     'Admin Login' : function (client) {
         client
-            .url('http://dev.portal-mydomain.co.za/login')
+            .url('http://localhost:8000/login')
             .waitForElementVisible('body', 1000)
             .assert.title('MyDomain Portal')
-            .setValue('#email', 'gio@incendiaryblue.com')
-            .setValue('#password', 'password')
+            .setValue('#email', 'first_last@test.com')
+            .setValue('#password', 'qwerty')
             .click('button.button')
             .pause(1000)
     },
@@ -13,7 +13,7 @@ module.exports = {
     'Admin Add Location' : function(client) {
         var locationName = 'Nightwatch Location '+ new Date().toISOString();
         client
-            .url('http://dev.portal-mydomain.co.za/locations')
+            .url('http://localhost:8000/locations')
             .waitForElementVisible('body', 1000)
             // Fill in nothing and fail
             .click('button[name="showAddForm"]')
