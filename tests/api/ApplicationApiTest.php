@@ -6,6 +6,4 @@ class ApplicationApiTest extends TestCase
 {
     use DatabaseMigrations;
 
-
-
 }

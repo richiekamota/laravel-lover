@@ -144,7 +144,7 @@
 </template>
 <script>
     export default {
-        props: ['propLocations', 'propUnitTypes'],
+        props: ['propLocations', 'propUnitTypes', 'propUnits'],
         data(){
             return{
                 locations: [],
@@ -165,7 +165,7 @@
                     total: 1,
                     from: 0,
                     to: 1,
-                    per_page: 2,
+                    per_page: 50,
                     currentPage: 1,
                     nextPage: 1,
                     previousPage: 1,
@@ -175,11 +175,16 @@
             }
         },
         mounted() {
+
             this.locations = JSON.parse(this.propLocations);
             this.unitTypes = JSON.parse(this.propUnitTypes);
+            this.units = JSON.parse(this.propUnits);
+
+            console.log(this.units);
+
             this.newUnit = this.initializeUnit();
             // Let's assign the units to the filtered units so later we can filter out what we don't need
-            this.filteredUnits = this.locations;
+            this.filteredUnits = this.units;
             this.calculatePagination();
         },
         methods: {
