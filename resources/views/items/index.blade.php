@@ -1,5 +1,5 @@
 @extends('dashboard')
 
 @section('dashboard-content')
-    <admin-items/>
+    <admin-items prop-items="{{$items}}"/>
 @endsection

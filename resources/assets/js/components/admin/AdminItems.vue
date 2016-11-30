@@ -27,12 +27,12 @@
 
                         <label for="itemDescription">
                             Description*
-                            <textarea ref="itemDescription" id="itemDescription" name="itemDescription" v-model="newItem.address"></textarea>
+                            <textarea ref="itemDescription" id="itemDescription" name="itemDescription" v-model="newItem.description"></textarea>
                         </label>
 
-                        <label for="itemValue">
-                            Value
-                            <input type="number" id="itemValue" ref="itemValue" name="itemValue" v-model="newItem.code">
+                        <label for="itemCost">
+                            Cost
+                            <input type="number" id="itemCost" ref="itemCost" name="itemCost" v-model="newItem.cost">
                         </label>
                     </div>
 
@@ -65,12 +65,12 @@
 
                                 <label for="editItemDescription">
                                     Description*
-                                    <textarea ref="editItemDescription" id="editItemDescription" name="editItemDescription" v-model="editItem.address"></textarea>
+                                    <textarea ref="editItemDescription" id="editItemDescription" name="editItemDescription" v-model="editItem.description"></textarea>
                                 </label>
 
-                                <label for="editItemValue">
-                                    Value
-                                    <input type="number" id="editItemValue" ref="editItemValue" name="editItemValue" v-model="editItem.code">
+                                <label for="editItemCost">
+                                    Cost
+                                    <input type="number" id="editItemCost" ref="editItemCost" name="editItemCost" v-model="editItem.cost">
                                 </label>
 
                                 <button type="submit" class="success button" v-on:click="updateLocation" v-bind:disabled="loading">
@@ -213,10 +213,8 @@
                 this.editItem.index = index;
                 this.editItem.id = this.items[index].id;
                 this.editItem.name = this.items[index].name;
-                this.editItem.address = this.items[index].address;
-                this.editItem.city = this.items[index].city;
-                this.editItem.region = this.items[index].region;
-                this.editItem.code = this.items[index].code;
+                this.editItem.description = this.items[index].description;
+                this.editItem.cost = this.items[index].cost;
             },
 
             displayError(err) {
@@ -247,7 +245,7 @@
                 return {
                         name: '',
                         description: '',
-                        value: '',
+                        cost: '',
                     };
             }
 
