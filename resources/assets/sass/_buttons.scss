@@ -1,0 +1,50 @@
+// Buttons
+
+.button {
+  background-color: $mist;
+  display: inline-block;
+  text-align: center;
+  line-height: 1;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -webkit-transition: background-color 0.25s ease-out, color 0.25s ease-out;
+  transition: background-color 0.25s ease-out, color 0.25s ease-out;
+  vertical-align: middle;
+  border: 2px solid $focused;
+  border-radius: 0.3rem;
+  padding: 0.85em 3em;
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  color: $focused;
+  font-family: $opensansbold;
+  text-transform: uppercase;
+
+  &:hover{
+    background-color: $calm;
+    color: $focused;
+  }
+  &:active, &:focus{
+    background-color: $white;
+    color: $focused;
+  }
+  &[disabled]{
+    color: $slate;
+    border-color: $slate;
+    background: $mist;
+    cursor: not-allowed;
+  }
+
+  &.focused{
+    color: $white;
+    background-color: $focused;
+
+    &:hover{
+      background-color: $calm;
+    }
+    &:active, &:focus{
+      background-color: $calm;
+      border-color: $calm;
+      color: $focused;
+    }
+  }
+}

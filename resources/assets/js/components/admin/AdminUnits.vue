@@ -180,8 +180,6 @@
             this.unitTypes = JSON.parse(this.propUnitTypes);
             this.units = JSON.parse(this.propUnits);
 
-            console.log(this.units);
-
             this.newUnit = this.initializeUnit();
             // Let's assign the units to the filtered units so later we can filter out what we don't need
             this.filteredUnits = this.units;
@@ -202,7 +200,7 @@
                     this.units.push(newUnitToAdd);
                     // Reset the new unit.
                     this.newUnit = this.initializeUnit();
-                    this.loading = false;
+                    this.addEntry = false;
                 }, (err) => {
                     this.loading = false;
                     // THere is an error, let's display an alert.
@@ -212,6 +210,7 @@
             },
 
             editUnit: function() {
+                console.log('edit unit');
                 this.loading = true;
 
                 this.$http.patch(
@@ -225,7 +224,7 @@
                     this.createEditableObject(this.editUnit.index);
                 }, (err) => {
                     this.loading = false;
-                    // THere is an error, let's display an alert.
+                    // There is an error, let's display an alert.
                     this.displayError(err);
                 });
 
@@ -311,7 +310,7 @@
 
             filter() {
                 // Let's get a fresh list before filter.
-                this.filteredUnits = this.locations;
+                this.filteredUnits = this.units;
 
                 // If the input field is blank, let's not apply filter logic and return everything.
                 if(this.$refs['filterInput'].value != '') {

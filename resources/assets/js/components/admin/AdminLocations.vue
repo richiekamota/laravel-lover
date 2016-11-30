@@ -9,7 +9,7 @@
 
             <!-- Show or hide addtion form button -->
             <div class="small-12 medium-6 columns align-middle -text-right">
-                <button type="submit" name="showAddForm" class="success button -margin-bottom-0" v-on:click="addEntry =! addEntry" v-if="!addEntry">
+                <button type="submit" name="showAddForm" class="button -margin-bottom-0" v-on:click="addEntry =! addEntry" v-if="!addEntry">
                     <span>
                         Add location
                     </span>
@@ -52,7 +52,7 @@
                     </div>
 
                     <div class="small-12 columns">
-                        <button type="submit" name="addLocation" class="success button" v-on:click="addLocation" v-bind:disabled="loading">
+                        <button type="submit" name="addLocation" class="button focused" v-on:click="addLocation" v-bind:disabled="loading">
                             <span v-if="loading">
                                 <loading></loading>
                             </span>
@@ -60,57 +60,69 @@
                                 Add location
                             </span>
                         </button>
+                        <button type="submit" name="addLocation" class="button float-right" v-on:click="cancelAddLocation" v-bind:disabled="loading">
+                            <span v-if="loading">
+                                <loading></loading>
+                            </span>
+                            <span v-else>
+                                Cancel
+                            </span>
+                        </button>
                     </div>
                     <!-- END Location input form -->
                 </div>
 
                 <!-- START List Section -->
-                <div class="row">
+                <div class="row table">
                     <template v-for="(location, index) in locations" >
                         <div class="small-12 columns">
-                            <!-- Row Title -->
-                            <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{ location.name }}</button>
-                            <!-- START Edit form -->
-                            <div class="accordion__content">
-                                <label for="editLocationName">
-                                    Location name
-                                    <input type="text" id="editLocationName" ref="editLocationInput" name="editLocationName" v-model="editLocation.name">
-                                </label>
+                            <div class="table__row"  :class="{ even: isEven(index), first: index == 0, last: index == locations.length -1 }">
 
-                                <label for="editLocationAddress">
-                                    Address
-                                    <textarea ref="editLocationAddress" id="editLocationAddress" name="editLocationAddress" v-model="editLocation.address"></textarea>
-                                </label>
+                                <!-- Row Title -->
+                                <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{ location.name }} - {{location.address}}</button>
+                                <!-- START Edit form -->
+                                <div class="accordion__content --bg-calm">
+                                    <label for="editLocationName">
+                                        Location name
+                                        <input type="text" id="editLocationName" ref="editLocationInput" name="editLocationName" v-model="editLocation.name">
+                                    </label>
 
-                                <label for="editLocationCity">
-                                    City
-                                    <select ref="editLocationCity" id="editLocationCity" name="editLocationCity" v-model="editLocation.city">
-                                        <option v-for="city in cities" v-bind:value="city">
-                                            {{ city }}
-                                        </option>
-                                    </select>
-                                </label>
+                                    <label for="editLocationAddress">
+                                        Address
+                                        <textarea ref="editLocationAddress" id="editLocationAddress" name="editLocationAddress" v-model="editLocation.address"></textarea>
+                                    </label>
 
-                                <label for="editLocationRegion">
-                                    Region
-                                    <input type="text" id="editLocationRegion" ref="editLocationRegion" name="editLocationRegion" v-model="editLocation.region">
-                                </label>
+                                    <label for="editLocationCity">
+                                        City
+                                        <select ref="editLocationCity" id="editLocationCity" name="editLocationCity" v-model="editLocation.city">
+                                            <option v-for="city in cities" v-bind:value="city">
+                                                {{ city }}
+                                            </option>
+                                        </select>
+                                    </label>
 
-                                <label for="editLocationCode">
-                                    Code
-                                    <input type="text" id="editLocationCode" ref="editLocationCode" name="editLocationCode" v-model="editLocation.code">
-                                </label>
+                                    <label for="editLocationRegion">
+                                        Region
+                                        <input type="text" id="editLocationRegion" ref="editLocationRegion" name="editLocationRegion" v-model="editLocation.region">
+                                    </label>
 
-                                <button type="submit" class="success button" v-on:click="updateLocation" v-bind:disabled="loading">
-                                    <span v-if="loading">
-                                        <loading></loading>
-                                    </span>
-                                    <span v-else>
-                                        Update location
-                                    </span>
-                                </button>
+                                    <label for="editLocationCode">
+                                        Code
+                                        <input type="text" id="editLocationCode" ref="editLocationCode" name="editLocationCode" v-model="editLocation.code">
+                                    </label>
+
+                                    <button type="submit" class="success button" v-on:click="updateLocation" v-bind:disabled="loading">
+                                        <span v-if="loading">
+                                            <loading></loading>
+                                        </span>
+                                        <span v-else>
+                                            Update location
+                                        </span>
+                                    </button>
+                                </div>
+                                <!-- END Edit form -->
+
                             </div>
-                            <!-- END Edit form -->
                     </template>
                 </div>
                 <!-- END List Section -->
@@ -177,6 +189,11 @@
             this.newLocation = this.initializeLocation();
         },
         methods: {
+
+            isEven : function(n){
+                return n % 2 == 0;
+            },
+
             addLocation : function() {
 
                 this.loading = true;
@@ -201,6 +218,11 @@
                     this.displayError(err);
                 });
 
+            },
+
+            cancelAddLocation: function(){
+                this.newLocation = this.initializeLocation();
+                this.addEntry = false;
             },
 
             updateLocation: function() {

@@ -14,16 +14,16 @@ class UnitTypesApiTest extends TestCase
     public function testFailNameValidation()
     {
 
-        $user = factory( Portal\User::class )->create( [
+        $user = factory(Portal\User::class)->create([
             'role' => 'application'
-        ] );
+        ]);
 
-        $this->actingAs( $user )
-            ->json( 'POST', '/unit-types', [] )
-            ->assertResponseStatus( 422 )
-            ->seeJson( [
+        $this->actingAs($user)
+            ->json('POST', '/unit-types', [])
+            ->assertResponseStatus(422)
+            ->seeJson([
                 "name" => ["The name field is required."]
-            ] );
+            ]);
 
     }
 
@@ -35,18 +35,18 @@ class UnitTypesApiTest extends TestCase
     public function testFailLocationIdValidation()
     {
 
-        $user = factory( Portal\User::class )->create( [
+        $user = factory(Portal\User::class)->create([
             'role' => 'application'
-        ] );
+        ]);
 
-        $this->actingAs( $user )
-            ->json( 'POST', '/unit-types', [
+        $this->actingAs($user)
+            ->json('POST', '/unit-types', [
                 "name" => "Studio Unit"
-            ] )
-            ->assertResponseStatus( 422 )
-            ->seeJson( [
+            ])
+            ->assertResponseStatus(422)
+            ->seeJson([
                 "location_id" => ["The location id field is required."]
-            ] );
+            ]);
 
     }
 
@@ -58,19 +58,19 @@ class UnitTypesApiTest extends TestCase
     public function testFailLocationIdExistsValidation()
     {
 
-        $user = factory( Portal\User::class )->create( [
+        $user = factory(Portal\User::class)->create([
             'role' => 'application'
-        ] );
+        ]);
 
-        $this->actingAs( $user )
-            ->json( 'POST', '/unit-types', [
+        $this->actingAs($user)
+            ->json('POST', '/unit-types', [
                 "name"        => "Studio Unit",
                 "location_id" => "123345"
-            ] )
-            ->assertResponseStatus( 422 )
-            ->seeJson( [
+            ])
+            ->assertResponseStatus(422)
+            ->seeJson([
                 "location_id" => ["The selected location id is invalid."]
-            ] );
+            ]);
 
     }
 
@@ -82,19 +82,19 @@ class UnitTypesApiTest extends TestCase
     public function testFailCostValidation()
     {
 
-        $user = factory( Portal\User::class )->create( [
+        $user = factory(Portal\User::class)->create([
             'role' => 'application'
-        ] );
+        ]);
 
-        $this->actingAs( $user )
-            ->json( 'POST', '/unit-types', [
+        $this->actingAs($user)
+            ->json('POST', '/unit-types', [
                 "name"        => "Castle Swish",
                 "location_id" => "123456789"
-            ] )
-            ->assertResponseStatus( 422 )
-            ->seeJson( [
+            ])
+            ->assertResponseStatus(422)
+            ->seeJson([
                 "cost" => ["The cost field is required."]
-            ] );
+            ]);
 
     }
 
@@ -106,20 +106,20 @@ class UnitTypesApiTest extends TestCase
     public function testFailCostNumericValidation()
     {
 
-        $user = factory( Portal\User::class )->create( [
+        $user = factory(Portal\User::class)->create([
             'role' => 'application'
-        ] );
+        ]);
 
-        $this->actingAs( $user )
-            ->json( 'POST', '/unit-types', [
+        $this->actingAs($user)
+            ->json('POST', '/unit-types', [
                 "name"        => "Castle Swish",
                 "location_id" => "123456789",
                 "cost"        => 'qwe'
-            ] )
-            ->assertResponseStatus( 422 )
-            ->seeJson( [
+            ])
+            ->assertResponseStatus(422)
+            ->seeJson([
                 "cost" => ["The cost must be a number."]
-            ] );
+            ]);
 
     }
 
@@ -131,20 +131,20 @@ class UnitTypesApiTest extends TestCase
     public function testFailWifiValidation()
     {
 
-        $user = factory( Portal\User::class )->create( [
+        $user = factory(Portal\User::class)->create([
             'role' => 'application'
-        ] );
+        ]);
 
-        $this->actingAs( $user )
-            ->json( 'POST', '/unit-types', [
+        $this->actingAs($user)
+            ->json('POST', '/unit-types', [
                 "name"        => "Castle Swish",
                 "location_id" => "123456789",
                 "cost"        => '123456'
-            ] )
-            ->assertResponseStatus( 422 )
-            ->seeJson( [
+            ])
+            ->assertResponseStatus(422)
+            ->seeJson([
                 "wifi" => ["The wifi field is required."]
-            ] );
+            ]);
 
     }
 
@@ -156,21 +156,21 @@ class UnitTypesApiTest extends TestCase
     public function testFailWifiBooleanValidation()
     {
 
-        $user = factory( Portal\User::class )->create( [
+        $user = factory(Portal\User::class)->create([
             'role' => 'application'
-        ] );
+        ]);
 
-        $this->actingAs( $user )
-            ->json( 'POST', '/unit-types', [
+        $this->actingAs($user)
+            ->json('POST', '/unit-types', [
                 "name"        => "Castle Swish",
                 "location_id" => "123456789",
                 "cost"        => '123456',
-                "wifi" => "qw12"
-            ] )
-            ->assertResponseStatus( 422 )
-            ->seeJson( [
+                "wifi"        => "qw12"
+            ])
+            ->assertResponseStatus(422)
+            ->seeJson([
                 "wifi" => ["The wifi field must be true or false."]
-            ] );
+            ]);
 
     }
 
@@ -182,21 +182,21 @@ class UnitTypesApiTest extends TestCase
     public function testFailElectricityValidation()
     {
 
-        $user = factory( Portal\User::class )->create( [
+        $user = factory(Portal\User::class)->create([
             'role' => 'application'
-        ] );
+        ]);
 
-        $this->actingAs( $user )
-            ->json( 'POST', '/unit-types', [
+        $this->actingAs($user)
+            ->json('POST', '/unit-types', [
                 "name"        => "Castle Swish",
                 "location_id" => "123456789",
                 "cost"        => '123456',
-                "wifi"        => true
-            ] )
-            ->assertResponseStatus( 422 )
-            ->seeJson( [
+                "wifi"        => TRUE
+            ])
+            ->assertResponseStatus(422)
+            ->seeJson([
                 "electricity" => ["The electricity field is required."]
-            ] );
+            ]);
 
     }
 
@@ -208,21 +208,21 @@ class UnitTypesApiTest extends TestCase
     public function testFailElectricityBooleanValidation()
     {
 
-        $user = factory( Portal\User::class )->create( [
+        $user = factory(Portal\User::class)->create([
             'role' => 'application'
-        ] );
+        ]);
 
-        $this->actingAs( $user )
-            ->json( 'POST', '/unit-types', [
+        $this->actingAs($user)
+            ->json('POST', '/unit-types', [
                 "name"        => "Castle Swish",
                 "location_id" => "123456789",
                 "cost"        => '123456',
                 "electricity" => "qw12"
-            ] )
-            ->assertResponseStatus( 422 )
-            ->seeJson( [
+            ])
+            ->assertResponseStatus(422)
+            ->seeJson([
                 "electricity" => ["The electricity field must be true or false."]
-            ] );
+            ]);
 
     }
 
@@ -234,22 +234,22 @@ class UnitTypesApiTest extends TestCase
     public function testFailDstvValidation()
     {
 
-        $user = factory( Portal\User::class )->create( [
+        $user = factory(Portal\User::class)->create([
             'role' => 'application'
-        ] );
+        ]);
 
-        $this->actingAs( $user )
-            ->json( 'POST', '/unit-types', [
+        $this->actingAs($user)
+            ->json('POST', '/unit-types', [
                 "name"        => "Castle Swish",
                 "location_id" => "123456789",
                 "cost"        => '123456',
-                "wifi"        => true,
-                "electricity" => true
-            ] )
-            ->assertResponseStatus( 422 )
-            ->seeJson( [
+                "wifi"        => TRUE,
+                "electricity" => TRUE
+            ])
+            ->assertResponseStatus(422)
+            ->seeJson([
                 "dstv" => ["The dstv field is required."]
-            ] );
+            ]);
 
     }
 
@@ -261,21 +261,21 @@ class UnitTypesApiTest extends TestCase
     public function testFailDstvBooleanValidation()
     {
 
-        $user = factory( Portal\User::class )->create( [
+        $user = factory(Portal\User::class)->create([
             'role' => 'application'
-        ] );
+        ]);
 
-        $this->actingAs( $user )
-            ->json( 'POST', '/unit-types', [
+        $this->actingAs($user)
+            ->json('POST', '/unit-types', [
                 "name"        => "Castle Swish",
                 "location_id" => "123456789",
                 "cost"        => '123456',
-                "dstv" => "qw12"
-            ] )
-            ->assertResponseStatus( 422 )
-            ->seeJson( [
+                "dstv"        => "qw12"
+            ])
+            ->assertResponseStatus(422)
+            ->seeJson([
                 "dstv" => ["The dstv field must be true or false."]
-            ] );
+            ]);
 
     }
 
@@ -287,23 +287,23 @@ class UnitTypesApiTest extends TestCase
     public function testFailParkingCarValidation()
     {
 
-        $user = factory( Portal\User::class )->create( [
+        $user = factory(Portal\User::class)->create([
             'role' => 'application'
-        ] );
+        ]);
 
-        $this->actingAs( $user )
-            ->json( 'POST', '/unit-types', [
+        $this->actingAs($user)
+            ->json('POST', '/unit-types', [
                 "name"        => "Castle Swish",
                 "location_id" => "123456789",
                 "cost"        => '123456',
-                "wifi"        => true,
-                "electricity" => true,
-                "dstv"        => true
-            ] )
-            ->assertResponseStatus( 422 )
-            ->seeJson( [
+                "wifi"        => TRUE,
+                "electricity" => TRUE,
+                "dstv"        => TRUE
+            ])
+            ->assertResponseStatus(422)
+            ->seeJson([
                 "parking_car" => ["The parking car field is required."]
-            ] );
+            ]);
 
     }
 
@@ -315,21 +315,21 @@ class UnitTypesApiTest extends TestCase
     public function testFailParkingCarBooleanValidation()
     {
 
-        $user = factory( Portal\User::class )->create( [
+        $user = factory(Portal\User::class)->create([
             'role' => 'application'
-        ] );
+        ]);
 
-        $this->actingAs( $user )
-            ->json( 'POST', '/unit-types', [
+        $this->actingAs($user)
+            ->json('POST', '/unit-types', [
                 "name"        => "Castle Swish",
                 "location_id" => "123456789",
                 "cost"        => '123456',
                 "parking_car" => "qw12"
-            ] )
-            ->assertResponseStatus( 422 )
-            ->seeJson( [
+            ])
+            ->assertResponseStatus(422)
+            ->seeJson([
                 "parking_car" => ["The parking car field must be true or false."]
-            ] );
+            ]);
 
     }
 
@@ -341,24 +341,24 @@ class UnitTypesApiTest extends TestCase
     public function testFailParkingBikeValidation()
     {
 
-        $user = factory( Portal\User::class )->create( [
+        $user = factory(Portal\User::class)->create([
             'role' => 'application'
-        ] );
+        ]);
 
-        $this->actingAs( $user )
-            ->json( 'POST', '/unit-types', [
+        $this->actingAs($user)
+            ->json('POST', '/unit-types', [
                 "name"        => "Castle Swish",
                 "location_id" => "123456789",
                 "cost"        => '123456',
-                "wifi"        => true,
-                "electricity" => true,
-                "dstv"        => true,
-                "parking_car" => true
-            ] )
-            ->assertResponseStatus( 422 )
-            ->seeJson( [
+                "wifi"        => TRUE,
+                "electricity" => TRUE,
+                "dstv"        => TRUE,
+                "parking_car" => TRUE
+            ])
+            ->assertResponseStatus(422)
+            ->seeJson([
                 "parking_bike" => ["The parking bike field is required."]
-            ] );
+            ]);
 
     }
 
@@ -370,21 +370,21 @@ class UnitTypesApiTest extends TestCase
     public function testFailParkingBikeBooleanValidation()
     {
 
-        $user = factory( Portal\User::class )->create( [
+        $user = factory(Portal\User::class)->create([
             'role' => 'application'
-        ] );
+        ]);
 
-        $this->actingAs( $user )
-            ->json( 'POST', '/unit-types', [
-                "name"        => "Castle Swish",
-                "location_id" => "123456789",
-                "cost"        => '123456',
+        $this->actingAs($user)
+            ->json('POST', '/unit-types', [
+                "name"         => "Castle Swish",
+                "location_id"  => "123456789",
+                "cost"         => '123456',
                 "parking_bike" => "qw12"
-            ] )
-            ->assertResponseStatus( 422 )
-            ->seeJson( [
+            ])
+            ->assertResponseStatus(422)
+            ->seeJson([
                 "parking_bike" => ["The parking bike field must be true or false."]
-            ] );
+            ]);
 
     }
 
@@ -396,25 +396,25 @@ class UnitTypesApiTest extends TestCase
     public function testFailStoreroomValidation()
     {
 
-        $user = factory( Portal\User::class )->create( [
+        $user = factory(Portal\User::class)->create([
             'role' => 'application'
-        ] );
+        ]);
 
-        $this->actingAs( $user )
-            ->json( 'POST', '/unit-types', [
+        $this->actingAs($user)
+            ->json('POST', '/unit-types', [
                 "name"         => "Castle Swish",
                 "location_id"  => "123456789",
                 "cost"         => '123456',
-                "wifi"         => true,
-                "electricity"  => true,
-                "dstv"         => true,
-                "parking_car"  => true,
-                "parking_bike" => true
-            ] )
-            ->assertResponseStatus( 422 )
-            ->seeJson( [
+                "wifi"         => TRUE,
+                "electricity"  => TRUE,
+                "dstv"         => TRUE,
+                "parking_car"  => TRUE,
+                "parking_bike" => TRUE
+            ])
+            ->assertResponseStatus(422)
+            ->seeJson([
                 "storeroom" => ["The storeroom field is required."]
-            ] );
+            ]);
 
     }
 
@@ -426,21 +426,51 @@ class UnitTypesApiTest extends TestCase
     public function testFailStoreroomBooleanValidation()
     {
 
-        $user = factory( Portal\User::class )->create( [
+        $user = factory(Portal\User::class)->create([
             'role' => 'application'
-        ] );
+        ]);
 
-        $this->actingAs( $user )
-            ->json( 'POST', '/unit-types', [
+        $this->actingAs($user)
+            ->json('POST', '/unit-types', [
                 "name"        => "Castle Swish",
                 "location_id" => "123456789",
                 "cost"        => '123456',
-                "storeroom" => "qw12"
-            ] )
-            ->assertResponseStatus( 422 )
-            ->seeJson( [
+                "storeroom"   => "qw12"
+            ])
+            ->assertResponseStatus(422)
+            ->seeJson([
                 "storeroom" => ["The storeroom field must be true or false."]
-            ] );
+            ]);
+
+    }
+
+    /**
+     * Test a unit type submission passes
+     *
+     * @return void
+     */
+    public function testUnitTypePasses()
+    {
+
+        $user = factory(Portal\User::class)->create([
+            'role' => 'application'
+        ]);
+
+        $location = factory(Portal\Location::class)->create();
+
+        $this->actingAs($user)
+            ->json('POST', '/unit-types', [
+                "name"         => "Castle Swish",
+                "location_id"  => $location->id,
+                "cost"         => '123456',
+                "wifi"         => FALSE,
+                "electricity"  => FALSE,
+                "dstv"         => FALSE,
+                "parking_car"  => FALSE,
+                "parking_bike" => FALSE,
+                "storeroom"    => FALSE
+            ])
+            ->assertResponseStatus(200);
 
     }
 

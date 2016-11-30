@@ -19,6 +19,8 @@ Route::get('/register', function(){
 
 Route::get('/', 'HomeController@index');
 
+Route::get('ui-kit', 'DashboardController@uiKit');
+
 Route::get('/dashboard', 'DashboardController@index');
 
 Route::get('/profile', 'UsersController@profile');

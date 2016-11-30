@@ -46,4 +46,16 @@ class DashboardController extends Controller
         }
 
     }
+
+    /**
+     * Return the UI Kit page
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function uiKit()
+    {
+
+        return view('ui-kit');
+
+    }
 }
