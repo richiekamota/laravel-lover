@@ -34,7 +34,11 @@
     cursor: not-allowed;
   }
 
-  &.focused{
+  &--large{
+    font-size: 24px;
+  }
+
+  &--focused{
     color: $white;
     background-color: $focused;
 
@@ -45,6 +49,24 @@
       background-color: $calm;
       border-color: $calm;
       color: $focused;
+    }
+  }
+
+  &--exuberant{
+    background-color: $exuberant;
+    border-color: $exuberant;
+    color: $white;
+
+    &:hover{
+      background-color: #F94E8C;
+      border-color: #F94E8C;
+      color: $white;
+    }
+
+    &:active, &:focus{
+      background-color: #CB1A5A;
+      border-color: #CB1A5A;
+      color: $white;
     }
   }
 }

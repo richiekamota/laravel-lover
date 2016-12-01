@@ -1,0 +1,15 @@
+.stats-box{
+  border-radius: 3px;
+  background-color: $white;
+  box-shadow: 0 2px 0 0 rgb(222, 219, 219);
+  border: solid 1px $breeze;
+  padding: 1rem;
+
+  &__header{
+    border-radius: 3px;
+    background-color: $breeze;
+    border: solid 1px $white;
+    float: left;
+    padding: 0.1rem 0.5rem;
+  }
+}

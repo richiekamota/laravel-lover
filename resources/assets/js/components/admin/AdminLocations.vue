@@ -1,16 +1,16 @@
 <template>
     <div>
-        <!--<div class="row">-->
+        <div class="row columns">
+            <h2 class="--focused">LOCATIONS | where tenants stay</h2>
+            <p>
+                A list of the locations tenants can stay at. These include an address, city and region.
+            </p>
+        </div>
 
-            <!--&lt;!&ndash; Title &ndash;&gt;-->
-            <!--<div class="small-12 medium-10 columns">-->
-                <!---->
-            <!--</div>-->
 
-        <!--</div>-->
         <div class="row">
 
-            <div class="small-12 medium-10 columns">
+            <div class="small-12 medium-9 columns">
 
                 <!-- START List Section -->
                 <div class="row table">
@@ -18,7 +18,7 @@
                         <div class="table__row table__row--add">
                             <!-- Row Title -->
                             <button class="accordion__heading accordion__heading--add --white" v-on:click="addEntry = !addEntry">
-                                <h4 class="--white">Add new location</h4>
+                                <h4 class="--white">Add new unit type</h4>
                             </button>
                             <!-- START Edit form -->
                             <div class="accordion__content --bg-calm" v-bind:class="{ 'accordion__content--active' : addEntry }" v-show="addEntry">
@@ -64,23 +64,13 @@
                                 <!-- END Edit form -->
 
                                 <div class="row column">
-                                    <button type="submit" name="addLocation" class="button focused --mt1" v-on:click="addLocation"
-                                            v-bind:disabled="loading">
-                                    <span v-if="loading">
-                                    <loading></loading>
-                                    </span>
-                                        <span v-else>
-                                    Add location
-                                    </span>
+                                    <button type="submit" name="addLocation" class="button focused --mt1" v-on:click="addLocation" v-bind:disabled="loading">
+                                        <span v-if="loading"><loading></loading></span>
+                                        <span v-else>Add location</span>
                                     </button>
-                                    <button type="submit" name="addLocation" class="button float-right --mt1"
-                                            v-on:click="cancelAddLocation" v-bind:disabled="loading">
-                                    <span v-if="loading">
-                                    <loading></loading>
-                                    </span>
-                                        <span v-else>
-                                    Cancel
-                                    </span>
+                                    <button type="submit" name="cancelLocation" class="button float-right --mt1" v-on:click="cancelAddLocation" v-bind:disabled="loading">
+                                        <span v-if="loading"><loading></loading></span>
+                                        <span v-else>Cancel</span>
                                     </button>
                                 </div>
 
@@ -91,8 +81,7 @@
 
                     <template v-for="(location, index) in locations">
                         <div class="small-12 columns">
-                            <div class="table__row"
-                                 :class="{ even: isEven(index), first: index == 0, last: index == locations.length -1 }">
+                            <div class="table__row" :class="{ even: isEven(index), first: index == 0, last: index == locations.length -1 }">
 
                                 <!-- Row Title -->
                                 <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{
@@ -152,12 +141,14 @@
                 <!-- END List Section -->
             </div>
 
-            <div class="medium-2 columns">
+            <div class="medium-3 columns">
                 <div class="--border-wrap">
-                    <h3 class="--focused">Locations</h3>
-                    <p>
-                        A list of the locations tenants can stay at. These include an address, city and region.
-                    </p>
+                    <div class="stats-box">
+                        <div class="row column clearfix">
+                            <h3 class="stats-box__header --focused --mt0">Stats</h3>
+                        </div>
+                        Locations: <span class="float-right">{{locations.length}}</span>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,0 +1,38 @@
+.page-home{
+  background-image: url("/img/home-bg.png");
+  background-size: cover;
+  min-height: 100vh;
+
+  &__header{
+    margin-top: 5vh;
+  }
+
+  &__line{
+    height: 1px;
+    opacity: 0.1;
+    border: solid 1px $concrete;
+  }
+
+  &__md-logo{
+    margin-top: 10vh;
+  }
+
+  &__title{
+    font-family: $opensansbold;
+    font-size: 48px;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: 0.5px;
+    text-align: center;
+    line-height: 1;
+  }
+
+  &__sub-title{
+    font-family: $opensansbold;
+    font-size: 20px;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: 0.2px;
+    text-align: center;
+  }
+}

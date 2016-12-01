@@ -10,7 +10,7 @@
 
             <button class="button">Basic</button>
             <button disabled class="button">Basic</button>
-            <button class="button focused">Focused</button>
+            <button class="button button--focused">Focused</button>
 
             <h2>Form Elements</h2>
 
@@ -33,6 +33,22 @@
                         <strong>Error description and instructions to correct the error</strong>
                     </span>
                 </label>
+
+                <fieldset class="large-6 columns">
+                    <legend>Check these out</legend>
+                    <input id="checkbox1" type="checkbox"><label for="checkbox1">Checkbox 1</label>
+                    <input id="checkbox2" type="checkbox"><label for="checkbox2">Checkbox 2</label>
+                    <input id="checkbox3" type="checkbox"><label for="checkbox3">Checkbox 3</label>
+                </fieldset>
+
+                <div class="styled-select">
+                    <select name="marital_status" required>
+                        <option value="Single">Single</option>
+                        <option value="Married">Married</option>
+                        <option value="Divorced">Divorced</option>
+                        <option value="Widowed">Widowed</option>
+                    </select>
+                </div>
 
             </form>
 
