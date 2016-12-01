@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="row">
-        <div class="medium-10">
+        <div class="column">
             <admin-locations prop-locations="{{$locations}}"/>
         </div>
     </div>

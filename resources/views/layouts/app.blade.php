@@ -30,12 +30,11 @@
 
         <div class="row expanded collapse">
             <div class="medium-3 large-2 columns admin-menu --bg-iced">
-                <a href="{{ url('/') }}" class="header__link">
-                    {{ config('app.name', 'Laravel') }}
+                <a href="{{ url('/') }}" class="header__logo text-center">
+                    <img src="/img/logo.svg" alt="Portal Logo">
                 </a>
 
                 @if(!Gate::check('is-tenant'))
-                    <h4 class="-text-center">Admin Menu</h4>
                     <ul class="admin-menu__links">
                             <li class="admin-menu__link-item @if(Request::path() == 'locations')admin-menu__link-active --bg-mist @endif"><a href="{{ url('/locations') }}" class="admin-menu__link">Add locations</a></li>
                             <li class="admin-menu__link-item @if(Request::path() == 'unit-types')admin-menu__link-active --bg-mist @endif"><a href="{{ url('/unit-types') }}" class="admin-menu__link">Add unit type</a></li>
@@ -44,7 +43,6 @@
                 @endif
 
                 @if(Gate::check('is-tenant'))
-                    <h4 class="-text-center">Tenant Menu</h4>
                     <ul class="admin-menu__links">
                             <li><a href="{{ url('/locations') }}" class="admin-menu__link">Application form</a></li>
                             <li><a href="{{ url('/unit-types') }}" class="admin-menu__link">Contract page</a></li>
