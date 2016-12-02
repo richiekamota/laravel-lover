@@ -2,7 +2,13 @@
 
 namespace Portal\Http\Controllers;
 
+use Auth;
+use DB;
+use PDF;
 use Illuminate\Http\Request;
+use Portal\Contract;
+use Portal\Http\Requests\ContractCreateRequest;
+use Response;
 
 class ContractsController extends Controller
 {
@@ -34,37 +40,31 @@ class ContractsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
-        // abort unless Auth is level above tenant
-
-        // return view('contracts.create');
-
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request|ContractCreateRequest $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store( ContractCreateRequest $request )
     {
 
         // about unless Auth is level above tenant
+        $this->authorize( 'create', Contract::class );
 
         DB::beginTransaction();
 
         try {
 
             // Take the request and store in the DB
+            $contract = Contract::create( $request->all() );
 
             // Generate a PDF of the contract based on the application
+            // The name should be the user first and last name and the date
+            // eg FirstName20160424.pdf
+            $pdfName = ucfirst(preg_replace('/[^\w-]/', '', Auth::user()->first_name)) . ucfirst(preg_replace('/[^\w-]/', '', Auth::user()->last_name)) . \Carbon\Carbon::today()->toDateString();
+
+            $data = [ 'name' => Auth::user()->first_name ];
+            $pdf = PDF::loadView( 'pdf.contract', $data )->save(storage_path('contracts/' . $pdfName . '.pdf'));
 
             // Save this into S3
 
@@ -74,18 +74,23 @@ class ContractsController extends Controller
 
             DB::commit();
 
-        } catch (\Exception $e) {
+            return Response::json( [
+                'message' => trans( 'portal.contracts_store_complete' ),
+                'data'    => $contract->toArray()
+            ], 200 );
 
-            \Log::info($e);
+        } catch ( \Exception $e ) {
+
+            \Log::info( $e );
 
             //Bugsnag::notifyException($e);
 
             DB::rollback();
 
-            return Response::json([
+            return Response::json( [
                 'error'   => 'contracts_store_error',
-                'message' => trans('portal.contracts_store_error'),
-            ], 422);
+                'message' => trans( 'portal.contracts_store_error' ),
+            ], 422 );
 
         }
 
@@ -94,10 +99,10 @@ class ContractsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show( $id )
     {
 
         // abort unless Auth > tenant
@@ -110,7 +115,7 @@ class ContractsController extends Controller
      * We should not be editing the contract
      * only creating and removing
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     //public function edit($id)
@@ -121,11 +126,11 @@ class ContractsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update( Request $request, $id )
     {
         //
     }
@@ -133,10 +138,10 @@ class ContractsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy( $id )
     {
 
         // abort unless Auth > tenant

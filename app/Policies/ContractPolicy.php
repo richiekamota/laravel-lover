@@ -30,12 +30,16 @@ class ContractPolicy
     /**
      * Determine whether the users can view the contract.
      *
-     * @param  \Portal\User  $user
-     * @param  \Portal\Contract  $contract
+     * @param  \Portal\User $user
      * @return mixed
+     * @internal param Contract $contract
      */
-    public function view(User $user, Contract $contract)
+    public function view(User $user)
     {
+        if ($user->role != 'tenant') {
+            return true;
+        }
+
         return false;
     }
 
@@ -47,30 +51,42 @@ class ContractPolicy
      */
     public function create(User $user)
     {
+        if ($user->role != 'tenant') {
+            return true;
+        }
+
         return false;
     }
 
     /**
      * Determine whether the users can update the contract.
      *
-     * @param  \Portal\User  $user
-     * @param  \Portal\Contract  $contract
+     * @param  \Portal\User $user
      * @return mixed
+     * @internal param Contract $contract
      */
-    public function update(User $user, Contract $contract)
+    public function update(User $user)
     {
+        if ($user->role != 'tenant') {
+            return true;
+        }
+
         return false;
     }
 
     /**
      * Determine whether the users can delete the contract.
      *
-     * @param  \Portal\User  $user
-     * @param  \Portal\Contract  $contract
+     * @param  \Portal\User $user
      * @return mixed
+     * @internal param Contract $contract
      */
-    public function delete(User $user, Contract $contract)
+    public function delete(User $user)
     {
+        if ($user->role != 'tenant') {
+            return true;
+        }
+
         return false;
     }
 }
