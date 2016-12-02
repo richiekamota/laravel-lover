@@ -30,12 +30,16 @@ class ItemPolicy
     /**
      * Determine whether the users can view the item.
      *
-     * @param  \Portal\User  $user
-     * @param  \Portal\Item  $item
+     * @param  \Portal\User $user
      * @return mixed
+     * @internal param Item $item
      */
-    public function view(User $user, Item $item)
+    public function view(User $user)
     {
+        if ($user->role != 'tenant') {
+            return true;
+        }
+
         return false;
     }
 
@@ -47,30 +51,42 @@ class ItemPolicy
      */
     public function create(User $user)
     {
+        if ($user->role != 'tenant') {
+            return true;
+        }
+
         return false;
     }
 
     /**
      * Determine whether the users can update the item.
      *
-     * @param  \Portal\User  $user
-     * @param  \Portal\Item  $item
+     * @param  \Portal\User $user
      * @return mixed
+     * @internal param Item $item
      */
-    public function update(User $user, Item $item)
+    public function update(User $user)
     {
+        if ($user->role != 'tenant') {
+            return true;
+        }
+
         return false;
     }
 
     /**
      * Determine whether the users can delete the item.
      *
-     * @param  \Portal\User  $user
-     * @param  \Portal\Item  $item
+     * @param  \Portal\User $user
      * @return mixed
+     * @internal param Item $item
      */
-    public function delete(User $user, Item $item)
+    public function delete(User $user)
     {
+        if ($user->role != 'tenant') {
+            return true;
+        }
+
         return false;
     }
 }

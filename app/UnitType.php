@@ -25,8 +25,20 @@ class UnitType extends Model
 
     public $incrementing = false;
 
+    /**
+     * The location this unit type is attached to
+     */
     public function location()
     {
         return $this->hasOne('Portal\Location');
+    }
+
+
+    /**
+     * The items this unit type has
+     */
+    public function items()
+    {
+        return $this->belongsToMany('Portal\Items');
     }
 }

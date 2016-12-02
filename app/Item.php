@@ -17,10 +17,18 @@ class Item extends Model
      */
 
     protected $fillable = [
-        'name', 'description', 'value'
+        'name', 'description', 'cost'
     ];
 
     protected $dates = ['deleted_at'];
 
     public $incrementing = false;
+
+    /**
+     * The unit types that belongs to the item.
+     */
+    public function unitTypes()
+    {
+        return $this->belongsToMany('Portal\UnitType');
+    }
 }

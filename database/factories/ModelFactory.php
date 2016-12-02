@@ -61,7 +61,17 @@ $factory->define( Portal\UnitType::class, function ( Faker\Generator $faker ) {
 $factory->define( Portal\Unit::class, function ( Faker\Generator $faker ) {
 
     return [
-        'id'           => Uuid::generate()->string,
-        'code'         => 'MD' . $faker->randomNumber(3)
+        'id'   => Uuid::generate()->string,
+        'code' => 'MD' . $faker->randomNumber( 3 )
+    ];
+} );
+
+$factory->define( Portal\Item::class, function ( Faker\Generator $faker ) {
+
+    return [
+        'id'          => Uuid::generate()->string,
+        'name'        => $faker->word,
+        'description' => $faker->word,
+        'cost'        => $faker->numberBetween( 1, 12312313 )
     ];
 } );
