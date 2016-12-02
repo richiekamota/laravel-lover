@@ -1,127 +1,126 @@
 <template>
     <div>
+
+        <div class="row">
+            <div class="medium-9 columns">
+                <h2 class="--focused">UNITS | the rooms people stay in</h2>
+                <p>
+                    A full list of all the units across all the locations. Use the filter option to narrow your results.
+                    A unit can be linked to a tenant and have a current active contract.
+                </p>
+            </div>
+        </div>
+
         <div class="row">
 
             <!-- Title -->
-            <div class="small-12 medium-6 columns">
-                <h1>Units</h1>
-            </div>
+            <div class="small-12 medium-9 columns">
 
-            <!-- Show or hide addtion form button -->
-            <div class="small-12 medium-6 columns align-middle -text-right">
-                <button type="submit" name="showAddForm" class="success button -margin-bottom-0" v-on:click="addEntry =! addEntry" v-if="!addEntry">
-                    <span >
-                        Add unit
-                    </span>
-                </button>
-            </div>
-
-
-            <!-- START Filter Section -->
-
-            <div class="small-12 columns">
-                <div class="row">
-                    <div class="columns">
-                        <input type="text" placeholder="Filter by everything" ref="filterInput">
-                    </div>
-                    <div class="columns shrink">
-                        <button v-on:click="filter" class="button">
-                            Filter
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- END Filter Section -->
-
-            <div class="columns">
-                <div class="row" v-show="addEntry">
-                    <div class="small-12 columns">
-                        <!-- START Location input form -->
-
-                        <label for="locationId">
-                            Location*
-                            <select ref="locationId" id="locationId" name="locationId" v-model="newUnit.location_id">
-                                <option value=""></option>
-                                <option v-for="location in locations" v-bind:value="location.id">
-                                    {{ location.name }}
-                                </option>
-                            </select>
-                        </label>
-
-                        <label for="locationCode">
-                            Code
-                            <input type="text" id="locationCode" ref="locationCode" name="locationCode" v-model="newUnit.code">
-                        </label>
-
-                        <label for="locationId">
-                            Unit Type*
-                            <select ref="locationId" id="locationId" name="locationId" v-model="newUnit.type_id">
-                                <option value=""></option>
-                                <option v-for="unitType in unitTypes" v-bind:value="unitType.id">
-                                    {{ unitType.name }}
-                                </option>
-                            </select>
-                        </label>
-                    </div>
+                <!-- START List Section -->
+                <div class="row table">
 
                     <div class="small-12 columns">
-                        <button type="submit" name="addUnit" class="success button" v-on:click="addUnit" v-bind:disabled="loading">
-                            <span v-if="loading">
-                                <loading></loading>
-                            </span>
-                            <span v-else>
-                                Add unit
-                            </span>
-                        </button>
-                    </div>
-                    <!-- END Location input form -->
-                </div>
+                        <div class="table__row table__row--add">
+                            <!-- Row Title -->
+                            <button class="accordion__heading accordion__heading--add --white" v-on:click="addEntry = !addEntry">
+                                <h4 class="--white">Add new location</h4>
+                            </button>
+                            <!-- START Edit form -->
+                            <div class="accordion__content --bg-calm" v-bind:class="{ 'accordion__content--active' : addEntry }" v-show="addEntry">
 
-            <!-- START List Section -->
-                <div class="row">
+                                <div class="row column">
+                                    <!-- START Unit input form -->
+
+                                    <label for="locationId">
+                                        Location*
+                                        <select ref="locationId" id="locationId" name="locationId" v-model="newUnit.location_id">
+                                            <option value=""></option>
+                                            <option v-for="location in locations" v-bind:value="location.id">
+                                                {{ location.name }}
+                                            </option>
+                                        </select>
+                                    </label>
+
+                                    <label for="locationCode">
+                                        Code
+                                        <input type="text" id="locationCode" ref="locationCode" name="locationCode" v-model="newUnit.code">
+                                    </label>
+
+                                    <label for="unitTypeId">
+                                        Unit Type*
+                                        <select ref="unitTypeId" id="unitTypeId" name="unitTypeId" v-model="newUnit.type_id">
+                                            <option value=""></option>
+                                            <option v-for="unitType in unitTypes" v-bind:value="unitType.id">
+                                                {{ unitType.name }}
+                                            </option>
+                                        </select>
+                                    </label>
+                                </div>
+                                <!-- END Edit form -->
+
+                                <div class="row column">
+                                    <button type="submit" name="addUnit" class="button button--focused --mt1" v-on:click="addUnit" v-bind:disabled="loading">
+                                        <span v-if="loading"><loading></loading></span>
+                                        <span v-else>Add unit</span>
+                                    </button>
+                                    <button type="submit" name="addLocation" class="button float-right --mt1" v-on:click="cancelUnit" v-bind:disabled="loading">
+                                        <span v-if="loading"><loading></loading></span>
+                                        <span v-else>Cancel</span>
+                                    </button>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Repeat in here -->
+
                     <template v-for="(filteredUnit, index) in filteredUnits" >
                         <div class="small-12 columns" v-show="index >= pagination.from && index <= pagination.to">
-                            <!-- Row Title -->
-                            <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{ filteredUnit.code }}</button>
-                            <!-- START Edit form -->
-                            <div class="accordion__content">
+                            <div class="table__row" :class="{ even: isEven(index), first: index == 0, last: index == units.length -1 }">
+                                <!-- Row Title -->
+                                <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{ filteredUnit.code }}</button>
+                                <!-- START Edit form -->
+                                <div class="accordion__content  --bg-calm">
 
-                                <label for="editLocationId">
-                                    Location*
-                                    <select ref="editLocationId" id="editLocationId" name="editLocationId" v-model="editUnit.location_id">
-                                        <option value=""></option>
-                                        <option v-for="location in locations" v-bind:value="location.id">
-                                            {{ location.name }}
-                                        </option>
-                                    </select>
-                                </label>
+                                    <label for="editLocationId">
+                                        Location*
+                                        <select ref="editLocationId" id="editLocationId" name="editLocationId" v-model="editUnit.location_id">
+                                            <option value=""></option>
+                                            <option v-for="location in locations" v-bind:value="location.id">
+                                                {{ location.name }}
+                                            </option>
+                                        </select>
+                                    </label>
 
-                                <label for="editLocationCode">
-                                    Code
-                                    <input type="text" id="editLocationCode" ref="editLocationCode" name="editLocationCode" v-model="editUnit.code">
-                                </label>
+                                    <label for="editLocationCode">
+                                        Code
+                                        <input type="text" id="editLocationCode" ref="editLocationCode" name="editLocationCode" v-model="editUnit.code">
+                                    </label>
 
-                                <label for="editTypeId">
-                                    Unit Type*
-                                    <select ref="editTypeId" id="editTypeId" name="editTypeId" v-model="editUnit.type_id">
-                                        <option value=""></option>
-                                        <option v-for="unitType in unitTypes" v-bind:value="unitType.id">
-                                            {{ unitType.name }}
-                                        </option>
-                                    </select>
-                                </label>
+                                    <label for="editTypeId">
+                                        Unit Type*
+                                        <select ref="editTypeId" id="editTypeId" name="editTypeId" v-model="editUnit.type_id">
+                                            <option value=""></option>
+                                            <option v-for="unitType in unitTypes" v-bind:value="unitType.id">
+                                                {{ unitType.name }}
+                                            </option>
+                                        </select>
+                                    </label>
 
-                                <button type="submit" class="success button" v-on:click="editUnit" v-bind:disabled="loading">
-                                    <span v-if="loading">
-                                        <loading></loading>
-                                    </span>
-                                    <span v-else>
-                                        Update unit
-                                    </span>
-                                </button>
+                                    <button type="submit" class="success button" v-on:click="editUnit" v-bind:disabled="loading">
+                                        <span v-if="loading">
+                                            <loading></loading>
+                                        </span>
+                                        <span v-else>
+                                            Update unit
+                                        </span>
+                                    </button>
+                                </div>
+                                <!-- END Edit form -->
                             </div>
-                            <!-- END Edit form -->
+                        </div>
                     </template>
 
                     <!-- START Pagination buttons -->
@@ -136,10 +135,36 @@
                         </ul>
                     </div>
                     <!-- END Pagination buttons -->
+
                 </div>
-                <!-- END List Section -->
+
             </div>
+
+            <div class="medium-3 columns">
+
+                <!-- START Filter Section -->
+                <div class="row column">
+                    <input type="text" placeholder="Filter by everything" ref="filterInput">
+                </div>
+
+                <div class="row column">
+                    <button v-on:click="filter" class="button">
+                        Filter
+                    </button>
+                </div>
+
+                <div class="row column --border-wrap">
+                    <div class="stats-box">
+                        <div class="row column clearfix">
+                            <h3 class="stats-box__header --focused --mt0">Stats</h3>
+                        </div>
+                        Units: <span class="float-right">{{units.length}}</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
+
     </div>
 </template>
 <script>
@@ -186,6 +211,11 @@
             this.calculatePagination();
         },
         methods: {
+
+            isEven: function (n) {
+                return n % 2 == 0;
+            },
+
             addUnit : function() {
                 this.loading = true;
 
@@ -207,6 +237,11 @@
                     this.displayError(err);
                 });
 
+            },
+
+            cancelUnit: function () {
+                this.newUnit = this.initializeUnit();
+                this.addEntry = false;
             },
 
             editUnit: function() {
@@ -320,7 +355,7 @@
                         var filteredInput = this.$refs['filterInput'].value;
                         Object.keys(unit).forEach(function (key) {
                             let obj = unit[key];
-                            if(obj == filteredInput) {
+                            if(obj && obj.indexOf(filteredInput) !== -1) {
                                 isValid = true;
                             }
                         });
