@@ -16,13 +16,13 @@ class ContractPolicy
      * @param $user
      * @return bool
      */
-    public function before($user)
+    public function before( $user )
     {
 
         // If the users role is admin then allow
         // them access to this.
-        if ($user->role == 'admin') {
-            return true;
+        if ( $user->role == 'admin' ) {
+            return TRUE;
         }
 
     }
@@ -34,44 +34,55 @@ class ContractPolicy
      * @return mixed
      * @internal param Contract $contract
      */
-    public function view(User $user)
+    public function view( User $user )
     {
-        if ($user->role != 'tenant') {
-            return true;
+        if ( $user->role != 'tenant' ) {
+            return TRUE;
         }
 
-        return false;
+        return FALSE;
     }
 
     /**
      * Determine whether the users can create contracts.
      *
-     * @param  \Portal\User  $user
+     * @param  \Portal\User $user
      * @return mixed
      */
-    public function create(User $user)
+    public function create( User $user )
     {
-        if ($user->role != 'tenant') {
-            return true;
+        if ( $user->role != 'tenant' ) {
+            return TRUE;
         }
 
-        return false;
+        return FALSE;
     }
 
     /**
-     * Determine whether the users can update the contract.
+     * Determine whether the logged in user can view the contracts.
      *
      * @param  \Portal\User $user
      * @return mixed
-     * @internal param Contract $contract
      */
-    public function update(User $user)
+    public function show( User $user, $secureLink )
     {
-        if ($user->role != 'tenant') {
-            return true;
+
+        // Decode the secure link and see if
+        // it contains the users email
+        try {
+            $decrypted = decrypt( $secureLink );
+            // TODO split at ##
+
+            // TODO take the first section and find if
+            // TODO the users email matches the logged in users email
+
+            return TRUE;
+
+        } catch ( DecryptException $e ) {
+            return FALSE;
         }
 
-        return false;
+
     }
 
     /**
@@ -81,12 +92,12 @@ class ContractPolicy
      * @return mixed
      * @internal param Contract $contract
      */
-    public function delete(User $user)
+    public function delete( User $user )
     {
-        if ($user->role != 'tenant') {
-            return true;
+        if ( $user->role != 'tenant' ) {
+            return TRUE;
         }
 
-        return false;
+        return FALSE;
     }
 }

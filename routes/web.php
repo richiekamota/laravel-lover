@@ -79,6 +79,8 @@ Route::resource('items', 'ItemsController');
 
 Route::resource('contracts', 'ContractsController');
 
+Route::get('/contracts/secure/{secureLink}', 'ContractsController@show');
+
 /*
 |--------------------------------------------------------------------------
 | Application form - manage the users application form

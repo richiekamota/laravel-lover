@@ -8,6 +8,7 @@ use PDF;
 use Illuminate\Http\Request;
 use Portal\Contract;
 use Portal\Http\Requests\ContractCreateRequest;
+use Portal\Jobs\SendContractToUserEmail;
 use Response;
 
 class ContractsController extends Controller
@@ -64,13 +65,18 @@ class ContractsController extends Controller
             $pdfName = ucfirst(preg_replace('/[^\w-]/', '', Auth::user()->first_name)) . ucfirst(preg_replace('/[^\w-]/', '', Auth::user()->last_name)) . \Carbon\Carbon::today()->toDateString();
 
             $data = [ 'name' => Auth::user()->first_name ];
-            $pdf = PDF::loadView( 'pdf.contract', $data )->save(storage_path('contracts/' . $pdfName . '.pdf'));
+            $filePath = storage_path('contracts/' . $pdfName . '.pdf');
+            $pdf = PDF::loadView( 'pdf.contract', $data )->save($filePath);
 
-            // Save this into S3
+            // TODO Save the PDF into S3
+
+            $user = User::findOrFail($request->user_id);
+            // Generate a secure link for the user_id passed in
+            $contract->secure_link = encrypt($user->email . '##' .$filePath);
+            $contract->save();
 
             // Generate the secure return email for this contract
-
-            // Send the applicant a copy of the PDF in email
+            dispatch(new SendContractToUserEmail($filePath, $request->user_id, $contract->secure_link));
 
             DB::commit();
 
@@ -97,42 +103,32 @@ class ContractsController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show a user a copy of the contract for approval.
      *
-     * @param  int $id
+     * @param $secureLink
      * @return \Illuminate\Http\Response
+     * @internal param int $id
      */
-    public function show( $id )
+    public function show( $secureLink )
     {
 
         // abort unless Auth > tenant
+        $this->authorize( 'show', $secureLink, Contract::class );
 
-        // return view('contract.show');
+        try {
 
-    }
+            $decrypted = decrypt($secureLink);
 
-    /**
-     * We should not be editing the contract
-     * only creating and removing
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    //public function edit($id)
-    //{
-    //    //
-    //}
+            // Find the secureLink in the DB
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update( Request $request, $id )
-    {
-        //
+            // Check the secure link user_id matches that of the Auth::user()
+
+            // Return the use the view with their contract details
+
+        } catch (DecryptException $e) {
+            //
+        }
+
     }
 
     /**

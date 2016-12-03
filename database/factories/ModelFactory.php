@@ -75,3 +75,12 @@ $factory->define( Portal\Item::class, function ( Faker\Generator $faker ) {
         'cost'        => $faker->numberBetween( 1, 12312313 )
     ];
 } );
+
+$factory->define( Portal\Contract::class, function ( Faker\Generator $faker ) {
+
+    return [
+        'id'          => Uuid::generate()->string,
+        'start_date' => \Carbon\Carbon::today(),
+        'end_date' => \Carbon\Carbon::today()->addMonths(11)
+    ];
+} );

@@ -73,5 +73,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
+    'contract_store_complete' => 'Success! The contract has been created',
+    'contract_store_error'    => 'Oh no, there was an error saving the contract, please try again',
 
 ];

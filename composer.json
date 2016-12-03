@@ -17,7 +17,8 @@
         "phpunit/phpunit": "~5.0",
         "symfony/css-selector": "3.1.*",
         "symfony/dom-crawler": "3.1.*",
-        "barryvdh/laravel-ide-helper": "v2.2.1"
+        "barryvdh/laravel-ide-helper": "v2.2.1",
+        "tightenco/mailthief": "^0.3.3"
     },
     "autoload": {
         "classmap": [
