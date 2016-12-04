@@ -140,6 +140,10 @@ class ContractsApiTest extends TestCase
             ] )
             ->assertResponseStatus( 200 );
 
+        $pdfName = ucfirst( preg_replace( '/[^\w-]/', '', $user->first_name ) ) . ucfirst( preg_replace( '/[^\w-]/', '', $user->last_name ) ) . \Carbon\Carbon::today()->toDateString();
+        $uploaded = 'contracts' . DIRECTORY_SEPARATOR . $pdfName . '.pdf';
+        unlink( storage_path( $uploaded ) );
+
     }
 
     /**
