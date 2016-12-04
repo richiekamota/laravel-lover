@@ -2,6 +2,6 @@
 
 @section('content')
 
-    {{-- Content in here --}}
+    This is your contract {{$contract->user->first_name}}
 
 @endsection

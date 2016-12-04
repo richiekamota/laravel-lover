@@ -59,33 +59,6 @@ class ContractPolicy
     }
 
     /**
-     * Determine whether the logged in user can view the contracts.
-     *
-     * @param  \Portal\User $user
-     * @return mixed
-     */
-    public function show( User $user, $secureLink )
-    {
-
-        // Decode the secure link and see if
-        // it contains the users email
-        try {
-            $decrypted = decrypt( $secureLink );
-            // TODO split at ##
-
-            // TODO take the first section and find if
-            // TODO the users email matches the logged in users email
-
-            return TRUE;
-
-        } catch ( DecryptException $e ) {
-            return FALSE;
-        }
-
-
-    }
-
-    /**
      * Determine whether the users can delete the contract.
      *
      * @param  \Portal\User $user

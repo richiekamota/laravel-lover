@@ -26,7 +26,7 @@
                 <form role="form" method="POST" action="{{ url('/application-form') }}">
                     {{ csrf_field() }}
                     <div class="application-step__heading">
-                        Step 1: Create your MyDomain account
+                        Step 0: Create your MyDomain account
                     </div>
                     <div class="application-step__content application-step__content--active">
 
@@ -82,16 +82,6 @@
 
                     </div>
                 </form>
-
-                <div class="application-step__heading --disabled --mt1">
-                    Step 2: Content
-                </div>
-                <div class="application-step__heading --disabled --mt1">
-                    Step 3: Content
-                </div>
-                <div class="application-step__heading --disabled --mt1">
-                    Step 4: Content
-                </div>
 
             </div>
 

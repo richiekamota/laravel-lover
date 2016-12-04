@@ -130,7 +130,7 @@
             <!-- END Step 1 -->
 
             <!-- START Step 2 -->
-            <button class="application-step__heading" v-on:click="accordionToggle(2, $event)" ref="accordion2" v-bind:class="{ '--disabled' : showStep <  2}" data-accordion="2">Step 2</button>
+            <button class="application-step__heading" v-on:click="accordionToggle(2, $event)" ref="accordion2" v-bind:class="{ '--disabled' : showStep <  2}" data-accordion="2">Step 2: Leaseholder home ownership</button>
             <div class="application-step__content">
                 <template v-if="showStep >= 2">
                     <h2>Step 2</h2>
@@ -274,7 +274,7 @@
             <!-- END Step 3 -->
 
             <!-- START Step 4 -->
-            <button class="application-step__heading" v-on:click="accordionToggle(4, $event)" ref="accordion4" v-bind:class="{ '--disabled' : showStep <  4}" data-accordion="4">Step 4:Details of the resident applying to occupy the premises</button>
+            <button class="application-step__heading" v-on:click="accordionToggle(4, $event)" ref="accordion4" v-bind:class="{ '--disabled' : showStep <  4}" data-accordion="4">Step 4: Details of the resident applying to occupy the premises</button>
             <div class="application-step__content">
 
                 <template v-if="showStep >= 4">
@@ -561,7 +561,7 @@
             <!-- END Step 7 -->
 
             <!-- START Step 8 -->
-            <button class="application-step__heading" v-on:click="accordionToggle(8, $event)" ref="accordion8" v-bind:class="{ '--disabled' : showStep <  8}" data-accordion="8">Step 8</button>
+            <button class="application-step__heading" v-on:click="accordionToggle(8, $event)" ref="accordion8" v-bind:class="{ '--disabled' : showStep <  8}" data-accordion="8">Step 8: Comments </button>
             <div class="application-step__content">
                 <!-- Comments -->
                 <label for="comments">
@@ -709,12 +709,29 @@
             this.unitTypes = JSON.parse(this.propUnitTypes);
 
             // Add dropzones
-            new Dropzone("#resident_id", { url: "/file/post"});
-            new Dropzone("#resident_study_permit", { url: "/file/post"});
-            new Dropzone("#resident_acceptance", { url: "/file/post"});
-            new Dropzone("#resident_financial_aid", { url: "/file/post"});
-            new Dropzone("#leaseholder_address_proof", { url: "/file/post"});
-            new Dropzone("#leaseholder_payslip", { url: "/file/post"});
+            let residentIdDropzone = new Dropzone("#resident_id", { url: "/documents/application"});
+            residentIdDropzone.on('sending', (file, xhr, data) => {data.append("document_type", "resident_id");});
+            residentIdDropzone.on('addedfile', () => {
+                if (residentIdDropzone.files[1]!=null){
+                    residentIdDropzone.removeFile(residentIdDropzone.files[0]);
+                }
+            });
+
+            let residentStudyDropzone = new Dropzone("#resident_study_permit", { url: "/documents/application"});
+            residentStudyDropzone.on('sending', (file, xhr, data) => {data.append("document_type", "resident_study_permit");});
+
+            let residentAcceptanceDropzone = new Dropzone("#resident_acceptance", { url: "/documents/application"});
+            residentAcceptanceDropzone.on('sending', (file, xhr, data) => {data.append("document_type", "resident_acceptance");});
+
+            let residentFinacialAidDropzone = new Dropzone("#resident_financial_aid", { url: "/documents/application"});
+            residentFinacialAidDropzone.on('sending', (file, xhr, data) => {data.append("document_type", "resident_financial_aid");});
+
+            let leaseholderAddressDropzone = new Dropzone("#leaseholder_address_proof", { url: "/documents/application"});
+            leaseholderAddressDropzone.on('sending', (file, xhr, data) => {data.append("document_type", "leaseholder_address_proof");});
+
+            let leaseholderPaySlipDropzone = new Dropzone("#leaseholder_payslip", { url: "/documents/application"});
+            leaseholderPaySlipDropzone.on('sending', (file, xhr, data) => {data.append("document_type", "leaseholder_payslip");});
+
         },
         methods:{
 

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Portal\Http\Requests\ItemCreateRequest;
 use Portal\Http\Requests\ItemEditRequest;
 use Portal\Item;
+use Portal\UnitType;
 use Response;
 
 class ItemsController extends Controller
@@ -23,9 +24,11 @@ class ItemsController extends Controller
         // abort unless Auth > tenant
         $this->authorize('view', Item::class);
 
-        $items = Item::all();
+        $items = Item::with('unitTypes')->get();
 
-        return view('items.index', compact('items'));
+        $unitTypes = UnitType::all();
+
+        return view('items.index', compact('items', 'unitTypes'));
 
     }
 

@@ -11,11 +11,13 @@
             @if(!Gate::check('is-tenant'))
                 <ul class="admin-menu__links">
                     <li class="admin-menu__link-item @if(Request::path() == 'locations')admin-menu__link-active --bg-mist @endif">
-                        <a href="{{ url('/locations') }}" class="admin-menu__link">Add locations</a></li>
+                        <a href="{{ url('/locations') }}" class="admin-menu__link">Locations</a></li>
                     <li class="admin-menu__link-item @if(Request::path() == 'unit-types')admin-menu__link-active --bg-mist @endif">
-                        <a href="{{ url('/unit-types') }}" class="admin-menu__link">Add unit type</a></li>
+                        <a href="{{ url('/unit-types') }}" class="admin-menu__link">Unit types</a></li>
                     <li class="admin-menu__link-item @if(Request::path() == 'units')admin-menu__link-active --bg-mist @endif">
-                        <a href="{{ url('/units') }}" class="admin-menu__link">Add units</a></li>
+                        <a href="{{ url('/units') }}" class="admin-menu__link">Units</a></li>
+                    <li class="admin-menu__link-item @if(Request::path() == 'items')admin-menu__link-active --bg-mist @endif">
+                        <a href="{{ url('/items') }}" class="admin-menu__link">Items</a></li>
                 </ul>
             @endif
 

@@ -28,7 +28,7 @@ class Contract extends Model
 
     public function user()
     {
-        return $this->hasOne('Portal\User');
+        return $this->belongsTo('Portal\User');
     }
 
     public function unit()
@@ -39,5 +39,9 @@ class Contract extends Model
     public function document()
     {
         return $this->hasOne('Portal\Document');
+    }
+
+    public function items(){
+        return $this->hasMany('Portal\ContractItem');
     }
 }

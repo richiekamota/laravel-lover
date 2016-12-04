@@ -17,7 +17,7 @@ class Document extends Model
      */
 
     protected $fillable = [
-        'location', 'user_id'
+        'location', 'user_id', 'document_type', 'file_name'
     ];
 
     protected $dates = ['deleted_at'];
