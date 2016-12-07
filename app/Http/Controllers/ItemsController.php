@@ -4,11 +4,15 @@ namespace Portal\Http\Controllers;
 
 use DB;
 use Illuminate\Http\Request;
+use Portal\Http\Requests\ItemCreateRequest;
+use Portal\Http\Requests\ItemEditRequest;
 use Portal\Item;
+use Portal\UnitType;
 use Response;
 
 class ItemsController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -18,46 +22,43 @@ class ItemsController extends Controller
     {
 
         // abort unless Auth > tenant
+        $this->authorize('view', Item::class);
 
-        $items = Item::all();
+        $items = Item::with('unitTypes')->get();
 
-        return view('items.index', compact('items'));
+        $unitTypes = UnitType::all();
 
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
-        // abort unless Auth > tenant
-
-        // return view('items.create);
+        return view('items.index', compact('items', 'unitTypes'));
 
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Http\Response
+     * @param Request|ItemsController|ItemCreateRequest $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function store( Request $request )
+    public function store( ItemCreateRequest $request )
     {
-        // abort unless Auth > tenant   
+
+        // abort unless Auth > tenant
+        $this->authorize('create', Item::class);
 
         DB::beginTransaction();
 
         try {
 
-            // store the record in the DB
+            // Remove the array of ids from the input
+            $unit_types = $request->input('unit_types');
+
+            $data = $request->all();
+            unset($data['unit_types']);
 
             // Store the location in the DB
-            $item = Item::create($request->all());
+            $item = Item::create($data);
+
+            // Attach the unit types that have this item
+            $item->unitTypes()->attach($unit_types);
 
             DB::commit();
 
@@ -83,54 +84,45 @@ class ItemsController extends Controller
 
     }
 
-    ///**
-    // * Display the specified resource.
-    // *
-    // * @param  int $id
-    // *
-    // * @return \Illuminate\Http\Response
-    // */
-    //public function show( $id )
-    //{
-    //    //
-    //}
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function edit( $id )
-    {
-
-        // abort unless Auth > tenant
-
-        // return view('items.edit');
-
-    }
-
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param Request|ItemEditRequest $request
      * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function update( Request $request, $id )
+    public function update( ItemEditRequest $request, $id )
     {
 
         // abort unless Auth > tenant
+        $this->authorize('update', Item::class);
 
         DB::beginTransaction();
 
         try {
 
-            // Save the updated resource into the DB
+            $item = Item::findOrFail($id);
+
+            $unit_types = $request->input('unit_types');
+
+            $data = $request->all();
+            unset($data['unit_types']);
+
+            // Store the location in the DB
+            $item->update($request->all());
+
+            // Remove any connections to this item
+            $item->unitTypes()->detach();
+
+            // Attach the unit type to this item
+            $item->unitTypes()->attach($unit_types);
 
             DB::commit();
+
+            return Response::json([
+                'message' => trans('portal.items_store_complete'),
+                'data' => $item->toArray()
+            ], 200);
 
         } catch (\Exception $e) {
 
@@ -141,8 +133,8 @@ class ItemsController extends Controller
             DB::rollback();
 
             return Response::json( [
-                'error'   => 'items_update_error',
-                'message' => trans( 'portal.items_update_error' ),
+                'error'   => 'items_store_error',
+                'message' => trans( 'portal.items_store_error' ),
             ], 422 );
 
         }
@@ -159,30 +151,8 @@ class ItemsController extends Controller
     public function destroy( $id )
     {
 
-        // abort unless Auth > tenant
-
-        DB::beginTransaction();
-
-        try {
-
-            // Soft delete the item
-
-            DB::commit();
-
-        } catch (\Exception $e) {
-
-            \Log::info( $e );
-
-            //Bugsnag::notifyException($e);
-
-            DB::rollback();
-
-            return Response::json( [
-                'error'   => 'items_delete_error',
-                'message' => trans( 'portal.items_delete_error' ),
-            ], 422 );
-
-        }
+        //
 
     }
+
 }

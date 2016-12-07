@@ -1,129 +1,47 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row expanded">
-        @if(!Gate::check('is-tenant'))
-            <div class="medium-3 large-2 columns admin-menu">
-                <h4 class="-text-center">Admin Menu</h4>
-                <ul class="menu vertical admin-menu__links">
-                    <li><a href="#1" class="admin-menu__link admin-menu__link--active">One</a></li>
-                    <li><a href="#2" class="admin-menu__link">Two</a></li>
-                    <li><a href="#3" class="admin-menu__link">Three</a></li>
-                    <li><a href="#4" class="admin-menu__link">Four</a></li>
 
-                    <li><a href="{{ url('/locations') }}" class="admin-menu__link">Add locations</a></li>
-                    <li><a href="{{ url('/unit-types') }}" class="admin-menu__link">Add unit type</a></li>
-                    <li><a href="{{ url('/units') }}" class="admin-menu__link">Add units</a></li>
-                </ul>
-            </div>
-        @endif
+    <div class="row column">
 
-        @if(Gate::check('is-tenant'))
-            <div class="medium-3 large-2 columns admin-menu">
-                <h4 class="-text-center">Tenant Menu</h4>
-                <ul class="menu vertical admin-menu__links">
-                    <li><a href="{{ url('/locations') }}" class="admin-menu__link">Application form</a></li>
-                    <li><a href="{{ url('/unit-types') }}" class="admin-menu__link">Contract page</a></li>
-                    <li><a href="{{ url('/units') }}" class="admin-menu__link">Profile page</a></li>
-                </ul>
-            </div>
-        @endif
+            @hasSection('dashboard-content')
 
-        <div class="medium-9 large-10 columns">
-            <div class="row">
-                <div class="medium-11 medium-offset-1">
+                @yield('dashboard-content')
 
-                    @hasSection('dashboard-content')
+            @else
 
-                    @yield('dashboard-content')
+                <h1>Dashboard</h1>
 
-                    @else
+                @if(!Gate::check('is-tenant'))
 
-                        <h1>Dashboard</h1>
+                    <h3>Admin Dashboard in here</h3>
 
-                        @if(!Gate::check('is-tenant'))
+                    {{-- Open Applications --}}
 
-                            <h3>Admin Dashboard in here</h3>
+                    {{-- Pending Applications --}}
 
-                            {{-- Open Applications --}}
+                    {{-- Closed Applications --}}
 
-                            {{-- Pending Applications --}}
+                @endif
 
-                            {{-- Closed Applications --}}
+                @if(Gate::check('is-tenant'))
 
-                        @endif
+                    <h3>Tenant Dashboard in here</h3>
 
-                        @if(Gate::check('is-tenant'))
+                    @foreach($openApplications as $application)
 
-                            <h3>Tenant Dashboard in here</h3>
+                        {{$application->id}} <br>
+                        {{$application->status}}
 
-                            @foreach($openApplications as $application)
+                    @endforeach
 
-                                {{$application->id}} <br>
-                                {{$application->status}}
+                    {{-- Contracts Table --}}
 
-                            @endforeach
+                    {{-- Applications Table --}}
 
-                            {{-- Contracts Table --}}
+                @endif
 
-                            {{-- Applications Table --}}
-
-                        @endif
-
-                        <div>
-                            <p>
-                                This is your dashboard
-                            </p>
-                            <p>
-                                Soon we will be showing the list of incoming applications.
-                            </p>
-                        </div>
-
-                        <div class="received-applications">
-                            <!-- The Application row -->
-                            <div class="application">
-                                <div class="row">
-                                    <div class="small-7 columns">
-                                        <h3 class="application__title">Application 1</h3>
-                                    </div>
-
-                                    <div class="small-5 columns application-actions -text-right align-middle">
-                                        <a href="#1">Go to application</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Duplication application row -->
-                            <div class="application">
-                                <div class="row">
-                                    <div class="small-7 columns">
-                                        <h3 class="application__title">Application 2</h3>
-                                    </div>
-
-                                    <div class="small-5 columns application-actions -text-right align-middle">
-                                        <a href="#1">Go to application</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="application">
-                                <div class="row">
-                                    <div class="small-7 columns">
-                                        <h3 class="application__title">Application 3</h3>
-                                    </div>
-
-                                    <div class="small-5 columns application-actions -text-right align-middle">
-                                        <a href="#1">Go to application</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    @endif
-                </div>
-            </div>
-        </div>
-
+            @endif
     </div>
+
 @endsection

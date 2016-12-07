@@ -17,7 +17,9 @@ class CreateDocumentsTable extends Migration
             $table->uuid('id');
             $table->primary('id');
             $table->uuid('user_id');
+            $table->text('file_name');
             $table->text('location');
+            $table->string('document_type', 191);
 
             $table->timestamps();
             $table->softDeletes();

@@ -1,16 +1,22 @@
 <template>
 
-    <form role="form" method="POST" v-bind:action="formAction" v-on:submit.prevent ref="appForm">
+<div>
 
-        <h1>Application Form</h1>
+    <div class="row column">
+        <div class="page-application__header">
+            <h1 class="page-application__header-title">Application Form</h1>
+            <p class="page-application__header-sub">Thanks for choosing MyDomain as your student accommodation provider. To get started simply fill in the following application form.</p>
+            <p>The first step is to create an account with us. We use this account to communicate with you during the application process and if successful this account will be your portal to the MyDomain team.</p>
+        </div>
+    </div>
+
+    <form role="form" method="POST" v-bind:action="formAction" v-on:submit.prevent ref="appForm">
 
         <div class="accordion">
 
-            <button class="accordion__heading" v-on:click="accordionToggle(1, $event)" ref="accordion1" data-accordion="1" >Step 1: Details of the leaseholder applying to rent the premises</button>
-
             <!-- START Step 1 -->
-
-            <div class="accordion__content">
+            <button class="application-step__heading" v-on:click="accordionToggle(1, $event)" ref="accordion1" data-accordion="1" >Step 1: Details of the leaseholder applying to rent the premises</button>
+            <div class="application-step__content">
 
                 <template v-if="showStep >= 1">
 
@@ -18,41 +24,49 @@
 
                     <!-- TODO: Chekc if ID number has been filled in, make passport number not required and vice versa -->
 
-                    <!-- SA ID number -->
-                    <label for="sa_id_number">
-                        South African ID Number
-                        <input type="text" name="sa_id_number" v-model="appForm.sa_id_number">
-                    </label>
-
-                    <p>
-                        <strong>OR</strong>
-                    </p>
-
-                    <!-- passport number -->
-                    <label for="passport_number">
-                        Passport number
-                        <input type="text" name="passport_number" v-model="appForm.passport_number">
-                    </label>
+                    <div class="row">
+                        <div class="column medium-5">
+                            <!-- SA ID number -->
+                            <label for="sa_id_number">
+                                South African ID Number
+                                <input type="text" name="sa_id_number" v-model="appForm.sa_id_number">
+                            </label>
+                        </div>
+                        <div class="column medium-2">
+                            <p>
+                                <strong>OR</strong>
+                            </p>
+                        </div>
+                        <div class="column medium-5">
+                            <!-- passport number -->
+                            <label for="passport_number">
+                                Passport number
+                                <input type="text" name="passport_number" v-model="appForm.passport_number">
+                            </label>
+                        </div>
+                    </div>
 
                     <!-- Date of birth DOB -->
                     <label for="dob">
-                        Date Of Birth
+                        Date Of Birth *
                         <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="dob" v-model="appForm.dob" @update='appForm.dob = $event' required/>
                     </label>
 
                     <!-- Nationality -->
+                    <div class="styled-select">
                     <label for="nationality">
-                        Nationality
-                        <select name="nationality" v-model="appForm.nationality" required v-on:change="roomInfo($event)" required>
+                        Nationality *
+                        <select class="styled-select" name="nationality" v-model="appForm.nationality" required v-on:change="roomInfo($event)" required>
                             <option v-for="country in countries" v-bind:value="country.nationality">
                                 {{ country.nationality }}
                             </option>
                         </select>
                     </label>
+                    </div>
 
                     <!-- Cellphone Number -->
                     <label for="phone_mobile">
-                        Telephone (Mobile)
+                        Telephone (Mobile) *
                         <input type="tel" name="phone_mobile" v-model="appForm.phone_mobile" required>
                     </label>
 
@@ -70,24 +84,27 @@
 
                     <!-- Current Address -->
                     <label for="current_address">
-                        Address where you currently stay
+                        Address where you currently stay *
                         <input type="text" name="current_address" v-model="appForm.current_address" required>
                     </label>
 
                     <!-- Marital Status -->
-                    <label for="marital_status">
-                        Marital Status
-                        <select name="marital_status" v-model="appForm.marital_status" required>
-                            <option value="Single">Single</option>
-                            <option value="Married">Married</option>
-                            <option value="Divorced">Divorced</option>
-                            <option value="Widowed">Widowed</option>
-                        </select>
-                    </label>
+                    <div class="styled-select">
+                        <label for="marital_status">
+                            Marital Status *
+                            <select name="marital_status" v-model="appForm.marital_status" required>
+                                <option value="Single">Single</option>
+                                <option value="Married">Married</option>
+                                <option value="Divorced">Divorced</option>
+                                <option value="Widowed">Widowed</option>
+                            </select>
+                        </label>
+                    </div>
 
                     <!-- TODO: Use vbind to check if maritial status is check and then make this required. -->
 
                     <!-- Married Type -->
+                    <div class="styled-select">
                     <label for="married_type">
                         If married, please select the appropriate option
                         <select name="married_type" v-model="appForm.married_type" v-bind:required="appForm.marital_status == 'Married'">
@@ -96,27 +113,25 @@
                             <option value="Accural System">Accural System</option>
                         </select>
                     </label>
+                    </div>
 
                     <div v-if="appForm.step1" v-html="appForm.step1"></div>
 
-                    <button type="submit" id="step1-save" class="success button" v-on:click="submitStep(1)" v-bind:disabled="loading">
-                        <span v-if="loading">
-                            <loading></loading>
-                        </span>
-                        <span v-else>
-                            Save and continue
-                        </span>
+                    <hr class="application-step__line --mt2">
+
+                    <button type="submit" id="step1-save" class="button button--focused --mt2" v-on:click="submitStep(1)" v-bind:disabled="loading">
+                        <span v-if="loading"><loading></loading></span>
+                        <span v-else>Save and continue</span>
                     </button>
 
                 </template>
 
             </div>
-
             <!-- END Step 1 -->
 
-            <button class="accordion__heading" v-on:click="accordionToggle(2, $event)" ref="accordion2" v-bind:class="{ 'accordion__heading--disabled' : showStep <  2}" data-accordion="2">Step 2</button>
             <!-- START Step 2 -->
-            <div class="accordion__content">
+            <button class="application-step__heading" v-on:click="accordionToggle(2, $event)" ref="accordion2" v-bind:class="{ '--disabled' : showStep <  2}" data-accordion="2">Step 2: Leaseholder home ownership</button>
+            <div class="application-step__content">
                 <template v-if="showStep >= 2">
                     <h2>Step 2</h2>
 
@@ -128,6 +143,7 @@
 
                     <template v-if="appForm.current_property_owner == false">
                         <!-- Rental Time -->
+                        <div class="styled-select">
                         <label for="rental_time">
                             How long have you rented there
                             <select name="rental_time" v-model="appForm.rental_time">
@@ -137,6 +153,7 @@
                                 <option value="48">48 Months</option>
                             </select>
                         </label>
+                        </div>
 
                         <!-- Rental Amount -->
                         <label for="rental_amount">
@@ -165,22 +182,23 @@
 
                     <div v-if="appForm.step2" v-html="appForm.step2"></div>
 
-                    <button type="submit" id="step2-save" class="success button" v-on:click="submitStep(2)" v-bind:disabled="loading">
-                        <span v-if="loading">
-                            <loading></loading>
-                        </span>
+                    <hr class="application-step__line --mt2">
+
+                    <button type="submit" id="step2-save" class="button button--focused --mt2" v-on:click="submitStep(2)" v-bind:disabled="loading">
+                    <span v-if="loading">
+                        <loading></loading>
+                    </span>
                         <span v-else>
-                            Save and continue
-                        </span>
+                        Save and continue
+                    </span>
                     </button>
                 </template>
             </div>
             <!-- END Step 2 -->
 
-            <button class="accordion__heading" v-on:click="accordionToggle(3, $event)" ref="accordion3" v-bind:class="{ 'accordion__heading--disabled' : showStep <  3}" data-accordion="3">Step 3: Employment details</button>
             <!-- START Step 3 -->
-
-            <div class="accordion__content">
+            <button class=" application-step__heading" v-on:click="accordionToggle(3, $event)" ref="accordion3" v-bind:class="{ '--disabled' : showStep <  3}" data-accordion="3">Step 3: Employment details</button>
+            <div class="application-step__content">
 
                 <template v-if="showStep >= 3">
                     <h2>Step 3: Employment details</h2>
@@ -241,24 +259,23 @@
 
                     <div v-if="appForm.step3" v-html="appForm.step3"></div>
 
-                    <button type="submit" id="step3-save" class="success button" v-on:click="submitStep(3)" v-bind:disabled="loading">
-                        <span v-if="loading">
-                            <loading></loading>
-                        </span>
+                    <button type="submit" id="step3-save" class="button button--focused" v-on:click="submitStep(3)" v-bind:disabled="loading">
+                    <span v-if="loading">
+                        <loading></loading>
+                    </span>
                         <span v-else>
-                            Save and continue
-                        </span>
+                        Save and continue
+                    </span>
                     </button>
 
                 </template>
 
             </div>
-
             <!-- END Step 3 -->
 
-            <button class="accordion__heading" v-on:click="accordionToggle(4, $event)" ref="accordion4" v-bind:class="{ 'accordion__heading--disabled' : showStep <  4}" data-accordion="4">Step 4:Details of the resident applying to occupy the premises</button>
             <!-- START Step 4 -->
-            <div class="accordion__content">
+            <button class="application-step__heading" v-on:click="accordionToggle(4, $event)" ref="accordion4" v-bind:class="{ '--disabled' : showStep <  4}" data-accordion="4">Step 4: Details of the resident applying to occupy the premises</button>
+            <div class="application-step__content">
 
                 <template v-if="showStep >= 4">
                     <h2>Step 4:Details of the resident applying to occupy the premises</h2>
@@ -367,21 +384,21 @@
 
                     <div v-if="appForm.step4" v-html="appForm.step4"></div>
 
-                    <button type="submit" id="step4-save" class="success button" v-on:click="submitStep(4)" v-bind:disabled="loading">
-                        <span v-if="loading">
-                            <loading></loading>
-                        </span>
+                    <button type="submit" id="step4-save" class="button button--focused" v-on:click="submitStep(4)" v-bind:disabled="loading">
+                    <span v-if="loading">
+                        <loading></loading>
+                    </span>
                         <span v-else>
-                            Save and continue
-                        </span>
+                        Save and continue
+                    </span>
                     </button>
                 </template>
             </div>
             <!-- END Step 4 -->
 
-            <button class="accordion__heading" v-on:click="accordionToggle(5, $event)" ref="accordion5" v-bind:class="{ 'accordion__heading--disabled' : showStep <  5}" data-accordion="5">Step 5: Details of the premises</button>
             <!-- START Step 5 -->
-            <div class="accordion__content">
+            <button class=" application-step__heading" v-on:click="accordionToggle(5, $event)" ref="accordion5" v-bind:class="{ '--disabled' : showStep <  5}" data-accordion="5">Step 5: Details of the premises</button>
+            <div class="application-step__content">
 
                 <!-- Unit Location -->
                 <label for="unit_location">
@@ -449,21 +466,21 @@
 
                 <div v-if="appForm.step5" v-html="appForm.step5"></div>
 
-                <button type="submit" id="step5-save" class="success button" v-on:click="submitStep(5)" v-bind:disabled="loading">
-                        <span v-if="loading">
-                            <loading></loading>
-                        </span>
+                <button type="submit" id="step5-save" class="button button--focused" v-on:click="submitStep(5)" v-bind:disabled="loading">
+                    <span v-if="loading">
+                        <loading></loading>
+                    </span>
                     <span v-else>
-                            Save and continue
-                        </span>
+                        Save and continue
+                    </span>
                 </button>
 
             </div>
             <!-- END Step 5 -->
 
-            <button class="accordion__heading" v-on:click="accordionToggle(6, $event)" ref="accordion6" v-bind:class="{ 'accordion__heading--disabled' : showStep <  6}" data-accordion="6">Step 6: General Details</button>
             <!-- START Step 6 -->
-            <div class="accordion__content">
+            <button class="application-step__heading" v-on:click="accordionToggle(6, $event)" ref="accordion6" v-bind:class="{ '--disabled' : showStep <  6}" data-accordion="6">Step 6: General Details</button>
+            <div class="application-step__content">
                 <!-- Judgements -->
                 <label for="judgements">
                     Judgements
@@ -478,20 +495,20 @@
 
                 <div v-if="appForm.step6" v-html="appForm.step6"></div>
 
-                <button type="submit" id="step6-save" class="success button" v-on:click="submitStep(6)" v-bind:disabled="loading">
-                        <span v-if="loading">
-                            <loading></loading>
-                        </span>
+                <button type="submit" id="step6-save" class="button button--focused" v-on:click="submitStep(6)" v-bind:disabled="loading">
+                    <span v-if="loading">
+                        <loading></loading>
+                    </span>
                     <span v-else>
-                            Save and continue
-                        </span>
+                        Save and continue
+                    </span>
                 </button>
             </div>
             <!-- END Step 6 -->
 
-            <button class="accordion__heading" v-on:click="accordionToggle(7, $event)" ref="accordion7" v-bind:class="{ 'accordion__heading--disabled' : showStep <  7}" data-accordion="7">Step 7: Required supporting documents</button>
             <!-- START Step 7 -->
-            <div class="accordion__content">
+            <button class="application-step__heading" v-on:click="accordionToggle(7, $event)" ref="accordion7" v-bind:class="{ '--disabled' : showStep <  7}" data-accordion="7">Step 7: Required supporting documents</button>
+            <div class="application-step__content">
 
                 <!-- Resident ID -->
                 <label for="resident_id">
@@ -531,21 +548,21 @@
 
                 <div v-if="appForm.step7" v-html="appForm.step7"></div>
 
-                <button type="submit" id="step7-save" class="success button" v-on:click="submitStep(7)" v-bind:disabled="loading">
-                        <span v-if="loading">
-                            <loading></loading>
-                        </span>
+                <button type="submit" id="step7-save" class="button button--focused" v-on:click="submitStep(7)" v-bind:disabled="loading">
+                    <span v-if="loading">
+                        <loading></loading>
+                    </span>
                     <span v-else>
-                            Save and continue
-                        </span>
+                        Save and continue
+                    </span>
                 </button>
 
             </div>
             <!-- END Step 7 -->
 
-            <button class="accordion__heading" v-on:click="accordionToggle(8, $event)" ref="accordion8" v-bind:class="{ 'accordion__heading--disabled' : showStep <  8}" data-accordion="8">Step 8</button>
             <!-- START Step 8 -->
-            <div class="accordion__content">
+            <button class="application-step__heading" v-on:click="accordionToggle(8, $event)" ref="accordion8" v-bind:class="{ '--disabled' : showStep <  8}" data-accordion="8">Step 8: Comments </button>
+            <div class="application-step__content">
                 <!-- Comments -->
                 <label for="comments">
                     Resident Financial Aid
@@ -560,20 +577,22 @@
 
                 <div v-if="appForm.step8" v-html="appForm.step8"></div>
 
-                <button type="submit" id="step8-save" class="success button" v-on:click="submitStep(8)" v-bind:disabled="loading">
-                        <span v-if="loading">
-                            <loading></loading>
-                        </span>
+                <button type="submit" id="step8-save" class="button button--focused" v-on:click="submitStep(8)" v-bind:disabled="loading">
+                    <span v-if="loading">
+                        <loading></loading>
+                    </span>
                     <span v-else>
-                            Save and continue
-                        </span>
+                        Save and continue
+                    </span>
                 </button>
             </div>
             <!-- END Step 8 -->
+
         </div>
 
-    </form>
+</form>
 
+</div>
 </template>
 
 <script>
@@ -690,12 +709,29 @@
             this.unitTypes = JSON.parse(this.propUnitTypes);
 
             // Add dropzones
-            new Dropzone("#resident_id", { url: "/file/post"});
-            new Dropzone("#resident_study_permit", { url: "/file/post"});
-            new Dropzone("#resident_acceptance", { url: "/file/post"});
-            new Dropzone("#resident_financial_aid", { url: "/file/post"});
-            new Dropzone("#leaseholder_address_proof", { url: "/file/post"});
-            new Dropzone("#leaseholder_payslip", { url: "/file/post"});
+            let residentIdDropzone = new Dropzone("#resident_id", { url: "/documents/application"});
+            residentIdDropzone.on('sending', (file, xhr, data) => {data.append("document_type", "resident_id");});
+            residentIdDropzone.on('addedfile', () => {
+                if (residentIdDropzone.files[1]!=null){
+                    residentIdDropzone.removeFile(residentIdDropzone.files[0]);
+                }
+            });
+
+            let residentStudyDropzone = new Dropzone("#resident_study_permit", { url: "/documents/application"});
+            residentStudyDropzone.on('sending', (file, xhr, data) => {data.append("document_type", "resident_study_permit");});
+
+            let residentAcceptanceDropzone = new Dropzone("#resident_acceptance", { url: "/documents/application"});
+            residentAcceptanceDropzone.on('sending', (file, xhr, data) => {data.append("document_type", "resident_acceptance");});
+
+            let residentFinacialAidDropzone = new Dropzone("#resident_financial_aid", { url: "/documents/application"});
+            residentFinacialAidDropzone.on('sending', (file, xhr, data) => {data.append("document_type", "resident_financial_aid");});
+
+            let leaseholderAddressDropzone = new Dropzone("#leaseholder_address_proof", { url: "/documents/application"});
+            leaseholderAddressDropzone.on('sending', (file, xhr, data) => {data.append("document_type", "leaseholder_address_proof");});
+
+            let leaseholderPaySlipDropzone = new Dropzone("#leaseholder_payslip", { url: "/documents/application"});
+            leaseholderPaySlipDropzone.on('sending', (file, xhr, data) => {data.append("document_type", "leaseholder_payslip");});
+
         },
         methods:{
 
@@ -706,8 +742,8 @@
                 if(this.showStep >= step) {
                     let selectedElement = event.target;
 
-                    selectedElement.classList.toggle("accordion__heading--active");
-                    selectedElement.nextElementSibling.classList.toggle("accordion__content--active");
+                    selectedElement.classList.toggle("application-step__heading--active");
+                    selectedElement.nextElementSibling.classList.toggle("application-step__content--active");
                 }
             },
 

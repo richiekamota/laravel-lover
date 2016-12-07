@@ -11,10 +11,10 @@ class HomePageTest extends TestCase
      *
      * @return void
      */
+
     public function testHomePage()
     {
         $this->visit('/')
-             ->see('MyDomain Portal')
-             ->see('Start Application form');
+             ->see('MY DOMAIN IS YOUR DOMAIN');
     }
 }

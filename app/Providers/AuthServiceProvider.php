@@ -19,6 +19,7 @@ class AuthServiceProvider extends ServiceProvider
         'Portal\Location'    => 'Portal\Policies\LocationPolicy',
         'Portal\Contract'    => 'Portal\Policies\ContractPolicy',
         'Portal\UnitType'    => 'Portal\Policies\UnitTypePolicy',
+        'Portal\Document'    => 'Portal\Policies\DocumentPolicy',
         'Portal\Application' => 'Portal\Policies\ApplicationPolicy',
     ];
 
@@ -31,12 +32,12 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('is-admin', function ($user) {
+        Gate::define( 'is-admin', function ( $user ) {
             return $user->role == 'admin';
-        });
+        } );
 
-        Gate::define('is-tenant', function ($user) {
+        Gate::define( 'is-tenant', function ( $user ) {
             return $user->role == 'tenant';
-        });
+        } );
     }
 }

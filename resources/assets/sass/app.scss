@@ -14,7 +14,7 @@
 //@include foundation-grid;
 @include foundation-flex-grid;
 //@include foundation-typography;
-@include foundation-button;
+//@include foundation-button;
 @include foundation-forms;
 // @include foundation-range-input;
 /*@include foundation-accordion;
@@ -49,7 +49,7 @@
 @include foundation-tooltip;
 @include foundation-top-bar;*/
 @include foundation-visibility-classes;
-//@include foundation-float-classes;
+@include foundation-float-classes;
 @include foundation-flex-classes;
 
 // Third Party
@@ -57,7 +57,21 @@
 @import "node_modules/sweetalert/dev/sweetalert";
 
 // Sites imports
+@import "colors";
+@import "fonts";
+@import "buttons";
+@import "headings";
+@import "tables";
+
+@import "stats-box";
+
 @import "header";
 @import "form";
 @import "global";
+
+@import "page";
 @import "admin-section";
+@import "page-home";
+@import "page-login";
+@import "page-application";
+@import "page-items";

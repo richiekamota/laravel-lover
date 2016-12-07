@@ -30,8 +30,7 @@ class UnitTypesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     *
+     * @param \Illuminate\Http\Request|UnitTypeCreateRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(UnitTypeCreateRequest $request)

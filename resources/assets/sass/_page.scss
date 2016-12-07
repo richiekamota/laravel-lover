@@ -1,0 +1,31 @@
+.page{
+
+  &__header{
+    margin-top: 5vh;
+  }
+
+  &__line{
+    height: 1px;
+    opacity: 0.1;
+    border: solid 1px $concrete;
+  }
+
+  &__footer{
+    background-color: $white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 1rem 0;
+  }
+  &__copyright{
+    font-family: $opensansbold;
+    font-size: 14px;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: 0.1px;
+    color: $slate;
+  }
+  &__swish{
+    max-width: 45px;
+  }
+}

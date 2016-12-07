@@ -24,7 +24,10 @@ class ItemEditRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name'        => 'required',
+            'description' => 'required',
+            'cost'        => 'required|numeric',
+            'unit_types'   => 'required|array|exists:unit_types,id'
         ];
     }
 }

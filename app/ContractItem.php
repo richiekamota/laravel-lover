@@ -18,11 +18,12 @@ class ContractItem extends Model
      */
 
     protected $fillable = [
-        'contract_id', 'name', 'value'
+        'contract_id', 'name', 'description', 'value'
     ];
 
     public function contract()
     {
         return $this->hasOne('Portal\Contract');
     }
+
 }

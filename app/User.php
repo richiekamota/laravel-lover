@@ -40,5 +40,10 @@ class User extends Authenticatable
         return $this->hasMany( 'Portal\Application' );
     }
 
+    public function contracts()
+    {
+        return $this->hasMany('Portal\Contract');
+    }
+
 
 }

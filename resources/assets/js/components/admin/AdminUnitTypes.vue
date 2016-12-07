@@ -1,173 +1,210 @@
 <template>
     <div>
+
+        <div class="row">
+            <div class="medium-9 columns">
+                <h2 class="--focused">UNIT TYPES | types of units tenants stay in</h2>
+                <p>
+                    A list of the different unit types a tenant can choose from. These can be different across different locations and each
+                    unit type can have different options and a different monthly cost.
+                </p>
+            </div>
+        </div>
+
         <div class="row">
 
             <!-- Title -->
-            <div class="small-12 medium-6 columns">
-                <h1>Unit Types</h1>
-            </div>
-
-            <!-- Show or hide addtion form button -->
-            <div class="small-12 medium-6 columns align-middle -text-right">
-                <button type="submit" name="showAddForm" class="success button -margin-bottom-0" v-on:click="addEntry =! addEntry" v-if="!addEntry">
-                    <span >
-                        Add Unit Type
-                    </span>
-                </button>
-            </div>
-
-            <div class="columns">
-                <div class="row" v-show="addEntry">
-                    <div class="small-12 columns">
-                        <!-- START Location input form -->
-                        <label for="unitTypeName">
-                            Unit type name*
-                            <input type="text" ref="unitTypeName" id="unitTypeName" name="unitTypeName" v-model="newUnitType.name">
-                        </label>
-
-                        <label for="unitTypeDescription">
-                            Description
-                            <textarea ref="unitTypeDescription" id="unitTypeDescription" name="unitTypeDescription" v-model="newUnitType.description"></textarea>
-                        </label>
-
-                        <label for="locationId">
-                            Location*
-                            <select ref="locationId" id="locationId" name="locationId" v-model="newUnitType.location_id">
-                                <option value=""></option>
-                                <option v-for="location in locations" v-bind:value="location.id">
-                                    {{ location.name }}
-                                </option>
-                            </select>
-                        </label>
-
-                        <label for="unitTypeCost">
-                            Unit type Cost*
-                            <input type="number" ref="unitTypeCost" id="unitTypeCost" name="unitTypeCost" v-model="newUnitType.cost">
-                        </label>
-
-                        <label for="unitTypeWifi">
-                            Wifi
-                            <input type="checkbox" ref="unitTypeWifi" id="unitTypeWifi" name="unitTypeWifi" v-model="newUnitType.wifi">
-                        </label>
-
-                        <label for="unitTypeElectricity">
-                            Electricity
-                            <input type="checkbox" ref="unitTypeElectricity" id="unitTypeElectricity" name="unitTypeElectricity" v-model="newUnitType.electricity">
-                        </label>
-
-                        <label for="unitTypeDstv">
-                            Dstv
-                            <input type="checkbox" ref="unitTypeDstv" id="unitTypeDstv" name="unitTypeDstv" v-model="newUnitType.dstv">
-                        </label>
-
-                        <label for="unitTypeParkingCar">
-                            Car parking
-                            <input type="checkbox" ref="unitTypeParkingCar" id="unitTypeParkingCar" name="unitTypeParkingCar" v-model="newUnitType.parking_car">
-                        </label>
-
-                        <label for="unitTypeParkingBike">
-                            Bike parking
-                            <input type="checkbox" ref="unitTypeParkingBike" id="unitTypeParkingBike" name="unitTypeParkingBike" v-model="newUnitType.parking_bike">
-                        </label>
-
-                        <label for="unitTypeStoreroom">
-                            Storeroom
-                            <input type="checkbox" ref="unitTypeStoreroom" id="unitTypeStoreroom" name="unitTypeStoreroom" v-model="newUnitType.storeroom">
-                        </label>
-                    </div>
-
-                    <div class="small-12 columns">
-                        <button type="submit" name="addUnitType" class="success button" v-on:click="addUnitType" v-bind:disabled="loading">
-                            <span v-if="loading">
-                                <loading></loading>
-                            </span>
-                            <span v-else>
-                                Add Unit Type
-                            </span>
-                        </button>
-                    </div>
-                    <!-- END Location input form -->
-                </div>
+            <div class="small-12 medium-9 columns">
 
                 <!-- START List Section -->
-                <div class="row">
+                <div class="row table">
+
+                    <div class="small-12 columns">
+                        <div class="table__row table__row--add">
+                            <!-- Row Title -->
+                            <button class="accordion__heading accordion__heading--add --white" v-on:click="addEntry = !addEntry">
+                                <h4 class="--white">Add new location</h4>
+                            </button>
+                            <!-- START Edit form -->
+                            <div class="accordion__content --bg-calm" v-bind:class="{ 'accordion__content--active' : addEntry }" v-show="addEntry">
+
+                                <div class="row column">
+                                    <!-- START Location input form -->
+                                    <label for="unitTypeName">
+                                        Unit type name*
+                                        <input type="text" ref="unitTypeName" id="unitTypeName" name="unitTypeName" v-model="newUnitType.name">
+                                    </label>
+
+                                    <label for="unitTypeDescription">
+                                        Description
+                                        <textarea ref="unitTypeDescription" id="unitTypeDescription" name="unitTypeDescription" v-model="newUnitType.description"></textarea>
+                                    </label>
+
+                                    <label for="locationId">
+                                        Location*
+                                        <select ref="locationId" id="locationId" name="locationId" v-model="newUnitType.location_id">
+                                            <option value=""></option>
+                                            <option v-for="location in locations" v-bind:value="location.id">
+                                                {{ location.name }}
+                                            </option>
+                                        </select>
+                                    </label>
+
+                                    <label for="unitTypeCost">
+                                        Unit type Cost*
+                                        <input type="number" ref="unitTypeCost" id="unitTypeCost" name="unitTypeCost" v-model="newUnitType.cost">
+                                    </label>
+
+                                    <label for="unitTypeWifi">
+                                        Wifi
+                                        <input type="checkbox" ref="unitTypeWifi" id="unitTypeWifi" name="unitTypeWifi" v-model="newUnitType.wifi">
+                                    </label>
+
+                                    <label for="unitTypeElectricity">
+                                        Electricity
+                                        <input type="checkbox" ref="unitTypeElectricity" id="unitTypeElectricity" name="unitTypeElectricity" v-model="newUnitType.electricity">
+                                    </label>
+
+                                    <label for="unitTypeDstv">
+                                        Dstv
+                                        <input type="checkbox" ref="unitTypeDstv" id="unitTypeDstv" name="unitTypeDstv" v-model="newUnitType.dstv">
+                                    </label>
+
+                                    <label for="unitTypeParkingCar">
+                                        Car parking
+                                        <input type="checkbox" ref="unitTypeParkingCar" id="unitTypeParkingCar" name="unitTypeParkingCar" v-model="newUnitType.parking_car">
+                                    </label>
+
+                                    <label for="unitTypeParkingBike">
+                                        Bike parking
+                                        <input type="checkbox" ref="unitTypeParkingBike" id="unitTypeParkingBike" name="unitTypeParkingBike" v-model="newUnitType.parking_bike">
+                                    </label>
+
+                                    <label for="unitTypeStoreroom">
+                                        Storeroom
+                                        <input type="checkbox" ref="unitTypeStoreroom" id="unitTypeStoreroom" name="unitTypeStoreroom" v-model="newUnitType.storeroom">
+                                    </label>
+                                </div>
+                                <!-- END Edit form -->
+
+                                <div class="row column">
+                                    <button type="submit" name="addUnitType" class="success button" v-on:click="addUnitType" v-bind:disabled="loading">
+                                        <span v-if="loading">
+                                            <loading></loading>
+                                        </span>
+                                        <span v-else>
+                                            Add Unit Type
+                                        </span>
+                                    </button>
+                                    <button type="submit" name="addLocation" class="button float-right --mt1" v-on:click="cancelUnitType" v-bind:disabled="loading">
+                                        <span v-if="loading">
+                                            <loading></loading>
+                                        </span>
+                                        <span v-else>
+                                            Cancel
+                                        </span>
+                                    </button>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
                     <template v-for="(unitType, index) in unitTypes" >
                         <div class="small-12 columns">
-                            <!-- Row Title -->
-                            <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{ unitType.name }}</button>
-                            <!-- START Edit form -->
-                            <div class="accordion__content">
+                            <div class="table__row" :class="{ even: isEven(index), first: index == 0, last: index == unitTypes.length -1 }">
+                                <!-- Row Title -->
+                                <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{ unitType.name }}</button>
+                                <!-- START Edit form -->
+                                <div class="accordion__content --bg-calm">
 
-                                <label for="editUnitTypeName">
-                                    Unit type name*
-                                    <input type="text" id="editUnitTypeName" ref="editUnitTypeName" name="editUnitTypeName" v-model="editUnitType.name">
-                                </label>
+                                    <label for="editUnitTypeName">
+                                        Unit type name*
+                                        <input type="text" id="editUnitTypeName" ref="editUnitTypeName" name="editUnitTypeName" v-model="editUnitType.name">
+                                    </label>
 
-                                <label for="editUnitTypeDescription">
-                                    Description*
-                                    <textarea ref="editUnitTypeDescription" id="editUnitTypeDescription" name="editUnitTypeDescription" v-model="editUnitType.description"></textarea>
-                                </label>
+                                    <label for="editUnitTypeDescription">
+                                        Description*
+                                        <textarea ref="editUnitTypeDescription" id="editUnitTypeDescription" name="editUnitTypeDescription" v-model="editUnitType.description"></textarea>
+                                    </label>
 
-                                <label for="editLocationId">
-                                    Location*
-                                    <select ref="editLocationId" id="editLocationId" name="editLocationId" v-model="editUnitType.location_id">
-                                        <option v-for="location in locations" v-bind:value="location.id">
-                                            {{ location.name }}
-                                        </option>
-                                    </select>
-                                </label>
+                                    <label for="editLocationId">
+                                        Location*
+                                        <select ref="editLocationId" id="editLocationId" name="editLocationId" v-model="editUnitType.location_id">
+                                            <option v-for="location in locations" v-bind:value="location.id">
+                                                {{ location.name }}
+                                            </option>
+                                        </select>
+                                    </label>
 
-                                <label for="editUnitTypeCost">
-                                    Unit type Cost*
-                                    <input type="number" id="editUnitTypeCost" ref="editUnitTypeCost" name="editUnitTypeCost" v-model="editUnitType.cost">
-                                </label>
+                                    <label for="editUnitTypeCost">
+                                        Unit type Cost*
+                                        <input type="number" id="editUnitTypeCost" ref="editUnitTypeCost" name="editUnitTypeCost" v-model="editUnitType.cost">
+                                    </label>
 
-                                <label for="editUnitTypeWifi">
-                                    Wifi
-                                    <input type="checkbox" id="editUnitTypeWifi" ref="editUnitTypeWifi" name="editUnitTypeWifi" v-model="editUnitType.wifi">
-                                </label>
+                                    <label for="editUnitTypeWifi">
+                                        Wifi
+                                        <input type="checkbox" id="editUnitTypeWifi" ref="editUnitTypeWifi" name="editUnitTypeWifi" v-model="editUnitType.wifi">
+                                    </label>
 
-                                <label for="editUnitTypeElectricity">
-                                    Electricity
-                                    <input type="checkbox" id="editUnitTypeElectricity" ref="editUnitTypeElectricity" name="editUnitTypeElectricity" v-model="editUnitType.electricity">
-                                </label>
+                                    <label for="editUnitTypeElectricity">
+                                        Electricity
+                                        <input type="checkbox" id="editUnitTypeElectricity" ref="editUnitTypeElectricity" name="editUnitTypeElectricity" v-model="editUnitType.electricity">
+                                    </label>
 
-                                <label for="unitTypeDstv">
-                                    Dstv
-                                    <input type="checkbox" id="unitTypeDstv" ref="unitTypeDstv" name="unitTypeDstv" v-model="editUnitType.dstv">
-                                </label>
+                                    <label for="unitTypeDstv">
+                                        Dstv
+                                        <input type="checkbox" id="unitTypeDstv" ref="unitTypeDstv" name="unitTypeDstv" v-model="editUnitType.dstv">
+                                    </label>
 
-                                <label for="unitTypeParkingCar">
-                                    Car parking
-                                    <input type="checkbox" id="unitTypeParkingCar" ref="unitTypeParkingCar" name="unitTypeParkingCar" v-model="editUnitType.parking_car">
-                                </label>
+                                    <label for="unitTypeParkingCar">
+                                        Car parking
+                                        <input type="checkbox" id="unitTypeParkingCar" ref="unitTypeParkingCar" name="unitTypeParkingCar" v-model="editUnitType.parking_car">
+                                    </label>
 
-                                <label for="unitTypeParkingBike">
-                                    Bike parking
-                                    <input type="checkbox" id="unitTypeParkingBike" ref="unitTypeParkingBike" name="unitTypeParkingBike" v-model="editUnitType.parking_bike">
-                                </label>
+                                    <label for="unitTypeParkingBike">
+                                        Bike parking
+                                        <input type="checkbox" id="unitTypeParkingBike" ref="unitTypeParkingBike" name="unitTypeParkingBike" v-model="editUnitType.parking_bike">
+                                    </label>
 
-                                <label for="unitTypeStoreroom">
-                                    Storeroom
-                                    <input type="checkbox" id="unitTypeStoreroom" ref="unitTypeStoreroom" name="unitTypeStoreroom" v-model="editUnitType.storeroom">
-                                </label>
+                                    <label for="unitTypeStoreroom">
+                                        Storeroom
+                                        <input type="checkbox" id="unitTypeStoreroom" ref="unitTypeStoreroom" name="unitTypeStoreroom" v-model="editUnitType.storeroom">
+                                    </label>
 
-                                <button type="submit" name="addUnitType" class="success button" v-on:click="updateUnitType" v-bind:disabled="loading">
+                                    <button type="submit" name="addUnitType" class="success button" v-on:click="updateUnitType" v-bind:disabled="loading">
                                     <span v-if="loading">
                                         <loading></loading>
                                     </span>
-                                    <span v-else>
+                                        <span v-else>
                                         Update unit type
                                     </span>
-                                </button>
+                                    </button>
 
+                                </div>
+                                <!-- END Edit form -->
                             </div>
-                            <!-- END Edit form -->
+                        </div>
                     </template>
                 </div>
                 <!-- END List Section -->
+
             </div>
+
+            <div class="medium-3 columns">
+                <div class="--border-wrap">
+                    <div class="stats-box">
+                        <div class="row column clearfix">
+                            <h3 class="stats-box__header --focused --mt0">Stats</h3>
+                        </div>
+                        Unit Types: <span class="float-right">{{unitTypes.length}}</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
+
     </div>
 </template>
 <script>
@@ -203,6 +240,11 @@
             console.log("The unit types are ", this.unitTypes);
         },
         methods: {
+
+            isEven: function (n) {
+                return n % 2 == 0;
+            },
+
             addUnitType : function() {
 
                 this.loading = true;
@@ -226,6 +268,10 @@
                     this.displayError(err);
                 });
 
+            },
+            cancelUnitType: function () {
+                this.newUnitType = this.initializeUnitType();
+                this.addEntry = false;
             },
 
             updateUnitType: function() {

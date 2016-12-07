@@ -2,7 +2,16 @@
 
 namespace Portal\Http\Controllers;
 
+use Auth;
+use DB;
+use PDF;
 use Illuminate\Http\Request;
+use Portal\Contract;
+use Portal\ContractItem;
+use Portal\Http\Requests\ContractCreateRequest;
+use Portal\Jobs\SendContractToUserEmail;
+use Portal\User;
+use Response;
 
 class ContractsController extends Controller
 {
@@ -34,109 +43,127 @@ class ContractsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
-        // abort unless Auth is level above tenant
-
-        // return view('contracts.create');
-
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request|ContractCreateRequest $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store( ContractCreateRequest $request )
     {
 
         // about unless Auth is level above tenant
+        $this->authorize( 'create', Contract::class );
 
         DB::beginTransaction();
 
         try {
 
             // Take the request and store in the DB
+            $contract = Contract::create( $request->all() );
 
             // Generate a PDF of the contract based on the application
+            // The name should be the user first and last name and the date
+            // eg FirstName20160424.pdf
+            $pdfName = ucfirst( preg_replace( '/[^\w-]/', '', Auth::user()->first_name ) ) . ucfirst( preg_replace( '/[^\w-]/', '', Auth::user()->last_name ) ) . \Carbon\Carbon::today()->toDateString();
 
-            // Save this into S3
+            $data = [ 'name' => Auth::user()->first_name ];
+            $filePath = storage_path( 'contracts/' . $pdfName . '.pdf' );
+            $pdf = PDF::loadView( 'pdf.contract', $data )->save( $filePath );
+
+            // TODO Save the PDF into S3
+
+            $user = User::findOrFail( $request->user_id );
+            // Generate a secure link for the user_id passed in
+            $contract->secure_link = encrypt( $user->email . '##' . $filePath );
+            $contract->save();
+
+            // Save the items array into the contract so we
+            // have a structured list of the items for this
+            // specific contract
+            if ( $request->items ) {
+                foreach ( $request->items as $item ) {
+
+                    // Create the contract item
+                    ContractItem::create( [
+                        'contract_id' => $contract->id,
+                        'name'        => $item['name'],
+                        'description' => $item['description'],
+                        'value'       => $item['cost']
+                    ] );
+
+                }
+            }
 
             // Generate the secure return email for this contract
-
-            // Send the applicant a copy of the PDF in email
+            dispatch( new SendContractToUserEmail( $filePath, $request->user_id, $contract->secure_link ) );
 
             DB::commit();
 
-        } catch (\Exception $e) {
+            return Response::json( [
+                'message' => trans( 'portal.contracts_store_complete' ),
+                'data'    => $contract->toArray()
+            ], 200 );
 
-            \Log::info($e);
+        } catch ( \Exception $e ) {
+
+            \Log::info( $e );
 
             //Bugsnag::notifyException($e);
 
             DB::rollback();
 
-            return Response::json([
+            return Response::json( [
                 'error'   => 'contracts_store_error',
-                'message' => trans('portal.contracts_store_error'),
-            ], 422);
+                'message' => trans( 'portal.contracts_store_error' ),
+            ], 422 );
 
         }
 
     }
 
     /**
-     * Display the specified resource.
+     * Show a user a copy of the contract for approval.
      *
-     * @param  int  $id
+     * @param $secureLink
      * @return \Illuminate\Http\Response
+     * @internal param int $id
      */
-    public function show($id)
+    public function show( $secureLink )
     {
+
+        // Decrypt the link
+        try {
+            $decrypted = decrypt( $secureLink );
+            $secureArray = explode( "##", $decrypted );
+
+            abort_unless( $secureArray[0] == Auth::user()->email, 401 );
+
+            // Find the secureLink in the DB
+            $contract = Contract::whereSecureLink( $secureLink )->first();
+
+            // Check the secure link user_id matches that of the Auth::user()
+            abort_unless( $contract->user_id == Auth::user()->id, 401 );
+
+            // Return the use the view with their contract details
+            return view( 'contracts.review', compact( 'contract' ) );
+
+
+        } catch ( DecryptException $e ) {
+            abort( 500 );
+        }
 
         // abort unless Auth > tenant
 
-        // return view('contract.show');
 
-    }
-
-    /**
-     * We should not be editing the contract
-     * only creating and removing
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    //public function edit($id)
-    //{
-    //    //
-    //}
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy( $id )
     {
 
         // abort unless Auth > tenant

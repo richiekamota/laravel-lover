@@ -19,7 +19,7 @@ class Contract extends Model
      */
 
     protected $fillable = [
-        'start_date', 'end_date', 'user_id', 'unit_id', 'document_id'
+        'start_date', 'end_date', 'user_id', 'unit_id', 'document_id', 'secure_link'
     ];
 
     protected $dates = ['deleted_at'];
@@ -28,7 +28,7 @@ class Contract extends Model
 
     public function user()
     {
-        return $this->hasOne('Portal\User');
+        return $this->belongsTo('Portal\User');
     }
 
     public function unit()
@@ -39,5 +39,9 @@ class Contract extends Model
     public function document()
     {
         return $this->hasOne('Portal\Document');
+    }
+
+    public function items(){
+        return $this->hasMany('Portal\ContractItem');
     }
 }

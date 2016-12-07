@@ -1,5 +1,9 @@
-@extends('dashboard')
+@extends('layouts.app')
 
-@section('dashboard-content')
-    <admin-items prop-items="{{$items}}"/>
+@section('content')
+    <div class="row">
+        <div class="column">
+            <admin-items prop-items="{{$items}}"  prop-unit-types="{{$unitTypes}}"/>
+        </div>
+    </div>
 @endsection

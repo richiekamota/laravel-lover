@@ -1,0 +1,70 @@
+
+.page-application{
+  background-color: rgba(115, 207, 205, 0.08);
+  padding-bottom: 5vh;
+  min-height: 100vh;
+
+  &__header{
+    padding: 1rem;
+
+    &-title{
+      font-size: 48px;
+      color: $focused;
+    }
+    &-sub{
+      font-family: $opensansbold;
+      color: $concrete;
+    }
+  }
+}
+
+.application{
+
+  &-step{
+
+    &__heading{
+      background-color: $focused;
+      color: $white;
+      padding: 1rem 2rem;
+      font-family: $opensansbold;
+      font-size: 20px;
+      font-style: normal;
+      font-stretch: normal;
+      letter-spacing: 0.2px;
+      width: 100%;
+      text-align: left;
+
+      &.--disabled{
+        background-color: rgb(223, 223, 223);
+        cursor: not-allowed;
+      }
+    }
+
+    &__content{
+      background-color: $white;
+      border: solid 1px $focused;
+      padding: 0 2rem;
+      max-height: 0;
+      overflow: hidden;
+      transition: 0.6s ease-in-out;
+      opacity: 0;
+
+      &.application-step__content--active{
+        padding: 1rem 2rem;
+        opacity: 1;
+        max-height: 1500px;
+      }
+
+      input[readonly]{
+        background-color: transparent;
+      }
+    }
+
+    &__line{
+      border: solid 1px $slate;
+    }
+
+  }
+
+
+}

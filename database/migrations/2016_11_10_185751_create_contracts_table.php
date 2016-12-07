@@ -13,18 +13,19 @@ class CreateContractsTable extends Migration
      */
     public function up()
     {
-        Schema::create('contracts', function (Blueprint $table) {
-            $table->uuid('id');
-            $table->primary('id');
-            $table->uuid('user_id');
-            $table->uuid('unit_id');
-            $table->uuid('document_id');
-            $table->dateTime('start_date');
-            $table->dateTime('end_date');
+        Schema::create( 'contracts', function ( Blueprint $table ) {
+            $table->uuid( 'id' );
+            $table->primary( 'id' );
+            $table->uuid( 'user_id' );
+            $table->uuid( 'unit_id' );
+            $table->uuid( 'document_id' )->nullable();
+            $table->dateTime( 'start_date' );
+            $table->dateTime( 'end_date' );
+            $table->text( 'secure_link' )->nullable();
 
             $table->timestamps();
             $table->softDeletes();
-        });
+        } );
     }
 
     /**
@@ -34,6 +35,6 @@ class CreateContractsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contracts');
+        Schema::dropIfExists( 'contracts' );
     }
 }
