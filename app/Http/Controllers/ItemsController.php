@@ -4,6 +4,8 @@ namespace Portal\Http\Controllers;
 
 use DB;
 use Illuminate\Http\Request;
+use Portal\Item;
+use Response;
 
 class ItemsController extends Controller
 {
@@ -17,7 +19,9 @@ class ItemsController extends Controller
 
         // abort unless Auth > tenant
 
-        return view('items.index');
+        $items = Item::all();
+
+        return view('items.index', compact('items'));
 
     }
 
@@ -44,7 +48,6 @@ class ItemsController extends Controller
      */
     public function store( Request $request )
     {
-
         // abort unless Auth > tenant   
 
         DB::beginTransaction();
@@ -53,9 +56,15 @@ class ItemsController extends Controller
 
             // store the record in the DB
 
-            // return ok
+            // Store the location in the DB
+            $item = Item::create($request->all());
 
             DB::commit();
+
+            return Response::json([
+                'message' => trans('portal.items_store_complete'),
+                'data' => $item->toArray()
+            ], 200);
 
         } catch (\Exception $e) {
 
