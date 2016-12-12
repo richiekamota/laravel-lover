@@ -125,6 +125,19 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/application-form/{id}', 'ApplicationController@show');
 
 
+    /*
+    |--------------------------------------------------------------------------
+    | Applications - manage the applications
+    |--------------------------------------------------------------------------
+    |
+    */
 
+    Route::get('/application/{id}/review', 'ApplicationProcessController@review');
+    Route::get('/application/{id}/approve', 'ApplicationProcessController@approve');
+    Route::post('/application/{id}/approve', 'ApplicationController@processApprove');
+    Route::get('/application/{id}/pending', 'ApplicationProcessController@pending');
+    Route::post('/application/{id}/pending', 'ApplicationController@processPending');
+    Route::get('/application/{id}/decline', 'ApplicationProcessController@decline');
+    Route::post('/application/{id}/decline', 'ApplicationProcessController@processDecline');
 
 });

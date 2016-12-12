@@ -56,4 +56,41 @@ class ApplicationPolicy
     {
         //
     }
+
+    /**
+     * Can the logged in user review applications
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function review( User $user )
+    {
+
+        if ( $user->role != 'tenant' ) {
+            return TRUE;
+        }
+
+        return FALSE;
+
+    }
+
+    /**
+     * Can the logged in user process applications
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function process( User $user )
+    {
+
+        if ( $user->role != 'tenant' ) {
+            return TRUE;
+        }
+
+        return FALSE;
+
+    }
+
 }

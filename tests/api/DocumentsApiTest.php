@@ -132,9 +132,7 @@ class DocumentsApiTest extends TestCase
 
         $document = Document::all()->first();
 
-        \Log::info( $document );
-
-        $this->call( 'GET', 'documents/' . $document->file_name );
+        $this->call( 'GET', 'documents/' . $document->id );
 
         $this->assertResponseOk();
 

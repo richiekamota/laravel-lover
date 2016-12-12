@@ -6,11 +6,48 @@
 
             <h1>UI Kit</h1>
 
+            <h2>Colors</h2>
+
+            <div class="row">
+                <div class="column color" style="background-color: #1b696e; height: 100px; display: flex; align-items: center; color: #fff; text-align: center">focused</div>
+                <div class="column color" style="background-color: #73cfcd; height: 100px; display: flex; align-items: center; color: #fff; text-align: center">breeze</div>
+                <div class="column color" style="background-color: #0afcea; height: 100px; display: flex; align-items: center; color: #000; text-align: center">amped</div>
+                <div class="column color" style="background-color: #4a494b; height: 100px; display: flex; align-items: center; color: #fff; text-align: center">concrete</div>
+                <div class="column color" style="background-color: #ff9f02; height: 100px; display: flex; align-items: center; color: #fff; text-align: center">alarmed</div>
+                <div class="column color" style="background-color: #9a989b; height: 100px; display: flex; align-items: center; color: #fff; text-align: center">slate</div>
+            </div>
+
+            <div class="row">
+                <div class="column color" style="background-color: #f73179; height: 100px; display: flex; align-items: center; color: #fff; text-align: center">exuberant</div>
+                <div class="column color" style="background-color: #dfdfdf; height: 100px; display: flex; align-items: center; color: #000; text-align: center">mist</div>
+                <div class="column color" style="background-color: #ff7902; height: 100px; display: flex; align-items: center; color: #fff; text-align: center">blazed</div>
+                <div class="column color" style="background-color: #61aead; height: 100px; display: flex; align-items: center; color: #fff; text-align: center">leafed</div>
+                <div class="column color" style="background-color: #f6f6f6; height: 100px; display: flex; align-items: center; color: #000; text-align: center">clouded</div>
+                <div class="column color" style="background-color: #ffc668; height: 100px; display: flex; align-items: center; color: #fff; text-align: center">daffy</div>
+            </div>
+
+            <div class="row">
+                <div class="column color" style="background-color: rgba(115,207,205,0.32); height: 100px; display: flex; align-items: center; color: #000; text-align: center">calm</div>
+                <div class="column color" style="background-color: #bdfbff; height: 100px; display: flex; align-items: center; color: #000; text-align: center">iced</div>
+            </div>
+
             <h2>Buttons</h2>
 
-            <button class="button">Basic</button>
-            <button disabled class="button">Basic</button>
-            <button class="button button--focused">Focused</button>
+            <div class="row column">
+
+                <button class="button">Basic</button>
+                <button disabled class="button">Basic</button>
+                <button class="button button--focused">--focused</button>
+
+            </div>
+
+            <div class="row column">
+
+                <button class="button button--approve">--outline</button>
+                <button class="button button--pending">--pending</button>
+                <button class="button button--decline">--decline</button>
+
+            </div>
 
             <h2>Form Elements</h2>
 

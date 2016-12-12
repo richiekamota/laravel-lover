@@ -5,6 +5,7 @@ namespace Portal\Http\Controllers;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Portal\Application;
 use Portal\Http\Requests\ApplicationCreateRequest;
 use Portal\Http\Requests\ApplicationStepEightRequest;
@@ -592,7 +593,7 @@ class ApplicationController extends Controller
             'unit_storeroom'                 => 'required',
             'unit_occupation_date'           => 'required',
             'judgements'                     => 'required|boolean',
-            'judgements_details'             => 'required_unless:judgements,false',
+            'judgements_details'             => 'required_if:judgements,false',
             'resident_id'                    => 'required',
             'resident_study_permit'          => 'required',
             'resident_acceptance'            => 'required',

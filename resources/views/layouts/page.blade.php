@@ -11,7 +11,8 @@
     <title>{{ config('app.name', 'My Domain Portal') }}</title>
 
     <!-- Styles -->
-    <link href="/css/app.css" rel="stylesheet">
+    {{--<link href="/css/app.css" rel="stylesheet">--}}
+    <link rel="stylesheet" href="{{ elixir('css/app.css') }}">
 
     <!-- Scripts -->
     <script>
@@ -25,6 +26,7 @@
 @yield('page')
 
 <!-- Scripts -->
-<script src="/js/app.js"></script>
+{{--<script src="/js/app.js"></script>--}}
+<script src="{{ elixir('js/app.js') }}"></script>
 </body>
 </html>

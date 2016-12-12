@@ -27,6 +27,10 @@ Vue.component('admin-unit-types', require('./components/admin/AdminUnitTypes.vue
 Vue.component('admin-units', require('./components/admin/AdminUnits.vue'));
 Vue.component('admin-items', require('./components/admin/AdminItems.vue'));
 
+Vue.component('open-applications', require('./components/dashboard/OpenApplications.vue'));
+
+Vue.component('application-review', require('./components/application/review.vue'));
+
 const app = new Vue({
     el: '#app'
 });

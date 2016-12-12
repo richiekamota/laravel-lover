@@ -22,7 +22,7 @@
                     <div class="small-12 columns">
                         <div class="table__row table__row--add">
                             <!-- Row Title -->
-                            <button class="accordion__heading accordion__heading--add --white" v-on:click="addEntry = !addEntry">
+                            <button class="accordion__heading accordion__heading--add" v-on:click="addEntry = !addEntry">
                                 <h4 class="--white">Add new location</h4>
                             </button>
                             <!-- START Edit form -->

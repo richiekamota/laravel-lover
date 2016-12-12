@@ -38,20 +38,34 @@ class BaseDataSeeder extends Seeder
         ] );
 
 
-        factory(Portal\Location::class, 5)->create([
-            'id'      => Uuid::generate()->string
-        ])->each(function ($l) {
-            factory(Portal\UnitType::class, 5)->create([
+        factory( Portal\Location::class, 5 )->create( [
+            'id' => Uuid::generate()->string
+        ] )->each( function ( $l ) {
+
+            factory( Portal\UnitType::class, 5 )->create( [
                 'location_id' => $l->id
-            ])->each(function ($u) {
-                factory(Portal\Unit::class, 20)->create([
+            ] )->each( function ( $u ) {
+
+                factory( Portal\Unit::class, 20 )->create( [
                     'location_id' => $u->location_id,
-                    'type_id' => $u->id
-                ]);
-            });
-        });
+                    'type_id'     => $u->id
+                ] );
+            } );
+        } );
 
+        $user = factory( Portal\User::class )->create( [
+            'role' => 'tenant'
+        ] );
 
+        $residendId = factory(Portal\Document::class)->create( [
+            'user_id' => $user->id,
+            'document_type' => 'resident_id'
+        ] );
+
+        factory( Portal\Application::class, 5 )->states( 'forApproval' )->create( [
+            'user_id' => $user->id,
+            'resident_id' => $residendId->id,
+        ] );
 
     }
 }

@@ -50,9 +50,11 @@
                                         Unit Types* - (add and remove the required unit types)
                                     </label>
 
+                                    <hr class="selected-unit-types__line" v-if="selectedUnitTypes.length > 0">
                                     <div  v-for="(unit_type , index) in selectedUnitTypes" class="selected-unit-types clearfix">
                                         <span class="selected-unit-types__name">{{unit_type.name}}</span> <span class="selected-unit-types__remove float-right" v-on:click="removeSelectedUnitType(unit_type, index)">remove</span>
                                     </div>
+                                    <hr class="selected-unit-types__line" v-if="selectedUnitTypes.length > 0">
 
                                     <select multiple ref="itemUnitTypes" id="itemUnitTypes" name="itemUnitTypes">
                                         <option v-for="(unit_type , index) in unitTypes" v-bind:value="unit_type.id" v-on:click="addSelectedUnitType(unit_type, index)">
@@ -322,6 +324,8 @@
             },
 
             createEditableObject(index) {
+
+                console.log(this.items[index]);
 
                 // If we want to assign a completely new object which will not update the other form due to
                 // reactivity, we must manually assign whatever is needed.

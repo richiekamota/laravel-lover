@@ -83,7 +83,67 @@ class Application extends Model
 
     public function user()
     {
-        return $this->hasOne( 'Portal\User' );
+
+        return $this->hasOne( 'Portal\User', 'id', 'user_id' );
+
     }
+
+    public function events()
+    {
+
+        return $this->hasMany( 'Portal\ApplicationEvent');
+
+    }
+
+    public function residentId()
+    {
+
+        return $this->hasOne( 'Portal\Document', 'id', 'resident_id' );
+
+    }
+
+    public function residentStudyPermit()
+    {
+
+        return $this->hasOne( 'Portal\Document', 'id', 'resident_study_permit' );
+
+    }
+
+    public function residentAcceptance()
+    {
+
+        return $this->hasOne( 'Portal\Document', 'id', 'resident_acceptance' );
+
+    }
+
+    public function residentFinancialAid()
+    {
+
+        return $this->hasOne( 'Portal\Document', 'id', 'resident_financial_aid' );
+
+    }
+
+    public function leaseholderId()
+    {
+
+        return $this->hasOne( 'Portal\Document', 'id', 'leaseholder_id' );
+
+    }
+
+    public function leaseholderAddressProof()
+    {
+
+        return $this->hasOne( 'Portal\Document', 'id', 'leaseholder_address_proof' );
+
+    }
+
+    public function leaseholderPayslip()
+    {
+
+        return $this->hasOne( 'Portal\Document', 'id', 'leaseholder_payslip' );
+
+    }
+
+
 
 }

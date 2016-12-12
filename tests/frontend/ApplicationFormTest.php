@@ -17,13 +17,16 @@ class ApplicationFormTest extends TestCase
     public function testPassingStepZero()
     {
 
-        $this->visit('/application-form')
-            ->type('First', 'first_name')
-            ->type('Last', 'last_name')
-            ->type('test@portal.com', 'email')
-            ->type('password', 'password')
-            ->press('Save and continue')
-            ->see('application-form step="1"');
+        $user = factory( Portal\User::class )->create( [
+            'role' => 'application'
+        ] );
+
+        $this->actingAs( $user )
+            ->json( 'POST', '/contracts', [] )
+            ->assertResponseStatus( 422 )
+            ->seeJson( [
+                "user_id" => [ "The user id field is required." ]
+            ] );
 
     }
 

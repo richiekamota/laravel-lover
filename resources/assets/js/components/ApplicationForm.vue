@@ -20,8 +20,6 @@
 
                 <template v-if="showStep >= 1">
 
-                    <h2>Step 1: Details of the leaseholder applying to rent the premises</h2>
-
                     <!-- TODO: Chekc if ID number has been filled in, make passport number not required and vice versa -->
 
                     <div class="row">
@@ -133,7 +131,6 @@
             <button class="application-step__heading" v-on:click="accordionToggle(2, $event)" ref="accordion2" v-bind:class="{ '--disabled' : showStep <  2}" data-accordion="2">Step 2: Leaseholder home ownership</button>
             <div class="application-step__content">
                 <template v-if="showStep >= 2">
-                    <h2>Step 2</h2>
 
                     <!-- Current property Owner -->
                     <label for="current_property_owner">
@@ -201,7 +198,6 @@
             <div class="application-step__content">
 
                 <template v-if="showStep >= 3">
-                    <h2>Step 3: Employment details</h2>
 
                     <!-- Self Employed -->
                     <label for="selfemployed">
@@ -278,7 +274,6 @@
             <div class="application-step__content">
 
                 <template v-if="showStep >= 4">
-                    <h2>Step 4:Details of the resident applying to occupy the premises</h2>
 
                     <!-- Resident First name -->
                     <label for="resident_first_name">
@@ -534,13 +529,19 @@
                     <div id="resident_financial_aid" name="resident_financial_aid" class="dropzone"></div>
                 </label>
 
-                <!-- Resident Address proof -->
+                <!-- Leaseholder ID -->
+                <label for="leaseholder_id">
+                    Leaseholder's ID
+                    <div id="leaseholder_id" name="leaseholder_id" class="dropzone"></div>
+                </label>
+
+                <!-- Leaseholder Address proof -->
                 <label for="leaseholder_address_proof">
-                    Resident Proof of Address
+                    Leaseholder's Proof of Address
                     <div id="leaseholder_address_proof" name="leaseholder_address_proof" class="dropzone"></div>
                 </label>
 
-                <!-- Resident Address proof -->
+                <!-- Leaseholder's payslip -->
                 <label for="leaseholder_payslip">
                     Leaseholder's payslip
                     <div id="leaseholder_payslip" name="leaseholder_payslip" class="dropzone"></div>
@@ -548,7 +549,7 @@
 
                 <div v-if="appForm.step7" v-html="appForm.step7"></div>
 
-                <button type="submit" id="step7-save" class="button button--focused" v-on:click="submitStep(7)" v-bind:disabled="loading">
+                <button type="submit" id="step7-save" class="button button--focused --mt2" v-on:click="submitStep(7)" v-bind:disabled="loading">
                     <span v-if="loading">
                         <loading></loading>
                     </span>
@@ -565,7 +566,7 @@
             <div class="application-step__content">
                 <!-- Comments -->
                 <label for="comments">
-                    Resident Financial Aid
+                    Comments
                     <textarea name="comments" v-model="appForm.comments"></textarea>
                 </label>
 
@@ -577,7 +578,7 @@
 
                 <div v-if="appForm.step8" v-html="appForm.step8"></div>
 
-                <button type="submit" id="step8-save" class="button button--focused" v-on:click="submitStep(8)" v-bind:disabled="loading">
+                <button type="submit" id="step8-save" class="button button--focused --mt2" v-on:click="submitStep(8)" v-bind:disabled="loading">
                     <span v-if="loading">
                         <loading></loading>
                     </span>
@@ -676,6 +677,7 @@
                     resident_study_permit: '',
                     resident_acceptance: '',
                     resident_financial_aid: '',
+                    leaseholder_id: '',
                     leaseholder_address_proof: '',
                     leaseholder_payslip: '',
                 // Step 8

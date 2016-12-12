@@ -10,11 +10,11 @@
 
             @else
 
-                <h1>Dashboard</h1>
+                <h2 class="--focused">DASHBOARD | where stuff gets done</h2>
 
                 @if(!Gate::check('is-tenant'))
 
-                    <h3>Admin Dashboard in here</h3>
+                    <open-applications prop-open-applications="{{$openApplications}}"/>
 
                     {{-- Open Applications --}}
 

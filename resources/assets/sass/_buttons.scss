@@ -38,6 +38,15 @@
     font-size: 24px;
   }
 
+  &--small{
+    padding: 0.3em 1em;
+  }
+
+  &--block{
+    display: block;
+    width:100%;
+  }
+
   &--focused{
     color: $white;
     background-color: $focused;
@@ -69,4 +78,59 @@
       color: $white;
     }
   }
+
+  &--approve{
+    background-color: $white;
+    border-color: $focused;
+    color: $focused;
+
+    &:hover{
+      background-color: $breeze;
+      border-color: $breeze;
+      color: $white;
+    }
+
+    &:active, &:focus{
+      background-color: $breeze;
+      border-color: $breeze;
+      color: $focused;
+    }
+  }
+
+  &--decline{
+    background-color: $white;
+    border-color: $alarmed;
+    color: $alarmed;
+
+    &:hover{
+      background-color: $alarmed;
+      border-color: $alarmed;
+      color: $white;
+    }
+
+    &:active, &:focus{
+      background-color: $alarmed;
+      border-color: $alarmed;
+      color: $blazed;
+    }
+  }
+
+  &--pending{
+    background-color: $white;
+    border-color: $exuberant;
+    color: $exuberant;
+
+    &:hover{
+      background-color: $exuberant;
+      border-color: $exuberant;
+      color: $white;
+    }
+
+    &:active, &:focus{
+      background-color: $exuberant;
+      border-color: $exuberant;
+      color: $white;
+    }
+  }
+
 }

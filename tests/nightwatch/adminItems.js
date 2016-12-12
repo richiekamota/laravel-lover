@@ -16,7 +16,8 @@ module.exports = {
         client
             .waitForElementVisible('body', 1000)
             // Fill in nothing and fail
-            .click('button[name="showAddForm"]')
+            .click('.accordion__heading--add')
+            .pause(500)
             .click('button[name="addItem"]')
             .pause(1500)
             .assert.containsText('.showSweetAlert h2', 'Error!')
@@ -35,23 +36,25 @@ module.exports = {
             .click('.sa-confirm-button-container .confirm')
             // Fill out the cost and submit.
             .setValue('#itemCost', Math.floor((Math.random() * 9999) + 1))
+            .click('[name="itemUnitTypes"] option:first-of-type')
+            .pause(500)
             .click('button[name="addItem"]')
             .pause(1500)
             // Let's see if the accordion is there.
-            .assert.containsText('.row>.columns:last-of-type>.accordion__heading', itemName)
+            .assert.containsText('.row.table>.columns:last-of-type .accordion__heading', itemName)
             .pause(1500)
     },
 
     'Admin Edit Item' : function (client) {
         client
-            .click('.row>.columns:last-of-type>.accordion__heading')
+            .click('.row.table>.columns:last-of-type .accordion__heading')
             .pause(600)
             // Let's update the entry to see if it works correctly
-            .click('.accordion__content--active button')
+            .click('.accordion__content--active .button.success')
             .verify.hidden('.sweet-alert')
             .pause(850)
             // Delete the price and try to submit
-            .click('.row>.columns:last-of-type>.accordion__heading')
+            .click('.row.table>.columns:last-of-type .accordion__heading')
             .pause(600)
             .clearValue('.accordion__content--active #editItemCost')
             // We do this to update vue
@@ -62,7 +65,5 @@ module.exports = {
             .click('.sa-confirm-button-container .confirm')
             .end();
     },
-
-
 
 };

@@ -64,7 +64,7 @@ class ItemsController extends Controller
 
             return Response::json([
                 'message' => trans('portal.items_store_complete'),
-                'data' => $item->toArray()
+                'data' => Item::with('unitTypes')->find($item->id)->toArray()
             ], 200);
 
         } catch (\Exception $e) {

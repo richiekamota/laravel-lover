@@ -70,10 +70,10 @@ class DocumentsController extends Controller
     public function returnDocument( $id )
     {
 
-        $document = Document::whereFileName( $id )->first();
+        $document = Document::find( $id )->first();
 
         // abort unless Auth owns the doc ID
-        abort_unless( $document->user_id == Auth::user()->id, 403 );
+        abort_unless( ($document->user_id == Auth::user()->id || Auth::user()->role != 'tenant' ), 403 );
 
         // serve the doc back as a download
         $storagePath = Storage::disk( 'local' )->getDriver()->getAdapter()->getPathPrefix();
