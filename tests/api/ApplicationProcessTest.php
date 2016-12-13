@@ -27,8 +27,27 @@ class ApplicationProcessTest extends TestCase
             'role' => 'tenant'
         ] );
 
+        factory( Portal\Location::class, 5 )->create( [
+            'id' => Uuid::generate()->string
+        ] )->each( function ( $l ) {
+
+            factory( Portal\UnitType::class, 5 )->create( [
+                'location_id' => $l->id
+            ] )->each( function ( $u ) {
+
+                factory( Portal\Unit::class, 20 )->create( [
+                    'location_id' => $u->location_id,
+                    'type_id'     => $u->id
+                ] );
+            } );
+        } );
+
+        $location = \Portal\Location::all()->first();
+
         $this->application = factory(Portal\Application::class)->states('forApproval')->create([
-            'user_id' => $this->userTenant->id
+            'user_id' => $this->userTenant->id,
+            'unit_location' => $location->id,
+            'unit_type' => $location->unitTypes->first()->id
         ]);
 
 
@@ -91,47 +110,100 @@ class ApplicationProcessTest extends TestCase
     /**
      * Check email sent is correct
      */
-    //public function testSecureContractEmailContents()
-    //{
-    //
-    //    $user = factory( Portal\User::class )->create( [
-    //        'role' => 'application'
-    //    ] );
-    //    $location = factory( Portal\Location::class )->create();
-    //    $unitType = factory( Portal\UnitType::class )->create( [
-    //        'location_id' => $location->id
-    //    ] );
-    //    $unit = factory( Portal\Unit::class )->create( [
-    //        'location_id' => $location->id,
-    //        'type_id'     => $unitType->id
-    //    ] );
-    //
-    //    $this->actingAs( $user )
-    //        ->json( 'POST', '/contracts', [
-    //            'user_id'    => $user->id,
-    //            'unit_id'    => $unit->id,
-    //            'start_date' => '2016-01-01',
-    //            'end_date'   => '2016-11-01',
-    //        ] )
-    //        ->assertResponseStatus( 200 );
-    //
-    //    // Check that an email was sent to this email address
-    //    $this->seeMessageFor($user->email);
-    //
-    //    // Make sure the email has the correct subject
-    //    $this->seeMessageWithSubject('My Domain contract for review');
-    //
-    //    // Make sure the email was sent from the correct address
-    //    $this->seeMessageFrom('noreply@mydomain.co.za');
-    //
-    //    // Make sure the email contains text in the body of the message
-    //    // Default is to search the html rendered view
-    //    $this->assertTrue($this->lastMessage()->contains('Here is the latest contract for your approval'));
-    //
-    //    $pdfName = ucfirst( preg_replace( '/[^\w-]/', '', $user->first_name ) ) . ucfirst( preg_replace( '/[^\w-]/', '', $user->last_name ) ) . \Carbon\Carbon::today()->toDateString();
-    //    $uploaded = 'contracts' . DIRECTORY_SEPARATOR . $pdfName . '.pdf';
-    //    unlink( storage_path( $uploaded ) );
-    //
-    //}
+    public function testDeclinedApplicationEmailContents()
+    {
+
+        $this->actingAs( $this->user )
+            ->json( 'POST', '/application/' . $this->application->id . '/decline', [
+                'reason' => 'This is the reason'
+            ] )
+            ->assertResponseStatus( 200 );
+
+        $this->seeMessageFor($this->userTenant->email);
+        $this->seeMessageWithSubject('Your application has been declined');
+        $this->seeMessageFrom('My Domain');
+        $this->assertTrue($this->lastMessage()->contains('Your application for accommodation at My Domain Southern Suburbs has been declined'));
+
+    }
+
+    /**
+     * Test that a user can view the pending
+     */
+    public function testCanSeePendingPage()
+    {
+
+        $this->actingAs( $this->user )
+            ->visit('/application/'. $this->application->id.'/pending')
+            ->assertResponseStatus(200);
+
+    }
+
+    /**
+     * Test that a pending application process fails validation
+     */
+    public function testPendingApplicationFailsWithoutReason()
+    {
+
+        $this->actingAs( $this->user )
+            ->json( 'POST', '/application/' . $this->application->id . '/pending', [
+                'reason' => ''
+            ] )
+            ->assertResponseStatus( 422 );
+    }
+
+    /**
+     * Test that a pending application passes
+     */
+    public function testPendingApplication()
+    {
+
+        $this->actingAs( $this->user )
+            ->json( 'POST', '/application/' . $this->application->id . '/pending', [
+                'reason' => 'This is the reason'
+            ] )
+            ->assertResponseStatus( 200 )
+            ->seeInDatabase( 'applications', [
+                'id' => $this->application->id,
+                'status' => 'pending'
+            ] )
+            ->seeInDatabase( 'application_events', [
+                'application_id' => $this->application->id,
+                'user_id' => $this->user->id,
+                'action' => 'Application pending',
+                'note' => 'This is the reason'
+            ] );
+    }
+
+    /**
+     * Check email sent is correct
+     */
+    public function testPendingApplicationEmailContents()
+    {
+
+        $this->actingAs( $this->user )
+            ->json( 'POST', '/application/' . $this->application->id . '/pending', [
+                'reason' => 'This is the reason'
+            ] )
+            ->assertResponseStatus( 200 );
+
+        $this->seeMessageFor($this->userTenant->email);
+        $this->seeMessageWithSubject('Your application is pending');
+        $this->seeMessageFrom('My Domain');
+        $this->assertTrue($this->lastMessage()->contains('Your application has been marked pending.'));
+        $this->assertTrue($this->lastMessage()->contains('The reason for the application being marked as pending is: This is the reason'));
+
+    }
+
+    /**
+     * Test that a user can view the approve page
+     */
+    public function testCanSeeApprovePage()
+    {
+
+        $this->actingAs( $this->user )
+            ->visit('/application/'. $this->application->id.'/approve')
+            ->assertResponseStatus(200);
+
+    }
 
 }

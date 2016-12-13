@@ -28,8 +28,11 @@ Vue.component('admin-units', require('./components/admin/AdminUnits.vue'));
 Vue.component('admin-items', require('./components/admin/AdminItems.vue'));
 
 Vue.component('open-applications', require('./components/dashboard/OpenApplications.vue'));
+Vue.component('pending-applications', require('./components/dashboard/PendingApplications.vue'));
 
 Vue.component('application-review', require('./components/application/review.vue'));
+Vue.component('application-pending', require('./components/application/pending.vue'));
+Vue.component('application-approve', require('./components/application/approve.vue'));
 
 const app = new Vue({
     el: '#app'

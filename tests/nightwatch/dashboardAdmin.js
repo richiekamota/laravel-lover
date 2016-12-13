@@ -17,6 +17,7 @@ module.exports = {
             // Fill in nothing and fail
             .assert.containsText('h2', 'DASHBOARD')
             .assert.containsText('.open-applications .table__row.table__row--add', 'Open Applications')
+            .assert.containsText('.pending-applications .table__row.table__row--add', 'Pending Applications')
 
     },
 

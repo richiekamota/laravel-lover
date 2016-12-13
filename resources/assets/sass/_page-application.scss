@@ -49,10 +49,14 @@
       transition: 0.6s ease-in-out;
       opacity: 0;
 
+      &--no-padding{
+        padding: 0 !important;
+      }
+
       &.application-step__content--active{
         padding: 1rem 2rem;
         opacity: 1;
-        max-height: 1500px;
+        max-height: 5000px;
       }
 
       input[readonly]{

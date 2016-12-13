@@ -2,8 +2,6 @@
 
     <div class="open-applications">
 
-
-
         <div class="row table">
 
             <div class="small-12 columns">

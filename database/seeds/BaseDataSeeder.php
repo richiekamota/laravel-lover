@@ -62,9 +62,13 @@ class BaseDataSeeder extends Seeder
             'document_type' => 'resident_id'
         ] );
 
+        $location = \Portal\Location::all()->first();
+
         factory( Portal\Application::class, 5 )->states( 'forApproval' )->create( [
             'user_id' => $user->id,
             'resident_id' => $residendId->id,
+            'unit_location' => $location->id,
+            'unit_type' => $location->unitTypes->first()->id
         ] );
 
     }

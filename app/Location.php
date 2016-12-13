@@ -22,4 +22,21 @@ class Location extends Model
     protected $dates = ['deleted_at'];
 
     public $incrementing = false;
+
+    /**
+     * The unit types at this location
+     */
+    public function unitTypes()
+    {
+        return $this->hasMany('Portal\UnitType');
+    }
+
+    /**
+     * The units at this location
+     */
+    public function units()
+    {
+        return $this->hasMany('Portal\Unit');
+    }
+
 }

@@ -4419,10 +4419,14 @@ body, html {
   opacity: 0;
 }
 
+.application-step__content--no-padding {
+  padding: 0 !important;
+}
+
 .application-step__content.application-step__content--active {
   padding: 1rem 2rem;
   opacity: 1;
-  max-height: 1500px;
+  max-height: 5000px;
 }
 
 .application-step__content input[readonly] {

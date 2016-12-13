@@ -95,6 +95,16 @@ class Application extends Model
 
     }
 
+    public function location()
+    {
+        return $this->hasOne('Portal\Location', 'id', 'unit_location');
+    }
+
+    public function unitType()
+    {
+        return $this->hasOne('Portal\UnitType', 'id', 'unit_type');
+    }
+
     public function residentId()
     {
 

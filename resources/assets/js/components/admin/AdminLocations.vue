@@ -64,7 +64,7 @@
                                 <!-- END Edit form -->
 
                                 <div class="row column">
-                                    <button type="submit" name="addLocation" class="button focused --mt1" v-on:click="addLocation" v-bind:disabled="loading">
+                                    <button type="submit" id="addLocation" name="addLocation" class="button focused --mt1" v-on:click="addLocation" v-bind:disabled="loading">
                                         <span v-if="loading"><loading></loading></span>
                                         <span v-else>Add location</span>
                                     </button>

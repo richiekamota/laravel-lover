@@ -31,7 +31,7 @@ class DashboardController extends Controller
 
             $openApplications = Application::whereStatus('open')->get();
 
-            $pendingApplications = Application::whereStatus('pending')->get();
+            $pendingApplications = Application::with('user')->whereStatus('pending')->get();
 
             $allApplications = Application::whereStatus('declined')->orWhere('status', '!=', 'approved')->get();
 

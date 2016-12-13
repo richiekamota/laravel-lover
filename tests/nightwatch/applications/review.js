@@ -42,8 +42,33 @@ module.exports = {
         client
             // Click on the decline button and see there are two more appearing
             .click('#decline-application')
-            .assert.visible("#confirm-decline");
+            .assert.visible("#confirm-decline")
 
+    },
+
+    'View pending application page' : function(client) {
+        client
+            .url('http://localhost:8000/dashboard')
+            .waitForElementVisible('body', 1000)
+            .click('.open-applications .row.table>.columns:last-of-type a')
+            .waitForElementVisible('body', 1000)
+            .click('#pending-application')
+            .waitForElementVisible('body', 1000)
+            .assert.containsText('h2', 'APPLICATION PENDING')
+            .assert.containsText('label', 'Your message to the applicant')
+            .assert.containsText('#pending-application', 'FINALISE PENDING UPDATE')
+            .assert.containsText('.application-step__heading', 'Application Details')
+    },
+
+    'View approve application page' : function(client) {
+        client
+            .url('http://localhost:8000/dashboard')
+            .waitForElementVisible('body', 1000)
+            .click('.pending-applications .row.table>.columns:last-of-type a')
+            .waitForElementVisible('body', 1000)
+            .click('#approve-application')
+            .waitForElementVisible('body', 1000)
+            .assert.containsText('h2', 'APPLICATION APPROVAL')
 
     },
 

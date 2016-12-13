@@ -894,7 +894,7 @@
 
                             <label for="declineInput">
                                 Reason for decline
-                                <input type="text" name="declineInput" id="declineInput">
+                                <input type="text" name="declineInput" id="declineInput" v-model="declineReason">
                             </label>
 
                             <button id="confirm-decline" class="button button--decline button--small --mt1" v-on:click="submitDecline()">
@@ -963,12 +963,21 @@
 
                 this.$http.post(
                     '/application/' + this.application.id + '/decline',
-                    []
+                    {
+                        'reason' : this.declineReason
+                    }
                 ).then((response) => {
 
                     this.loading = false;
                     // If the decline call is successful then update the shown application.
                     this.application = response.data.data;
+
+                    swal({
+                        title: "Success!",
+                        text: "The application has been declined and the applicant has been emailed.",
+                        type: "success",
+                        confirmButtonText: "Ok"
+                    });
 
                 }, (err) => {
 
@@ -977,7 +986,31 @@
                 });
 
 
-            }
+            },
+
+            displayError(err) {
+                // There is an error, let's display an alert.
+                let errorMessage = '';
+                if (err.body.message) {
+                    errorMessage = err.body.message;
+                } else {
+                    // This should occur if there are any validation errors.
+                    // Let's iterate over the list of errors.
+                    Object.keys(err.body).forEach(function (key) {
+                        let obj = err.body[key];
+                        obj = obj.toString();
+                        errorMessage = errorMessage + obj + '\r \n';
+                    });
+                }
+
+                // THere is an error, let's display an alert.
+                swal({
+                    title: "Error!",
+                    text: errorMessage,
+                    type: "error",
+                    confirmButtonText: "Ok"
+                });
+            },
 
         }
 

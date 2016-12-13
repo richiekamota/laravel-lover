@@ -39,6 +39,6 @@ class UnitType extends Model
      */
     public function items()
     {
-        return $this->belongsToMany('Portal\Items');
+        return $this->belongsToMany('Portal\Item', 'item_unit_type', 'unit_type_id', 'item_id');
     }
 }
