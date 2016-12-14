@@ -44,13 +44,15 @@
                     </option>
                 </select>
 
-                <hr class="selected-unit-types__line --mt2" v-if="selectedItems.length > 0">
-                <div v-for="(item , index) in selectedItems" class="selected-unit-types clearfix" v-on:click="removeSelectedItem(item, index)">
-                    <span class="selected-unit-types__name">{{item.name}}</span> <span class="float-right">R{{item.cost.toFixed(2)}}</span>
+                <div v-if="selectedItems.length > 0">
+                    <hr class="selected-unit-types__line">
+                    <div v-for="(item , index) in selectedItems" class="selected-unit-types clearfix" v-on:click="removeSelectedItem(item, index)">
+                        <span class="selected-unit-types__name">{{item.name}}</span> <span class="float-right">R{{item.cost.toFixed(2)}}</span>
+                    </div>
+                    <hr class="selected-unit-types__line">
+                    <span class="selected-unit-types__name"><b>Total Cost:</b></span> <span class="float-right">R{{totalCost.toFixed(2)}}</span>
+                    <hr class="selected-unit-types__line">
                 </div>
-                <hr class="selected-unit-types__line" v-if="selectedItems.length > 0">
-                <span class="selected-unit-types__name"><b>Total Cost:</b></span> <span class="float-right">R{{totalCost.toFixed(2)}}</span>
-                <hr class="selected-unit-types__line" v-if="selectedItems.length > 0">
 
             </div>
 
