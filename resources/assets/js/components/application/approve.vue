@@ -70,7 +70,7 @@
 
                         <div class="row column">
                             <a >
-                                <button id="pending-application" class="button button--approve" v-on:click="confirmApproval()">
+                                <button id="pending-application" class="button button--approve --expanded" v-on:click="confirmApproval()">
                                     Finalise approval
                                 </button>
                             </a>
