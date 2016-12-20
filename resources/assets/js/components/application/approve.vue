@@ -2,7 +2,7 @@
     <div class="application-approve">
         <div class="row columns">
             <h2 class="--focused">APPLICATION APPROVAL | lets get this applicant a contract! </h2>
-            <p>
+            <p class="--slate">
                 It's time to select the items that will make up the contract for this applicaiton.
                 Using the options below you can select the items required and then generate a contract
                 that will be emailed to the applicant.
@@ -30,24 +30,30 @@
 
                 </div>
 
+                <hr class="--mt2 --mb2">
 
                 <!-- List of items, some are preselected, others can be added. -->
 
-                <h3>Items that need to be added to the contract | click to add / remove</h3>
+                <h4 class="--mb0">Contract Items | individual items that need to go on the contract</h4>
+                <p class="--mt1">Select or deselect items by clicking on them.</p>
 
                 <!-- Loop suggested items -->
 
-                <h4 class="--mt2 --mb1">Available Items</h4>
-                <select multiple ref="items" id="items" name="items">
+                <div class="title-bar --mt1">
+                    <h4>Available Items</h4>
+                </div>
+                <select multiple ref="items" id="items" name="items" class="available-items">
                     <option v-for="(item , index) in items" v-bind:value="item.id" v-on:click="addSelectedItem(item, index)">
                         {{ item.name }}
                     </option>
                 </select>
 
+                <div class="title-bar --mt0 --mb1">
+                    <h4>Selected Items</h4>
+                </div>
                 <div v-if="selectedItems.length > 0">
-                    <hr class="selected-unit-types__line">
                     <div v-for="(item , index) in selectedItems" class="selected-unit-types clearfix" v-on:click="removeSelectedItem(item, index)">
-                        <span class="selected-unit-types__name">{{item.name}}</span> <span class="float-right">R{{item.cost.toFixed(2)}}</span>
+                        <span class="selected-unit-types__name">{{item.name}}</span> <span class="selected-unit-types__cost float-right">R{{item.cost.toFixed(2)}}</span>
                     </div>
                     <hr class="selected-unit-types__line">
                     <span class="selected-unit-types__name"><b>Total Cost:</b></span> <span class="float-right">R{{totalCost.toFixed(2)}}</span>
@@ -69,14 +75,31 @@
                         </div>
 
                         <div class="row column">
-                            <a >
-                                <button id="pending-application" class="button button--approve --expanded" v-on:click="confirmApproved()">
+                            <a>
+                                <button id="double-check" class="button button--approve --expanded" v-on:click="checkApprovedItems()">
                                     <span v-if="loading">
                                         <loading></loading>
                                     </span>
 
                                     <template v-if="!loading">
                                         Finalise approval
+                                    </template>
+                                </button>
+                            </a>
+                        </div>
+
+                        <div class="row column" v-if="doubleCheck">
+                            <p>Please double check the items you have selected, these are added to the contract
+                                and its automatically generated and emailed to the applicant.</p>
+
+                            <a>
+                                <button id="pending-application" class="button button--focused --expanded" v-on:click="confirmApproved()">
+                                    <span v-if="loading">
+                                        <loading></loading>
+                                    </span>
+
+                                    <template v-if="!loading">
+                                        Confirm
                                     </template>
                                 </button>
                             </a>
@@ -102,7 +125,8 @@
                 selectedItems : [],
                 items: [],
                 totalCost: 0,
-                loading: false
+                loading: false,
+                doubleCheck: false
             }
         },
 
@@ -161,6 +185,12 @@
                 this.totalCost = total;
             },
 
+            checkApprovedItems: function(){
+
+                this.doubleCheck = true;
+
+            },
+
             confirmApproved: function () {
 
                 this.loading = true;
@@ -183,8 +213,14 @@
                     });
 
                 }, (err) => {
+                    console.log(err);
                     this.loading = false;
-                    this.displayError(err);
+                    let error = {
+                        "body" : {
+                            "message" : "There has been an error approving this application, if the issue continues please contact support"
+                        }
+                    };
+                    this.displayError(error);
                 });
 
             },

@@ -906,7 +906,7 @@
                                     </span>
 
                                     <template v-if="!loading">
-                                        Confirm decline
+                                        Confirm
                                     </template>
                                 </button>
                             </div>

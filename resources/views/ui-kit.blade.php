@@ -31,6 +31,8 @@
                 <div class="column color" style="background-color: #bdfbff; height: 100px; display: flex; align-items: center; color: #000; text-align: center">iced</div>
             </div>
 
+            <hr class="--mt2">
+
             <h2>Buttons</h2>
 
             <div class="row column">
@@ -48,6 +50,20 @@
                 <button class="button button--decline">--decline</button>
 
             </div>
+
+            <hr class="--mt2">
+
+            <h2>Headings</h2>
+
+            <div class="accordion__heading accordion__heading--add">
+                <h4 id="heading-user-details" class="--white">.accordion__heading .accordion__heading--add</h4>
+            </div>
+
+            <div class="title-bar --mt2">
+                <h4>.title-bar</h4>
+            </div>
+
+            <hr class="--mt2">
 
             <h2>Form Elements</h2>
 
@@ -88,6 +104,9 @@
                 </div>
 
             </form>
+
+
+
 
         </div>
     </div>

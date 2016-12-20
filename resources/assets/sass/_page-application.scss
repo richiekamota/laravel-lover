@@ -72,3 +72,42 @@
 
 
 }
+
+.application-approve{
+
+  .available-items{
+    padding: 0;
+    height: 150px;
+
+    option{
+      padding: 5px 15px;
+
+      &:nth-child(even) {
+        background-color: $mist;
+      }
+    }
+  }
+
+  .selected-unit-types{
+    &__name{
+      font-size: 16px;
+      margin: 5px;
+      padding-left: 10px;
+    }
+    &__cost{
+      font-size: 16px;
+      margin: 5px;
+    }
+    &__remove{
+      font-size: 14px;
+      margin: 5px;
+      color: $slate;
+      cursor: pointer;
+    }
+    &__line{
+      border: none;
+      border-top: 1px solid $slate;
+    }
+  }
+
+}

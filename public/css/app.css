@@ -3710,6 +3710,14 @@ h4, .h4 {
   margin: 0;
 }
 
+.title-bar {
+  background-color: #f6f6f6;
+  border: solid 1px #dfdfdf;
+  display: block;
+  padding: 12px 18px;
+  color: #4a494b;
+}
+
 .table__row {
   background-color: #f6f6f6;
   border-left: 1px solid #1b696e;
@@ -3947,6 +3955,14 @@ body, html {
 
 .main-content {
   padding: 2rem;
+}
+
+.--m0 {
+  margin: 0;
+}
+
+.--p0 {
+  padding: 0;
 }
 
 .--mt0 {
@@ -4446,19 +4462,38 @@ body, html {
   border: solid 1px #9a989b;
 }
 
-.page-items .selected-unit-types__name {
-  font-size: 14px;
+.application-approve .available-items {
+  padding: 0;
+  height: 150px;
+}
+
+.application-approve .available-items option {
+  padding: 5px 15px;
+}
+
+.application-approve .available-items option:nth-child(even) {
+  background-color: #dfdfdf;
+}
+
+.application-approve .selected-unit-types__name {
+  font-size: 16px;
+  margin: 5px;
+  padding-left: 10px;
+}
+
+.application-approve .selected-unit-types__cost {
+  font-size: 16px;
   margin: 5px;
 }
 
-.page-items .selected-unit-types__remove {
+.application-approve .selected-unit-types__remove {
   font-size: 14px;
   margin: 5px;
   color: #9a989b;
   cursor: pointer;
 }
 
-.page-items .selected-unit-types__line {
+.application-approve .selected-unit-types__line {
   border: none;
   border-top: 1px solid #9a989b;
 }
