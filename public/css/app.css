@@ -3651,38 +3651,38 @@ body.stop-scrolling {
 
 .button--decline {
   background-color: #ffffff;
-  border-color: #ff9f02;
-  color: #ff9f02;
-}
-
-.button--decline:hover {
-  background-color: #ff9f02;
-  border-color: #ff9f02;
-  color: #ffffff;
-}
-
-.button--decline:active, .button--decline:focus {
-  background-color: #ff9f02;
-  border-color: #ff9f02;
-  color: #ff7902;
-}
-
-.button--pending {
-  background-color: #ffffff;
   border-color: #f73179;
   color: #f73179;
 }
 
-.button--pending:hover {
+.button--decline:hover {
   background-color: #f73179;
   border-color: #f73179;
   color: #ffffff;
 }
 
-.button--pending:active, .button--pending:focus {
+.button--decline:active, .button--decline:focus {
   background-color: #f73179;
   border-color: #f73179;
   color: #ffffff;
+}
+
+.button--pending {
+  background-color: #ffffff;
+  border-color: #ff9f02;
+  color: #ff9f02;
+}
+
+.button--pending:hover {
+  background-color: #ff9f02;
+  border-color: #ff9f02;
+  color: #ffffff;
+}
+
+.button--pending:active, .button--pending:focus {
+  background-color: #ff9f02;
+  border-color: #ff9f02;
+  color: #ff7902;
 }
 
 h1, .h1 {

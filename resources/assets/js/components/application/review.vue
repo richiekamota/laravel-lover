@@ -890,20 +890,26 @@
                             Decline
                         </button>
 
-                        <div class="row column" v-if="declineInput">
+                        <div class="row" v-if="declineInput">
 
-                            <label for="declineInput">
-                                Reason for decline
-                                <input type="text" name="declineInput" id="declineInput" v-model="declineReason">
-                            </label>
+                            <div class="small-12 columns">
+                                <label for="declineInput">
+                                    Reason for decline
+                                    <input type="text" name="declineInput" id="declineInput" v-model="declineReason">
+                                </label>
+                            </div>
 
-                            <button id="confirm-decline" class="button button--decline button--small --mt1" v-on:click="submitDecline()">
-                                Confirm decline
-                            </button>
+                            <div class="small-12 large-expand columns text-center">
+                                <button id="confirm-decline" class="button button--decline button--small --mt1" v-on:click="submitDecline()">
+                                    Confirm decline
+                                </button>
+                            </div>
 
-                            <button id="cancel-decline" class="button button--small float-right --mt1" v-on:click="decline()">
-                                Cancel
-                            </button>
+                            <div class="small-12 shrink columns">
+                                <button id="cancel-decline" class="button button--small float-right --mt1" v-on:click="decline()">
+                                    Cancel
+                                </button>
+                            </div>
 
                         </div>
 

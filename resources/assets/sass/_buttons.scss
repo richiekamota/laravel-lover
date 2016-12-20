@@ -99,24 +99,6 @@
 
   &--decline{
     background-color: $white;
-    border-color: $alarmed;
-    color: $alarmed;
-
-    &:hover{
-      background-color: $alarmed;
-      border-color: $alarmed;
-      color: $white;
-    }
-
-    &:active, &:focus{
-      background-color: $alarmed;
-      border-color: $alarmed;
-      color: $blazed;
-    }
-  }
-
-  &--pending{
-    background-color: $white;
     border-color: $exuberant;
     color: $exuberant;
 
@@ -130,6 +112,24 @@
       background-color: $exuberant;
       border-color: $exuberant;
       color: $white;
+    }
+  }
+
+  &--pending{
+    background-color: $white;
+    border-color: $alarmed;
+    color: $alarmed;
+
+    &:hover{
+      background-color: $alarmed;
+      border-color: $alarmed;
+      color: $white;
+    }
+
+    &:active, &:focus{
+      background-color: $alarmed;
+      border-color: $alarmed;
+      color: $blazed;
     }
   }
 
