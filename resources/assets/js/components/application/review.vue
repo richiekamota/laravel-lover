@@ -867,7 +867,7 @@
                     <div class="row column">
 
                         <a v-bind:href="getApproveUrl(application.id)">
-                            <button id="approve-application" class="button button--approve">
+                            <button id="approve-application" class="button button--approve --expanded">
                                 Approve
                             </button>
                         </a>
@@ -877,7 +877,7 @@
                     <div class="row column">
 
                         <a v-bind:href="getPendingUrl(application.id)">
-                            <button id="pending-application" class="button button--pending">
+                            <button id="pending-application" class="button button--pending --expanded">
                                 Pending
                             </button>
                         </a>
@@ -886,7 +886,7 @@
 
                     <div class="row column">
 
-                        <button id="decline-application" class="button button--decline" v-on:click="decline()">
+                        <button id="decline-application" class="button button--decline --expanded" v-on:click="decline()">
                             Decline
                         </button>
 
@@ -900,13 +900,13 @@
                             </div>
 
                             <div class="small-12 large-expand columns text-center">
-                                <button id="confirm-decline" class="button button--decline button--small --mt1" v-on:click="submitDecline()">
+                                <button id="confirm-decline" class="button button--decline button--small --mt1 --expanded" v-on:click="submitDecline()">
                                     Confirm decline
                                 </button>
                             </div>
 
-                            <div class="small-12 shrink columns">
-                                <button id="cancel-decline" class="button button--small float-right --mt1" v-on:click="decline()">
+                            <div class="columns">
+                                <button id="cancel-decline" class="button button--small float-right --mt1 --expanded" v-on:click="decline()">
                                     Cancel
                                 </button>
                             </div>
