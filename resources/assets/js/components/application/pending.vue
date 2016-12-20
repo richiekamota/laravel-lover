@@ -873,8 +873,14 @@
 
                         <div class="row column">
                             <a >
-                                <button id="pending-application" class="button button--pending" v-on:click="confirmPending()">
-                                    Finalise pending update
+                                <button id="pending-application" class="button button--pending --expanded" v-on:click="confirmPending()">
+                                    <span v-if="loading">
+                                        <loading></loading>
+                                    </span>
+
+                                    <template v-if="!loading">
+                                        Finalise pending update
+                                    </template>
                                 </button>
                             </a>
                         </div>
@@ -898,7 +904,8 @@
                 location: {},
                 unitTypes: [],
                 declineInput: false,
-                showStep : 0
+                showStep : 0,
+                loading: false
             }
         },
 
@@ -936,6 +943,8 @@
 
 
             confirmPending: function () {
+
+                this.loading = true;
 
                 this.$http.post(
                     '/application/' + this.application.id + '/pending',

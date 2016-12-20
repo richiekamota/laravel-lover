@@ -901,7 +901,13 @@
 
                             <div class="small-12 large-expand columns text-center">
                                 <button id="confirm-decline" class="button button--decline button--small --mt1 --expanded" v-on:click="submitDecline()">
-                                    Confirm decline
+                                    <span v-if="loading" class="--loading-expander">
+                                        <loading></loading>
+                                    </span>
+
+                                    <template v-if="!loading">
+                                        Confirm decline
+                                    </template>
                                 </button>
                             </div>
 
@@ -912,9 +918,6 @@
                             </div>
 
                         </div>
-
-
-
 
                     </div>
                 </div>
@@ -933,7 +936,8 @@
         data(){
             return {
                 application: {},
-                declineInput: false
+                declineInput: false,
+                loading: false
             }
         },
         mounted() {
@@ -967,6 +971,8 @@
 
             submitDecline: function(){
 
+                this.loading = true;
+
                 this.$http.post(
                     '/application/' + this.application.id + '/decline',
                     {
@@ -986,7 +992,6 @@
                     });
 
                 }, (err) => {
-
                     this.loading = false;
                     this.displayError(err);
                 });

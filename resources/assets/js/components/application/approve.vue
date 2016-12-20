@@ -70,8 +70,14 @@
 
                         <div class="row column">
                             <a >
-                                <button id="pending-application" class="button button--approve --expanded" v-on:click="confirmApproval()">
-                                    Finalise approval
+                                <button id="pending-application" class="button button--approve --expanded" v-on:click="confirmApproved()">
+                                    <span v-if="loading">
+                                        <loading></loading>
+                                    </span>
+
+                                    <template v-if="!loading">
+                                        Finalise approval
+                                    </template>
                                 </button>
                             </a>
                         </div>
@@ -95,7 +101,8 @@
                 location: {},
                 selectedItems : [],
                 items: [],
-                totalCost: 0
+                totalCost: 0,
+                loading: false
             }
         },
 
@@ -156,6 +163,8 @@
 
             confirmApproved: function () {
 
+                this.loading = true;
+
                 this.$http.post(
                     '/application/' + this.application.id + '/approved',
                     {
@@ -174,7 +183,6 @@
                     });
 
                 }, (err) => {
-
                     this.loading = false;
                     this.displayError(err);
                 });

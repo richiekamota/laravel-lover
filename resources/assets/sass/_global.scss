@@ -399,3 +399,10 @@ body, html{
     -moz-transform: rotate(900deg);
   }
 }
+
+// This helper class is used for the loading symbol inside buttons.
+// It allows the button to expand full width since it's bigger than it's small minimum
+.--loading-expander {
+  width: 70px;
+  display: inline-block;
+}

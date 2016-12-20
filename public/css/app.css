@@ -4244,6 +4244,11 @@ body, html {
   }
 }
 
+.--loading-expander {
+  width: 70px;
+  display: inline-block;
+}
+
 .page__header {
   margin-top: 5vh;
 }
