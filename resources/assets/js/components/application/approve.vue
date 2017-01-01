@@ -32,6 +32,27 @@
 
                 <hr class="--mt2 --mb2">
 
+                <h4 class="--mb0">Contract Timings | start and end date of the contract</h4>
+                <p class="--mt1">These dates has been taken from the users contract requests but you can update them if needed.</p>
+
+                <label for="unit_occupation_date">
+                    Unit Occupation Date
+                    <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="unit_occupation_date" v-model="unit_occupation_date" @update='unit_occupation_date = $event' required />
+                </label>
+
+                <label for="unit_vacation_date">
+                    Unit Vacation Date
+                    <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="unit_vacation_date" v-model="unit_vacation_date" @update='unit_vacation_date = $event' required />
+                </label>
+
+                <hr class="--mt2 --mb2">
+
+                <h4 class="--mb0">Contract Unit | the unit the tenant will be living in</h4>
+                <p class="--mt1">Select the unit from the list of available unit</p>
+
+
+                <hr class="--mt2 --mb2">
+
                 <!-- List of items, some are preselected, others can be added. -->
 
                 <h4 class="--mb0">Contract Items | individual items that need to go on the contract</h4>
@@ -114,9 +135,14 @@
 </template>
 <script>
 
+    import Flatpickr from '../../../../../node_modules/vue-flatpickr/vue-flatpickr-default.vue';
+
     var moment = require('moment');
 
     export default {
+        components: {
+            Flatpickr
+        },
         props: ['propApplication', 'propLocation', 'propSuggestedItems', 'propItems'],
         data(){
             return {
@@ -124,6 +150,8 @@
                 location: {},
                 selectedItems : [],
                 items: [],
+                unit_occupation_date: {},
+                unit_vacation_date: {},
                 totalCost: 0,
                 loading: false,
                 doubleCheck: false
@@ -136,6 +164,9 @@
             this.location = JSON.parse(this.propLocation);
             this.selectedItems = JSON.parse(this.propSuggestedItems);
             this.items = [];
+
+            this.unit_occupation_date = this.application.unit_occupation_date;
+            this.unit_vacation_date = moment(this.unit_occupation_date).add(this.application.unit_lease_length, 'months');
 
             this.filterItems();
 
@@ -195,10 +226,16 @@
 
                 this.loading = true;
 
+                console.log(this.selectedItems);
+
                 this.$http.post(
-                    '/application/' + this.application.id + '/approved',
+                    '/application/' + this.application.id + '/approve',
                     {
-                        // TODO get array of items for the contract
+                        items: this.selectedItems,
+                        user_id: this.application.user_id,
+                        unit_id: this.unit_id,
+                        unit_occupation_date: this.unit_occupation_date,
+                        unit_vacation_date: this.unit_vacation_date
                     }
                 ).then((response) => {
 

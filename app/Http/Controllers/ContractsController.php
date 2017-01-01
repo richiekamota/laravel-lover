@@ -6,6 +6,7 @@ use Auth;
 use DB;
 use PDF;
 use Illuminate\Http\Request;
+use Portal\Application;
 use Portal\Contract;
 use Portal\ContractItem;
 use Portal\Http\Requests\ContractCreateRequest;
@@ -46,9 +47,10 @@ class ContractsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Request|ContractCreateRequest $request
+     * @param null $id
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function store( ContractCreateRequest $request )
+    public function store( ContractCreateRequest $request, $id = null )
     {
 
         // about unless Auth is level above tenant
@@ -58,23 +60,43 @@ class ContractsController extends Controller
 
         try {
 
+            if($id){
+
+                $application = Application::findOrFail($id);
+
+                // Approve the application
+                $application->status = 'approved';
+                $application->save();
+
+                $applicationUser = $application->user;
+
+            } else {
+
+                $applicationUser = User::find($request->user_id);
+
+            }
+
             // Take the request and store in the DB
-            $contract = Contract::create( $request->all() );
+            $contract = Contract::create( [
+                'user_id'    => $applicationUser->id,
+                'unit_id'    => $request->unit_id,
+                'start_date' => $request->unit_occupation_date,
+                'end_date'   => $request->unit_vacation_date
+            ] );
 
             // Generate a PDF of the contract based on the application
             // The name should be the user first and last name and the date
             // eg FirstName20160424.pdf
-            $pdfName = ucfirst( preg_replace( '/[^\w-]/', '', Auth::user()->first_name ) ) . ucfirst( preg_replace( '/[^\w-]/', '', Auth::user()->last_name ) ) . \Carbon\Carbon::today()->toDateString();
+            $pdfName = ucfirst( preg_replace( '/[^\w-]/', '', $applicationUser->first_name ) ) . ucfirst( preg_replace( '/[^\w-]/', '', $applicationUser->last_name ) ) . \Carbon\Carbon::today()->toDateString();
 
-            $data = [ 'name' => Auth::user()->first_name ];
+            $data = [ 'name' => $applicationUser->first_name ];
             $filePath = storage_path( 'contracts/' . $pdfName . '.pdf' );
             $pdf = PDF::loadView( 'pdf.contract', $data )->save( $filePath );
 
             // TODO Save the PDF into S3
 
-            $user = User::findOrFail( $request->user_id );
             // Generate a secure link for the user_id passed in
-            $contract->secure_link = encrypt( $user->email . '##' . $filePath );
+            $contract->secure_link = encrypt( $applicationUser->email . '##' . $filePath );
             $contract->save();
 
             // Save the items array into the contract so we
@@ -95,7 +117,7 @@ class ContractsController extends Controller
             }
 
             // Generate the secure return email for this contract
-            dispatch( new SendContractToUserEmail( $filePath, $request->user_id, $contract->secure_link ) );
+            dispatch( new SendContractToUserEmail( $filePath, $applicationUser->id, $contract->secure_link ) );
 
             DB::commit();
 

@@ -71,5 +71,16 @@ class BaseDataSeeder extends Seeder
             'unit_type' => $location->unitTypes->first()->id
         ] );
 
+        $unit = $location->unitTypes->first();
+
+        factory( Portal\Item::class, 5 )->create( [
+            'id' => Uuid::generate()->string
+        ] )->each( function ( $l ) use ($unit) {
+            DB::table( 'item_unit_type' )->insert( [
+                'item_id' => $l->id,
+                'unit_type_id' => $unit->id
+            ]);
+        });
+
     }
 }
