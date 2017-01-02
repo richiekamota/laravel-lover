@@ -54,7 +54,7 @@
                     <div class="styled-select">
                     <label for="nationality">
                         Nationality *
-                        <select class="styled-select" name="nationality" v-model="appForm.nationality" required v-on:change="roomInfo($event)" required>
+                        <select class="styled-select" name="nationality" v-model="appForm.nationality" v-on:change="roomInfo($event)" required>
                             <option v-for="country in countries" v-bind:value="country.nationality">
                                 {{ country.nationality }}
                             </option>

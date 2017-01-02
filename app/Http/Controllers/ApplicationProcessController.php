@@ -15,6 +15,7 @@ use Portal\Jobs\SendApplicationAcceptedEmail;
 use Portal\Jobs\SendApplicationDeclinedEmail;
 use Portal\Jobs\SendApplicationPendingEmail;
 use Portal\Location;
+use Portal\Unit;
 use Portal\UnitType;
 use Response;
 
@@ -266,7 +267,12 @@ class ApplicationProcessController extends Controller
 
         $items = Item::all();
 
-        return view('applications.approve', compact('application', 'location', 'suggestedItems', 'items'));
+        $availableUnits = Unit::where('user_id', '=', '')
+            ->orWhere('user_id', '=', null)
+            ->where('type_id', $application->unit_type)
+            ->get();
+
+        return view('applications.approve', compact('application', 'location', 'suggestedItems', 'items', 'availableUnits'));
 
     }
 

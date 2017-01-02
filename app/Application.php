@@ -11,6 +11,7 @@ class Application extends Model
     use Uuids;
     use SoftDeletes;
 
+    public $incrementing = FALSE;
     protected $fillable = [
         'id',
         'user_id',
@@ -76,84 +77,62 @@ class Application extends Model
         'confirm',
         'confirm_time',
     ];
-
-    protected $dates = ['deleted_at'];
-
-    public $incrementing = false;
+    protected $dates = [ 'deleted_at' ];
 
     public function user()
     {
-
         return $this->hasOne( 'Portal\User', 'id', 'user_id' );
-
     }
 
     public function events()
     {
-
-        return $this->hasMany( 'Portal\ApplicationEvent');
-
+        return $this->hasMany( 'Portal\ApplicationEvent' );
     }
 
     public function location()
     {
-        return $this->hasOne('Portal\Location', 'id', 'unit_location');
+        return $this->hasOne( 'Portal\Location', 'id', 'unit_location' );
     }
 
     public function unitType()
     {
-        return $this->hasOne('Portal\UnitType', 'id', 'unit_type');
+        return $this->hasOne( 'Portal\UnitType', 'id', 'unit_type' );
     }
 
     public function residentId()
     {
-
         return $this->hasOne( 'Portal\Document', 'id', 'resident_id' );
-
     }
 
     public function residentStudyPermit()
     {
-
         return $this->hasOne( 'Portal\Document', 'id', 'resident_study_permit' );
-
     }
 
     public function residentAcceptance()
     {
-
         return $this->hasOne( 'Portal\Document', 'id', 'resident_acceptance' );
-
     }
 
     public function residentFinancialAid()
     {
-
         return $this->hasOne( 'Portal\Document', 'id', 'resident_financial_aid' );
-
     }
 
     public function leaseholderId()
     {
-
         return $this->hasOne( 'Portal\Document', 'id', 'leaseholder_id' );
-
     }
 
     public function leaseholderAddressProof()
     {
-
         return $this->hasOne( 'Portal\Document', 'id', 'leaseholder_address_proof' );
-
     }
 
     public function leaseholderPayslip()
     {
-
         return $this->hasOne( 'Portal\Document', 'id', 'leaseholder_payslip' );
-
     }
-
 
 
 }

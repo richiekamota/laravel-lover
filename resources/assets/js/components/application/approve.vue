@@ -35,21 +35,31 @@
                 <h4 class="--mb0">Contract Timings | start and end date of the contract</h4>
                 <p class="--mt1">These dates has been taken from the users contract requests but you can update them if needed.</p>
 
-                <label for="unit_occupation_date">
-                    Unit Occupation Date
-                    <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="unit_occupation_date" v-model="unit_occupation_date" @update='unit_occupation_date = $event' required />
-                </label>
-
-                <label for="unit_vacation_date">
-                    Unit Vacation Date
-                    <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="unit_vacation_date" v-model="unit_vacation_date" @update='unit_vacation_date = $event' required />
-                </label>
+                <div class="row">
+                    <div class="column">
+                        <label for="unit_occupation_date">
+                            Unit Occupation Date
+                            <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="unit_occupation_date" v-model="unit_occupation_date" @update='unit_occupation_date = $event' required />
+                        </label>
+                    </div>
+                    <div class="column">
+                        <label for="unit_vacation_date">
+                            Unit Vacation Date
+                            <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="unit_vacation_date" v-model="unit_vacation_date" @update='unit_vacation_date = $event' required />
+                        </label>
+                    </div>
+                </div>
 
                 <hr class="--mt2 --mb2">
 
                 <h4 class="--mb0">Contract Unit | the unit the tenant will be living in</h4>
-                <p class="--mt1">Select the unit from the list of available unit</p>
+                <p class="--mt1">Select the unit from the list, these are the available units matching the applicants requested type and location.</p>
 
+                <select class="styled-select" name="selectedUnit" v-model="selectedUnit" required>
+                    <option v-for="unit in availableUnits" v-bind:value="unit.id">
+                        {{ unit.code }}
+                    </option>
+                </select>
 
                 <hr class="--mt2 --mb2">
 
@@ -143,15 +153,17 @@
         components: {
             Flatpickr
         },
-        props: ['propApplication', 'propLocation', 'propSuggestedItems', 'propItems'],
+        props: ['propApplication', 'propLocation', 'propSuggestedItems', 'propItems', 'propAvailableUnits'],
         data(){
             return {
                 application: {},
                 location: {},
                 selectedItems : [],
                 items: [],
+                availableUnits: [],
                 unit_occupation_date: {},
                 unit_vacation_date: {},
+                selectedUnit: {},
                 totalCost: 0,
                 loading: false,
                 doubleCheck: false
@@ -164,8 +176,10 @@
             this.location = JSON.parse(this.propLocation);
             this.selectedItems = JSON.parse(this.propSuggestedItems);
             this.items = [];
+            this.availableUnits = JSON.parse(this.propAvailableUnits);
 
             this.unit_occupation_date = this.application.unit_occupation_date;
+
             this.unit_vacation_date = moment(this.unit_occupation_date).add(this.application.unit_lease_length, 'months');
 
             this.filterItems();
@@ -226,14 +240,14 @@
 
                 this.loading = true;
 
-                console.log(this.selectedItems);
+                console.log(this.selectedUnit);
 
                 this.$http.post(
                     '/application/' + this.application.id + '/approve',
                     {
                         items: this.selectedItems,
                         user_id: this.application.user_id,
-                        unit_id: this.unit_id,
+                        unit_id: this.selectedUnit,
                         unit_occupation_date: this.unit_occupation_date,
                         unit_vacation_date: this.unit_vacation_date
                     }
@@ -247,6 +261,9 @@
                         text: "The application has been marked pending and the applicant has been emailed.",
                         type: "success",
                         confirmButtonText: "Ok"
+                    },
+                    function(){
+                        location.href = '/dashboard';
                     });
 
                 }, (err) => {

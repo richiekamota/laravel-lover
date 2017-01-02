@@ -3,14 +3,19 @@
 namespace Portal\Http\Controllers;
 
 use Auth;
+use Carbon\Carbon;
 use DB;
+use Illuminate\Contracts\Encryption\DecryptException;
 use PDF;
 use Illuminate\Http\Request;
 use Portal\Application;
+use Portal\ApplicationEvent;
 use Portal\Contract;
 use Portal\ContractItem;
+use Portal\Document;
 use Portal\Http\Requests\ContractCreateRequest;
 use Portal\Jobs\SendContractToUserEmail;
+use Portal\Unit;
 use Portal\User;
 use Response;
 
@@ -50,19 +55,20 @@ class ContractsController extends Controller
      * @param null $id
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function store( ContractCreateRequest $request, $id = null )
+    public function store( ContractCreateRequest $request, $id = NULL )
     {
 
         // about unless Auth is level above tenant
         $this->authorize( 'create', Contract::class );
+        $filePath = FALSE;
 
         DB::beginTransaction();
 
         try {
 
-            if($id){
+            if ( $id ) {
 
-                $application = Application::findOrFail($id);
+                $application = Application::findOrFail( $id );
 
                 // Approve the application
                 $application->status = 'approved';
@@ -72,7 +78,7 @@ class ContractsController extends Controller
 
             } else {
 
-                $applicationUser = User::find($request->user_id);
+                $applicationUser = User::find( $request->user_id );
 
             }
 
@@ -80,24 +86,9 @@ class ContractsController extends Controller
             $contract = Contract::create( [
                 'user_id'    => $applicationUser->id,
                 'unit_id'    => $request->unit_id,
-                'start_date' => $request->unit_occupation_date,
-                'end_date'   => $request->unit_vacation_date
+                'start_date' => Carbon::parse( $request->unit_occupation_date ),
+                'end_date'   => Carbon::parse( $request->unit_vacation_date )
             ] );
-
-            // Generate a PDF of the contract based on the application
-            // The name should be the user first and last name and the date
-            // eg FirstName20160424.pdf
-            $pdfName = ucfirst( preg_replace( '/[^\w-]/', '', $applicationUser->first_name ) ) . ucfirst( preg_replace( '/[^\w-]/', '', $applicationUser->last_name ) ) . \Carbon\Carbon::today()->toDateString();
-
-            $data = [ 'name' => $applicationUser->first_name ];
-            $filePath = storage_path( 'contracts/' . $pdfName . '.pdf' );
-            $pdf = PDF::loadView( 'pdf.contract', $data )->save( $filePath );
-
-            // TODO Save the PDF into S3
-
-            // Generate a secure link for the user_id passed in
-            $contract->secure_link = encrypt( $applicationUser->email . '##' . $filePath );
-            $contract->save();
 
             // Save the items array into the contract so we
             // have a structured list of the items for this
@@ -116,8 +107,46 @@ class ContractsController extends Controller
                 }
             }
 
+            // Generate a PDF of the contract based on the application
+            // The name should be the user first and last name and the date
+            // eg FirstName20160424.pdf
+            $pdfName = ucfirst( preg_replace( '/[^\w-]/', '', $applicationUser->first_name ) ) . ucfirst( preg_replace( '/[^\w-]/', '', $applicationUser->last_name ) ) . \Carbon\Carbon::today()->toDateString() . '-' . Carbon::today()->format( 'h-i-s' );
+
+            $data = [ 'name' => $applicationUser->first_name ];
+            $filePath = storage_path( 'contracts/' . $pdfName . '.pdf' );
+            $pdf = PDF::loadView( 'pdf.contract', $data )->save( $filePath );
+
+            $document = Document::create( [
+                'user_id'       => $applicationUser->id,
+                'location'      => $filePath,
+                'document_type' => 'contract',
+                'file_name'     => $pdfName . '.pdf'
+            ] );
+
+            // TODO Save the PDF into S3
+
+            // Generate a secure link for the user_id passed in
+            $contract->secure_link = encrypt( $applicationUser->email . '##' . $filePath );
+            // Attach the document to the contract record
+            $contract->document_id = $document->id;
+            $contract->save();
+
+            // Update the unit to show its no longer available
+            Unit::find( $request->unit_id )->update( [
+                'user_id'     => $applicationUser->id,
+                'contract_id' => $contract->id
+            ] );
+
+            // Log an event against the application
+            ApplicationEvent::create( [
+                'user_id'        => Auth::user()->id,
+                'application_id' => $application->id,
+                'action'         => 'Application approved',
+                'note'           => ''
+            ] );
+
             // Generate the secure return email for this contract
-            dispatch( new SendContractToUserEmail( $filePath, $applicationUser->id, $contract->secure_link ) );
+            dispatch( new SendContractToUserEmail( $filePath, $applicationUser->id, $contract->secure_link, $application->id ) );
 
             DB::commit();
 
@@ -129,6 +158,10 @@ class ContractsController extends Controller
         } catch ( \Exception $e ) {
 
             \Log::info( $e );
+
+            if ( $filePath ) {
+                unlink( $filePath );
+            }
 
             //Bugsnag::notifyException($e);
 
@@ -169,13 +202,9 @@ class ContractsController extends Controller
             // Return the use the view with their contract details
             return view( 'contracts.review', compact( 'contract' ) );
 
-
         } catch ( DecryptException $e ) {
             abort( 500 );
         }
-
-        // abort unless Auth > tenant
-
 
     }
 

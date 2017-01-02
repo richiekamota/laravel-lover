@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Portal\User;
 
 class BaseDataSeeder extends Seeder
 {
@@ -57,16 +58,18 @@ class BaseDataSeeder extends Seeder
             'role' => 'tenant'
         ] );
 
-        $residendId = factory(Portal\Document::class)->create( [
+        $residentId = factory(Portal\Document::class)->create( [
             'user_id' => $user->id,
             'document_type' => 'resident_id'
         ] );
 
         $location = \Portal\Location::all()->first();
 
+        $craig = User::whereEmail('craig@swishproperties.co.za')->first();
+
         factory( Portal\Application::class, 5 )->states( 'forApproval' )->create( [
-            'user_id' => $user->id,
-            'resident_id' => $residendId->id,
+            'user_id' => $craig->id,
+            'resident_id' => $residentId->id,
             'unit_location' => $location->id,
             'unit_type' => $location->unitTypes->first()->id
         ] );

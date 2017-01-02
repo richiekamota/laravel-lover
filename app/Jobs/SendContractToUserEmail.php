@@ -7,28 +7,32 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Mail;
+use Portal\Application;
 use Portal\User;
 
 class SendContractToUserEmail implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels;
     private $filePath;
-    private $user_id;
+    private $userId;
     private $secureLink;
+    private $applicationId;
 
     /**
      * Create a new job instance.
      * @param $filePath
-     * @param $user_id
+     * @param $userId
      * @param $secureLink
+     * @param $applicationId
      * @internal param $secure_link
      */
-    public function __construct( $filePath, $user_id, $secureLink )
+    public function __construct( $filePath, $userId, $secureLink, $applicationId )
     {
 
         $this->filePath = $filePath;
-        $this->user_id = $user_id;
+        $this->userId = $userId;
         $this->secureLink = $secureLink;
+        $this->applicationId = $applicationId;
 
     }
 
@@ -40,20 +44,22 @@ class SendContractToUserEmail implements ShouldQueue
     public function handle()
     {
 
-        \Log::info( $this->filePath );
-        \Log::info( $this->user_id );
-        \Log::info( $this->secureLink );
-
-        $user = User::findOrFail($this->user_id);
+        $user = User::findOrFail($this->userId);
         // Send the email to the user this contract is for
+
+        $application = Application::with('location')->find($this->applicationId);
 
         // The email will include the secure link to
         // review and approve the contract
 
-        Mail::send('emails.contract', ['secureLink' => $this->secureLink], function ($m) use ($user) {
+        Mail::send('emails.contract', [
+            'secureLink' => $this->secureLink,
+            'application' => $application
+        ], function ($m) use ($user) {
             $m->to($user->email);
             $m->subject('My Domain contract for review');
             $m->from('noreply@mydomain.co.za');
+            $m->attach($this->filePath);
         });
 
 

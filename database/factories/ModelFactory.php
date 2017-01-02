@@ -119,7 +119,7 @@ $factory->define( Portal\Item::class, function ( Faker\Generator $faker ) {
         'id'          => Uuid::generate()->string,
         'name'        => $faker->word,
         'description' => $faker->word,
-        'cost'        => $faker->numberBetween( 1, 12312313 )
+        'cost'        => $faker->numberBetween( 1, 1234 )
     ];
 } );
 

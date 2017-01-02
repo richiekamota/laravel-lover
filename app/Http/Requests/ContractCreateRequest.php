@@ -24,11 +24,12 @@ class ContractCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id'     => 'required|exists:users,id',
-            'unit_id'     => 'required|exists:units,id',
-            'document_id' => 'sometimes|exists:documents,id',
-            'start_date'  => 'required|date',
-            'end_date'    => 'required|date'
+            'user_id'              => 'required|exists:users,id',
+            'unit_id'              => 'required|exists:units,id',
+            'document_id'          => 'sometimes|exists:documents,id',
+            'unit_occupation_date' => 'required|date',
+            'unit_vacation_date'   => 'required|date',
+            'items'                => 'sometimes'
         ];
     }
 }

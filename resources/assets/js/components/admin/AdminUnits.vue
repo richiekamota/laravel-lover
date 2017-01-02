@@ -86,7 +86,7 @@
 
                                     <label for="editLocationId">
                                         Location*
-                                        <select ref="editLocationId" id="editLocationId" name="editLocationId" v-model="editUnit.location_id">
+                                        <select class="--mb0" ref="editLocationId" id="editLocationId" name="editLocationId" v-model="editUnit.location_id">
                                             <option value=""></option>
                                             <option v-for="location in locations" v-bind:value="location.id">
                                                 {{ location.name }}
@@ -109,7 +109,7 @@
                                         </select>
                                     </label>
 
-                                    <button type="submit" class="success button" v-on:click="editUnit" v-bind:disabled="loading">
+                                    <button type="submit" class="success button" v-on:click="updateUnit" v-bind:disabled="loading">
                                         <span v-if="loading">
                                             <loading></loading>
                                         </span>
@@ -244,7 +244,7 @@
                 this.addEntry = false;
             },
 
-            editUnit: function() {
+            updateUnit: function() {
                 console.log('edit unit');
                 this.loading = true;
 
