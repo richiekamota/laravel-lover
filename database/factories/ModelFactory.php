@@ -37,6 +37,8 @@ $factory->state( Portal\Application::class, 'forApproval', function ( Faker\Gene
     return [
         'status'                         => 'open',
         'step'                           => '8',
+        'first_name'                     => $faker->firstName,
+        'last_name'                      => $faker->lastName,
         'sa_id_number'                   => '123456789',
         'dob'                            => '1982-06-08',
         'nationality'                    => 'Kiwi',
@@ -135,9 +137,9 @@ $factory->define( Portal\Contract::class, function ( Faker\Generator $faker ) {
 $factory->define( Portal\Document::class, function ( Faker\Generator $faker ) {
 
     return [
-        'id'       => Uuid::generate()->string,
+        'id'        => Uuid::generate()->string,
         'file_name' => '460c117919ba8720624c6592acaacb88',
-        'location' => '460c117919ba8720624c6592acaacb88.png'
+        'location'  => '460c117919ba8720624c6592acaacb88.png'
     ];
 
 } );

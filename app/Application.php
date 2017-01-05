@@ -17,6 +17,8 @@ class Application extends Model
         'user_id',
         'status',
         'step',
+        'first_name',
+        'last_name',
         'sa_id_number',
         'passport_number',
         'dob',

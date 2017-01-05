@@ -13,7 +13,8 @@ class ApplicationStepOneRequest extends FormRequest
      */
     public function authorize()
     {
-        return TRUE;
+
+        return true;
     }
 
     /**
@@ -23,7 +24,10 @@ class ApplicationStepOneRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
+            'first_name'      => 'required',
+            'last_name'       => 'required',
             'sa_id_number'    => 'required_if:passport_number,""',
             'passport_number' => 'required_if:sa_id_number,""',
             'dob'             => 'required|date',

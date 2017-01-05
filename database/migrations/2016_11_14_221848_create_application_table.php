@@ -22,6 +22,8 @@ class CreateApplicationTable extends Migration
             $table->enum('step', [1,2,3,4,5,6,7,8]);
 
             // Step 1
+            $table->string('first_name', 191)->nullable();
+            $table->string('last_name', 191)->nullable();
             $table->integer('sa_id_number')->nullable();
             $table->string('passport_number', 191)->nullable();
             $table->dateTime('dob')->nullable();

@@ -95,6 +95,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('contracts', 'ContractsController');
 
     Route::get('/contracts/secure/{secureLink}', 'ContractsController@show');
+    Route::get('/contracts/{id}/approved', 'ContractsController@approve');
 
     /*
     |--------------------------------------------------------------------------

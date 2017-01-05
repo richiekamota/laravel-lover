@@ -34,6 +34,8 @@ Vue.component('application-review', require('./components/application/review.vue
 Vue.component('application-pending', require('./components/application/pending.vue'));
 Vue.component('application-approve', require('./components/application/approve.vue'));
 
+Vue.component('contract-approve', require('./components/contract/approve.vue'));
+
 const app = new Vue({
     el: '#app'
 });

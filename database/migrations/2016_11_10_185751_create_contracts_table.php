@@ -18,10 +18,12 @@ class CreateContractsTable extends Migration
             $table->primary( 'id' );
             $table->uuid( 'user_id' );
             $table->uuid( 'unit_id' );
+            $table->uuid( 'application_id' );
             $table->uuid( 'document_id' )->nullable();
             $table->dateTime( 'start_date' );
             $table->dateTime( 'end_date' );
             $table->text( 'secure_link' )->nullable();
+            $table->dateTime('approved')->nullable()->default(null);
 
             $table->timestamps();
             $table->softDeletes();

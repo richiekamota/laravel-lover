@@ -36,6 +36,11 @@ class Contract extends Model
         return $this->hasOne('Portal\Unit');
     }
 
+    public function application()
+    {
+        return $this->hasOne('Portal\Application');
+    }
+
     public function document()
     {
         return $this->hasOne('Portal\Document');

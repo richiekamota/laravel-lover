@@ -22,6 +22,18 @@
 
                     <!-- TODO: Chekc if ID number has been filled in, make passport number not required and vice versa -->
 
+                    <!-- Resident First name -->
+                    <label for="first_name">
+                        First name
+                        <input type="text" name="first_name" v-model="appForm.first_name" required>
+                    </label>
+
+                    <!-- Resident Last name -->
+                    <label for="last_name">
+                        Last Name
+                        <input type="text" name="last_name" v-model="appForm.last_name" required>
+                    </label>
+
                     <div class="row">
                         <div class="column medium-5">
                             <!-- SA ID number -->
@@ -612,6 +624,8 @@
                 // Step 1
                     step1: '',
                     myForm: '',
+                    first_name: '',
+                    last_name: '',
                     sa_id_number: '',
                     passport_number: '',
                     dob: '',
@@ -812,6 +826,8 @@
                 switch(step) {
                     case 1:
                         return {
+                            first_name: this.appForm.first_name,
+                            last_name: this.appForm.last_name,
                             sa_id_number : this.appForm.sa_id_number,
                             passport_number : this.appForm.passport_number,
                             dob: this.appForm.dob,
