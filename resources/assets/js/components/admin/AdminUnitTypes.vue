@@ -55,35 +55,47 @@
                                         <input type="number" ref="unitTypeCost" id="unitTypeCost" name="unitTypeCost" v-model="newUnitType.cost">
                                     </label>
 
-                                    <label for="unitTypeWifi">
-                                        Wifi
+                                    <div class="row column">
                                         <input type="checkbox" ref="unitTypeWifi" id="unitTypeWifi" name="unitTypeWifi" v-model="newUnitType.wifi">
-                                    </label>
+                                        <label for="unitTypeWifi">
+                                            Wifi
+                                        </label>
+                                    </div>
 
-                                    <label for="unitTypeElectricity">
-                                        Electricity
+                                    <div class="row column">
                                         <input type="checkbox" ref="unitTypeElectricity" id="unitTypeElectricity" name="unitTypeElectricity" v-model="newUnitType.electricity">
-                                    </label>
+                                        <label for="unitTypeElectricity">
+                                            Electricity
+                                        </label>
+                                    </div>
 
-                                    <label for="unitTypeDstv">
-                                        Dstv
+                                    <div class="row column">
                                         <input type="checkbox" ref="unitTypeDstv" id="unitTypeDstv" name="unitTypeDstv" v-model="newUnitType.dstv">
-                                    </label>
+                                        <label for="unitTypeDstv">
+                                            Dstv
+                                        </label>
+                                    </div>
 
-                                    <label for="unitTypeParkingCar">
-                                        Car parking
+                                    <div class="row column">
                                         <input type="checkbox" ref="unitTypeParkingCar" id="unitTypeParkingCar" name="unitTypeParkingCar" v-model="newUnitType.parking_car">
-                                    </label>
+                                        <label for="unitTypeParkingCar">
+                                            Car parking
+                                        </label>
+                                    </div>
 
-                                    <label for="unitTypeParkingBike">
-                                        Bike parking
+                                    <div class="row column">
                                         <input type="checkbox" ref="unitTypeParkingBike" id="unitTypeParkingBike" name="unitTypeParkingBike" v-model="newUnitType.parking_bike">
-                                    </label>
+                                        <label for="unitTypeParkingBike">
+                                            Bike parking
+                                        </label>
+                                    </div>
 
-                                    <label for="unitTypeStoreroom">
-                                        Storeroom
+                                    <div class="row column">
                                         <input type="checkbox" ref="unitTypeStoreroom" id="unitTypeStoreroom" name="unitTypeStoreroom" v-model="newUnitType.storeroom">
-                                    </label>
+                                        <label for="unitTypeStoreroom">
+                                            Storeroom
+                                        </label>
+                                    </div>
                                 </div>
                                 <!-- END Edit form -->
 
@@ -143,37 +155,49 @@
                                         <input type="number" id="editUnitTypeCost" ref="editUnitTypeCost" name="editUnitTypeCost" v-model="editUnitType.cost">
                                     </label>
 
-                                    <label for="editUnitTypeWifi">
-                                        Wifi
-                                        <input type="checkbox" id="editUnitTypeWifi" ref="editUnitTypeWifi" name="editUnitTypeWifi" v-model="editUnitType.wifi">
-                                    </label>
+                                    <div class="row column">
+                                        <input type="checkbox" :id="'editUnitTypeWifi'+index" ref="editUnitTypeWifi" name="editUnitTypeWifi" v-model="editUnitType.wifi">
+                                        <label :for="'editUnitTypeWifi'+index">
+                                            Wifi
+                                        </label>
+                                    </div>
 
-                                    <label for="editUnitTypeElectricity">
-                                        Electricity
-                                        <input type="checkbox" id="editUnitTypeElectricity" ref="editUnitTypeElectricity" name="editUnitTypeElectricity" v-model="editUnitType.electricity">
-                                    </label>
+                                    <div class="row column">
+                                        <input type="checkbox" :id="'editUnitTypeElectricity'+index" ref="editUnitTypeElectricity" name="editUnitTypeElectricity" v-model="editUnitType.electricity">
+                                        <label :for="'editUnitTypeElectricity'+index">
+                                            Electricity
+                                        </label>
+                                    </div>
 
-                                    <label for="unitTypeDstv">
-                                        Dstv
-                                        <input type="checkbox" id="unitTypeDstv" ref="unitTypeDstv" name="unitTypeDstv" v-model="editUnitType.dstv">
-                                    </label>
+                                    <div class="row column">
+                                        <input type="checkbox" :id="'unitTypeDstv'+index" ref="unitTypeDstv" name="unitTypeDstv" v-model="editUnitType.dstv">
+                                        <label :for="'unitTypeDstv'+index">
+                                            Dstv
+                                        </label>
+                                    </div>
 
-                                    <label for="unitTypeParkingCar">
-                                        Car parking
-                                        <input type="checkbox" id="unitTypeParkingCar" ref="unitTypeParkingCar" name="unitTypeParkingCar" v-model="editUnitType.parking_car">
-                                    </label>
+                                    <div class="row column">
+                                        <input type="checkbox" :id="'unitTypeParkingCar'+index" ref="unitTypeParkingCar" name="unitTypeParkingCar" v-model="editUnitType.parking_car">
+                                        <label :for="'unitTypeParkingCar'+index">
+                                            Car parking
+                                        </label>
+                                    </div>
 
-                                    <label for="unitTypeParkingBike">
-                                        Bike parking
-                                        <input type="checkbox" id="unitTypeParkingBike" ref="unitTypeParkingBike" name="unitTypeParkingBike" v-model="editUnitType.parking_bike">
-                                    </label>
+                                    <div class="row column">
+                                        <input type="checkbox" :id="'unitTypeParkingBike'+index" ref="unitTypeParkingBike" name="unitTypeParkingBike" v-model="editUnitType.parking_bike">
+                                        <label :for="'unitTypeParkingBike'+index">
+                                            Bike parking
+                                        </label>
+                                    </div>
 
-                                    <label for="unitTypeStoreroom">
-                                        Storeroom
-                                        <input type="checkbox" id="unitTypeStoreroom" ref="unitTypeStoreroom" name="unitTypeStoreroom" v-model="editUnitType.storeroom">
-                                    </label>
+                                    <div class="row column">
+                                        <input type="checkbox" :id="'unitTypeStoreroom'+index" ref="unitTypeStoreroom" name="unitTypeStoreroom" v-model="editUnitType.storeroom">
+                                        <label :for="'unitTypeStoreroom'+index">
+                                            Storeroom
+                                        </label>
+                                    </div>
 
-                                    <button type="submit" name="addUnitType" class="success button" v-on:click="updateUnitType" v-bind:disabled="loading">
+                                    <button type="submit" name="addUnitType" class="success button --mt1" v-on:click="updateUnitType" v-bind:disabled="loading">
                                     <span v-if="loading">
                                         <loading></loading>
                                     </span>

@@ -1,6 +1,6 @@
 <template>
 
-    <div class="open-applications">
+    <div class="open-applications --mt2">
 
         <div class="row table">
 

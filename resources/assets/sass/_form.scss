@@ -69,7 +69,7 @@ input[type="checkbox"]{
 
   display:none;
 
-  + label:after {
+  + label:before {
     content: "";
     display:inline-block;
     width:19px;
@@ -80,14 +80,14 @@ input[type="checkbox"]{
     cursor:pointer;
     border: 1px solid $breeze;
     border-radius: 3px;
-    margin-left: 10px;
+    margin-right: 10px;
   }
 
-  + label:hover:after {
+  + label:hover:before {
     background-color: $iced;
   }
 
-  &:checked + label:after {
+  &:checked + label:before {
     content: "\2713";
   }
 

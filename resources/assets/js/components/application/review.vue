@@ -854,7 +854,7 @@
                 </div>
 
             </div>
-            <div class="medium-4 columns">
+            <div class="medium-4 columns" v-if="application.status != 'approved' && application.status != 'declined'">
 
                 <div class="stats-box">
                     <div class="row column clearfix">

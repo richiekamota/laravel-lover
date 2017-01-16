@@ -1,6 +1,6 @@
 <template>
 
-    <div class="pending-applications">
+    <div class="pending-applications --mt2">
 
         <div class="row table">
 
@@ -11,6 +11,12 @@
                         <h4 class="--white">Pending Applications</h4>
                     </div>
 
+                </div>
+            </div>
+
+            <div class="no-applications" v-if="pendingApplications.length == 0">
+                <div class="small-12 columns">
+                    <p class="--mt1">There are no pending applications currently</p>
                 </div>
             </div>
 

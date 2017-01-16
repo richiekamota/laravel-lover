@@ -1,2 +1,1 @@
-
-Test PDF
+@include('contracts.contract')

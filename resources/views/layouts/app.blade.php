@@ -36,13 +36,25 @@
                 <div class="row align-middle">
 
                     <div class="columns">
-                        <ul class="menu align-right">
+                        <ul class="menu">
                             <!-- Authentication Links -->
                             @if (Auth::guest())
                                 <li>
                                     <a href="{{ url('/login') }}" class="header__link header__link--nav">Login</a>
                                 </li>
                             @else
+                                <li>
+                                    <a href="/dashboard" class="header__link header__link--nav @if(Request::path() == 'dashboard')header__link--active --bg-focused @endif">
+                                        Dashboard
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="{{ url('/profile') }}" class="header__link header__link--nav @if(Request::path() == 'profile')header__link--active --bg-focused @endif">
+                                        Profile
+                                    </a>
+                                </li>
+
                                 <li>
                                     <a href="{{ url('/logout') }}"
                                        onclick="event.preventDefault();
@@ -56,16 +68,7 @@
                                         {{ csrf_field() }}
                                     </form>
                                 </li>
-                                <li>
-                                    <a href="{{ url('/profile') }}" class="header__link header__link--nav">
-                                        Profile
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/dashboard" class="header__link header__link--nav">
-                                        Dashboard
-                                    </a>
-                                </li>
+
                             @endif
                         </ul>
                     </div>
