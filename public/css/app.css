@@ -4078,6 +4078,10 @@ body, html {
   width: 100%;
 }
 
+.--caps-first {
+  text-transform: capitalize;
+}
+
 .windows8 {
   position: relative;
   width: 24px;
@@ -4496,6 +4500,20 @@ body, html {
 .application-approve .selected-unit-types__line {
   border: none;
   border-top: 1px solid #9a989b;
+}
+
+.contract ol {
+  counter-reset: section;
+  /* Creates a new instance of the
+                                            section counter with each ol
+                                            element */
+  list-style-type: none;
+}
+
+.contract li::before {
+  counter-increment: section;
+  content: counters(section, ".") " ";
+  font-weight: bold;
 }
 
 /*# sourceMappingURL=app.css.map */

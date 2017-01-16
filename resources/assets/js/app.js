@@ -29,6 +29,7 @@ Vue.component('admin-items', require('./components/admin/AdminItems.vue'));
 
 Vue.component('open-applications', require('./components/dashboard/OpenApplications.vue'));
 Vue.component('pending-applications', require('./components/dashboard/PendingApplications.vue'));
+Vue.component('all-applications', require('./components/dashboard/AllApplications.vue'));
 
 Vue.component('application-review', require('./components/application/review.vue'));
 Vue.component('application-pending', require('./components/application/pending.vue'));

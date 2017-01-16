@@ -29,11 +29,14 @@ class DashboardController extends Controller
         // If the user is not a tenant
         if (Gate::denies('is-tenant')) {
 
-            $openApplications = Application::whereStatus('open')->get();
+            $openApplications = Application::with('user', 'location')->whereStatus('open')->get();
 
-            $pendingApplications = Application::with('user')->whereStatus('pending')->get();
+            $pendingApplications = Application::with('user', 'location')->whereStatus('pending')->get();
 
-            $allApplications = Application::whereStatus('declined')->orWhere('status', '!=', 'approved')->get();
+            $allApplications = Application::with('user', 'location')
+                ->where('status', '=', 'declined')
+                ->orWhere('status', '=', 'approved')
+                ->get();
 
             return view('dashboard', compact('openApplications', 'pendingApplications', 'allApplications'));
 

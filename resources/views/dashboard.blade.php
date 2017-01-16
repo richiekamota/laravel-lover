@@ -12,6 +12,8 @@
 
                 <pending-applications prop-pending-applications="{{$pendingApplications}}"></pending-applications>
 
+                <all-applications prop-all-applications="{{$allApplications}}"></all-applications>
+
             @endif
 
             @if(Gate::check('is-tenant'))

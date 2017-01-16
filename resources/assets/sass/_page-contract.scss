@@ -1,0 +1,14 @@
+.contract{
+    ol {
+        counter-reset: section;                /* Creates a new instance of the
+                                            section counter with each ol
+                                            element */
+        list-style-type: none;
+    }
+
+    li::before {
+        counter-increment: section;
+        content: counters(section,".") " ";
+        font-weight: bold;
+    }
+}

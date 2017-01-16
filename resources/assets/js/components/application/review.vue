@@ -23,7 +23,7 @@
                             <div class="column">
                                 Current status:
                             </div>
-                            <div class="column">
+                            <div class="column --caps-first">
                                 {{application.status}}
                             </div>
                         </div>

@@ -58,6 +58,10 @@ body, html{
   width: 100%;
 }
 
+.--caps-first {
+  text-transform:capitalize;
+}
+
 // Spinner
 .windows8 {
   position: relative;
