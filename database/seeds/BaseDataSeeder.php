@@ -60,7 +60,7 @@ class BaseDataSeeder extends Seeder
 
         $residentId = factory(Portal\Document::class)->create( [
             'user_id' => $user->id,
-            'document_type' => 'resident_id'
+            'type' => 'resident_id'
         ] );
 
         $location = \Portal\Location::all()->first();

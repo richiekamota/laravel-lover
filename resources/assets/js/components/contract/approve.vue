@@ -2,8 +2,8 @@
     <div class="contract-approve">
 
         <!-- Input for name -->
+        <p>Please enter your name in UPPER CASE <br>this must match the user profile name used to create your application</p>
         <label for="upperName">
-            Please enter your name in UPPER CASE <br>this must match the user profile name used to create your application
             <span class="row">
                 <span class="small-6 column">
                     <input type="text" name="upperName" v-model="upperName">
@@ -14,7 +14,7 @@
 
         <p>Contract Items Acceptance</p>
         <!-- List of items with tick box -->
-        <ul>
+        <ul class="--plain">
             <li v-for="(item, index) in items">
                 <input v-model="item.checked" :id="'item'+index" type="checkbox"><label :for="'item'+index">I approve {{item.name}} to be added to the contract.</label>
             </li>
@@ -56,7 +56,7 @@
         data() {
             return {
                 test: "test",
-                upperName: "CRAIG GETZ",
+                upperName: "",
                 items: [],
                 contractUser: {},
                 contractAccept: false,

@@ -40,6 +40,11 @@ class User extends Authenticatable
         return $this->hasMany( 'Portal\Application' );
     }
 
+    public function fullApplications() {
+        $applications = $this->applications()->with('user', 'location')->get();
+        return $applications;
+    }
+
     public function contracts()
     {
         return $this->hasMany('Portal\Contract');

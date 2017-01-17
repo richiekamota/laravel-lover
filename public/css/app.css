@@ -3108,6 +3108,10 @@ body, html {
 .--caps-first {
   text-transform: capitalize; }
 
+.--plain {
+  list-style: none;
+  padding: 0; }
+
 .windows8 {
   position: relative;
   width: 24px;

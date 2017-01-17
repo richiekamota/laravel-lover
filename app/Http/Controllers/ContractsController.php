@@ -78,11 +78,11 @@ class ContractsController extends Controller
 
             // Take the request and store in the DB
             $contract = Contract::create( [
-                'user_id'    => $applicationUser->id,
-                'unit_id'    => $request->unit_id,
-                'start_date' => Carbon::parse( $request->unit_occupation_date ),
-                'end_date'   => Carbon::parse( $request->unit_vacation_date ),
-                'contract_id' => $application->id
+                'user_id'        => $applicationUser->id,
+                'unit_id'        => $request->unit_id,
+                'start_date'     => Carbon::parse( $request->unit_occupation_date ),
+                'end_date'       => Carbon::parse( $request->unit_vacation_date ),
+                'application_id' => $id,
             ] );
 
             // Save the items array into the contract so we
@@ -112,10 +112,10 @@ class ContractsController extends Controller
             $pdf = PDF::loadView( 'pdf.contract', $data )->save( $filePath );
 
             $document = Document::create( [
-                'user_id'       => $applicationUser->id,
-                'location'      => $filePath,
-                'document_type' => 'contract',
-                'file_name'     => $pdfName . '.pdf'
+                'user_id'   => $applicationUser->id,
+                'location'  => $pdfName . '.pdf',
+                'type'      => 'contract',
+                'file_name' => $pdfName . '.pdf'
             ] );
 
             // TODO Save the PDF into S3
@@ -189,7 +189,7 @@ class ContractsController extends Controller
             abort_unless( $secureArray[0] == Auth::user()->email, 401 );
 
             // Find the secureLink in the DB
-            $contract = Contract::whereSecureLink( $secureLink )->with('items', 'user')->first();
+            $contract = Contract::whereSecureLink( $secureLink )->with( 'items', 'user' )->first();
 
             // Check the secure link user_id matches that of the Auth::user()
             abort_unless( $contract->user_id == Auth::user()->id, 401 );
@@ -209,20 +209,20 @@ class ContractsController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function approve(ContractApproveRequest $request, $id )
+    public function approve( ContractApproveRequest $request, $id )
     {
 
         // If the logged in user is matching the ID
-        abort_unless($request->user_id == Auth::user()->id, 422);
+        abort_unless( $request->user_id == Auth::user()->id, 422 );
 
         // find the contract
-        $contract = Contract::with('user', 'unit', 'items', 'application')->find($id);
+        $contract = Contract::with( 'user', 'unit', 'items', 'application' )->find( $id );
 
-        abort_unless($contract->isEmpty(), 422);
+        abort_unless( $contract->isEmpty(), 422 );
 
         DB::beginTransaction();
 
-        try{
+        try {
 
             $contract->approved = Carbon::now();
             $contract->save();
@@ -254,6 +254,18 @@ class ContractsController extends Controller
 
         }
 
+
+    }
+
+    public function download( $id )
+    {
+
+        $contract = Contract::findOrFail( $id );
+
+        // If the logged in user is matching the ID
+        abort_unless( $contract->user->id == Auth::user()->id, 422 );
+
+        return response()->download( $contract->document->location );
 
     }
 

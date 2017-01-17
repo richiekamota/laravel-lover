@@ -23,13 +23,13 @@ class DocumentsController extends Controller
     {
 
         $validator = Validator::make( $request->all(), [
-            'document_type' => 'required',
+            'type' => 'required',
         ] );
 
         if ( $validator->fails() ) {
-            return Response::json([
-                'message' => trans('portal.documents_store_error')
-            ], 422);
+            return Response::json( [
+                'message' => trans( 'portal.documents_store_error' )
+            ], 422 );
         }
 
         // A document must only be uploaded to the users latest application
@@ -39,7 +39,7 @@ class DocumentsController extends Controller
 
         abort_unless( $application, 403 );
 
-        $type = $request->document_type;
+        $type = $request->type;
 
         // Save the file into storage
         $path = $request->file->store( 'documents' );
@@ -48,10 +48,10 @@ class DocumentsController extends Controller
         $fileNameArray = explode( '.', $fileName );
 
         $document = Document::create( [
-            'user_id'       => Auth::user()->id,
-            'location'      => $fileName,
-            'document_type' => $type,
-            'file_name'     => $fileNameArray[0]
+            'user_id'   => Auth::user()->id,
+            'location'  => $fileName,
+            'type'      => $type,
+            'file_name' => $fileNameArray[0]
         ] );
 
         $application[ $type ] = $document->id;
@@ -65,20 +65,24 @@ class DocumentsController extends Controller
      * Display the specified resource.
      *
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function returnDocument( $id )
     {
 
-        $document = Document::find( $id )->first();
+        $document = Document::findOrFail( $id );
+
+        \Log::info($document);
 
         // abort unless Auth owns the doc ID
-        abort_unless( ($document->user_id == Auth::user()->id || Auth::user()->role != 'tenant' ), 403 );
+        abort_unless( ( $document->user_id == Auth::user()->id || Auth::user()->role != 'tenant' ), 403 );
+
+        if ( $document->type == "contract" ) {
+            return response()->download( storage_path( 'contracts/' . $document->location ) );
+        }
 
         // serve the doc back as a download
         $storagePath = Storage::disk( 'local' )->getDriver()->getAdapter()->getPathPrefix();
-
-        \Log::info($storagePath);
 
         return response()->download( $storagePath . "documents/" . $document->location );
 

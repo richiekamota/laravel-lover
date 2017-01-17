@@ -18,18 +18,9 @@
 
             @if(Gate::check('is-tenant'))
 
-                <h3>Tenant Dashboard in here</h3>
+                <tenant-applications prop-applications="{{$applications}}"></tenant-applications>
 
-                @foreach($openApplications as $application)
-
-                    {{$application->id}} <br>
-                    {{$application->status}}
-
-                @endforeach
-
-                {{-- Contracts Table --}}
-
-                {{-- Applications Table --}}
+                <tenant-contracts prop-contracts="{{$contracts}}"></tenant-contracts>
 
             @endif
 

@@ -42,9 +42,11 @@ class DashboardController extends Controller
 
         } else {
 
-            $openApplications = Auth::user()->applications;
+            $applications = Auth::user()->fullApplications();
 
-            return view('dashboard', compact('openApplications'));
+            $contracts = Auth::user()->contracts;
+
+            return view('dashboard', compact('applications', 'contracts'));
 
         }
 

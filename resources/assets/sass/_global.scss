@@ -62,6 +62,12 @@ body, html{
   text-transform:capitalize;
 }
 
+// Plain list style
+.--plain{
+  list-style: none;
+  padding: 0;
+}
+
 // Spinner
 .windows8 {
   position: relative;

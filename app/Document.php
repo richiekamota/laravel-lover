@@ -17,7 +17,7 @@ class Document extends Model
      */
 
     protected $fillable = [
-        'location', 'user_id', 'document_type', 'file_name'
+        'location', 'user_id', 'type', 'file_name'
     ];
 
     protected $dates = ['deleted_at'];
@@ -26,6 +26,6 @@ class Document extends Model
 
     public function user()
     {
-        return $this->hasOne('Portal\User');
+        return $this->belongsTo('Portal\User');
     }
 }

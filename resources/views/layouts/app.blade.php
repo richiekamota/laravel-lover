@@ -23,9 +23,8 @@
 
             @if(Gate::check('is-tenant'))
                 <ul class="admin-menu__links">
-                    <li><a href="{{ url('/locations') }}" class="admin-menu__link">Application form</a></li>
-                    <li><a href="{{ url('/unit-types') }}" class="admin-menu__link">Contract page</a></li>
-                    <li><a href="{{ url('/units') }}" class="admin-menu__link">Profile page</a></li>
+                    <li class="admin-menu__link-item @if(Request::path() == '')admin-menu__link-active --bg-mist @endif">
+                        <a href="{{ url('/application-form') }}" class="admin-menu__link">Application form</a></li>
                 </ul>
             @endif
         </div>

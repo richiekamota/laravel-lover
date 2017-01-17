@@ -19,7 +19,7 @@ class Contract extends Model
      */
 
     protected $fillable = [
-        'start_date', 'end_date', 'user_id', 'unit_id', 'document_id', 'secure_link'
+        'start_date', 'end_date', 'user_id', 'unit_id', 'application_id', 'document_id', 'secure_link'
     ];
 
     protected $dates = ['deleted_at'];
