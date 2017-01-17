@@ -2990,7 +2990,9 @@ input[type="checkbox"] {
     cursor: pointer;
     border: 1px solid #73cfcd;
     border-radius: 3px;
-    margin-right: 10px; }
+    margin-right: 10px;
+    font-size: 20px;
+    line-height: 1; }
   input[type="checkbox"] + label:hover:before {
     background-color: #bdfbff; }
   input[type="checkbox"]:checked + label:before {

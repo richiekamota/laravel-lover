@@ -65,22 +65,24 @@ input + input, label + label {
   margin-top: 1rem;
 }
 
-input[type="checkbox"]{
+input[type="checkbox"] {
 
-  display:none;
+  display: none;
 
   + label:before {
     content: "";
-    display:inline-block;
-    width:19px;
-    height:19px;
-    margin:-1px 4px 0 0;
-    vertical-align:middle;
+    display: inline-block;
+    width: 19px;
+    height: 19px;
+    margin: -1px 4px 0 0;
+    vertical-align: middle;
     background: $white;
-    cursor:pointer;
+    cursor: pointer;
     border: 1px solid $breeze;
     border-radius: 3px;
     margin-right: 10px;
+    font-size: 20px;
+    line-height: 1;
   }
 
   + label:hover:before {

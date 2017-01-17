@@ -14,9 +14,9 @@
         <h4 class="--text-center">Between</h4>
         <h4 class="--text-center">The "Landlord" MY DOMAIN RENTALS (PTY) LTD Company Registration Number: 2014 / 241 873 / 07 (Represented by Chrystal Grauso)</h4>
         <h4 class="--text-center">And</h4>
-        <h4 class="--text-center">The "Tenant" Passport Number:</h4>
+        <h4 class="--text-center">The "Tenant" Passport Number: XXXX</h4>
         <h4 class="--text-center">For</h4>
-        <h4 class="--text-center">Unit number My Domain, 1 Lower Church Street, Wynberg, Cape Town, 7800</h4>
+        <h4 class="--text-center">Unit number XXXX My Domain, 1 Lower Church Street, Wynberg, Cape Town, 7800</h4>
 
 
         <h3 class="--text-center">HARMONIOUS LIVING AT MY DOMAIN</h3>
@@ -27,7 +27,7 @@
     </div>
 
     <div class="page" style="page-break-after: always;">
-        <div class="h4 --mt1">LANDLORD’S DETAILS</div>
+        <div class="h4 --mt1">LANDLORD'S DETAILS</div>
         <table class="--expanded">
             <tbody>
                 <tr><td width="30%">Full Name</td><td>My Domain Rentals (Pty) Ltd</td></tr>
@@ -38,7 +38,7 @@
                 <tr><td width="30%">Email Address</td><td>chrystal@swishproperties.co.za</td></tr>
             </tbody>
         </table>
-        <div class="h4 --mt1">TENANT’S DETAILS</div>
+        <div class="h4 --mt1">TENANT'S DETAILS</div>
         <table class="--expanded">
             <tbody>
                 <tr><td width="30%">Full Name</td><td>XXXX</td></tr>
@@ -52,9 +52,9 @@
         <div class="h4 --mt1">LEASE AGREEMENT DETAILS</div>
         <table class="--expanded">
             <tbody>
-                <tr><td width="30%">Lease Period</td><td>12 Months</td></tr>
-                <tr><td width="30%">Start Date</td><td>1 July 2016</td></tr>
-                <tr><td width="30%">End Date</td><td>30 June 2017</td></tr>
+                <tr><td width="30%">Lease Period</td><td>XXXX</td></tr>
+                <tr><td width="30%">Start Date</td><td>XXXX</td></tr>
+                <tr><td width="30%">End Date</td><td>XXXX</td></tr>
                 <tr><td width="30%">Date And Time To Vacate</td><td>30 June 2017 at 12pm (unless residency is extended)</td></tr>
                 <tr><td width="30%">Annual Rental Escalation</td><td>10%</td></tr>
             </tbody>
@@ -185,7 +185,7 @@
                     <br>
                     If the monthly rental is not paid by 1st day of each month, the Tenant agrees to pay a late payment penalty fee of One Hundred Fifty Rand (R150.00) to the Landlord.
                     <br>
-                    My Domain stresses the importance of paying rental on time. Failure to maintain a positive rental history will impact on the Tenant’s credit history. These days a good credit history is used for much more than just getting a credit card or a loan. Why? Let’s use the example of an irresponsible friend that always asks to borrow cash. If a person knows this irresponsible friend won’t pay it back on time, he won’t continue to let him borrow money.
+                    My Domain stresses the importance of paying rental on time. Failure to maintain a positive rental history will impact on the Tenant's credit history. These days a good credit history is used for much more than just getting a credit card or a loan. Why? Let's use the example of an irresponsible friend that always asks to borrow cash. If a person knows this irresponsible friend won't pay it back on time, he won't continue to let him borrow money.
                 </li>
                 <li>The monthly rental will increase by ten percent (10%) twelve (12) months after the Start Date of the Lease Agreement.</li>
                 <li>Electricity charges are included in the monthly rental amount.</li>
@@ -199,8 +199,8 @@
                 <li>The new Lease Terms that will apply if the Tenant renews the Lease Agreement for a further fixed Lease Period.</li>
 
             </ol>
-            <p>Notwithstanding the aforesaid, My Domain will send out a notice to all tenants in August or September requesting that Tenants indicate if they are already able to confirm their intention to renew the Lease Agreement for a further period after the End Date, and if not, requesting an indication of when they will be able to advise if they will be renewing their Lease Agreement or not. This is due to the Landlord’s need to start marketing Units which tenants intend to vacate after their Lease Period ends.</p>
-            <p>Should the Tenant indicate that he/she does not intend to renew the Lease Agreement, the Landlord shall have the right of intermittent access to the Unit in order to ensure that the Unit will be ready for occupation by a new Tenant. For the Tenant’s peace of mind, the Landlord confirms that security will always be present during such periods of access.</p>
+            <p>Notwithstanding the aforesaid, My Domain will send out a notice to all tenants in August or September requesting that Tenants indicate if they are already able to confirm their intention to renew the Lease Agreement for a further period after the End Date, and if not, requesting an indication of when they will be able to advise if they will be renewing their Lease Agreement or not. This is due to the Landlord's need to start marketing Units which tenants intend to vacate after their Lease Period ends.</p>
+            <p>Should the Tenant indicate that he/she does not intend to renew the Lease Agreement, the Landlord shall have the right of intermittent access to the Unit in order to ensure that the Unit will be ready for occupation by a new Tenant. For the Tenant's peace of mind, the Landlord confirms that security will always be present during such periods of access.</p>
         </li>
         <li>
             <div class="h4">UNIT ALLOCATION</div>
@@ -246,7 +246,7 @@
                 </li>
                 <li>
                     <div class="h5">WEAPONS</div>
-                    <p>ANY type of weapon, including knives, firearms and ammunition are prohibited on the My Domain premises, including Tenants’ Units.</p>
+                    <p>ANY type of weapon, including knives, firearms and ammunition are prohibited on the My Domain premises, including Tenants' Units.</p>
                 </li>
                 <li>
                     <div class="h5">FLAMMABLE ITEMS</div>
@@ -265,7 +265,7 @@
                 <li>
                     <div class="h5">ILLEGAL DRUGS</div>
                     <p>Illegal drugs are STRICTLY FORBIDDEN at My Domain.</p>
-                    <p>The possession, cultivation, consumption or selling of any non-prescribed or illegal drugs and / or the possession of any equipment to aid the use of illegal drugs or substances are prohibited. ANY breach of this rule by a Tenant or his guest in any form is considered serious misconduct and as a consequence My Domain Management reserves the right to immediately terminate the Tenant’s Lease Agreement and also report the incident to the police.</p>
+                    <p>The possession, cultivation, consumption or selling of any non-prescribed or illegal drugs and / or the possession of any equipment to aid the use of illegal drugs or substances are prohibited. ANY breach of this rule by a Tenant or his guest in any form is considered serious misconduct and as a consequence My Domain Management reserves the right to immediately terminate the Tenant's Lease Agreement and also report the incident to the police.</p>
                 </li>
                 <li>
                     <div class="h5">ELECTRICAL METERS</div>
@@ -273,7 +273,7 @@
                 </li>
                 <li>
                     <div class="h5">GENERAL</div>
-                    <p>In respect of any fine imposed in terms of this Lease, the Tenant shall be notified of the reason for the imposition of the fine and advised of a time and place at which, or a deadline by which, the Tenant may in person or in writing furnish an explanation to My Domain Management to either dispute the fine or to reduce the fine. In the event that the Tenant fails to respond at all, or fails to convince My Domain Management to withdraw or reduce the fine, My Domain Management’s decision to the imposition of the fine shall be final and binding.</p>
+                    <p>In respect of any fine imposed in terms of this Lease, the Tenant shall be notified of the reason for the imposition of the fine and advised of a time and place at which, or a deadline by which, the Tenant may in person or in writing furnish an explanation to My Domain Management to either dispute the fine or to reduce the fine. In the event that the Tenant fails to respond at all, or fails to convince My Domain Management to withdraw or reduce the fine, My Domain Management's decision to the imposition of the fine shall be final and binding.</p>
                 </li>
             </ol>
         </li>
@@ -287,7 +287,7 @@
                 <li>Clean the internal window in his Unit</li>
                 <li>Take all possible steps to stop blockages and obstruction in the drains, sewage pipes and water pipes in his Unit and on the My Domain premises</li>
             </ul>
-            <p>Prior to vacating the Unit, My Domain Management will conduct an outgoing inspection. If any cleaning is required a cleaning fee of Two Hundred Fifty Rand (R250.00) will be deducted from the Tenant’s deposit.</p>
+            <p>Prior to vacating the Unit, My Domain Management will conduct an outgoing inspection. If any cleaning is required a cleaning fee of Two Hundred Fifty Rand (R250.00) will be deducted from the Tenant's deposit.</p>
         </li>
         <li>
             <div class="h4">DECORATING THE UNIT AND PREMISES</div>
@@ -304,14 +304,14 @@
                 <li>If requested to do so by a Tenant for the purpose of maintenance or repair.</li>
             </ol>
             <p>Inspections of Units and communal facilities are undertaken to identify maintenance needs, ensure that health, safety and cleanliness standards are being maintained and enable planning for renovation or refurbishment projects.</p>
-            <p>If there is a maintenance issue in a Tenant’s Unit which is not his fault, he must inform My Domain Management within two (2) days of finding out about the issue. If the Tenant does not and the issue gets worse, My Domain Management may have to charge him for the repair cost.</p>
+            <p>If there is a maintenance issue in a Tenant's Unit which is not his fault, he must inform My Domain Management within two (2) days of finding out about the issue. If the Tenant does not and the issue gets worse, My Domain Management may have to charge him for the repair cost.</p>
         </li>
         <li>
             <div class="h4">BREAKAGES AND VANDALISM</div>
-            <p>Damaging other people’ property shall not be tolerated. Tenants are prohibited from throwing ANY objects including water bombs, etc. from windows. Any claims resulting from such behavior shall be charged to the Tenant responsible, or if not identified, to the whole residence community.</p>
+            <p>Damaging other people' property shall not be tolerated. Tenants are prohibited from throwing ANY objects including water bombs, etc. from windows. Any claims resulting from such behavior shall be charged to the Tenant responsible, or if not identified, to the whole residence community.</p>
             <p>Tenants are prohibited from entering or exiting My Domain through a window.</p>
             <p>Tenants or guests must not write, draw, etch or leave any messages, symbols, pictures or other graffiti on any surface of My Domain (including walls, doors, windows, tables, etc.). Graffiti shows a lack of respect for property and environment and its creation is considered to be serious misconduct.</p>
-            <p>Tenants who deliberately and maliciously damage or destroy My Domain property (including graffiti) or another Tenant’s property shall be charged as individuals or as a group. My Domain Management reserves the right to immediately terminate the guilty Tenant(s) Lease Agreement and also report the incident to the police.</p>
+            <p>Tenants who deliberately and maliciously damage or destroy My Domain property (including graffiti) or another Tenant's property shall be charged as individuals or as a group. My Domain Management reserves the right to immediately terminate the guilty Tenant(s) Lease Agreement and also report the incident to the police.</p>
         </li>
         <li>
             <div class="h4">ACCESS CARDS</div>
@@ -324,13 +324,13 @@
             <div class="h4">GUESTS</div>
             <p>Tenants may invite guests to My Domain, but the following conditions apply:</p>
             <ol>
-                <li>Visiting hours are between 08:00am (08h00) and 11:00pm (23h00). Guests may stay overnight by prior arrangement with Management and 24 hours’ notice must be given to Student Liaison. Overnight stays are charged at R150 per night during the week, but Friday and Saturday nights are free of charge.</li>
+                <li>Visiting hours are between 08:00am (08h00) and 11:00pm (23h00). Guests may stay overnight by prior arrangement with Management and 24 hours' notice must be given to Student Liaison. Overnight stays are charged at R150 per night during the week, but Friday and Saturday nights are free of charge.</li>
                 <li>The Tenant must collect his guest at the reception area and no guest may be signed for by another Tenant. When the guest leaves the My Domain premises the Tenant must also escort him out. Guests will be required to leave either their student card or another form of ID reasonably acceptable to security with security prior to being allowed access to My Domain.</li>
                 <li>The Tenant is NOT allowed to have more than three (3) guests at any given time.</li>
                 <li>The Tenant must accompany and accept full responsibility for his guest and the consequence of his actions whilst at My Domain. Damage or trouble caused by a guest will be deemed to be the responsibility of the Tenant who invited him.</li>
-                <li>Guests are expected to adhere to the accepted Residence Rules whilst at My Domain and must comply with all Government legislation. A violation of this will result in the maximum fine imposed and My Domain Management reserves the right to terminate the Tenant’s Lease Agreement.</li>
+                <li>Guests are expected to adhere to the accepted Residence Rules whilst at My Domain and must comply with all Government legislation. A violation of this will result in the maximum fine imposed and My Domain Management reserves the right to terminate the Tenant's Lease Agreement.</li>
                 <li>No function, event or party may continue after 10:00pm (22h00) on Sundays to Thursdays and 11:00pm (23h00) on Fridays and Saturdays. Under no circumstances may any of the above be held in Units, they are strictly to be held in the communal use areas of My Domain.</li>
-                <li>My Domain Management reserves the right to place further restrictions on the access of guests in the event that utility consumption increases dramatically, guests’ behavior are inappropriate or the people carrying capacity of the building is compromised in any way.</li>
+                <li>My Domain Management reserves the right to place further restrictions on the access of guests in the event that utility consumption increases dramatically, guests' behavior are inappropriate or the people carrying capacity of the building is compromised in any way.</li>
             </ol>
         </li>
         <li>
@@ -346,7 +346,7 @@
        </li>
         <li>
             <div class="h4">FURNITURE IN COMMUNAL FACILITIES</div>
-            <p>Furniture and equipment provided in My Domain communal areas and Tenants’ Units must remain where it’s located and must not to be moved to other communal areas or Units.</p>
+            <p>Furniture and equipment provided in My Domain communal areas and Tenants' Units must remain where it's located and must not to be moved to other communal areas or Units.</p>
         </li>
         <li>
             <div class="h4">KITCHENETTES</div>

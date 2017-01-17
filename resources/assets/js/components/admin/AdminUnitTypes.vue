@@ -138,7 +138,7 @@
 
                                     <label for="editUnitTypeDescription">
                                         Description*
-                                        <textarea ref="editUnitTypeDescription" id="editUnitTypeDescription" name="editUnitTypeDescription" v-model="editUnitType.description"></textarea>
+                                        <textarea rows="4" ref="editUnitTypeDescription" id="editUnitTypeDescription" name="editUnitTypeDescription" v-model="editUnitType.description"></textarea>
                                     </label>
 
                                     <label for="editLocationId">

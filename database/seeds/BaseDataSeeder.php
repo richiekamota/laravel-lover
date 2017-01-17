@@ -39,15 +39,15 @@ class BaseDataSeeder extends Seeder
         ] );
 
 
-        factory( Portal\Location::class, 5 )->create( [
+        factory( Portal\Location::class, 3 )->create( [
             'id' => Uuid::generate()->string
         ] )->each( function ( $l ) {
 
-            factory( Portal\UnitType::class, 5 )->create( [
+            factory( Portal\UnitType::class, 2 )->create( [
                 'location_id' => $l->id
             ] )->each( function ( $u ) {
 
-                factory( Portal\Unit::class, 20 )->create( [
+                factory( Portal\Unit::class, 10 )->create( [
                     'location_id' => $u->location_id,
                     'type_id'     => $u->id
                 ] );
