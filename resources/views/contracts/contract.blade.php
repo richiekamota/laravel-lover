@@ -12,9 +12,9 @@
         <h3 class="--text-center">CLASSIC STUDIO LEASE AGREEMENT AND TENANT RULES</h3>
 
         <h4 class="--text-center">Between</h4>
-        <h4 class="--text-center">The “Landlord” MY DOMAIN RENTALS (PTY) LTD Company Registration Number: 2014 / 241 873 / 07 (Represented by Chrystal Grauso)</h4>
+        <h4 class="--text-center">The "Landlord" MY DOMAIN RENTALS (PTY) LTD Company Registration Number: 2014 / 241 873 / 07 (Represented by Chrystal Grauso)</h4>
         <h4 class="--text-center">And</h4>
-        <h4 class="--text-center">The “Tenant” Passport Number:</h4>
+        <h4 class="--text-center">The "Tenant" Passport Number:</h4>
         <h4 class="--text-center">For</h4>
         <h4 class="--text-center">Unit number My Domain, 1 Lower Church Street, Wynberg, Cape Town, 7800</h4>
 
@@ -26,8 +26,8 @@
         <p>An atmosphere of mutual tolerance and regard is required.</p>
     </div>
 
-    <div class="page">
-        <div class="h4">LANDLORD’S DETAILS</div>
+    <div class="page" style="page-break-after: always;">
+        <div class="h4 --mt1">LANDLORD’S DETAILS</div>
         <table class="--expanded">
             <tbody>
                 <tr><td width="30%">Full Name</td><td>My Domain Rentals (Pty) Ltd</td></tr>
@@ -38,7 +38,7 @@
                 <tr><td width="30%">Email Address</td><td>chrystal@swishproperties.co.za</td></tr>
             </tbody>
         </table>
-        <div class="h4">TENANT’S DETAILS</div>
+        <div class="h4 --mt1">TENANT’S DETAILS</div>
         <table class="--expanded">
             <tbody>
                 <tr><td width="30%">Full Name</td><td>XXXX</td></tr>
@@ -49,7 +49,7 @@
                 <tr><td width="30%">Lease Period</td><td>XXXX</td></tr>
             </tbody>
         </table>
-        <div class="h4">LEASE AGREEMENT DETAILS</div>
+        <div class="h4 --mt1">LEASE AGREEMENT DETAILS</div>
         <table class="--expanded">
             <tbody>
                 <tr><td width="30%">Lease Period</td><td>12 Months</td></tr>
@@ -59,7 +59,7 @@
                 <tr><td width="30%">Annual Rental Escalation</td><td>10%</td></tr>
             </tbody>
         </table>
-        <div class="h4">PAYMENT DETAILS</div>
+        <div class="h4 --mt1">PAYMENT DETAILS</div>
         <table class="--expanded">
             <tbody>
                 <tr><td width="30%">Monthly Studio Rental</td><td>R4 20.00</td></tr>
@@ -76,7 +76,7 @@
                 <tr><td width="30%">Payable Before Occupation</td><td>R13 530.00</td></tr>
             </tbody>
         </table>
-        <div class="h4">MY DOMAIN MANAGEMENT DETAILS</div>
+        <div class="h4 --mt1">MY DOMAIN MANAGEMENT DETAILS</div>
         <table class="--expanded">
             <tbody>
                 <tr><td width="30%">My Domain Managing Agent</td><td>Swish Property Administration CC</td></tr>
@@ -95,13 +95,11 @@
             The Lease Terms and Tenant Rules contain information on the conditions of residence and are designed to provide guidance to maintaining quality of life at My Domain.
         </p>
         <p>
-            No change to the Lease Agreement will be valid unless the Landlord and Tenant agree in writing and sign that change, save for the Privacy Policy which can be viewed on the My Domain website at <a href="www.mydomainliving.co.za">www.mydomainliving.co.za</a> from time to time and shall be deemed to be incorporated into this Lease Agreement and is therefore applicable to and binding upon the Parties.
+            No change to the Lease Agreement will be valid unless the Landlord and Tenant agree in writing and sign that change, save for the Privacy Policy which can be viewed on the My Domain website at <a href="http://www.mydomainliving.co.za">www.mydomainliving.co.za</a> from time to time and shall be deemed to be incorporated into this Lease Agreement and is therefore applicable to and binding upon the Parties.
         </p>
         <p>
             All Tenants are expected to read and accept the Lease Terms and Tenant Rules. Lack of awareness will not be accepted as an excuse for non-compliance.
         </p>
-
-
 
     </div>
 
@@ -110,18 +108,18 @@
             <div class="h4">DEFINITIONS AND EXPLANATIONS</div>
             In this Lease Agreement, the words below mean the following:
             <ol>
-                <li>“The Consumer Protection Act” means Act 68 of 2008 read together with the final regulations of 1 April 2011;</li>
-                <li>The“LeaseAgreement”meansthisAgreementbetweentheLandlordandTenant;</li>
-                <li>The “Lease Period” means 1 July 2016 to 30 June 2017;</li>
-                <li>The“Unit”means328MyDomain,1LowerChurchStreet,Wynberg,CapeTown,7800;</li>
-                <li>The “Landlord” means My Domain Rentals (Pty) Ltd (represented by Chrystal Grauso);</li>
-                <li>The“Tenant”means</li>
-                <li>The“Parties”meanstheLandlordandtheTenant;</li>
-                <li>“Month”meansacalendarmonth;</li>
-                <li>The “monthly rental” means the rental that must be paid by the Tenant to the Landlord for renting the Unit;</li>
-                <li>“My Domain” means the building which comprises of various Units which the Landlord leases to various lessees;</li>
-                <li>The “deposit” means the security and damage deposit the Tenant must pay to the Landlord before the Tenant moves into the Unit;</li>
-                <li>“Date of Signature” means the date on which this Lease Agreement and Tenant Rules are signed by the last party, alternatively if the Lease Agreement was generated electronically on the My Domain website, then upon the completion and submission of all details required and the acceptance of the terms and conditions of residency;</li>
+                <li>"The Consumer Protection Act" means Act 68 of 2008 read together with the final regulations of 1 April 2011;</li>
+                <li>The"LeaseAgreement"meansthisAgreementbetweentheLandlordandTenant;</li>
+                <li>The "Lease Period" means 1 July 2016 to 30 June 2017;</li>
+                <li>The"Unit"means328MyDomain,1LowerChurchStreet,Wynberg,CapeTown,7800;</li>
+                <li>The "Landlord" means My Domain Rentals (Pty) Ltd (represented by Chrystal Grauso);</li>
+                <li>The"Tenant"means</li>
+                <li>The"Parties"meanstheLandlordandtheTenant;</li>
+                <li>"Month"meansacalendarmonth;</li>
+                <li>The "monthly rental" means the rental that must be paid by the Tenant to the Landlord for renting the Unit;</li>
+                <li>"My Domain" means the building which comprises of various Units which the Landlord leases to various lessees;</li>
+                <li>The "deposit" means the security and damage deposit the Tenant must pay to the Landlord before the Tenant moves into the Unit;</li>
+                <li>"Date of Signature" means the date on which this Lease Agreement and Tenant Rules are signed by the last party, alternatively if the Lease Agreement was generated electronically on the My Domain website, then upon the completion and submission of all details required and the acceptance of the terms and conditions of residency;</li>
                 <li>Please note any reference to one gender includes the other gender and any reference to the singular includes the plural and vice versa.</li>
             </ol>
         </li>
@@ -416,275 +414,221 @@
                 </li>
             </ul>
         </li>
-
-
-
-
-
-
-
-                <p>22. SECURITY</p>
-
-                <p>Each Tenant must ensure that his Unit is always locked, especially when left unattended (even if only to make a quick trip to the communal facilities). Unlocked doors encourage theft. Please also do not leave valuables such as laptops, wallets, keys and bicycles unsecured or unattended at any time.</p>
-
-                <p>My Domain can take no responsibility for the security of personal items. Tenants are not permitted to give keys to non-tenants for access to their Unit. Units found left open whilst unattended will result in the door being closed and locked by the My Domain Building Manager.</p>
-
-                <p>Tenants may not change any cylinder door lock to any door in My Domain.</p>
-
-                <p>23.PREVENTION OF THEFT</p>
-
-                <p>My Domain strives to provide its Tenants with a safe and secure community environment. Unfortunately thieves exist in our society. Valuable equipment is stored in the communal areas so each Tenant must please ensure that he keeps exit doors closed to prevent outsiders from entering or damaging the My Domain premises or facilities.</p>
-
-                <p>There are several ways in each Tenant can further increase his level of security:</p>
-            </li>
-        </ul>
-
-        <ul>
-            <li>
-                Ensure that his Unit is locked when he leaves;</p>
-            </li>
-            <li>
-                <p> &nbsp;Do not prop open fire doors;</p>
-            </li>
-            <li>
-                <p> &nbsp;Do not allow people to follow you into the My Domain premises;</p>
-            </li>
-            <li>
-                <p> &nbsp;Get to know your neighbors;</p>
-            </li>
-            <li>
-                <p> &nbsp;Never lend your access card / key or to another person;</p>
-            </li>
-            <li>
-                <p> &nbsp;Do not leave your Unit window open when you are not in your Unit;</p>
-            </li>
-            <li>
-                <p> &nbsp;Do not leave money or valuables in full view;</p>
-            </li>
-            <li>
-                <p> &nbsp;Notify the My Domain Building Manager or security if you notice any suspicious activity, unacceptable or odd behavior in</p>
-
-                <p>and around the My Domain premises.</p>
-
-                <p>24.PERSONAL SAFETY AND SECURITY</p>
-
-                <p>Tenants must take all reasonable steps to minimize any negative impact their behavior may have on other Tenants.</p>
-
-                <p>Please adhere to the following basic principles:</p>
-            </li>
-        </ul>
-
-        <ul>
-            <li>
-                <p> &nbsp;Do not act in a reckless or dangerous manner that may cause harm to the Tenants, others or the My Domain premises and</p>
-
-                <p>facilities;</p>
-            </li>
-            <li>
-                <p> &nbsp;Do not burn items such as candles in Units and leave it unattended;</p>
-            </li>
-            <li>
-                <p> &nbsp;Do not engage in any activity within, near or around the My Domain premises which may cause injury to someone or</p>
-
-                <p>damage to property;</p>
-            </li>
-            <li>
-                <p> &nbsp;Comply with all My Domain health and safety policies and procedures; and</p>
-            </li>
-        </ul>
-
-        <p> Follow specific safety and evacuation procedures and evacuate the premises when the fire alarm sounds, or if instructed by a My Domain staff member.</p>
-
-        <p>25. INSURANCE</p>
-
-        <p>My Domain and its Management staff are not responsible for any damage or loss caused to personal items located on the My Domain premises. Tenants are encouraged to take out appropriate insurance and are advised to check that the contents policy they are purchasing is valid for a student residential accommodation setting.</p>
-
-        <p>26.FIRE ALARMS</p>
-
-        <p>There are fire sensors in each Unit and the communal areas of My Domain.</p>
-
-        <p>If a fire alarm sounds, Tenants are required to vacate their Units and move calmly to the fire exits, regardless of the inconvenience. My Domain Management and staff are required by law to enter Units during fire alarms to ensure that all Tenants have been safely evacuated. The privacy of Tenants is respected wherever possible, but safety is a priority in an emergency situation.</p>
-
-        <p>In the event of a fire or other incident where Tenant safety is endangered, Tenants are required to follow the instructions of My Domain staff members. Evacuation when required is compulsory for all Tenants. Please respect the efforts of the My Domain staff who are trying to help and do their job. Failure to evacuate a building during a fire alarm can result in a hefty fine imposed by the Cape Town Fire Department. Do not return to an evacuated room until instructed to do so by a My Domain staff member.</p>
-
-        <p>NEVER ASSUME that a fire alarm is false. FIRE KILLS!</p>
-
-        <p>27.FALSE FIRE ALARMS</p>
-
-        <p>Where the fire service is called out on a false alarm caused by the use of candles, incense, oil burners, pest / bug control bombs, toasters, cooking equipment or smoking in Units or the My Domain premises, or where deemed the fault of the Tenant&rsquo;s action, that Tenant will be responsible for the cost of the call out charged to My Domain by the fire service.</p>
-
-        <p>Please note that where Tenants tamper with fire safety equipment in their Unit or the My Domain in the hope of hiding such activities, the Tenant will be fined Two Thousand Five Hundred Rand (R2 500.00) for misconduct. As this is a criminal offense, My Domain reserves the right to also lay criminal charges against the responsible Tenant and cancel the Tenant&rsquo;s Lease Agreement.</p>
-
-        <p>28.FIRE EQUIPMENT</p>
-
-        <p>Fire extinguishers are located in all My Domain hallways and communal areas. These are to be used for small fires only such as cooking fires where oil has ignited. Used fire blankets / extinguishers must be returned to the My Domain Building Manager for immediate replacement.</p>
-
-        <p>Fire equipment that is not in working order jeopardizes the safety of all Tenants and My Domain Management will regularly be checking all fire equipment including fire extinguishers and hoses, fire alarm boxes, smoke detectors, exit signs and evacuation maps.</p>
-
-        <p>It is against the law to tamper with fire equipment including removing or covering exit signs, damaging exit signs, altering the function of door closers, disabling or covering smoke detectors, discharging fire extinguishers for any purpose other than putting out a fire and doing anything that may compromise the proper functioning of fire equipment. Violators will be subject to substantial fines, criminal penalties and the termination of their Lease Agreement.</p>
-
-        <p>Any fire equipment repair or replacement that results from Tenant misconduct will be charged to the Tenant(s) responsible. If the responsible party cannot be determined, the fine and related damage will be charged to all My Domain Tenants.</p>
-
-        <p>12</p>
-
-        <p>LANDLORD INITIAL TENANT INITIAL</p>
-
-        <p>29.ELECTRICAL SAFETY</p>
-
-        <p>Tenants are asked to ensure that all personal electrical appliances used at My Domain comply with South African Safety Standards. If the Tenant requires additional power points in his Unit, a power-board with an overload safety feature and surge protection should be used.</p>
-
-        <p>To prevent overloading electrical circuits and to conserve energy, please limit electrical equipment in Units to such items as docks, irons, hair dryers / straighteners, curlers, shavers, lamps, computers and portable radios (no Hi-Fi&#39;s). These items must be maintained in good and clean operating condition. The cost to repair damage caused by any faulty appliance(s) and / or call out charges for electrical trappings caused by overloading electrical plugs will be charged to the Tenant. Cooking appliances, portable heaters, exercise equipment, air conditioners and other such items are PROHIBITED in Units.</p>
-
-        <p>Tenants must comply with the following fire and safety policies which are intended to prevent injuries in My Domain and to ensure compliance with health and safety regulations:</p>
-
-        <ul>
-            <li>
-                <p> &nbsp;Never modify a plug by bending or removing the prongs;</p>
-            </li>
-            <li>
-                <p> &nbsp;Extension cords should only be used when necessary and do not &ldquo;daisy chain&rdquo; extension cords;</p>
-            </li>
-            <li>
-                <p> &nbsp;Large appliances are not permitted in rooms; and</p>
-            </li>
-            <li>
-                <p> &nbsp;Promptly replace frayed or damaged cords.</p>
-
-                <p>30.ACCIDENT OR EMERGENCY</p>
-
-                <p>With the exception of ambulance transport, it&rsquo;s the responsibility of the patient to arrange transportation to required medical services. In the event of an accident or emergency, please contact the My Domain Building Manager for help. Where transportation to medical services is required, it&rsquo;s the responsibility of the patient to pay for the associated costs.</p>
-
-                <p>31.CONDUCT AND BEHAVIOUR</p>
-
-                <p>Tenants are expected at all times to display mature, tolerant, courteous behavior and consideration for others. Tenants should act in such a way as to cause no offence, inconvenience, harm or disturbance to any other Tenant or My Domain employee. Furthermore, no Tenant should act in a manner which would bring My Domain into disrepute.</p>
-
-                <p>Tenants of My Domain are responsible for ensuring that their guests also uphold the expected standards of behavior while visiting My Domain.</p>
-
-                <p>32. NOISE</p>
-
-                <p>Tenants must be respectful of noise levels and considerate of the rights of others to sleep and study in peace. Noise that affects other Tenants&rsquo; ability to study, sleep or relax and is audible beyond an individual Unit is not acceptable at any time.</p>
-
-                <p>As a general rule, there should be no disruptive noise after 10.00pm (22h00). Radios, stereos and musical instruments may only be used at reasonable hours of the day and will be restricted to a low level during quiet hours. Tenants are urged to use sound equipment with headphones where possible and avoid using excessive base where the thumping sound will transfer to neighboring Units. At any time of the day, a Tenant has the right to respectfully and politely ask people making excessive noise to stop and it&rsquo;s expected that reasonable requests will be accommodated immediately. Failure to comply may result in a fine of Two Hundred Fifty Rand (R250).</p>
-
-                <p>33.OFFENSIVE AND UNACCEPTABLE BEHAVIOUR</p>
-
-                <p>In all forms offensive and unacceptable behavior is totally intolerable and the Landlord reserves the right to terminate the Tenant&rsquo;s Lease Agreement.</p>
-
-                <p>Offensive behaviour includes:<br />
-                     Abusive, threatening, menacing, obscene, obnoxious or antisocial conduct. It also includes physical assault, fighting and</p>
-
-                <p>bullying.</p>
-
-                <p>Unacceptable behaviour includes:</p>
-            </li>
-        </ul>
-
-        <ul>
-            <li>
-                <p> &nbsp;Excessive noise;</p>
-            </li>
-            <li>
-                <p> &nbsp;Drunkenness on the My Domain premises;</p>
-            </li>
-            <li>
-                <p> &nbsp;Selling and / or possession of drugs or illegal habit forming substances;</p>
-            </li>
-        </ul>
-
-        <p>13</p>
-
-        <p>LANDLORD INITIAL TENANT INITIAL</p>
-
-        <ul>
-            <li>
-                <p> &nbsp;Illegal possession of and keeping a weapon;</p>
-            </li>
-            <li>
-                <p> &nbsp;Harassment;</p>
-            </li>
-            <li>
-                <p> &nbsp;Tampering with safety or security equipment;</p>
-            </li>
-            <li>
-                <p> &nbsp;Intentional damage to fixtures, furnishings, Units and communal facilities; and</p>
-            </li>
-            <li>
-                <p> &nbsp;Assault or abusive language against another Tenant, staff and security, service providers or members of the public.</p>
-
-                <p>34.HARASSMENT AND DISCRIMINATION</p>
-
-                <p>My Domain affirms that the right of all Tenants is to live free from harassment and discrimination of any kind, including harassment, ridicule or discrimination based on gender or sexual preference, race, religion, age, disability, nationality or marital status.</p>
-
-                <p>Harassment or discrimination in any form is unacceptable and is illegal under South African Laws.</p>
-
-                <p>Harassment is any form of behavior that causes offence and this can include comments and suggestions, leering, physical contact or explicit or implied demands. It also includes display of offensive images in posters, graffiti, movies or video footage. Harassment may occur unintentionally, but it&rsquo;s still harassment. It&rsquo;s unwelcome, uninvited and unreciprocated behavior. If the Tenant is harassed, he should not believe that he is to blame for someone else&rsquo;s unacceptable behavior. If the Tenant feels able, ask the person to stop. Sometimes the person may not be aware that their actions are causing the Tenant offence.</p>
-
-                <p>35.ADDRESSES WHERE THE LANDLORDAND TENANT WILL RECEIVE LETTERS AND NOTICES</p>
-
-                <p>Any letters or notices that either the Landlord, r or Tenant sends by registered post to the other person shall be considered received four (4) days after the date of posting.</p>
-
-                <p>Letters or Notices delivered to the My Domain Units by hand or sent to the email addresses below, shall be considered received on the date of delivery or transmission.</p>
-
-                <p>Landlord: angelo@swishproperties.co.za</p>
-
-                <p>Tenant: runyararonaz@gmail.com</p>
-
-                <p>36. COSTS</p>
-
-                <p>If either the Landlord or Tenant has to take legal action against the other, each of them will be entitled to claim legal costs from the other on the attorney and own client scale.</p>
-
-                <p>37.JUDGEMENT BY AN IMPARTIAL PERSON</p>
-
-                <p>If the Landlord and Tenant are unable to sort out any differences in the Lease Agreement, the President of the Law Society of the Good Hope may be approached to recommend a competent, suitably qualified, independent and objective party, who at the parties&rsquo; cost, can mediate and / or arbitrate the dispute.</p>
-
-                <p>38.RELAXATION OR INDULGENCES</p>
-
-                <p>If the Landlord chooses not to act against the Tenant if the Tenant does not follow the Lease Agreements Terms and Tenant Rules, it does not mean that the Landlord cannot demand that the Tenant comply with the Lease Terms and Tenant Rules at any time thereafter.</p>
-
-                <p>39.FOREIGNERS AND THEIR DUTIES</p>
-
-                <p>If the Tenant is a non-resident as described in terms of The Immigration Act 13 of 2002, he warrants that he has a legitimate residence permit which is valid for the fixed Lease Period(s). The duty to show the Landlord proof of being a South African resident or a foreigner legitimately in South Africa to study is the Tenant&rsquo;s responsibility alone when and if requested to do so.</p>
-
-                <p>40.MATRIMONIAL PROPERTY ACT</p>
-
-                <p>The Landlord and Tenant hereby confirm that they have complied with all the terms necessary in terms of the Matrimonial Property Act 88 of 1984. This means that if the Tenant is married in community of property, the spouse will be considered to have agreed and given the necessary permission to the Tenant to enter into this Lease Agreement.</p>
-            </li>
-        </ul>
-
-        <p>14</p>
-
-        <p>LANDLORD INITIAL TENANT INITIAL</p>
-
-        <p>41.TENANT CONSENT CLAUSE</p>
-
-        <p>The Tenant hereby agrees and allows the Landlord:</p>
-
-        <p>41.1 At all times, to contact, request and obtain information from any credit provider (or potential credit provider) or registered credit bureau that may be necessary to assess the behavior, profile, payment patterns, indebtedness, whereabouts, and creditworthiness of the Tenant;</p>
-
-        <p>41.2To provide information concerning the behavior, profile, payment patterns, indebtedness, whereabouts, and creditworthiness of the Tenant to any registered credit bureau or to any credit provider (or potential credit provider) seeking a trade reference regarding the Tenant&rsquo;s dealings with the Landlord.</p>
-
-        <p>42.PROTECTION FOR THE LANDLORD</p>
-
-        <p>The Tenant will not be allowed to sue the Landlord for any loss, damage or injury which the Tenant may experience unless it is because the Landlord was grossly negligent.</p>
-
-        <p>43.BREACHING OR NOT COMPLYING WITH THE TERMS OF THE LEASE AGREEMENT</p>
-
-        <p>The Landlord is entitled to, over and above any other rights in law, to immediately cancel this Lease Agreement if:</p>
-
-        <p>43.1 The Tenant fails to pay the monthly rental or any other amount due to the Landlord; and</p>
-
-        <p>43.2 Fails to comply with any terms as required in the Lease Terms of this Lease Agreement within five (5) business days of a letter being sent to the Tenant, telling him what to do to sort out the wrongdoing.</p>
-
-        <p>The Landlord and Tenant agree that the Magistrates court where My Domain is situated is the court that will be used if a matter regarding this Lease Agreement needs to be argued.</p>
-
-        <p>44.MEDICAL CONDITIONS AND DISABILITIES</p>
-
-        <p>Should the Tenant suffer from any medical illness or disability, My Domain Management must be notified to be of assistance in the event of a medical emergency.</p>
-
-        <p>45.PROPERTY LEFT BEHIND</p>
-
-        <p>The Tenant agrees that it is his duty to remove all his belongings from the Unit on the same day that the Lease Agreement terminates. The Tenant will have no claim against the Landlord for any property left behind or abandoned which cannot be recovered by the Tenant. If property is left behind or abandoned the Landlord may dispose of it in any way deemed fit and the Tenant will have no claim against the Landlord once the abandoned property has been disposed of.</p>
-
+        <li>
+            <div class="h4">SECURITY</div>
+            <p>Each Tenant must ensure that his Unit is always locked, especially when left unattended (even if only to make a quick trip to the communal facilities). Unlocked doors encourage theft. Please also do not leave valuables such as laptops, wallets, keys and bicycles unsecured or unattended at any time.</p>
+            <p>My Domain can take no responsibility for the security of personal items. Tenants are not permitted to give keys to non-tenants for access to their Unit. Units found left open whilst unattended will result in the door being closed and locked by the My Domain Building Manager.</p>
+            <p>Tenants may not change any cylinder door lock to any door in My Domain.</p>
+        </li>
+        <li>
+            <div class="h4">PREVENTION OF THEFT</div>
+            <p>My Domain strives to provide its Tenants with a safe and secure community environment. Unfortunately thieves exist in our society. Valuable equipment is stored in the communal areas so each Tenant must please ensure that he keeps exit doors closed to prevent outsiders from entering or damaging the My Domain premises or facilities.</p>
+
+            <p>There are several ways in each Tenant can further increase his level of security:</p>
+            <ul>
+                <li>
+                    Ensure that his Unit is locked when he leaves;
+                </li>
+                <li>
+                    Do not prop open fire doors;
+                </li>
+                <li>
+                    Do not allow people to follow you into the My Domain premises;
+                </li>
+                <li>
+                    Get to know your neighbors;
+                </li>
+                <li>
+                    Never lend your access card / key or to another person;
+                </li>
+                <li>
+                    Do not leave your Unit window open when you are not in your Unit;
+                </li>
+                <li>
+                    Do not leave money or valuables in full view;
+                </li>
+                <li>
+                    Notify the My Domain Building Manager or security if you notice any suspicious activity, unacceptable or odd behavior in and around the My Domain premises.
+                </li>
+            </ul>
+        </li>
+        <li>
+            <div class="h4">PERSONAL SAFETY AND SECURITY</div>
+            <p>Tenants must take all reasonable steps to minimize any negative impact their behavior may have on other Tenants.</p>
+            <p>Please adhere to the following basic principles:</p>
+            <ul>
+                <li>
+                    Do not act in a reckless or dangerous manner that may cause harm to the Tenants, others or the My Domain premises and facilities;
+                </li>
+                <li>
+                    Do not burn items such as candles in Units and leave it unattended;
+                </li>
+                <li>
+                    Do not engage in any activity within, near or around the My Domain premises which may cause injury to someone or damage to property;
+                </li>
+                <li>
+                    Comply with all My Domain health and safety policies and procedures; and
+                </li>
+                <li>
+                    Follow specific safety and evacuation procedures and evacuate the premises when the fire alarm sounds, or if instructed by a My Domain staff member.
+                </li>
+            </ul>
+        </li>
+        <li>
+            <div class="h4">INSURANCE</div>
+            <p>My Domain and its Management staff are not responsible for any damage or loss caused to personal items located on the My Domain premises. Tenants are encouraged to take out appropriate insurance and are advised to check that the contents policy they are purchasing is valid for a student residential accommodation setting.</p>
+        </li>
+        <li>
+            <div class="h4">FIRE ALARMS</div>
+            <p>There are fire sensors in each Unit and the communal areas of My Domain.</p>
+            <p>If a fire alarm sounds, Tenants are required to vacate their Units and move calmly to the fire exits, regardless of the inconvenience. My Domain Management and staff are required by law to enter Units during fire alarms to ensure that all Tenants have been safely evacuated. The privacy of Tenants is respected wherever possible, but safety is a priority in an emergency situation.</p>
+            <p>In the event of a fire or other incident where Tenant safety is endangered, Tenants are required to follow the instructions of My Domain staff members. Evacuation when required is compulsory for all Tenants. Please respect the efforts of the My Domain staff who are trying to help and do their job. Failure to evacuate a building during a fire alarm can result in a hefty fine imposed by the Cape Town Fire Department. Do not return to an evacuated room until instructed to do so by a My Domain staff member.</p>
+            <p>NEVER ASSUME that a fire alarm is false. FIRE KILLS!</p>
+        </li>
+        <li>
+            <div class="h4">FALSE FIRE ALARMS</div>
+            <p>Where the fire service is called out on a false alarm caused by the use of candles, incense, oil burners, pest / bug control bombs, toasters, cooking equipment or smoking in Units or the My Domain premises, or where deemed the fault of the Tenant&rsquo;s action, that Tenant will be responsible for the cost of the call out charged to My Domain by the fire service.</p>
+            <p>Please note that where Tenants tamper with fire safety equipment in their Unit or the My Domain in the hope of hiding such activities, the Tenant will be fined Two Thousand Five Hundred Rand (R2 500.00) for misconduct. As this is a criminal offense, My Domain reserves the right to also lay criminal charges against the responsible Tenant and cancel the Tenant&rsquo;s Lease Agreement.</p>
+        </li>
+        <li>
+            <div class="h4">FIRE EQUIPMENT</div>
+            <p>Fire extinguishers are located in all My Domain hallways and communal areas. These are to be used for small fires only such as cooking fires where oil has ignited. Used fire blankets / extinguishers must be returned to the My Domain Building Manager for immediate replacement.</p>
+            <p>Fire equipment that is not in working order jeopardizes the safety of all Tenants and My Domain Management will regularly be checking all fire equipment including fire extinguishers and hoses, fire alarm boxes, smoke detectors, exit signs and evacuation maps.</p>
+            <p>It is against the law to tamper with fire equipment including removing or covering exit signs, damaging exit signs, altering the function of door closers, disabling or covering smoke detectors, discharging fire extinguishers for any purpose other than putting out a fire and doing anything that may compromise the proper functioning of fire equipment. Violators will be subject to substantial fines, criminal penalties and the termination of their Lease Agreement.</p>
+            <p>Any fire equipment repair or replacement that results from Tenant misconduct will be charged to the Tenant(s) responsible. If the responsible party cannot be determined, the fine and related damage will be charged to all My Domain Tenants.</p>
+        </li>
+        <li>
+            <div class="h4">ELECTRICAL SAFETY</div>
+            <p>Tenants are asked to ensure that all personal electrical appliances used at My Domain comply with South African Safety Standards. If the Tenant requires additional power points in his Unit, a power-board with an overload safety feature and surge protection should be used.</p>
+            <p>To prevent overloading electrical circuits and to conserve energy, please limit electrical equipment in Units to such items as docks, irons, hair dryers / straighteners, curlers, shavers, lamps, computers and portable radios (no Hi-Fi&#39;s). These items must be maintained in good and clean operating condition. The cost to repair damage caused by any faulty appliance(s) and / or call out charges for electrical trappings caused by overloading electrical plugs will be charged to the Tenant. Cooking appliances, portable heaters, exercise equipment, air conditioners and other such items are PROHIBITED in Units.</p>
+            <p>Tenants must comply with the following fire and safety policies which are intended to prevent injuries in My Domain and to ensure compliance with health and safety regulations:</p>
+            <ul>
+                <li>
+                   Never modify a plug by bending or removing the prongs;
+                </li>
+                <li>
+                   Extension cords should only be used when necessary and do not &ldquo;daisy chain&rdquo; extension cords;
+                </li>
+                <li>
+                   Large appliances are not permitted in rooms; and
+                </li>
+                <li>
+                   Promptly replace frayed or damaged cords.
+                </li>
+            </ul>
+        </li>
+        <li>
+            <div class="h4">ACCIDENT OR EMERGENCY</div>
+            <p>With the exception of ambulance transport, it&rsquo;s the responsibility of the patient to arrange transportation to required medical services. In the event of an accident or emergency, please contact the My Domain Building Manager for help. Where transportation to medical services is required, it&rsquo;s the responsibility of the patient to pay for the associated costs.</p>
+        </li>
+        <li>
+            <div class="h4">CONDUCT AND BEHAVIOUR</div>
+            <p>Tenants are expected at all times to display mature, tolerant, courteous behavior and consideration for others. Tenants should act in such a way as to cause no offence, inconvenience, harm or disturbance to any other Tenant or My Domain employee. Furthermore, no Tenant should act in a manner which would bring My Domain into disrepute.</p>
+            <p>Tenants of My Domain are responsible for ensuring that their guests also uphold the expected standards of behavior while visiting My Domain.</p>
+        </li>
+        <li>
+            <div class="h4">NOISE</div>
+            <p>Tenants must be respectful of noise levels and considerate of the rights of others to sleep and study in peace. Noise that affects other Tenants&rsquo; ability to study, sleep or relax and is audible beyond an individual Unit is not acceptable at any time.</p>
+            <p>As a general rule, there should be no disruptive noise after 10.00pm (22h00). Radios, stereos and musical instruments may only be used at reasonable hours of the day and will be restricted to a low level during quiet hours. Tenants are urged to use sound equipment with headphones where possible and avoid using excessive base where the thumping sound will transfer to neighboring Units. At any time of the day, a Tenant has the right to respectfully and politely ask people making excessive noise to stop and it&rsquo;s expected that reasonable requests will be accommodated immediately. Failure to comply may result in a fine of Two Hundred Fifty Rand (R250).</p>
+        </li>
+        <li>
+            <div class="h4">OFFENSIVE AND UNACCEPTABLE BEHAVIOUR</div>
+            <p>In all forms offensive and unacceptable behavior is totally intolerable and the Landlord reserves the right to terminate the Tenant&rsquo;s Lease Agreement.</p>
+            Offensive behaviour includes:<br />
+            <ul>
+                <li>
+                    Abusive, threatening, menacing, obscene, obnoxious or antisocial conduct. It also includes physical assault, fighting and bullying.
+                </li>
+            </ul>
+            <p>Unacceptable behaviour includes:</p>
+            <ul>
+                <li>
+                    Excessive noise;
+                </li>
+                <li>
+                    Drunkenness on the My Domain premises;
+                </li>
+                <li>
+                    Selling and / or possession of drugs or illegal habit forming substances;
+                </li>
+                <li>
+                    Illegal possession of and keeping a weapon;
+                </li>
+                <li>
+                    Harassment;
+                </li>
+                <li>
+                    Tampering with safety or security equipment;
+                </li>
+                <li>
+                    Intentional damage to fixtures, furnishings, Units and communal facilities; and
+                </li>
+                <li>
+                    Assault or abusive language against another Tenant, staff and security, service providers or members of the public.
+                </li>
+            </ul>
+        </li>
+        <li>
+            <div class="h4">HARASSMENT AND DISCRIMINATION</div>
+            <p>My Domain affirms that the right of all Tenants is to live free from harassment and discrimination of any kind, including harassment, ridicule or discrimination based on gender or sexual preference, race, religion, age, disability, nationality or marital status.</p>
+            <p>Harassment or discrimination in any form is unacceptable and is illegal under South African Laws.</p>
+            <p>Harassment is any form of behavior that causes offence and this can include comments and suggestions, leering, physical contact or explicit or implied demands. It also includes display of offensive images in posters, graffiti, movies or video footage. Harassment may occur unintentionally, but it&rsquo;s still harassment. It&rsquo;s unwelcome, uninvited and unreciprocated behavior. If the Tenant is harassed, he should not believe that he is to blame for someone else&rsquo;s unacceptable behavior. If the Tenant feels able, ask the person to stop. Sometimes the person may not be aware that their actions are causing the Tenant offence.</p>
+        </li>
+        <li>
+            <div class="h4">ADDRESSES WHERE THE LANDLORDAND TENANT WILL RECEIVE LETTERS AND NOTICES</div>
+            <p>Any letters or notices that either the Landlord, r or Tenant sends by registered post to the other person shall be considered received four (4) days after the date of posting.</p>
+            <p>Letters or Notices delivered to the My Domain Units by hand or sent to the email addresses below, shall be considered received on the date of delivery or transmission.</p>
+            <p>Landlord: angelo@swishproperties.co.za</p>
+            <p>Tenant: runyararonaz@gmail.com</p>
+        </li>
+        <li>
+            <div class="h4">COSTS</div>
+            <p>If either the Landlord or Tenant has to take legal action against the other, each of them will be entitled to claim legal costs from the other on the attorney and own client scale.</p>
+        </li>
+        <li>
+            <div class="h4">JUDGEMENT BY AN IMPARTIAL PERSON</div>
+            <p>If the Landlord and Tenant are unable to sort out any differences in the Lease Agreement, the President of the Law Society of the Good Hope may be approached to recommend a competent, suitably qualified, independent and objective party, who at the parties&rsquo; cost, can mediate and / or arbitrate the dispute.</p>
+        </li>
+        <li>
+            <div class="h4">RELAXATION OR INDULGENCES</div>
+            <p>If the Landlord chooses not to act against the Tenant if the Tenant does not follow the Lease Agreements Terms and Tenant Rules, it does not mean that the Landlord cannot demand that the Tenant comply with the Lease Terms and Tenant Rules at any time thereafter.</p>
+        </li>
+        <li>
+            <div class="h4">FOREIGNERS AND THEIR DUTIES</div>
+            <p>If the Tenant is a non-resident as described in terms of The Immigration Act 13 of 2002, he warrants that he has a legitimate residence permit which is valid for the fixed Lease Period(s). The duty to show the Landlord proof of being a South African resident or a foreigner legitimately in South Africa to study is the Tenant&rsquo;s responsibility alone when and if requested to do so.</p>
+        </li>
+        <li>
+            <div class="h4">MATRIMONIAL PROPERTY ACT</div>
+            <p>The Landlord and Tenant hereby confirm that they have complied with all the terms necessary in terms of the Matrimonial Property Act 88 of 1984. This means that if the Tenant is married in community of property, the spouse will be considered to have agreed and given the necessary permission to the Tenant to enter into this Lease Agreement.</p>
+        </li>
+        <li>
+            <div class="h4">TENANT CONSENT CLAUSE</div>
+            <p>The Tenant hereby agrees and allows the Landlord:</p>
+            <ol>
+                <li>At all times, to contact, request and obtain information from any credit provider (or potential credit provider) or registered credit bureau that may be necessary to assess the behavior, profile, payment patterns, indebtedness, whereabouts, and creditworthiness of the Tenant;</li>
+                <li>To provide information concerning the behavior, profile, payment patterns, indebtedness, whereabouts, and creditworthiness of the Tenant to any registered credit bureau or to any credit provider (or potential credit provider) seeking a trade reference regarding the Tenant&rsquo;s dealings with the Landlord.</li>
+            </ol>
+        </li>
+        <li>
+            <div class="h4">PROTECTION FOR THE LANDLORD</div>
+            <p>The Tenant will not be allowed to sue the Landlord for any loss, damage or injury which the Tenant may experience unless it is because the Landlord was grossly negligent.</p>
+        </li>
+        <li>
+            <div class="h4">BREACHING OR NOT COMPLYING WITH THE TERMS OF THE LEASE AGREEMENT</div>
+            <p>The Landlord is entitled to, over and above any other rights in law, to immediately cancel this Lease Agreement if:</p>
+            <ol>
+                <li>The Tenant fails to pay the monthly rental or any other amount due to the Landlord; and</li>
+                <li>Fails to comply with any terms as required in the Lease Terms of this Lease Agreement within five (5) business days of a letter being sent to the Tenant, telling him what to do to sort out the wrongdoing.</li>
+            </ol>
+            <p>The Landlord and Tenant agree that the Magistrates court where My Domain is situated is the court that will be used if a matter regarding this Lease Agreement needs to be argued.</p>
+        </li>
+        <li>
+            <div class="h4">MEDICAL CONDITIONS AND DISABILITIES</div>
+            <p>Should the Tenant suffer from any medical illness or disability, My Domain Management must be notified to be of assistance in the event of a medical emergency.</p>
+        </li>
+        <li>
+            <div class="h4">PROPERTY LEFT BEHIND</div>
+            <p>The Tenant agrees that it is his duty to remove all his belongings from the Unit on the same day that the Lease Agreement terminates. The Tenant will have no claim against the Landlord for any property left behind or abandoned which cannot be recovered by the Tenant. If property is left behind or abandoned the Landlord may dispose of it in any way deemed fit and the Tenant will have no claim against the Landlord once the abandoned property has been disposed of.</p>
+        </li>
     </ol>
-
 </div>

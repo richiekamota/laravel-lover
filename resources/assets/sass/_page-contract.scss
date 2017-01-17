@@ -1,13 +1,29 @@
 .contract {
+  .h4{
+    margin-bottom: 20px;
+  }
   ol {
     counter-reset: section;
     list-style-type: none;
+    padding-left: 10px;
 
-    > li::before {
-      counter-increment: section;
-      content: counters(section, ".") " ";
-      font-weight: bold;
+    > li {
+      overflow: hidden;
+      margin-bottom: 10px;
+
+      &::before{
+        counter-increment: section;
+        content: counters(section, ".") " ";
+        font-weight: bold;
+        float: left;
+        margin-right: 10px;
+      }
     }
   }
-
+  table{
+    td{
+      padding: 5px;
+      border-top: 1px solid #eceeef;
+    }
+  }
 }

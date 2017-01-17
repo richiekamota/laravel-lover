@@ -3439,12 +3439,25 @@ body, html {
   border: none;
   border-top: 1px solid #9a989b; }
 
+.contract .h4 {
+  margin-bottom: 20px; }
+
 .contract ol {
   counter-reset: section;
-  list-style-type: none; }
-  .contract ol > li::before {
-    counter-increment: section;
-    content: counters(section, ".") " ";
-    font-weight: bold; }
+  list-style-type: none;
+  padding-left: 10px; }
+  .contract ol > li {
+    overflow: hidden;
+    margin-bottom: 10px; }
+    .contract ol > li::before {
+      counter-increment: section;
+      content: counters(section, ".") " ";
+      font-weight: bold;
+      float: left;
+      margin-right: 10px; }
+
+.contract table td {
+  padding: 5px;
+  border-top: 1px solid #eceeef; }
 
 /*# sourceMappingURL=app.css.map */

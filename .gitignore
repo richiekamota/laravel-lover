@@ -8,3 +8,4 @@ Homestead.json
 reports/
 selenium-debug.log
 /bin
+/storage/contracts
