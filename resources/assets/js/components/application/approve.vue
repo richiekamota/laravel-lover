@@ -145,7 +145,7 @@
 </template>
 <script>
 
-    import Flatpickr from '../../../../../node_modules/vue-flatpickr/vue-flatpickr-default.vue';
+    import Flatpickr  from 'vue-flatpickr';
 
     var moment = require('moment');
 

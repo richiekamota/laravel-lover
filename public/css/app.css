@@ -486,6 +486,8 @@ button {
   margin-right: auto;
   display: -webkit-box;
   display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
   flex-flow: row wrap;
 }
 

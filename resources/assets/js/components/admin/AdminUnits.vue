@@ -23,7 +23,7 @@
                         <div class="table__row table__row--add">
                             <!-- Row Title -->
                             <button class="accordion__heading accordion__heading--add" v-on:click="addEntry = !addEntry">
-                                <h4 class="--white">Add new location</h4>
+                                <h4 class="--white">Add New Unit</h4>
                             </button>
                             <!-- START Edit form -->
                             <div class="accordion__content --bg-calm" v-bind:class="{ 'accordion__content--active' : addEntry }" v-show="addEntry">
@@ -254,6 +254,7 @@
                 ).then((response) => {
                     // If the response is successful, lets set the name to the edited object
                     this.loading = false;
+                    this.filteredUnits[this.editUnit.index] = this.editUnit;
                     this.units[this.editUnit.index] = this.editUnit;
                     // To prevent reactivity from going accross, let's reassign the object.
                     this.createEditableObject(this.editUnit.index);
@@ -303,10 +304,10 @@
                  // We also need the array index so when we update succesfully we know which index to update.
                 this.editUnit = {};
                 this.editUnit.index = index;
-                this.editUnit.id = this.units[index].id;
-                this.editUnit.location_id = this.units[index].location_id;
-                this.editUnit.code = this.units[index].code;
-                this.editUnit.type_id  = this.units[index].type_id;
+                this.editUnit.id = this.filteredUnits[index].id;
+                this.editUnit.location_id = this.filteredUnits[index].location_id;
+                this.editUnit.code = this.filteredUnits[index].code;
+                this.editUnit.type_id  = this.filteredUnits[index].type_id;
                 this.editUnit.user_id = '';
                 this.editUnit.contract_id = '';
             },
@@ -364,6 +365,7 @@
 
                     this.pagination.currentPage = 1;
                 }
+
                 this.calculatePagination();
             },
 
