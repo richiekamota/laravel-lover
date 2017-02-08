@@ -530,7 +530,7 @@ class ApplicationController extends Controller
      * Submit application for review
      *
      * @param Request|ApplicationStepEightRequest $request
-     * @param  int     $id
+     * @param  int                                $id
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */

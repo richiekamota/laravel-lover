@@ -13,7 +13,7 @@
 
 Auth::routes();
 
-Route::get('/register', function(){
+Route::get('/register', function () {
     return redirect('/login');
 });
 

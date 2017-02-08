@@ -867,9 +867,9 @@
                         text: "Thank your for your application submission. We will contact you will the results of your application review.",
                         type: "success",
                         confirmButtonText: "Ok",
-                    },              function(){
-                            window.location.href = '/dashboard';
-                        });
+                    }, function () {
+                        window.location.href = '/dashboard';
+                    });
                     this.loading = false;
                     // If we are successful, there might not be any message to say so let's set it to default.
                     this.appForm[stepMessage] = 'Thank you. Your Application has been sent for review.';

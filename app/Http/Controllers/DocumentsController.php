@@ -17,47 +17,48 @@ class DocumentsController extends Controller
      * Store a document in storage.
      *
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function storeApplicationDocument( Request $request )
+    public function storeApplicationDocument(Request $request)
     {
 
-        $validator = Validator::make( $request->all(), [
+        $validator = Validator::make($request->all(), [
             'document_type' => 'required',
-        ] );
+        ]);
 
-        if ( $validator->fails() ) {
-            return Response::json( [
+        if ($validator->fails()) {
+            return Response::json([
                 'message' => json_encode($validator->errors())
-            ], 422 );
+            ], 422);
         }
 
         // A document must only be uploaded to the users latest application
-        $application = Application::whereUserId( Auth::user()->id )
-            ->orderBy( 'created_at', 'desc' )
+        $application = Application::whereUserId(Auth::user()->id)
+            ->orderBy('created_at', 'desc')
             ->first();
 
-        abort_unless( $application, 403 );
+        abort_unless($application, 403);
 
         $type = $request->document_type;
 
         // Save the file into storage
-        $path = $request->file->store( 'documents' );
-        $fileName = str_replace( 'documents/', '', $path );
+        $path = $request->file->store('documents');
+        $fileName = str_replace('documents/', '', $path);
         // Split at . to leave only name left
-        $fileNameArray = explode( '.', $fileName );
+        $fileNameArray = explode('.', $fileName);
 
-        $document = Document::create( [
+        $document = Document::create([
             'user_id'   => Auth::user()->id,
             'location'  => $fileName,
             'type'      => $type,
             'file_name' => $fileNameArray[0]
-        ] );
+        ]);
 
-        $application[ $type ] = $document->id;
+        $application[$type] = $document->id;
         $application->save();
 
-        return response( 200 );
+        return response(200);
 
     }
 
@@ -65,26 +66,27 @@ class DocumentsController extends Controller
      * Display the specified resource.
      *
      * @param  int $id
+     *
      * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function returnDocument( $id )
+    public function returnDocument($id)
     {
 
-        $document = Document::findOrFail( $id );
+        $document = Document::findOrFail($id);
 
         \Log::info($document);
 
         // abort unless Auth owns the doc ID
-        abort_unless( ( $document->user_id == Auth::user()->id || Auth::user()->role != 'tenant' ), 403 );
+        abort_unless(($document->user_id == Auth::user()->id || Auth::user()->role != 'tenant'), 403);
 
-        if ( $document->type == "contract" ) {
-            return response()->download( storage_path( 'contracts/' . $document->location ) );
+        if ($document->type == "contract") {
+            return response()->download(storage_path('contracts/' . $document->location));
         }
 
         // serve the doc back as a download
-        $storagePath = Storage::disk( 'local' )->getDriver()->getAdapter()->getPathPrefix();
+        $storagePath = Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix();
 
-        return response()->download( $storagePath . "documents/" . $document->location );
+        return response()->download($storagePath . "documents/" . $document->location);
 
     }
 

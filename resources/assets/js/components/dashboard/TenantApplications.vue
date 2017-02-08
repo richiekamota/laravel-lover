@@ -16,7 +16,9 @@
 
             <template v-for="(application, index) in applications">
                 <div class="small-12 columns">
-                    <div class="table__row" :class="{ even: isEven(index), first: index == 0, last: index == applications.length -1 }" v-if="application.status === 'draft'">
+                    <div class="table__row"
+                         :class="{ even: isEven(index), first: index == 0, last: index == applications.length -1 }"
+                         v-if="application.status === 'draft'">
 
                         <a v-bind:href="getUrl(application.id)">
 
@@ -26,13 +28,15 @@
                         </a>
 
                     </div>
-                    <div class="table__row" :class="{ even: isEven(index), first: index == 0, last: index == applications.length -1 }" v-else v-on:click="warn('Cannot edit OPEN or PENDING applications.', $event)">
+                    <div class="table__row"
+                         :class="{ even: isEven(index), first: index == 0, last: index == applications.length -1 }"
+                         v-else v-on:click="warn('Cannot edit OPEN or PENDING applications.', $event)">
 
 
-
-                            <button class="accordion__heading">
-                                {{application.created_at }} <span class="float-right --caps-first">{{application.status}}</span>
-                            </button>
+                        <button class="accordion__heading">
+                            {{application.created_at }} <span
+                                class="float-right --caps-first">{{application.status}}</span>
+                        </button>
 
 
                     </div>
@@ -66,10 +70,10 @@
             },
 
             getUrl: function (id) {
-                return '/application-form/'+id+'/edit';
+                return '/application-form/' + id + '/edit';
             },
 
-            getTime: function(time){
+            getTime: function (time) {
                 return moment(time).format("dddd, MMMM Do YYYY, h:mm:ss a");
             },
             warn: function (message, event) {

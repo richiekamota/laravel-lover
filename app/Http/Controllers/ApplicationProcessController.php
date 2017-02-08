@@ -29,10 +29,10 @@ class ApplicationProcessController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function review( $id )
+    public function review($id)
     {
 
-        $this->authorize( 'review', Application::class );
+        $this->authorize('review', Application::class);
 
         $application = Application::with([
             'user',
@@ -54,11 +54,11 @@ class ApplicationProcessController extends Controller
      * the applicant an email
      *
      * @param ApplicationDeclineRequest $request
-     * @param $id
+     * @param                           $id
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function processDecline(ApplicationDeclineRequest $request, $id )
+    public function processDecline(ApplicationDeclineRequest $request, $id)
     {
 
         // Abort unless its policy approves
@@ -74,10 +74,10 @@ class ApplicationProcessController extends Controller
             $application->save();
 
             ApplicationEvent::create([
-                'user_id' => Auth::user()->id,
+                'user_id'        => Auth::user()->id,
                 'application_id' => $id,
-                'action' => 'Application declined',
-                'note' => $request->reason
+                'action'         => 'Application declined',
+                'note'           => $request->reason
             ]);
 
             dispatch(new SendApplicationDeclinedEmail($application->user, $application, $request->reason));
@@ -86,7 +86,7 @@ class ApplicationProcessController extends Controller
 
             return Response::json([
                 'message' => trans('portal.process_decline_complete'),
-                'data' => Application::with(
+                'data'    => Application::with(
                     'user',
                     'residentId',
                     'residentStudyPermit',
@@ -101,16 +101,16 @@ class ApplicationProcessController extends Controller
 
         } catch (\Exception $e) {
 
-            \Log::info( $e );
+            \Log::info($e);
 
             //Bugsnag::notifyException($e);
 
             DB::rollback();
 
-            return Response::json( [
+            return Response::json([
                 'error'   => 'process_decline_error',
-                'message' => trans( 'portal.process_decline_error' ),
-            ], 422 );
+                'message' => trans('portal.process_decline_error'),
+            ], 422);
 
         }
 
@@ -130,10 +130,10 @@ class ApplicationProcessController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function pending( $id )
+    public function pending($id)
     {
 
-        $this->authorize( 'review', Application::class );
+        $this->authorize('review', Application::class);
 
         $application = Application::with([
             'user',
@@ -156,7 +156,7 @@ class ApplicationProcessController extends Controller
             ->groupBy('type_id')
             ->get();
 
-        foreach( $unitTypes as $unitType){
+        foreach ($unitTypes as $unitType) {
             $unitType->name = UnitType::find($unitType->type_id)->name;
         }
 
@@ -169,11 +169,11 @@ class ApplicationProcessController extends Controller
      * as pending and email the applicant
      *
      * @param ApplicationPendingRequest $request
-     * @param $id
+     * @param                           $id
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function processPending(ApplicationPendingRequest $request, $id )
+    public function processPending(ApplicationPendingRequest $request, $id)
     {
 
         // Abort unless its policy approves
@@ -189,10 +189,10 @@ class ApplicationProcessController extends Controller
             $application->save();
 
             ApplicationEvent::create([
-                'user_id' => Auth::user()->id,
+                'user_id'        => Auth::user()->id,
                 'application_id' => $id,
-                'action' => 'Application pending',
-                'note' => $request->reason
+                'action'         => 'Application pending',
+                'note'           => $request->reason
             ]);
 
             dispatch(new SendApplicationPendingEmail($application->user, $application, $request->reason));
@@ -201,7 +201,7 @@ class ApplicationProcessController extends Controller
 
             return Response::json([
                 'message' => trans('portal.process_decline_complete'),
-                'data' => Application::with(
+                'data'    => Application::with(
                     'user',
                     'residentId',
                     'residentStudyPermit',
@@ -217,16 +217,16 @@ class ApplicationProcessController extends Controller
 
         } catch (\Exception $e) {
 
-            \Log::info( $e );
+            \Log::info($e);
 
             //Bugsnag::notifyException($e);
 
             DB::rollback();
 
-            return Response::json( [
+            return Response::json([
                 'error'   => 'process_pending_error',
-                'message' => trans( 'portal.process_pending_error' ),
-            ], 422 );
+                'message' => trans('portal.process_pending_error'),
+            ], 422);
 
 
         }
@@ -240,10 +240,10 @@ class ApplicationProcessController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function approve( $id )
+    public function approve($id)
     {
 
-        $this->authorize( 'review', Application::class );
+        $this->authorize('review', Application::class);
 
         $application = Application::with([
             'user',
@@ -268,7 +268,7 @@ class ApplicationProcessController extends Controller
         $items = Item::all();
 
         $availableUnits = Unit::where('user_id', '=', '')
-            ->orWhere('user_id', '=', null)
+            ->orWhere('user_id', '=', NULL)
             ->where('type_id', $application->unit_type)
             ->get();
 
