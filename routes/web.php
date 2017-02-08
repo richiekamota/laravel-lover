@@ -126,6 +126,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/step-7/{id}', 'ApplicationController@stepSeven');
     Route::post('/step-8/{id}', 'ApplicationController@stepEight');
     Route::get('/application-form/{id}', 'ApplicationController@show');
+    Route::post('/application-form/{id}/submit', 'ApplicationController@submit');
 
 
     /*

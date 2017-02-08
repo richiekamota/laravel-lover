@@ -16,7 +16,7 @@
 
     <div class="row">
         <div class="medium-8">
-            <application-form step="{{$applicationForm->step}}" form-application-id="{{$applicationForm->id}}" prop-locations="{{$locations}}" prop-unit-types="{{$unitTypes}}" application="{{$applicationForm}}"></application-form>
+            <application-form step="{{$applicationForm->step}}" form-application-id="{{$applicationForm->id}}" prop-locations="{{$locations}}" prop-unit-types="{{$unitTypes}}" application-form-data="{{$applicationForm}}"></application-form>
         </div>
     </div>
 

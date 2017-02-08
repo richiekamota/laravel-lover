@@ -43,7 +43,7 @@ class ApplicationController extends Controller
     public function create()
     {
 
-        return view( 'application-form.form' );
+        return view('application-form.form');
     }
 
     /**
@@ -54,7 +54,7 @@ class ApplicationController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|User
      */
-    public function store( ApplicationCreateRequest $request )
+    public function store(ApplicationCreateRequest $request)
     {
 
         // Validation handled in Request
@@ -62,26 +62,26 @@ class ApplicationController extends Controller
         try {
 
             // Create a new user account and log them in
-            User::create( [
-                'first_name' => $request[ 'first_name' ],
-                'last_name'  => $request[ 'last_name' ],
-                'email'      => $request[ 'email' ],
-                'password'   => bcrypt( $request[ 'password' ] ),
+            User::create([
+                'first_name' => $request['first_name'],
+                'last_name'  => $request['last_name'],
+                'email'      => $request['email'],
+                'password'   => bcrypt($request['password']),
                 'role'       => 'tenant'
-            ] );
+            ]);
 
-            if (Auth::attempt( ['email' => $request[ 'email' ], 'password' => $request[ 'password' ]] )) {
+            if (Auth::attempt(['email' => $request['email'], 'password' => $request['password']])) {
 
                 // Create a new application form
-                Application::create( [
+                Application::create([
                     'user_id' => Auth::user()->id,
                     'status'  => 'draft',
                     'step'    => '1'
-                ] );
+                ]);
 
-                $applicationForm = Application::whereUserId( Auth::user()->id )
-                    ->whereStatus( 'draft' )
-                    ->whereStep( 1 )
+                $applicationForm = Application::whereUserId(Auth::user()->id)
+                    ->whereStatus('draft')
+                    ->whereStep(1)
                     ->first();
 
                 // Redirect to the edit form page
@@ -91,19 +91,19 @@ class ApplicationController extends Controller
                 );
 
             } else {
-                \Log::info( 'error authing user' );
+                \Log::info('error authing user');
             }
 
         } catch (\Exception $e) {
 
-            \Log::info( $e );
+            \Log::info($e);
 
             //Bugsnag::notifyException($e);
 
-            return Response::json( [
+            return Response::json([
                 'error'   => 'application_form_step1_error',
-                'message' => trans( 'portal.application_form_step1_error' ),
-            ], 422 );
+                'message' => trans('portal.application_form_step1_error'),
+            ], 422);
 
         }
 
@@ -116,7 +116,7 @@ class ApplicationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show( $id )
+    public function show($id)
     {
 
         // abort unless logged in
@@ -134,21 +134,21 @@ class ApplicationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit( $id )
+    public function edit($id)
     {
 
         // Find the application based on the ID
-        $applicationForm = Application::find( $id );
+        $applicationForm = Application::find($id);
 
         // abort unless logged in and the ID must belong to the user
         // TODO update this to a policy method
-        abort_unless( Auth::check() && $applicationForm->user_id == Auth::user()->id, 401 );
+        abort_unless(Auth::check() && $applicationForm->user_id == Auth::user()->id, 401);
 
         $unitTypes = UnitType::all();
         $locations = Location::all();
 
         // return the view to the user
-        return view( 'application-form.edit', compact( 'applicationForm', 'unitTypes', 'locations' ) );
+        return view('application-form.edit', compact('applicationForm', 'unitTypes', 'locations'));
 
     }
 
@@ -156,41 +156,41 @@ class ApplicationController extends Controller
      * Update the application form for Step One.
      *
      * @param Request|ApplicationStepOneRequest $request
-     * @param  int $id
+     * @param  int                              $id
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function stepOne( ApplicationStepOneRequest $request, $id )
+    public function stepOne(ApplicationStepOneRequest $request, $id)
     {
 
-        $applicationForm = Application::find( $id );
+        $applicationForm = Application::find($id);
 
-        $this->authorize( 'update', $applicationForm );
+        $this->authorize('update', $applicationForm);
 
         DB::beginTransaction();
 
         try {
 
             $data = $request->all();
-            $data[ 'step' ] = 2;
+            $data['step'] = 2;
 
             // Update the form
-            $output = $applicationForm->update( $data );
+            $output = $applicationForm->update($data);
 
             DB::commit();
 
         } catch (\Exception $e) {
 
-            \Log::info( $e );
+            \Log::info($e);
 
             //Bugsnag::notifyException($e);
 
             DB::rollback();
 
-            return Response::json( [
+            return Response::json([
                 'error'   => 'application_form_step1_error',
-                'message' => trans( 'portal.application_form_step1_error' ),
-            ], 422 );
+                'message' => trans('portal.application_form_step1_error'),
+            ], 422);
 
         }
 
@@ -201,41 +201,41 @@ class ApplicationController extends Controller
      * Update the application form for Step Two.
      *
      * @param Request|ApplicationStepTwoRequest $request
-     * @param  int $id
+     * @param  int                              $id
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function stepTwo( ApplicationStepTwoRequest $request, $id )
+    public function stepTwo(ApplicationStepTwoRequest $request, $id)
     {
 
-        $applicationForm = Application::find( $id );
+        $applicationForm = Application::find($id);
 
-        $this->authorize( 'update', $applicationForm );
+        $this->authorize('update', $applicationForm);
 
         DB::beginTransaction();
 
         try {
 
             $data = $request->all();
-            $data[ 'step' ] = 3;
+            $data['step'] = 3;
 
             // Update the form
-            $applicationForm->update( $data );
+            $applicationForm->update($data);
 
             DB::commit();
 
         } catch (\Exception $e) {
 
-            \Log::info( $e );
+            \Log::info($e);
 
             //Bugsnag::notifyException($e);
 
             DB::rollback();
 
-            return Response::json( [
+            return Response::json([
                 'error'   => 'application_form_step2_error',
-                'message' => trans( 'portal.application_form_step2_error' ),
-            ], 422 );
+                'message' => trans('portal.application_form_step2_error'),
+            ], 422);
 
         }
 
@@ -245,41 +245,41 @@ class ApplicationController extends Controller
      * Update the application form for Step Three.
      *
      * @param Request $request
-     * @param  int $id
+     * @param  int    $id
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function stepThree( ApplicationStepThreeRequest $request, $id )
+    public function stepThree(ApplicationStepThreeRequest $request, $id)
     {
 
-        $applicationForm = Application::find( $id );
+        $applicationForm = Application::find($id);
 
-        $this->authorize( 'update', $applicationForm );
+        $this->authorize('update', $applicationForm);
 
         DB::beginTransaction();
 
         try {
 
             $data = $request->all();
-            $data[ 'step' ] = 4;
+            $data['step'] = 4;
 
             // Update the form
-            $applicationForm->update( $data );
+            $applicationForm->update($data);
 
             DB::commit();
 
         } catch (\Exception $e) {
 
-            \Log::info( $e );
+            \Log::info($e);
 
             //Bugsnag::notifyException($e);
 
             DB::rollback();
 
-            return Response::json( [
+            return Response::json([
                 'error'   => 'application_form_step3_error',
-                'message' => trans( 'portal.application_form_step3_error' ),
-            ], 422 );
+                'message' => trans('portal.application_form_step3_error'),
+            ], 422);
 
         }
 
@@ -290,41 +290,41 @@ class ApplicationController extends Controller
      * Update the application form for Step Four.
      *
      * @param Request $request
-     * @param  int $id
+     * @param  int    $id
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function stepFour( ApplicationStepFourRequest $request, $id )
+    public function stepFour(ApplicationStepFourRequest $request, $id)
     {
 
-        $applicationForm = Application::find( $id );
+        $applicationForm = Application::find($id);
 
-        $this->authorize( 'update', $applicationForm );
+        $this->authorize('update', $applicationForm);
 
         DB::beginTransaction();
 
         try {
 
             $data = $request->all();
-            $data[ 'step' ] = 5;
+            $data['step'] = 5;
 
             // Update the form
-            $applicationForm->update( $data );
+            $applicationForm->update($data);
 
             DB::commit();
 
         } catch (\Exception $e) {
 
-            \Log::info( $e );
+            \Log::info($e);
 
             //Bugsnag::notifyException($e);
 
             DB::rollback();
 
-            return Response::json( [
+            return Response::json([
                 'error'   => 'application_form_step4_error',
-                'message' => trans( 'portal.application_form_step4_error' )."<!-- ".$e." -->",
-            ], 422 );
+                'message' => trans('portal.application_form_step4_error') . "<!-- " . $e . " -->",
+            ], 422);
 
         }
 
@@ -335,41 +335,41 @@ class ApplicationController extends Controller
      * Update the application form for Step Five.
      *
      * @param Request $request
-     * @param  int $id
+     * @param  int    $id
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function stepFive( ApplicationStepFiveRequest $request, $id )
+    public function stepFive(ApplicationStepFiveRequest $request, $id)
     {
 
-        $applicationForm = Application::find( $id );
+        $applicationForm = Application::find($id);
 
-        $this->authorize( 'update', $applicationForm );
+        $this->authorize('update', $applicationForm);
 
         DB::beginTransaction();
 
         try {
 
             $data = $request->all();
-            $data[ 'step' ] = 6;
+            $data['step'] = 6;
 
             // Update the form
-            $applicationForm->update( $data );
+            $applicationForm->update($data);
 
             DB::commit();
 
         } catch (\Exception $e) {
 
-            \Log::info( $e );
+            \Log::info($e);
 
             //Bugsnag::notifyException($e);
 
             DB::rollback();
 
-            return Response::json( [
+            return Response::json([
                 'error'   => 'application_form_step5_error',
-                'message' => trans( 'portal.application_form_step5_error' ),
-            ], 422 );
+                'message' => trans('portal.application_form_step5_error'),
+            ], 422);
 
         }
 
@@ -380,42 +380,42 @@ class ApplicationController extends Controller
      * Update the application form for Step Six.
      *
      * @param Request $request
-     * @param  int $id
+     * @param  int    $id
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function stepSix( ApplicationStepSixRequest $request, $id )
+    public function stepSix(ApplicationStepSixRequest $request, $id)
     {
 
-        $applicationForm = Application::find( $id );
+        $applicationForm = Application::find($id);
 
-        $this->authorize( 'update', $applicationForm );
+        $this->authorize('update', $applicationForm);
 
         DB::beginTransaction();
 
         try {
 
             $data = $request->all();
-            $data[ 'step' ] = 7;
+            $data['step'] = 7;
 
             // Update the form
-            $applicationForm->update( $data );
+            $applicationForm->update($data);
 
 
             DB::commit();
 
         } catch (\Exception $e) {
 
-            \Log::info( $e );
+            \Log::info($e);
 
             //Bugsnag::notifyException($e);
 
             DB::rollback();
 
-            return Response::json( [
+            return Response::json([
                 'error'   => 'application_form_step6_error',
-                'message' => trans( 'portal.application_form_step6_error' ),
-            ], 422 );
+                'message' => trans('portal.application_form_step6_error'),
+            ], 422);
 
         }
 
@@ -428,40 +428,40 @@ class ApplicationController extends Controller
      * uploads and we check them in the next step
      *
      * @param Request|ApplicationStepSevenRequest $request
-     * @param  int $id
+     * @param  int                                $id
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function stepSeven( ApplicationStepSevenRequest $request, $id )
+    public function stepSeven(ApplicationStepSevenRequest $request, $id)
     {
 
-        $applicationForm = Application::find( $id );
+        $applicationForm = Application::find($id);
 
-        $this->authorize( 'update', $applicationForm );
+        $this->authorize('update', $applicationForm);
 
         DB::beginTransaction();
 
         try {
 
             // Update the form
-            $applicationForm->update( [
+            $applicationForm->update([
                 'step' => 8
-            ] );
+            ]);
 
             DB::commit();
 
         } catch (\Exception $e) {
 
-            \Log::info( $e );
+            \Log::info($e);
 
             //Bugsnag::notifyException($e);
 
             DB::rollback();
 
-            return Response::json( [
+            return Response::json([
                 'error'   => 'application_form_step6_error',
-                'message' => trans( 'portal.application_form_step6_error' ),
-            ], 422 );
+                'message' => trans('portal.application_form_step6_error'),
+            ], 422);
 
         }
 
@@ -472,16 +472,16 @@ class ApplicationController extends Controller
      * Update the application form for Step Eight.
      *
      * @param Request|ApplicationStepEightRequest|ApplicationStepSevenRequest $request
-     * @param  int $id
+     * @param  int                                                            $id
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function stepEight( ApplicationStepEightRequest $request, $id )
+    public function stepEight(ApplicationStepEightRequest $request, $id)
     {
 
-        $applicationForm = Application::find( $id );
+        $applicationForm = Application::find($id);
 
-        $this->authorize( 'update', $applicationForm );
+        $this->authorize('update', $applicationForm);
 
         DB::beginTransaction();
 
@@ -492,37 +492,89 @@ class ApplicationController extends Controller
             $applicationArr['confirm_time'] = $confirm_timestamp;
 
             // Validate everything!!!
-            $validator = $this->validator( $applicationArr );
+            $validator = $this->validator($applicationArr);
 
             if ($validator->fails()) {
-                return Response::json( [
+                return Response::json([
                     'error'   => 'application_form_step8_validation_error',
                     'message' => $validator->errors()
-                ], 422 );
+                ], 422);
             }
 
             // Update the form
             $data = $request->all();
             $data['confirm_time'] = $confirm_timestamp;
-            $applicationForm->update( $data );
+            $applicationForm->update($data);
 
             DB::commit();
 
         } catch (\Exception $e) {
 
-            \Log::info( $e );
+            \Log::info($e);
 
             //Bugsnag::notifyException($e);
 
             DB::rollback();
 
-            return Response::json( [
+            return Response::json([
                 'error'   => 'application_form_step8_error',
-                'message' => trans( 'portal.application_form_step8_error' ),
-            ], 422 );
+                'message' => trans('portal.application_form_step8_error'),
+            ], 422);
 
         }
 
+
+    }
+
+    /**
+     * Submit application for review
+     *
+     * @param Request|ApplicationStepEightRequest $request
+     * @param  int     $id
+     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     */
+    public function submit(ApplicationStepEightRequest $request, $id)
+    {
+
+        $applicationForm = Application::find($id);
+
+        $this->authorize('update', $applicationForm);
+
+        DB::beginTransaction();
+
+        try {
+            // Validate everything again
+            $validator = $this->validator($applicationForm->toArray());
+
+            if ($validator->fails()) {
+                return Response::json([
+                    'error'   => 'application_form_step8_validation_error',
+                    'message' => $validator->errors()
+                ], 422);
+            }
+
+            // Update the form
+            $data = $request->all();
+            $data['status'] = 'open';
+            $applicationForm->update($data);
+
+            DB::commit();
+
+        } catch (\Exception $e) {
+
+            \Log::info($e);
+
+            //Bugsnag::notifyException($e);
+
+            DB::rollback();
+
+            return Response::json([
+                'error'   => 'application_form_step8_error',
+                'message' => $e,
+            ], 422);
+
+        }
 
     }
 
@@ -533,7 +585,7 @@ class ApplicationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy( $id )
+    public function destroy($id)
     {
 
         // abort unless logged in user owns this application form
@@ -548,10 +600,10 @@ class ApplicationController extends Controller
      *
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator( array $data )
+    protected function validator(array $data)
     {
 
-        return Validator::make( $data, [
+        return Validator::make($data, [
             'sa_id_number'                   => 'required_if:passport_number,""',
             'passport_number'                => 'required_if:sa_id_number,""',
             'dob'                            => 'required|date',
@@ -608,7 +660,7 @@ class ApplicationController extends Controller
             'leaseholder_id'                 => 'required',
             'leaseholder_address_proof'      => 'required',
             'leaseholder_payslip'            => 'required'
-        ] );
+        ]);
     }
 
 }
