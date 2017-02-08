@@ -28,12 +28,15 @@
             "database"
         ],
         "psr-4": {
-            "Portal\\": "app/"
+            "Portal\\": "app/",
+            "Tests\\": "tests/"
         }
     },
     "autoload-dev": {
         "classmap": [
-            "tests/TestCase.php"
+            "tests/TestCase.php",
+            "tests/CreatesApplication.php",
+            "tests/BrowserTestKit.php"
         ]
     },
     "scripts": {

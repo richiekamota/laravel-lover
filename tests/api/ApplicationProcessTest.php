@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Portal\Jobs\SendContractToUserEmail;
 use MailThief\Testing\InteractsWithMail;
 
-class ApplicationProcessTest extends TestCase
+class ApplicationProcessTest extends Tests\TestCase
 {
 
     use DatabaseMigrations;
@@ -63,8 +63,8 @@ class ApplicationProcessTest extends TestCase
     {
 
         $this->actingAs( $this->user )
-            ->get('/application/'. $this->application->id.'/review')
-            ->assertStatus(200);
+            ->visit('/application/'. $this->application->id.'/review')
+            ->assertResponseStatus(200);
 
     }
 
@@ -78,8 +78,8 @@ class ApplicationProcessTest extends TestCase
             ->json( 'POST', '/application/' . $this->application->id . '/decline', [
                 'php' => ''
             ] )
-            ->assertStatus( 422 )
-            ->assertJson( [
+            ->assertResponseStatus( 422 )
+            ->seeJson( [
                 "reason" => [ "The reason field is required." ]
             ] );
 
@@ -96,7 +96,7 @@ class ApplicationProcessTest extends TestCase
             ->json( 'POST', '/application/' . $this->application->id . '/decline', [
                 'reason' => 'This is the reason'
             ] )
-            ->assertStatus( 200 );
+            ->assertResponseStatus( 200 );
 
             /*->assertDatabaseHas( 'applications', [
                 'id' => $this->application->id,
@@ -121,7 +121,7 @@ class ApplicationProcessTest extends TestCase
             ->json( 'POST', '/application/' . $this->application->id . '/decline', [
                 'reason' => 'This is the reason'
             ] )
-            ->assertStatus( 200 );
+            ->assertResponseStatus( 200 );
 
         $this->seeMessageFor($this->userTenant->email);
         $this->seeMessageWithSubject('Your application has been declined');
@@ -137,8 +137,8 @@ class ApplicationProcessTest extends TestCase
     {
 
         $this->actingAs( $this->user )
-            ->get('/application/'. $this->application->id.'/pending')
-            ->assertStatus(200);
+            ->visit('/application/'. $this->application->id.'/pending')
+            ->assertResponseStatus(200);
 
     }
 
@@ -152,7 +152,7 @@ class ApplicationProcessTest extends TestCase
             ->json( 'POST', '/application/' . $this->application->id . '/pending', [
                 'reason' => ''
             ] )
-            ->assertStatus( 422 );
+            ->assertResponseStatus( 422 );
     }
 
     /**
@@ -165,8 +165,8 @@ class ApplicationProcessTest extends TestCase
             ->json( 'POST', '/application/' . $this->application->id . '/pending', [
                 'reason' => 'This is the reason'
             ] )
-            ->assertStatus( 200 );
-            /*->assertDatabaseHas( 'applications', [
+            ->assertResponseStatus( 200 )
+            ->assertDatabaseHas( 'applications', [
                 'id' => $this->application->id,
                 'status' => 'pending'
             ] )
@@ -175,7 +175,7 @@ class ApplicationProcessTest extends TestCase
                 'user_id' => $this->user->id,
                 'action' => 'Application pending',
                 'note' => 'This is the reason'
-            ] );*/
+            ] );
     }
 
     /**
@@ -188,7 +188,7 @@ class ApplicationProcessTest extends TestCase
             ->json( 'POST', '/application/' . $this->application->id . '/pending', [
                 'reason' => 'This is the reason'
             ] )
-            ->assertStatus( 200 );
+            ->assertResponseStatus( 200 );
 
         $this->seeMessageFor($this->userTenant->email);
         $this->seeMessageWithSubject('Your application is pending');
@@ -205,8 +205,8 @@ class ApplicationProcessTest extends TestCase
     {
 
         $this->actingAs( $this->user )
-            ->get('/application/'. $this->application->id.'/approve')
-            ->assertStatus(200);
+            ->visit('/application/'. $this->application->id.'/approve')
+            ->assertResponseStatus(200);
 
     }
 

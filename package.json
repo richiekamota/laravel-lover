@@ -16,8 +16,10 @@
     "nightwatch": "^0.9.9",
     "sweetalert": "^1.1.3",
     "vue": "^2.1.5",
-    "vue-flatpickr": "^2.2.0",
     "vue-resource": "^1.0.3",
-    "moment": "^2.15.2"
+    "vue-flatpickr": "^2.2.0",
+    "moment": "^2.15.2",
+    "css-loader": "^0.23.1",
+    "style-loader": "^0.13.0"
   }
 }

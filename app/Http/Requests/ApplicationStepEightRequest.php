@@ -26,8 +26,7 @@ class ApplicationStepEightRequest extends FormRequest
     {
 
         return [
-            'confirm'      => 'required',
-            'confirm_time' => 'required'
+            'confirm'      => 'required'
         ];
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class HomePageTest extends TestCase
+class HomePageTest extends Tests\TestCase
 {
     /**
      * A basic functional test example.
@@ -14,7 +14,7 @@ class HomePageTest extends TestCase
 
     public function testHomePage()
     {
-        $this->visit('/')
+        $this->get('/')
              ->see('MY DOMAIN IS YOUR DOMAIN');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class ApplicationFormTest extends TestCase
+class ApplicationFormTest extends  Tests\TestCase
 {
 
     use DatabaseMigrations;
@@ -65,7 +65,7 @@ class ApplicationFormTest extends TestCase
      */
     public function testStepOne()
     {
-        // $this->visit('/application-form')
+        // $this->get('/application-form')
         //      ->type('Tyrone', 'first_name')
         //      ->type('Swish', 'last_name')
         //      ->type('email@test.com', 'email')

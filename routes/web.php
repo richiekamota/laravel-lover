@@ -17,6 +17,7 @@ Route::get('/register', function(){
     return redirect('/login');
 });
 
+
 Route::get('/', 'HomeController@index');
 
 Route::get('ui-kit', 'DashboardController@uiKit');
@@ -96,6 +97,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/contracts/secure/{secureLink}', 'ContractsController@show');
     Route::get('/contracts/{id}/approved', 'ContractsController@approve');
+    Route::post('/contracts/{id}', 'ContractsController@store');
 
     /*
     |--------------------------------------------------------------------------

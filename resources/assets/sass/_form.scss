@@ -67,7 +67,7 @@ input + input, label + label {
 
 input[type="checkbox"] {
 
-  display: none;
+  // display: none;
 
   + label:before {
     content: "";

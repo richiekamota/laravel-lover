@@ -23,12 +23,12 @@ class DocumentsController extends Controller
     {
 
         $validator = Validator::make( $request->all(), [
-            'type' => 'required',
+            'document_type' => 'required',
         ] );
 
         if ( $validator->fails() ) {
             return Response::json( [
-                'message' => trans( 'portal.documents_store_error' )
+                'message' => json_encode($validator->errors())
             ], 422 );
         }
 
@@ -39,7 +39,7 @@ class DocumentsController extends Controller
 
         abort_unless( $application, 403 );
 
-        $type = $request->type;
+        $type = $request->document_type;
 
         // Save the file into storage
         $path = $request->file->store( 'documents' );

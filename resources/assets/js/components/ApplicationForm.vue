@@ -4,7 +4,7 @@
 
     <div class="row column">
         <div class="page-application__header">
-            <h1 class="page-application__header-title">Application Form</h1>
+            <h1 class="page-application__header-title">Application Form - {{application.id}}</h1>
             <p class="page-application__header-sub">Thanks for choosing MyDomain as your student accommodation provider. To get started simply fill in the following application form.</p>
             <p>The first step is to create an account with us. We use this account to communicate with you during the application process and if successful this account will be your portal to the MyDomain team.</p>
         </div>
@@ -585,7 +585,8 @@
                 <!-- Confirm -->
                 <label for="confirm">
                     Confirm
-                    <input type="checkbox" name="confirm" v-model="appForm.confirm">
+                    <input type="checkbox" name="confirm" v-model="appForm.confirm"  v-on:click="counter += 1">
+                    <input type="hidden" name="confirm_time" v-model="appForm.confirm_time">
                 </label>
 
                 <div v-if="appForm.step8" v-html="appForm.step8"></div>
@@ -595,7 +596,15 @@
                         <loading></loading>
                     </span>
                     <span v-else>
-                        Save and continue
+                        Save
+                    </span>
+                </button>
+                <button type="submit" id="submitForReview-save" class="button button--focused --mt2" v-on:click="submitForReview(8)" v-bind:disabled="loading">
+                    <span v-if="loading">
+                        <loading></loading>
+                    </span>
+                    <span v-else>
+                        Submit For Review
                     </span>
                 </button>
             </div>
@@ -610,15 +619,15 @@
 
 <script>
 
-    import Flatpickr  from 'vue-flatpickr';
     import { Data } from '../data.js';
+
+    import VueFlatpickr from 'vue-flatpickr';
+
+    Vue.use(VueFlatpickr);
 
 
     export default {
-        components: {
-            Flatpickr
-        },
-        props: ['step', 'formApplicationId', 'propLocations', 'propUnitTypes'],
+        props: ['step', 'formApplicationId', 'propLocations', 'propUnitTypes', 'application'],
         data: () => {
             let appForm = {
                 // Step 1
@@ -697,6 +706,7 @@
                 // Step 8
                     comments: '',
                     confirm: '',
+                confirm_time: '',
             };
             let formAction = "/step-1";
             return {
@@ -723,6 +733,7 @@
             this.countries = getData.getCountries();
             this.locations = JSON.parse(this.propLocations);
             this.unitTypes = JSON.parse(this.propUnitTypes);
+            this.application = JSON.parse(this.application);
 
             // Add dropzones
             let residentIdDropzone = new Dropzone("#resident_id", { url: "/documents/application"});
@@ -741,6 +752,9 @@
 
             let residentFinacialAidDropzone = new Dropzone("#resident_financial_aid", { url: "/documents/application"});
             residentFinacialAidDropzone.on('sending', (file, xhr, data) => {data.append("document_type", "resident_financial_aid");});
+
+            let leaderHolderIdDropzone = new Dropzone("#leaseholder_id", { url: "/documents/application"});
+            leaderHolderIdDropzone.on('sending', (file, xhr, data) => {data.append("document_type", "leaseholder_id");});
 
             let leaseholderAddressDropzone = new Dropzone("#leaseholder_address_proof", { url: "/documents/application"});
             leaseholderAddressDropzone.on('sending', (file, xhr, data) => {data.append("document_type", "leaseholder_address_proof");});
@@ -913,6 +927,7 @@
                         return {
                             comments: this.appForm.comments,
                             confirm: this.appForm.confirm,
+                            confirm_time: this.appForm.confirm_time,
                         };
                         break;
                 }

@@ -21,6 +21,7 @@ window.swal = require('sweetalert');
 
 window.Vue = require('vue');
 require('vue-resource');
+require('vue-flatpickr');
 
 
 /**

@@ -24,7 +24,7 @@ class CreateApplicationTable extends Migration
             // Step 1
             $table->string('first_name', 191)->nullable();
             $table->string('last_name', 191)->nullable();
-            $table->integer('sa_id_number')->nullable();
+            $table->bigInteger('sa_id_number')->nullable();
             $table->string('passport_number', 191)->nullable();
             $table->dateTime('dob')->nullable();
             $table->string('nationality', 191)->nullable();
@@ -33,7 +33,7 @@ class CreateApplicationTable extends Migration
             $table->string('phone_work', 191)->nullable();
             $table->text('current_address')->nullable();
             $table->enum('marital_status', ['Single', 'Married', 'Divorced', 'Widowed'])->nullable();
-            $table->enum('married_type', ['In community of property', 'ANC', 'Accural System'])->nullable();
+            $table->enum('married_type', ['', 'In community of property', 'ANC', 'Accural System'])->nullable();
             // Step 2
             $table->boolean('current_property_owner')->nullable();
             $table->enum('rental_time', ['12', '24', '36', '48'])->nullable();
@@ -53,7 +53,7 @@ class CreateApplicationTable extends Migration
             // Step 4
             $table->string('resident_first_name', 191)->nullable();
             $table->string('resident_last_name', 191)->nullable();
-            $table->integer('resident_sa_id_number')->nullable();
+            $table->bigInteger('resident_sa_id_number')->nullable();
             $table->string('resident_passport_number', 191)->nullable();
             $table->dateTime('resident_dob')->nullable();
             $table->string('resident_nationality', 191)->nullable();

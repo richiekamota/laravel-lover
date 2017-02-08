@@ -16,11 +16,24 @@
 
             <template v-for="(application, index) in applications">
                 <div class="small-12 columns">
-                    <div class="table__row" :class="{ even: isEven(index), first: index == 0, last: index == applications.length -1 }">
+                    <div class="table__row" :class="{ even: isEven(index), first: index == 0, last: index == applications.length -1 }" v-if="application.status === 'draft'">
 
-                        <button class="accordion__heading">
-                            {{getTime(application.created_at)}} <span class="float-right --caps-first">{{application.status}}</span>
-                        </button>
+                        <a v-bind:href="getUrl(application.id)">
+
+                            <button class="accordion__heading">
+                                {{application.created_at }} <span class="float-right --caps-first">{{application.status}}</span>
+                            </button>
+                        </a>
+
+                    </div>
+                    <div class="table__row" :class="{ even: isEven(index), first: index == 0, last: index == applications.length -1 }" v-else v-on:click="warn('Cannot edit OPEN or PENDING applications.', $event)">
+
+
+
+                            <button class="accordion__heading">
+                                {{application.created_at }} <span class="float-right --caps-first">{{application.status}}</span>
+                            </button>
+
 
                     </div>
                 </div>
@@ -53,11 +66,16 @@
             },
 
             getUrl: function (id) {
-                return '/application/'+id+'/review';
+                return '/application-form/'+id+'/edit';
             },
 
             getTime: function(time){
                 return moment(time).format("dddd, MMMM Do YYYY, h:mm:ss a");
+            },
+            warn: function (message, event) {
+                // now we have access to the native event
+                if (event) event.preventDefault()
+                alert(message)
             }
         }
     }

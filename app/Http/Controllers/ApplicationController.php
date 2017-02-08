@@ -3,6 +3,7 @@
 namespace Portal\Http\Controllers;
 
 use Auth;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -174,7 +175,7 @@ class ApplicationController extends Controller
             $data[ 'step' ] = 2;
 
             // Update the form
-            $applicationForm->update( $data );
+            $output = $applicationForm->update( $data );
 
             DB::commit();
 
@@ -322,7 +323,7 @@ class ApplicationController extends Controller
 
             return Response::json( [
                 'error'   => 'application_form_step4_error',
-                'message' => trans( 'portal.application_form_step4_error' ),
+                'message' => trans( 'portal.application_form_step4_error' )."<!-- ".$e." -->",
             ], 422 );
 
         }
@@ -444,7 +445,7 @@ class ApplicationController extends Controller
 
             // Update the form
             $applicationForm->update( [
-                'step' => 7
+                'step' => 8
             ] );
 
             DB::commit();
@@ -485,9 +486,13 @@ class ApplicationController extends Controller
         DB::beginTransaction();
 
         try {
+            // Set timestamp for Application confirmation
+            $confirm_timestamp = Carbon::now();
+            $applicationArr = $applicationForm->toArray();
+            $applicationArr['confirm_time'] = $confirm_timestamp;
 
             // Validate everything!!!
-            $validator = $this->validator( $applicationForm->toArray() );
+            $validator = $this->validator( $applicationArr );
 
             if ($validator->fails()) {
                 return Response::json( [
@@ -497,7 +502,9 @@ class ApplicationController extends Controller
             }
 
             // Update the form
-            $applicationForm->update( $request->all() );
+            $data = $request->all();
+            $data['confirm_time'] = $confirm_timestamp;
+            $applicationForm->update( $data );
 
             DB::commit();
 
@@ -510,8 +517,8 @@ class ApplicationController extends Controller
             DB::rollback();
 
             return Response::json( [
-                'error'   => 'application_form_step6_error',
-                'message' => trans( 'portal.application_form_step6_error' ),
+                'error'   => 'application_form_step8_error',
+                'message' => trans( 'portal.application_form_step8_error' ),
             ], 422 );
 
         }
