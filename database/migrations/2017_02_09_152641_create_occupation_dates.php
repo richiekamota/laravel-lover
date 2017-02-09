@@ -13,7 +13,15 @@ class CreateOccupationDates extends Migration
      */
     public function up()
     {
-        //
+        Schema::create( 'occupation_dates', function ( Blueprint $table ) {
+            $table->uuid( 'id' );
+            $table->primary( 'id' );
+            $table->uuid( 'contact_id' );
+            $table->dateTime( 'start_date' );
+            $table->dateTime( 'end_date' );
+            $table->timestamps();
+            $table->softDeletes();
+        } );
     }
 
     /**
