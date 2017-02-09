@@ -154,7 +154,7 @@ class ContractsController extends Controller
 
             \Log::info( $e );
 
-            if ( $filePath ) {
+            if ( file_exists($filePath) ) {
                 unlink( $filePath );
             }
 
@@ -164,7 +164,7 @@ class ContractsController extends Controller
 
             return Response::json( [
                 'error'   => 'contracts_store_error',
-                'message' => trans( 'portal.contracts_store_error' ),
+                'message' => $e,
             ], 422 );
 
         }

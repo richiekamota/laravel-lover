@@ -3,6 +3,7 @@
 namespace Portal\Http\Controllers;
 
 use Auth;
+use DB;
 use Illuminate\Http\Request;
 use Portal\Application;
 use Portal\Document;
@@ -34,11 +35,11 @@ class DocumentsController extends Controller
         }
 
         // A document must only be uploaded to the users latest application
-        $application = Application::whereUserId(Auth::user()->id)
-            ->orderBy('created_at', 'desc')
-            ->first();
+        $application = Application::find($request->id);
 
         abort_unless($application, 403);
+
+        DB::beginTransaction();
 
         $type = $request->document_type;
 
@@ -54,11 +55,13 @@ class DocumentsController extends Controller
             'type'      => $type,
             'file_name' => $fileNameArray[0]
         ]);
+        $applicationData = $application->toArray();
+        $applicationData[$type] = $document->id;
+        $application->update($applicationData);
 
-        $application[$type] = $document->id;
-        $application->save();
+        DB::commit();
 
-        return response(200);
+        return json_encode($applicationData);
 
     }
 

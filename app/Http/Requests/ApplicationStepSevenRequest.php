@@ -14,7 +14,7 @@ class ApplicationStepSevenRequest extends FormRequest
     public function authorize()
     {
 
-        return true;
+        return TRUE;
     }
 
     /**
@@ -24,9 +24,8 @@ class ApplicationStepSevenRequest extends FormRequest
      */
     public function rules()
     {
-
         return [
-            //
+
         ];
     }
 }

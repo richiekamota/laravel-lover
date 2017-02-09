@@ -788,13 +788,15 @@
                     </div>
 
                     <div class="row" v-if="application.leaseholder_id">
-                        <div class="column">
-                            Leaseholder ID:
-                        </div>
-                        <div class="column">
-                            <a v-bind:href="getDocumentDownloadLink(application.leaseholder_id.id)">
-                                Download
-                            </a>
+                        <div class="row">
+                            <div class="column">
+                                Leaseholder ID:
+                            </div>
+                            <div class="column">
+                                <a v-bind:href="getDocumentDownloadLink(application.leaseholder_id.id)">
+                                    Download
+                                </a>
+                            </div>
                         </div>
                     </div>
 

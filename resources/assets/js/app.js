@@ -20,6 +20,7 @@ Vue.component('loading', require('./components/Loading.vue'));
 
 // Application form.
 Vue.component('application-form', require('./components/ApplicationForm.vue'));
+Vue.component('application-user-review', require('./components/application/userReview.vue'));
 
 // Admin Location, unit and unit types form.
 Vue.component('admin-locations', require('./components/admin/AdminLocations.vue'));

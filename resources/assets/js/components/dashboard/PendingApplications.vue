@@ -14,11 +14,14 @@
                 </div>
             </div>
 
-            <div class="no-applications" v-if="pendingApplications.length == 0">
-                <div class="small-12 columns">
-                    <p class="--mt1">There are no pending applications currently</p>
+
+                <div class="small-12 columns" v-if="pendingApplications.length == 0">
+                    <div class="table__row even last">
+                        <button class="accordion__heading">There are no pending applications currently</button>
+                    </div>
                 </div>
-            </div>
+
+
 
             <template v-for="(application, index) in pendingApplications">
                 <div class="small-12 columns">

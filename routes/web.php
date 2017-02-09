@@ -17,6 +17,10 @@ Route::get('/register', function () {
     return redirect('/login');
 });
 
+Route::get('/home', function () {
+    return redirect('/');
+});
+
 
 Route::get('/', 'HomeController@index');
 
@@ -31,6 +35,7 @@ Route::get('ui-kit', 'DashboardController@uiKit');
 
 Route::get('/application-form', 'ApplicationController@create');
 Route::post('/application-form', 'ApplicationController@store');
+
 
 
 Route::group(['middleware' => 'auth'], function () {
@@ -115,8 +120,9 @@ Route::group(['middleware' => 'auth'], function () {
     |--------------------------------------------------------------------------
     |
     */
-
+    Route::get('/application-form/new', 'ApplicationController@store_new');
     Route::get('/application-form/{id}/edit', 'ApplicationController@edit');
+    Route::get('/application-form/{id}/cancel', 'ApplicationController@cancel');
     Route::post('/step-1/{id}', 'ApplicationController@stepOne');
     Route::post('/step-2/{id}', 'ApplicationController@stepTwo');
     Route::post('/step-3/{id}', 'ApplicationController@stepThree');
@@ -125,7 +131,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/step-6/{id}', 'ApplicationController@stepSix');
     Route::post('/step-7/{id}', 'ApplicationController@stepSeven');
     Route::post('/step-8/{id}', 'ApplicationController@stepEight');
-    Route::get('/application-form/{id}', 'ApplicationController@show');
+    Route::get('/application-form/{id}', 'ApplicationController@review');
     Route::post('/application-form/{id}/submit', 'ApplicationController@submit');
 
 

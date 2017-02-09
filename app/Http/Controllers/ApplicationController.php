@@ -17,6 +17,7 @@ use Portal\Http\Requests\ApplicationStepSevenRequest;
 use Portal\Http\Requests\ApplicationStepSixRequest;
 use Portal\Http\Requests\ApplicationStepThreeRequest;
 use Portal\Http\Requests\ApplicationStepTwoRequest;
+use Portal\Http\Requests\ApplicationSubmitRequest;
 use Portal\Location;
 use Portal\UnitType;
 use Portal\User;
@@ -110,6 +111,70 @@ class ApplicationController extends Controller
     }
 
     /**
+     * New application for existing user
+     *
+     * @param Request|ApplicationCreateRequest $request
+     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|User
+     */
+    public function store_new()
+    {
+        // Validation handled in Request
+
+        $applications = Application::with('user', 'location')
+            ->where('user_id', '=', Auth::user()->id)
+            ->where('status', '=', 'draft')
+            ->get();
+
+        if(!empty($applications->toArray())){
+            return Response::json([
+                'error'   => 'application_form_new_error',
+                'message' => trans('portal.application_form_new_error'),
+            ], 422);
+        }
+
+        try {
+
+            if (Auth::check()) {
+
+                // Create a new application form
+                Application::create([
+                    'user_id' => Auth::user()->id,
+                    'status'  => 'draft',
+                    'step'    => '1'
+                ]);
+
+                $applicationForm = Application::whereUserId(Auth::user()->id)
+                    ->whereStatus('draft')
+                    ->whereStep(1)
+                    ->first();
+
+                // Redirect to the edit form page
+
+                return redirect()->action(
+                    'ApplicationController@edit', ['id' => $applicationForm->id]
+                );
+
+            } else {
+                \Log::info('error authing user');
+            }
+
+        } catch (\Exception $e) {
+
+            \Log::info($e);
+
+            //Bugsnag::notifyException($e);
+
+            return Response::json([
+                'error'   => 'application_form_step1_error',
+                'message' => trans('portal.application_form_step1_error'),
+            ], 422);
+
+        }
+
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  int $id
@@ -149,6 +214,31 @@ class ApplicationController extends Controller
 
         // return the view to the user
         return view('application-form.edit', compact('applicationForm', 'unitTypes', 'locations'));
+
+    }
+
+    /**
+     * Show the page for reviewing the application form.
+     *
+     * @param  int $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function review($id)
+    {
+
+        // Find the application based on the ID
+        $applicationForm = Application::find($id);
+
+        // abort unless logged in and the ID must belong to the user
+        // TODO update this to a policy method
+        abort_unless(Auth::check() && $applicationForm->user_id == Auth::user()->id, 401);
+
+        $unitTypes = UnitType::all();
+        $locations = Location::all();
+
+        // return the view to the user
+        return view('application-form.review', compact('applicationForm', 'unitTypes', 'locations'));
 
     }
 
@@ -441,7 +531,20 @@ class ApplicationController extends Controller
 
         DB::beginTransaction();
 
+        $validator = $this->step7_validator($applicationForm->toArray());
+
+        if ($validator->fails()) {
+            $message = $validator->errors();
+
+            return Response::json(
+                $message
+                , 422);
+        }
+
         try {
+
+            // Validate images
+
 
             // Update the form
             $applicationForm->update([
@@ -495,10 +598,11 @@ class ApplicationController extends Controller
             $validator = $this->validator($applicationArr);
 
             if ($validator->fails()) {
-                return Response::json([
-                    'error'   => 'application_form_step8_validation_error',
-                    'message' => $validator->errors()
-                ], 422);
+                $message = $validator->errors();
+
+                return Response::json(
+                    $message
+                    , 422);
             }
 
             // Update the form
@@ -534,7 +638,7 @@ class ApplicationController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function submit(ApplicationStepEightRequest $request, $id)
+    public function submit(ApplicationSubmitRequest $request, $id)
     {
 
         $applicationForm = Application::find($id);
@@ -548,11 +652,13 @@ class ApplicationController extends Controller
             $validator = $this->validator($applicationForm->toArray());
 
             if ($validator->fails()) {
-                return Response::json([
-                    'error'   => 'application_form_step8_validation_error',
-                    'message' => $validator->errors()
-                ], 422);
+                $message = $validator->errors();
+
+                return Response::json(
+                    $message
+                    , 422);
             }
+
 
             // Update the form
             $data = $request->all();
@@ -590,6 +696,48 @@ class ApplicationController extends Controller
 
         // abort unless logged in user owns this application form
         // It must also not be submission
+
+    }
+
+    /**
+     * Cancel the application form and delete
+     *
+     * @param  int $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function cancel($id)
+    {
+
+        $applicationForm = Application::find($id);
+
+        $this->authorize('update', $applicationForm);
+
+        DB::beginTransaction();
+
+        try {
+
+            // Update the form status to cancelled
+            $data = $applicationForm->toArray();
+            $data['status'] = 'cancelled';
+            $applicationForm->update($data);
+
+            DB::commit();
+
+        } catch (\Exception $e) {
+
+            \Log::info($e);
+
+            //Bugsnag::notifyException($e);
+
+            DB::rollback();
+
+            return Response::json([
+                'error'   => 'application_form_cancel_error',
+                'message' => $e,
+            ], 422);
+
+        }
 
     }
 
@@ -646,13 +794,13 @@ class ApplicationController extends Controller
             'unit_location'                  => 'required',
             'unit_type'                      => 'required',
             'unit_lease_length'              => 'required',
-            'unit_car_parking'               => 'required',
-            'unit_bike_parking'              => 'required',
-            'unit_tv'                        => 'required',
-            'unit_storeroom'                 => 'required',
+            // 'unit_car_parking'               => 'required',
+            // 'unit_bike_parking'              => 'required',
+            // 'unit_tv'                        => 'required',
+            // 'unit_storeroom'                 => 'required',
             'unit_occupation_date'           => 'required',
             'judgements'                     => 'required|boolean',
-            'judgements_details'             => 'required_if:judgements,false',
+            'judgements_details'             => 'required_if:judgements,1',
             'resident_id'                    => 'required',
             'resident_study_permit'          => 'required',
             'resident_acceptance'            => 'required',
@@ -660,6 +808,27 @@ class ApplicationController extends Controller
             'leaseholder_id'                 => 'required',
             'leaseholder_address_proof'      => 'required',
             'leaseholder_payslip'            => 'required'
+        ]);
+    }
+
+    /**
+     * Get a validator step 7 (images) update request
+     *
+     * @param  array $data
+     *
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function step7_validator(array $data)
+    {
+
+        return Validator::make($data, [
+            'resident_id'               => 'required',
+            'resident_study_permit'     => 'required',
+            'resident_acceptance'       => 'required',
+            'resident_financial_aid'    => 'required',
+            'leaseholder_id'            => 'required',
+            'leaseholder_address_proof' => 'required',
+            'leaseholder_payslip'       => 'required'
         ]);
     }
 

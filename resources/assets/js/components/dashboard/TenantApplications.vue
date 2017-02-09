@@ -23,25 +23,42 @@
                         <a v-bind:href="getUrl(application.id)">
 
                             <button class="accordion__heading">
-                                {{application.created_at }} <span class="float-right --caps-first">{{application.status}}</span>
+                                {{getTime(application.created_at)}} <span class="float-right --caps-first">{{application.status}}</span>
                             </button>
                         </a>
 
                     </div>
                     <div class="table__row"
                          :class="{ even: isEven(index), first: index == 0, last: index == applications.length -1 }"
-                         v-else v-on:click="warn('Cannot edit OPEN or PENDING applications.', $event)">
+                         v-else-if="application.status != 'draft' && application.status != 'cancelled'" >
 
 
-                        <button class="accordion__heading">
-                            {{application.created_at }} <span
-                                class="float-right --caps-first">{{application.status}}</span>
-                        </button>
+                        <a v-bind:href="getReviewUrl(application.id)">
+
+                            <button class="accordion__heading">
+                                {{getTime(application.created_at)}} <span class="float-right --caps-first">{{application.status}}</span>
+                            </button>
+                        </a>
+
 
 
                     </div>
                 </div>
             </template>
+
+                <div class="small-12 columns" v-if="applications.length === 0">
+                    <div class="table__row even last">
+
+
+                            <button class="accordion__heading">
+                               No applications found...
+                            </button>
+
+
+                    </div>
+
+                </div>
+
 
         </div>
 
@@ -71,6 +88,10 @@
 
             getUrl: function (id) {
                 return '/application-form/' + id + '/edit';
+            },
+
+            getReviewUrl: function (id) {
+                return '/application-form/' + id;
             },
 
             getTime: function (time) {

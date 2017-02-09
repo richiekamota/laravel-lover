@@ -29,10 +29,6 @@ class ApplicationStepFiveRequest extends FormRequest
             'unit_location'        => 'required',
             'unit_type'            => 'required',
             'unit_lease_length'    => 'required',
-            'unit_car_parking'     => 'required|boolean',
-            'unit_bike_parking'    => 'required|boolean',
-            'unit_tv'              => 'required|boolean',
-            'unit_storeroom'       => 'required|boolean',
             'unit_occupation_date' => 'required|date',
         ];
     }

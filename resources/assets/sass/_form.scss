@@ -63,18 +63,19 @@ label {
 
 input + input, label + label {
   margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 input[type="checkbox"] {
 
-  // display: none;
+  display: none;
 
   + label:before {
     content: "";
     display: inline-block;
     width: 19px;
     height: 19px;
-    margin: -1px 4px 0 0;
+
     vertical-align: middle;
     background: $white;
     cursor: pointer;

@@ -41,7 +41,7 @@ class User extends Authenticatable
     }
 
     public function fullApplications() {
-        $applications = $this->applications()->with('user', 'location')->get();
+        $applications = $this->applications()->where('status', '!=', 'cancelled')->with('user', 'location')->get();
         return $applications;
     }
 

@@ -14,6 +14,14 @@
                 </div>
             </div>
 
+
+            <div class="small-12 columns" v-if="allApplications.length == 0">
+                <div class="table__row even last">
+                    <button class="accordion__heading">There are no approved / declined applications currently</button>
+                </div>
+            </div>
+
+
             <template v-for="(application, index) in allApplications">
                 <div class="small-12 columns">
                     <div class="table__row" :class="{ even: isEven(index), first: index == 0, last: index == allApplications.length -1 }">
@@ -29,6 +37,7 @@
                     </div>
                 </div>
             </template>
+
 
         </div>
 

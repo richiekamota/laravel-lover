@@ -34,6 +34,20 @@
                 </div>
             </template>
 
+
+                <div class="small-12 columns" v-if="contracts.length === 0">
+                    <div class="table__row even last">
+
+                            <button class="accordion__heading">
+                                No contracts found...
+                            </button>
+
+
+
+                    </div>
+                </div>
+
+
         </div>
 
     </div>

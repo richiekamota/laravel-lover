@@ -48,6 +48,14 @@
                         </button>
                     </a>
                 </div>
+                @else
+                <div class="--text-center --mt5">
+                    <a href="{{ url('/dashboard') }}">
+                        <button class="button button--exuberant button--large --mt3">
+                            Go to Dashboard
+                        </button>
+                    </a>
+                </div>
             @endif
         </div>
     </div>
