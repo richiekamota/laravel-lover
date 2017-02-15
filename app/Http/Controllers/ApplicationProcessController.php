@@ -10,6 +10,7 @@ use Portal\ApplicationEvent;
 use Portal\Http\Requests\ApplicationApproveRequest;
 use Portal\Http\Requests\ApplicationDeclineRequest;
 use Portal\Http\Requests\ApplicationPendingRequest;
+use Portal\Http\Requests\ApplicationCancelRequest;
 use Portal\Item;
 use Portal\Jobs\SendApplicationAcceptedEmail;
 use Portal\Jobs\SendApplicationDeclinedEmail;
@@ -32,19 +33,10 @@ class ApplicationProcessController extends Controller
     public function review($id)
     {
 
-        $this->authorize('review', Application::class);
+        // Find the application based on the ID
+        $application = Application::find($id);
 
-        $application = Application::with([
-            'user',
-            'residentId',
-            'residentStudyPermit',
-            'residentAcceptance',
-            'residentFinancialAid',
-            'leaseholderId',
-            'leaseholderAddressProof',
-            'leaseholderPayslip',
-        ])->find($id);
-
+        // return the view to the user
         return view('applications.review', compact('application'));
 
     }
@@ -110,6 +102,88 @@ class ApplicationProcessController extends Controller
             return Response::json([
                 'error'   => 'process_decline_error',
                 'message' => trans('portal.process_decline_error'),
+            ], 422);
+
+        }
+
+        // Update the application status
+
+        // Email the user with the reason
+
+        // Return the updated application to the user
+
+
+    }
+
+    /**
+     * Process the cancellation of an approved application and send
+     * the applicant an email
+     *
+     * @param ApplicationCancelRequest $request
+     * @param                          $id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function processCancelApproved(ApplicationCancelRequest $request, $id)
+    {
+
+        // Abort unless its policy approves
+        $this->authorize('process', Application::class);
+
+        DB::beginTransaction();
+
+        try {
+
+            $application = Application::findOrFail($id);
+
+            $application->status = 'cancelled';
+            $application->save();
+
+            $contract = DB::table('contracts')
+                ->where('application_id', $application->id)
+                ->update(['status' => 'cancelled']);
+
+            $occupiedUnit = DB::table('occupation_dates')
+                ->where('application_id', $application->id)
+                ->update(['status' => 'cancelled']);
+
+            ApplicationEvent::create([
+                'user_id'        => Auth::user()->id,
+                'application_id' => $id,
+                'action'         => 'Application cancelled',
+                'note'           => ''
+            ]);
+
+            // dispatch(new SendApplicationCancelEmail($application->user, $application));
+
+            DB::commit();
+
+            return Response::json([
+                'message' => trans('portal.process_cancel_complete'),
+                'data'    => Application::with(
+                    'user',
+                    'residentId',
+                    'residentStudyPermit',
+                    'residentAcceptance',
+                    'residentFinancialAid',
+                    'leaseholderId',
+                    'leaseholderAddressProof',
+                    'leaseholderPayslip',
+                    'events'
+                )->find($id)->toArray()
+            ], 200);
+
+        } catch (\Exception $e) {
+
+            \Log::info($e);
+
+            //Bugsnag::notifyException($e);
+
+            DB::rollback();
+
+            return Response::json([
+                'error'   => 'process_cancel_error',
+                'message' => json_encode($e),
             ], 422);
 
         }
@@ -276,4 +350,41 @@ class ApplicationProcessController extends Controller
 
     }
 
+    /**
+     * Renew an existing application
+     *
+     * @param Request|ApplicationCreateRequest $request
+     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|User
+     */
+    public function renew($id)
+    {
+
+        // Validation handled in Request
+
+        try {
+
+            // Create new application based on existing approved application
+            $currentApplication = Application::find($id);
+            $currentApplicationArray = $currentApplication->toArray();
+            $currentApplicationArray['status'] = 'open';
+
+            // Create a new application form
+            Application::create($currentApplicationArray);
+
+
+        } catch (\Exception $e) {
+
+            \Log::info($e);
+
+            //Bugsnag::notifyException($e);
+
+            return Response::json([
+                'error'   => 'application_form_step1_error',
+                'message' => trans('portal.application_form_step1_error'),
+            ], 422);
+
+        }
+
+    }
 }

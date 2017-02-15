@@ -3,7 +3,11 @@
 namespace Portal\Http\Controllers;
 
 use Gate;
+use DB;
+use Portal\User;
 use Illuminate\Http\Request;
+use Portal\Http\Requests\UserEditRequest;
+use Response;
 
 class UsersController extends Controller
 {
@@ -15,8 +19,9 @@ class UsersController extends Controller
     {
 
         abort_unless(Gate::allows('is-admin'), 401);
+        $users = User::where("role","=","tenant")->get();
 
-        return view('users.index');
+        return view('users.index', compact('users'));
 
     }
 
@@ -28,4 +33,39 @@ class UsersController extends Controller
         return view('users.profile');
     }
 
+    public function update( UserEditRequest $request, $id )
+    {
+
+        // abort unless Auth > tenant
+        abort_unless(Gate::allows('is-admin'), 401);
+
+        DB::beginTransaction();
+
+        try {
+
+            User::findOrFail($id)->update(['tenant_code' => $request->tenant_code]);
+
+            DB::commit();
+
+            return Response::json([
+                'message' => trans('portal.user_edit_complete'),
+                'data' => User::findOrFail($id)->toArray()
+            ], 200);
+
+        } catch (\Exception $e) {
+
+            \Log::info($e);
+
+            //Bugsnag::notifyException($e);
+
+            DB::rollback();
+
+            return Response::json([
+                'error'   => 'user_edit_error',
+                'message' => trans('portal.user_edit_error'),
+            ], 422);
+
+        }
+
+    }
 }

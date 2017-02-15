@@ -61,7 +61,7 @@ class DocumentsController extends Controller
 
         DB::commit();
 
-        return json_encode($applicationData);
+        return response(200);
 
     }
 

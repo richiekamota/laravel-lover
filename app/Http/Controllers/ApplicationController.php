@@ -126,7 +126,7 @@ class ApplicationController extends Controller
             ->where('status', '=', 'draft')
             ->get();
 
-        if(!empty($applications->toArray())){
+        if (!empty($applications->toArray())) {
             return Response::json([
                 'error'   => 'application_form_new_error',
                 'message' => trans('portal.application_form_new_error'),
@@ -279,7 +279,7 @@ class ApplicationController extends Controller
 
             return Response::json([
                 'error'   => 'application_form_step1_error',
-                'message' => trans('portal.application_form_step1_error'),
+                'message' => $e,
             ], 422);
 
         }
@@ -663,6 +663,16 @@ class ApplicationController extends Controller
             // Update the form
             $data = $request->all();
             $data['status'] = 'open';
+
+            // Unset image keys, as theese are empty and will overwrite what's already in the db
+            unset($data['resident_id']);
+            unset($data['resident_study_permit']);
+            unset($data['resident_acceptance']);
+            unset($data['resident_financial_aid']);
+            unset($data['leaseholder_id']);
+            unset($data['leaseholder_address_proof']);
+            unset($data['leaseholder_payslip']);
+
             $applicationForm->update($data);
 
             DB::commit();

@@ -18,17 +18,24 @@
                 <div class="small-12 columns">
                     <div class="table__row" :class="{ even: isEven(index), first: index == 0, last: index == contracts.length -1 }">
 
-                        <a v-bind:href="getUrl(contract.secure_link)" v-if="!contract.approved">
+                        <a v-bind:href="getUrl(contract.secure_link)" v-if="!contract.approved && contract.status != 'cancelled'">
                             <button class="accordion__heading">
-                                {{getTime(contract.created_at)}} <span class="float-right --caps-first">{{isApproved(contract.approved)}}</span>
+                                {{getTime(contract.created_at)}} <span class="float-right --caps-first">{{contract.status}}</span>
                             </button>
                         </a>
 
-                        <a v-bind:href="getDownloadUrl(contract.document_id)" v-else>
+                        <a v-bind:href="getDownloadUrl(contract.document_id)" v-else-if="contract.approved">
                             <button class="accordion__heading">
-                                {{getTime(contract.created_at)}} <span class="float-right --caps-first">{{isApproved(contract.approved)}}</span>
+                                {{getTime(contract.created_at)}} <span class="float-right --caps-first">{{contract.status}}</span>
                             </button>
                         </a>
+
+                        <span v-else>
+                            <button class="accordion__heading">
+                                {{getTime(contract.created_at)}} <span class="float-right --caps-first">{{contract.status}}</span>
+                            </button>
+                        </span>
+
 
                     </div>
                 </div>

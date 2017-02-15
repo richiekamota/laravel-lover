@@ -16,7 +16,9 @@ class CreateOccupationDates extends Migration
         Schema::create( 'occupation_dates', function ( Blueprint $table ) {
             $table->uuid( 'id' );
             $table->primary( 'id' );
-            $table->uuid( 'contact_id' );
+            $table->uuid( 'contract_id' );
+            $table->uuid( 'unit_id' );
+            $table->enum('status', ['pending', 'declined', 'approved','cancelled']);
             $table->dateTime( 'start_date' );
             $table->dateTime( 'end_date' );
             $table->timestamps();

@@ -37,7 +37,6 @@ Route::get('/application-form', 'ApplicationController@create');
 Route::post('/application-form', 'ApplicationController@store');
 
 
-
 Route::group(['middleware' => 'auth'], function () {
 
     // Show the users dashboard
@@ -53,7 +52,16 @@ Route::group(['middleware' => 'auth'], function () {
     |
     */
 
-    Route::get('/users', 'UsersController@index');
+    Route::resource('users', 'UsersController');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Occupation Dates - manage the occupation of units
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    Route::resource('occupations', 'OccupationDateController');
 
     /*
     |--------------------------------------------------------------------------
@@ -102,6 +110,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/contracts/secure/{secureLink}', 'ContractsController@show');
     Route::get('/contracts/{id}/approved', 'ContractsController@approve');
+    Route::get('/contracts/{id}/review', 'ContractsController@review');
     Route::post('/contracts/{id}', 'ContractsController@store');
 
     /*
@@ -149,5 +158,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/application/{id}/pending', 'ApplicationProcessController@processPending');
     Route::get('/application/{id}/decline', 'ApplicationProcessController@decline');
     Route::post('/application/{id}/decline', 'ApplicationProcessController@processDecline');
+    Route::post('/application/{id}/cancel', 'ApplicationProcessController@processCancelApproved');
+    Route::post('/application/{id}/renew', 'ApplicationProcessController@renew');
 
 });

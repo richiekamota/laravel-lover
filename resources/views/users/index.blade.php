@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-
-    {{-- Content in here --}}
-
+    <div class="row">
+        <div class="column">
+            <admin-users prop-users="{{$users}}"/>
+        </div>
+    </div>
 @endsection

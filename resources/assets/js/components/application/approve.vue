@@ -267,14 +267,28 @@
                     });
 
                 }, (err) => {
-                    console.log(err);
+                    console.log("An error occured", err);
+                    let errorMessage = '';
+                    if (err.message) {
+                        errorMessage = err.message;
+                    } else {
+                        // This should occur if there are any validation errors.
+                        // Let's iterate over the list of errors.
+                        Object.keys(err.body).forEach(function (key) {
+                            let obj = err.body[key];
+                            obj = obj.toString();
+                            errorMessage = errorMessage + obj + '\r \n';
+                        });
+                    }
+                   swal({
+                        title: "Error!",
+                        text: errorMessage,
+                        type: "error",
+                        confirmButtonText: "Ok",
+                        allowOutsideClick: true
+                    });
+
                     this.loading = false;
-                    let error = {
-                        "body" : {
-                            "message" : "There has been an error approving this application, if the issue continues please contact support"
-                        }
-                    };
-                    this.displayError(error);
                 });
 
             },

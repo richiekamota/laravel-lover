@@ -787,7 +787,7 @@
                         </div>
                     </div>
 
-                    <div class="row" v-if="application.leaseholder_id">
+                    <div class="table__row table__row--padded odd"  v-if="application.leaseholder_id">
                         <div class="row">
                             <div class="column">
                                 Leaseholder ID:
@@ -914,7 +914,8 @@
                             </div>
 
                             <div class="columns">
-                                <button id="cancel-decline" class="button button--small float-right --mt1 --expanded" v-on:click="decline()">
+                                <button id="cancel-application" class="button button--cancel --expanded"
+                                        v-on:click="submitForCancel()" v-bind:disabled="loading">
                                     Cancel
                                 </button>
                             </div>
@@ -922,6 +923,36 @@
                         </div>
 
                     </div>
+                </div>
+
+            </div>
+            <div class="medium-4 columns" v-if="application.status == 'approved'">
+
+                <div class="stats-box">
+                    <div class="row column clearfix">
+                        <h3 class="stats-box__header --focused --mt0 --mb0">Actions</h3>
+                    </div>
+
+                    <div class="row column">
+                        <p>Perform action on this application.</p>
+                    </div>
+                    <div class="row column">
+
+                        <button id="renew-application" class="button button--cancel --expanded"
+                                v-on:click="submitForRenew()" v-bind:disabled="loading">
+                            Renew Contract
+                        </button>
+
+                    </div>
+                    <div class="row column">
+
+                        <button id="cancel-application" class="button button--cancel --expanded"
+                                v-on:click="submitForCancel()" v-bind:disabled="loading">
+                            Cancel Current
+                        </button>
+
+                    </div>
+
                 </div>
 
             </div>
@@ -999,6 +1030,56 @@
                 });
 
 
+            },
+            submitForCancel: function (event) {
+                this.loading = true;
+
+                this.$http.post(
+                    '/application/' + this.application.id + '/cancel'
+                ).then((response) => {
+
+                    this.loading = false;
+                    // If the decline call is successful then update the shown application.
+                    this.application = response.data.data;
+
+                    swal({
+                        title: "Success!",
+                        text: "The application has been cancelled and the applicant has been emailed.",
+                        type: "success",
+                        confirmButtonText: "Ok"
+                    }, function () {
+                        window.location.href = '/dashboard';
+                    });
+
+                }, (err) => {
+                    this.loading = false;
+                    this.displayError(err);
+                });
+            },
+            submitForRenew: function (event) {
+                this.loading = true;
+
+                this.$http.post(
+                    '/application/' + this.application.id + '/renew'
+                ).then((response) => {
+
+                    this.loading = false;
+                    // If the decline call is successful then update the shown application.
+                    this.application = response.data.data;
+
+                    swal({
+                        title: "Success!",
+                        text: "The application has been renewed and the applicant has been emailed.",
+                        type: "success",
+                        confirmButtonText: "Ok"
+                    }, function () {
+                        window.location.href = '/dashboard';
+                    });
+
+                }, (err) => {
+                    this.loading = false;
+                    this.displayError(err);
+                });
             },
 
             displayError(err) {

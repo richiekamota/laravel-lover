@@ -18,7 +18,7 @@ class CreateApplicationEventsTable extends Migration
             $table->primary('id');
             $table->uuid('user_id');
             $table->uuid('application_id');
-            $table->enum('action', ['Application approved', 'Application pending', 'Application declined', 'Contract Accepted']);
+            $table->enum('action', ['Application approved', 'Application pending', 'Application declined', 'Contract Accepted', 'Application Cancelled']);
             $table->text('note');
 
             $table->timestamps();

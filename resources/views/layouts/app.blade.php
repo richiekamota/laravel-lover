@@ -10,6 +10,10 @@
 
                 @if(!Gate::check('is-tenant'))
                     <ul class="admin-menu__links">
+                        <li class="admin-menu__link-item @if(Request::path() == 'users')admin-menu__link-active --bg-mist @endif">
+                            <a href="{{ url('/users') }}" class="admin-menu__link">Users</a></li>
+                        <li class="admin-menu__link-item @if(Request::path() == 'occupations')admin-menu__link-active --bg-mist @endif">
+                            <a href="{{ url('/occupations') }}" class="admin-menu__link">Unit Occupations</a></li>
                         <li class="admin-menu__link-item @if(Request::path() == 'locations')admin-menu__link-active --bg-mist @endif">
                             <a href="{{ url('/locations') }}" class="admin-menu__link">Locations</a></li>
                         <li class="admin-menu__link-item @if(Request::path() == 'unit-types')admin-menu__link-active --bg-mist @endif">

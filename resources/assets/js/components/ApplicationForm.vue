@@ -132,6 +132,7 @@
                                         If married, please select the appropriate option
                                         <select name="married_type" v-model="appForm.married_type"
                                                 v-bind:required="appForm.marital_status == 'Married'">
+                                            <option value=""></option>
                                             <option value="In community of property">In community of property</option>
                                             <option value="ANC">ANC</option>
                                             <option value="Accural System">Accural System</option>
@@ -307,7 +308,9 @@
 
                                 <div v-if="appForm.step3" v-html="appForm.step3"></div>
 
-                                <button type="submit" id="step3-save" class="button button--focused"
+                                <hr class="application-step__line --mt2">
+
+                                <button type="submit" id="step3-save" class="button button--focused --mt2"
                                         v-on:click="submitStep(3)"
                                         v-bind:disabled="loading">
                     <span v-if="loading">
@@ -453,7 +456,9 @@
 
                                 <div v-if="appForm.step4" v-html="appForm.step4"></div>
 
-                                <button type="submit" id="step4-save" class="button button--focused"
+                                <hr class="application-step__line --mt2">
+
+                                <button type="submit" id="step4-save" class="button button--focused --mt2"
                                         v-on:click="submitStep(4)"
                                         v-bind:disabled="loading">
                     <span v-if="loading">
@@ -509,8 +514,12 @@
                             <label for="unit_lease_length">
                                 Unit lease length
                                 <select name="unit_lease_length" v-model="appForm.unit_lease_length" required>
-                                    <option value="11">11 months</option>
+                                    <option value=""></option>
+                                    <option value="3">3 months</option>
+                                    <option value="6">6 months</option>
+                                    <option value="9">9 months</option>
                                     <option value="12">12 months</option>
+
                                 </select>
                             </label>
 
@@ -552,7 +561,9 @@
 
                             <div v-if="appForm.step5" v-html="appForm.step5"></div>
 
-                            <button type="submit" id="step5-save" class="button button--focused"
+                            <hr class="application-step__line --mt2">
+
+                            <button type="submit" id="step5-save" class="button button--focused  --mt2"
                                     v-on:click="submitStep(5)"
                                     v-bind:disabled="loading">
                     <span v-if="loading">
@@ -587,6 +598,8 @@
                             </label>
 
                             <div v-if="appForm.step6" v-html="appForm.step6"></div>
+
+                            <hr class="application-step__line --mt2">
 
                             <button type="submit" id="step6-save" class="button button--focused"
                                     v-on:click="submitStep(6)"
@@ -655,6 +668,8 @@
 
                             <div v-if="appForm.step7" v-html="appForm.step7"></div>
 
+                            <hr class="application-step__line --mt2">
+
                             <button type="submit" id="step7-save" class="button button--focused --mt2"
                                     v-on:click="submitStep(7)" v-bind:disabled="loading">
                     <span v-if="loading">
@@ -693,22 +708,15 @@
 
                             <button type="submit" id="step8-save" class="button button--focused --mt2"
                                     v-on:click="submitStep(8)" v-bind:disabled="loading">
-                    <span v-if="loading">
-                        <loading></loading>
-                    </span>
+                                    <span v-if="loading">
+                                        <loading></loading>
+                                    </span>
                                 <span v-else>
-                        Save
-                    </span>
+                                        Save
+                                    </span>
                             </button>
-                            <button type="submit" id="submitForReview-save" class="button button--focused --mt2"
-                                    v-on:click="submitForReview()" v-bind:disabled="loading">
-                    <span v-if="loading">
-                        <loading></loading>
-                    </span>
-                                <span v-else>
-                        Submit For Review
-                    </span>
-                            </button>
+
+
                         </div>
                         <!-- END Step 8 -->
 
@@ -725,7 +733,8 @@
                     <h3 class="stats-box__header --focused --mt0 --mb0">Actions</h3>
                 </div>
                 <div class="row column">
-                    <p>Once complete, you can submit this application for approval. Alternatively, you can cancel this application.</p>
+                    <p>Once complete, you can submit this application for approval. Alternatively, you can cancel this
+                        application.</p>
                 </div>
                 <div class="row column">
 
@@ -944,14 +953,14 @@
                 this.loading = true;
                 var stepMessage = 'submit';
 
-                if(this.appForm.confirm == null || this.appForm.confirm == false || this.appForm.confirm == 0 ){
+                if (this.appForm.confirm == null || this.appForm.confirm == false || this.appForm.confirm == 0) {
                     swal({
                         title: "Error!",
                         text: "Please complete all steps of the Application and confirm before you can submit for review.",
                         type: "error",
                         confirmButtonText: "Ok"
                     });
-                }else{
+                } else {
 
                     this.$http.post(
                         '/application-form/' + this.formApplicationId + '/submit',
