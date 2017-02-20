@@ -20,6 +20,7 @@
     "vue-flatpickr": "^2.2.0",
     "moment": "^2.15.2",
     "css-loader": "^0.23.1",
-    "style-loader": "^0.13.0"
+    "style-loader": "^0.13.0",
+    "convert": "^0.13.0"
   }
 }

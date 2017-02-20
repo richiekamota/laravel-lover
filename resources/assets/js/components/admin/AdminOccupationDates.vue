@@ -3,7 +3,7 @@
 
         <div class="row">
             <div class="medium-9 columns">
-                <h2 class="--focused">OCCUPATIONS | unit occupation dates</h2>
+                <h2 class="--focused">OCCUPATIONS |</h2>
                 <p>
                     A full list of unit occupation dates.
                 </p>
@@ -22,7 +22,7 @@
                         <div class="table__row table__row--add">
                             <!-- Row Title -->
                             <button class="accordion__heading accordion__heading--add">
-                                <h4 class="--white">Units with approved occupation dates</h4>
+                                <h4 class="--white">Units</h4>
                             </button>
 
 
@@ -31,47 +31,45 @@
 
                     <!-- Repeat in here -->
 
-                    <template v-for="(filteredUnit, index) in filteredUnits" >
+                    <template v-for="(filteredUnit, index) in filteredUnits">
                         <div class="small-12 columns" v-show="index >= pagination.from && index <= pagination.to">
-                            <div class="table__row" :class="{ even: isEven(index), first: index == 0, last: index == units.length -1 }">
+                            <div class="table__row"
+                                 :class="{ even: isEven(index), first: index == 0, last: index == filteredUnits.length -1 }">
                                 <!-- Row Title -->
-                                <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{ filteredUnit.code }}</button>
+                                <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{
+                                    filteredUnit.code }}
+                                </button>
                                 <!-- START Edit form -->
                                 <div class="accordion__content  --bg-calm">
+                                    <div v-if="filteredUnit.occupation_dates.length == 0">
 
-                                    <label for="editLocationId">
-                                        Location*
-                                        <select class="--mb0" ref="editLocationId" id="editLocationId" name="editLocationId" v-model="editUnit.location_id">
-                                            <option value=""></option>
-                                            <option v-for="location in locations" v-bind:value="location.id">
-                                                {{ location.name }}
-                                            </option>
-                                        </select>
-                                    </label>
+                                        <p>There are no occupations for this unit</p>
 
-                                    <label for="editLocationCode">
-                                        Code
-                                        <input type="text" id="editLocationCode" ref="editLocationCode" name="editLocationCode" v-model="editUnit.code">
-                                    </label>
+                                    </div>
+                                    <template v-for="(occupationDate, index) in filteredUnit.occupation_dates">
 
-                                    <label for="editTypeId">
-                                        Unit Type*
-                                        <select ref="editTypeId" id="editTypeId" name="editTypeId" v-model="editUnit.type_id">
-                                            <option value=""></option>
-                                            <option v-for="unitType in unitTypes" v-bind:value="unitType.id">
-                                                {{ unitType.name }}
-                                            </option>
-                                        </select>
-                                    </label>
+                                        <div class="row column">
+                                            <!-- START Unit input form -->
+                                            <p><strong>Contract</strong>:
+                                                {{ occupationDate.contract_id }}</p>
 
-                                    <button type="submit" class="success button" v-on:click="updateUnit" v-bind:disabled="loading">
-                                        <span v-if="loading">
-                                            <loading></loading>
-                                        </span>
-                                        <span v-else>
-                                            Update unit
-                                        </span>
-                                    </button>
+                                            <div class="col row">
+                                                <div class="small-6 columns">
+                                                    <p><strong>Start Date</strong>:
+                                                        {{ occupationDate.start_date }}</p>
+                                                </div>
+                                                <div class="small-6 columns">
+                                                    <p><strong>End Date</strong>:
+                                                        {{ occupationDate.end_date }}</p>
+                                                </div>
+                                            </div>
+
+
+                                            </label>
+                                        </div>
+
+                                        <hr/>
+                                    </template>
                                 </div>
                                 <!-- END Edit form -->
                             </div>
@@ -95,6 +93,7 @@
                     </div>
                     <!-- END Pagination buttons -->
 
+
                 </div>
 
             </div>
@@ -102,14 +101,49 @@
             <div class="medium-3 columns">
 
                 <!-- START Filter Section -->
-                <div class="row column">
-                    <input type="text" placeholder="Filter by everything" ref="filterInput">
-                </div>
 
+
+                <h3></strong>Filter:</h3>
+                <div class="row column">
+                    <label for="filterLocation">
+                        <select class="--mb0" ref="filterLocation" id="filterLocation" name="filterLocation"
+                                v-model="filterLocation" placeholder="Filter by location">
+                            <option value=""></option>
+                            <option v-for="location in locations" v-bind:value="location.id">
+                                {{ location.name }}
+                            </option>
+                        </select>
+                    </label>
+                    <br/>
+                </div>
+                <div class="row column">
+
+                    <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="filterStartDate"
+                               placeholder="Start Date"
+                               v-model="filterStartDate"
+                    />
+                </div>
+                <div class="row column">
+
+                    <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="filterEndDate"
+                               placeholder="End Date"
+                               v-model="filterEndDate"
+                    />
+                </div>
+                <div class="row column">
+
+                    <input type="radio" id="Occupied" value="1" v-model="Occupied">
+                    <label for="Occupied">Occupied</label>
+                    <br>
+                    <input type="radio" id="Unoccupied" value="0" v-model="Occupied">
+                    <label for="Unoccupied">Unoccupied</label>
+                    <br>
+                </div>
                 <div class="row column">
                     <button v-on:click="filter" class="button">
                         Filter
                     </button>
+
                 </div>
 
                 <div class="row column --border-wrap">
@@ -117,7 +151,11 @@
                         <div class="row column clearfix">
                             <h3 class="stats-box__header --focused --mt0">Stats</h3>
                         </div>
-                        Units: <span class="float-right">{{units.length}}</span>
+                        Units: <span class="float-right">{{filteredUnits.length}}</span>
+                        <br/><br/>
+                        <button v-on:click="exportToCSV" class="button">
+                            Export to CSV
+                        </button>
                     </div>
                 </div>
             </div>
@@ -127,22 +165,30 @@
     </div>
 </template>
 <script>
+
+    const moment = require('moment');
+
+    import VueFlatpickr from 'vue-flatpickr';
+
+    Vue.use(VueFlatpickr);
+
     export default {
-        props: ['propOccupationDates'],
+        props: ['propLocations', 'propUnits'],
         data(){
             return {
-                users: [],
-                filteredUsers: [],
-                editUser: {
-                    id: '',
-                    tenant_code: ''
-                },
+                units: [],
+                locations: [],
+                filteredUnits: [],
                 loading: false,
+                filterStartDate: '',
+                filterEndDate: '',
+                filterLocation: '',
+                Occupied: 1,
                 pagination: {
                     total: 1,
                     from: 0,
                     to: 1,
-                    per_page: 50,
+                    per_page: 10,
                     currentPage: 1,
                     nextPage: 1,
                     previousPage: 1,
@@ -151,15 +197,19 @@
             }
         },
         mounted() {
-            this.users = JSON.parse(this.propUsers);
-
-            this.filteredUsers = this.users;
+            this.locations = JSON.parse(this.propLocations);
+            this.units = JSON.parse(this.propUnits);
+            this.filteredUnits = this.units;
             this.calculatePagination();
         },
         methods: {
 
             isEven: function (n) {
                 return n % 2 == 0;
+            },
+
+            getTime: function (time) {
+                return moment(time).format("MMMM Do YYYY");
             },
 
             accordionToggle: function (index, event) {
@@ -190,45 +240,8 @@
                 setTimeout(() => {
                     // If we want to use vue with it's reactivity use the below
                     //this.editUnit = this.units[index];
-                    this.createEditableObject(index);
                 }, 200)
             },
-
-            updateUser: function() {
-                console.log('edit user');
-                this.loading = true;
-
-                this.$http.patch(
-                    '/users/' + this.editUser.id,
-                    JSON.stringify(this.editUser)
-                ).then((response) => {
-                    // If the response is successful, lets set the name to the edited object
-                    this.loading = false;
-                    this.filteredUsers[this.editUser.index] = this.editUser;
-                    this.users[this.editUser.index] = this.editUser;
-                    // To prevent reactivity from going accross, let's reassign the object.
-                    this.createEditableObject(this.editUser.index);
-                }, (err) => {
-                    this.loading = false;
-                    // There is an error, let's display an alert.
-                    this.displayError(err);
-                });
-
-            },
-
-            createEditableObject(index) {
-                // If we want to assign a completly new object which will not update the other form due to
-                // reactivity, we must manually assign whatever is needed.
-                // We also need the array index so when we update succesfully we know which index to update.
-                this.editUser = {};
-                this.editUser.index = index;
-                this.editUser.id = this.filteredUsers[index].id;
-                this.editUser.first_name = this.filteredUsers[index].first_name;
-                this.editUser.last_name = this.filteredUsers[index].last_name;
-                this.editUser.email = this.filteredUsers[index].email;
-                this.editUser.tenant_code  = this.filteredUsers[index].tenant_code;
-            },
-
 
             displayError(err) {
                 // There is an error, let's display an alert.
@@ -257,31 +270,132 @@
 
             filter() {
                 // Let's get a fresh list before filter.
-                this.filteredUsers = this.users;
+                this.filteredUnits = this.units;
 
-                // If the input field is blank, let's not apply filter logic and return everything.
-                if (this.$refs['filterInput'].value != '') {
-                    this.filteredUsers = this.filteredUsers.filter((user) => {
-                        // Let's iterate over the attributes of the unit.
+                if (this.filterLocation != '') {
+                    this.filteredUnits = this.filteredUnits.filter((unit) => {
                         var isValid = false;
-                        var filteredInput = this.$refs['filterInput'].value;
-                        Object.keys(user).forEach(function (key) {
-                            let obj = user[key];
-                            if (obj && obj.indexOf(filteredInput) !== -1) {
-                                isValid = true;
+
+                        if (this.filterLocation == unit.location_id) {
+                            isValid = true;
+                        }
+
+                        return isValid;
+                    });
+
+                }
+
+                if (this.filterStartDate != '' || this.filterEndDate != '') {
+                    var inputStartDate = new Date(this.filterStartDate);
+                    var inputEndDate = new Date(this.filterEndDate);
+
+                    this.filteredUnits = this.filteredUnits.filter((unit) => {
+
+                        var isValid = false;
+                        if (this.Occupied == 0) {
+                            isValid = true;
+                        }
+                        // console.log(unit);
+
+                        if (unit.occupation_dates.length) {
+                            var i = 0;
+                            while (i < unit.occupation_dates.length) {
+
+                                var unitStartDate = new Date(unit.occupation_dates[i].start_date);
+                                var unitEndDate = new Date(unit.occupation_dates[i].end_date);
+
+                                // console.log(unit.occupation_dates[i]);
+                                var curOccupationData = unit.occupation_dates[i];
+                                unit.occupation_dates.splice(i, 1);
+
+                                if (this.filterStartDate != '' && this.filterEndDate != '') {
+
+                                    if ((unitStartDate >= inputStartDate && unitStartDate <= inputEndDate) || (unitEndDate <= inputEndDate && unitEndDate >= inputStartDate)) {
+                                        if (this.Occupied == 1) {
+                                            isValid = true;
+                                            unit.occupation_dates[i] = curOccupationData;
+                                        }
+                                    }
+                                }
+
+                                else if (this.filterStartDate != '') {
+
+                                    if ((unitStartDate >= inputStartDate && unitEndDate <= inputStartDate)) {
+                                        if (this.Occupied == 1) {
+                                            isValid = true;
+                                            unit.occupation_dates[i] = curOccupationData;
+                                        }
+                                    }
+                                }
+
+                                else if (this.filterEndDate != '') {
+
+                                    if ((unitEndDate >= inputEndDate && unitStartDate <= inputEndDate)) {
+                                        if (this.Occupied == 1) {
+                                            isValid = true;
+                                            unit.occupation_dates[$i] = curOccupationData;
+                                        }
+                                    }
+                                }
+
+                                i++;
+
                             }
-                        });
+                        }
+
                         return isValid;
                     });
 
                     this.pagination.currentPage = 1;
+
                 }
 
                 this.calculatePagination();
             },
 
+            exportToCSV: function () {
+                this.loading = true;
+
+                var postArray = {location:this.filterLocation,start_date:this.filterStartDate,end_date:this.filterEndDate,occupation:this.Occupied};
+
+                this.$http.post(
+                    '/occupations/export',
+                    JSON.stringify(postArray)
+                ).then((response) => {
+                    swal({
+                        title: "Export to CSV",
+                        text: "Your CSV export will download shortly.",
+                        type: "success",
+                        confirmButtonText: "Ok",
+                    });
+                    this.loading = false;
+                }, (err) => {
+                    console.log("An error occured", err);
+                    let errorMessage = '';
+                    if (err.body.message) {
+                        errorMessage = err.body.message;
+                    } else {
+                        // This should occur if there are any validation errors.
+                        // Let's iterate over the list of errors.
+                        Object.keys(err.body).forEach(function (key) {
+                            let obj = err.body[key];
+                            obj = obj.toString();
+                            errorMessage = errorMessage + obj + '\r \n';
+                        });
+                    }
+                    swal({
+                        title: "Error!",
+                        text: errorMessage,
+                        type: "error",
+                        confirmButtonText: "Ok"
+                    });
+
+                    this.loading = false;
+                });
+            },
+
             calculatePagination() {
-                this.pagination.total = this.filteredUsers.length;
+                this.pagination.total = this.filteredUnits.length;
                 // Since Arrays start from 0, we must subtract an additional 1.
                 this.pagination.from = (this.pagination.currentPage - 1) * this.pagination.per_page;
                 this.pagination.to = this.pagination.from + this.pagination.per_page - 1;

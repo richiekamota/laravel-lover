@@ -62,6 +62,7 @@ Route::group(['middleware' => 'auth'], function () {
     */
 
     Route::resource('occupations', 'OccupationDateController');
+    Route::post('/occupations/export', 'OccupationDateController@exportToCSV');
 
     /*
     |--------------------------------------------------------------------------

@@ -17,7 +17,7 @@ class OccupationDate extends Model
      */
 
     protected $fillable = [
-        'contract_id','unit_id', 'start_date', 'end_date','status'
+        'contract_id', 'unit_id', 'start_date', 'end_date','status'
     ];
 
     protected $dates = ['deleted_at'];
@@ -27,5 +27,10 @@ class OccupationDate extends Model
     public function contract()
     {
         return $this->hasOne( 'Portal\Contract', 'id', 'contract_id' );
+    }
+
+    public function unit()
+    {
+        return $this->hasOne( 'Portal\Unit', 'id', 'unit_id' );
     }
 }
