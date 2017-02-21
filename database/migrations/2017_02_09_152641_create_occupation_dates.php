@@ -17,6 +17,7 @@ class CreateOccupationDates extends Migration
             $table->uuid( 'id' );
             $table->primary( 'id' );
             $table->uuid( 'contract_id' );
+            $table->uuid( 'application_id' );
             $table->uuid( 'unit_id' );
             $table->enum('status', ['pending', 'declined', 'approved','cancelled']);
             $table->dateTime( 'start_date' );

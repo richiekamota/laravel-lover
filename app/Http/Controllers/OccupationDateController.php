@@ -31,7 +31,7 @@ class OccupationDateController extends Controller
         $unitsArr = DB::table('units')->get();
         $units = array();
         foreach ($unitsArr as $u) {
-            $occupationDates = OccupationDate::where("unit_id", "=", $u->id)->get();
+            $occupationDates = OccupationDate::where("unit_id", "=", $u->id)->where("status","<>","cancelled")->get();
             $u->occupation_dates = $occupationDates->toArray();
             $units[] = $u;
         }

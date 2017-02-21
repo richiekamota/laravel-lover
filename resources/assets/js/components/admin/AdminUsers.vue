@@ -42,7 +42,7 @@
                                 </button>
                                 <!-- START Edit form -->
                                 <div class="accordion__content  --bg-calm">
-                                    <label for="userFirstName">
+                                   <!-- <label for="userFirstName">
                                         First Name
                                         <input type="text" id="userFirstName" ref="userFirstName"
                                                name="userFirstName" v-model="editUser.first_name" readonly="readonly">
@@ -56,7 +56,7 @@
                                         Email
                                         <input type="text" id="userEmail" ref="userEmail"
                                                name="userEmail" v-model="editUser.email" readonly="readonly">
-                                    </label>
+                                    </label>-->
                                     <label for="userTenantCode">
                                         Tenant Code
                                         <input type="text" id="userTenantCode" ref="userTenantCode"

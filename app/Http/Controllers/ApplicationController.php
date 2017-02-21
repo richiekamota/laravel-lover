@@ -21,6 +21,8 @@ use Portal\Http\Requests\ApplicationSubmitRequest;
 use Portal\Location;
 use Portal\UnitType;
 use Portal\User;
+use Portal\Contract;
+use Portal\OccupationDate;
 use Response;
 use Validator;
 
@@ -731,6 +733,20 @@ class ApplicationController extends Controller
             $data = $applicationForm->toArray();
             $data['status'] = 'cancelled';
             $applicationForm->update($data);
+
+            $contract = Contract::where("application_id","=",$id)->get();
+            if(!empty($contract)) {
+                $contractData = $contract->toArray();
+                $contractData['status'] = 'cancelled';
+                $contract->update($contractData);
+            }
+
+            $occupationDate = OccupationDate::where("contract_id","=",$contractData['id'])->get();
+            if(!empty($occupationDate)) {
+                $occupationDateData = $occupationDate->toArray();
+                $occupationDateData['status'] = 'cancelled';
+                $occupationDate->update($occupationDateData);
+            }
 
             DB::commit();
 

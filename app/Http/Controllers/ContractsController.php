@@ -107,6 +107,7 @@ class ContractsController extends Controller
             // Create entry in occupation dates table
             $occupationDate = OccupationDate::create([
                 'contract_id' => $contract->id,
+                'application_id' => $id,
                 'unit_id'     => $request->unit_id,
                 'status'     => 'pending',
                 'start_date'  => Carbon::parse($request->unit_occupation_date),
@@ -264,7 +265,7 @@ class ContractsController extends Controller
             $contract->approved = Carbon::now();
             $contract->save();
 
-            $occupationDate = OccupationDate::where('application','=', $contract->application_id);
+            $occupationDate = OccupationDate::where('contract_id','=', $contract->idphpphp );
 
             $occupationDate->status = 'approved';
             $occupationDate->save();
