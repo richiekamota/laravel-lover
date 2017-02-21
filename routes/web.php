@@ -60,9 +60,10 @@ Route::group(['middleware' => 'auth'], function () {
     |--------------------------------------------------------------------------
     |
     */
-
+    Route::post('/occupations/export', 'OccupationDateController@exportToCSV');
     Route::resource('occupations', 'OccupationDateController');
     Route::post('/occupations/{id}', 'ContractsController@store');
+
 
     /*
     |--------------------------------------------------------------------------

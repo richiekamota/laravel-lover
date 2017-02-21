@@ -33,4 +33,9 @@ class OccupationDate extends Model
     {
         return $this->hasOne( 'Portal\Unit', 'id', 'unit_id' );
     }
+
+    public function application()
+    {
+        return $this->hasOne( 'Portal\Application', 'id', 'application_id' );
+    }
 }

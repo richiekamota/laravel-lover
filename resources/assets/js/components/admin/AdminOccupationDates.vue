@@ -108,7 +108,7 @@
                     <label for="filterLocation">
                         <select class="--mb0" ref="filterLocation" id="filterLocation" name="filterLocation"
                                 v-model="filterLocation" placeholder="Filter by location">
-                            <option value=""></option>
+                            <option value="">Select Location</option>
                             <option v-for="location in locations" v-bind:value="location.id">
                                 {{ location.name }}
                             </option>
@@ -368,6 +368,10 @@
                         type: "success",
                         confirmButtonText: "Ok",
                     });
+
+                    var encodedUri = encodeURI("data:text/csv;charset=utf-8," + response.body);
+                    window.open(encodedUri);
+
                     this.loading = false;
                 }, (err) => {
                     console.log("An error occured", err);
@@ -384,7 +388,7 @@
                         });
                     }
                     swal({
-                        title: "Error!",
+                        title: "Error exporting data",
                         text: errorMessage,
                         type: "error",
                         confirmButtonText: "Ok"

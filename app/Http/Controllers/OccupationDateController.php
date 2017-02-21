@@ -7,8 +7,6 @@ use Carbon\Carbon;
 use DB;
 use Portal\OccupationDate;
 use Illuminate\Http\Request;
-use Portal\Http\Requests\UnitCreateRequest;
-use Portal\Http\Requests\UnitEditRequest;
 use Portal\Http\Requests\OccupationFilterRequest;
 use Portal\Location;
 use Portal\Unit;
@@ -56,35 +54,34 @@ class OccupationDateController extends Controller
         $start_date = $request['start_date'];
         $end_date = $request['end_date'];
         $location = $request['location'];
+        $occupied = $request['occupied'];
 
         $unitsArr = DB::table('units')->get();
 
         // Headings and rows
-        $headings = array('ID', 'CODE');
+        $headings = array('UNIT CODE', 'OCCUPIED', 'OCCUPATION START', 'OCCUPATION END', 'CONTRACT ID', 'UNIT ID', 'APPLICATION_ID');
         $array = array();
 
         foreach($unitsArr as $u){
-            $array[] = array($u->id, $u->code);
+
+                $array[] = array($u->code, 'N', '', '', '', $u->id, '');
+
         }
-// Open the output stream
+
         $fh = fopen('php://output', 'w');
 
-// Start output buffering (to capture stream contents)
         ob_start();
         fputcsv($fh, $headings);
 
-// Loop over the * to export
         if (!empty($array)) {
             foreach ($array as $item) {
                 fputcsv($fh, $item);
             }
         }
-// Get the contents of the output buffer
         $string = ob_get_clean();
 
         $filename = 'csv_' . date('Ymd') . '_' . date('His');
 
-// Output CSV-specific headers
         header("Pragma: public");
         header("Expires: 0");
         header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
@@ -93,8 +90,8 @@ class OccupationDateController extends Controller
         header("Content-Disposition: attachment filename=\"$filename.csv\";");
         header("Content-Transfer-Encoding: binary");
         exit($string);
-
     }
+
 
     /**
      * Store a newly created resource in storage.
