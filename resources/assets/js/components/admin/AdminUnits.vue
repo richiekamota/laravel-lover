@@ -258,6 +258,15 @@
                     this.units[this.editUnit.index] = this.editUnit;
                     // To prevent reactivity from going accross, let's reassign the object.
                     this.createEditableObject(this.editUnit.index);
+                    if(this.$el.querySelector(".accordion__heading--active")) {
+                        this.$el.querySelectorAll(".accordion__heading--active").forEach(function(element) {
+                            element.classList.toggle("accordion__heading--active");
+                        });
+
+                        this.$el.querySelectorAll(".accordion__content--active").forEach(function(element) {
+                            element.classList.toggle("accordion__content--active");
+                        });
+                    }
                 }, (err) => {
                     this.loading = false;
                     // There is an error, let's display an alert.
@@ -364,6 +373,16 @@
                     });
 
                     this.pagination.currentPage = 1;
+                }
+
+                if(this.$el.querySelector(".accordion__heading--active")) {
+                    this.$el.querySelectorAll(".accordion__heading--active").forEach(function(element) {
+                        element.classList.toggle("accordion__heading--active");
+                    });
+
+                    this.$el.querySelectorAll(".accordion__content--active").forEach(function(element) {
+                        element.classList.toggle("accordion__content--active");
+                    });
                 }
 
                 this.calculatePagination();

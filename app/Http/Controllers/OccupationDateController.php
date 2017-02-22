@@ -29,7 +29,7 @@ class OccupationDateController extends Controller
         $unitsArr = DB::table('units')->get();
         $units = array();
         foreach ($unitsArr as $u) {
-            $occupationDates = OccupationDate::where("unit_id", "=", $u->id)->where("status","<>","cancelled")->get();
+            $occupationDates = OccupationDate::where("unit_id", "=", $u->id)->where("status", "<>", "cancelled")->get();
             $u->occupation_dates = $occupationDates->toArray();
             $units[] = $u;
         }
@@ -54,17 +54,61 @@ class OccupationDateController extends Controller
         $start_date = $request['start_date'];
         $end_date = $request['end_date'];
         $location = $request['location'];
-        $occupied = $request['occupied'];
+        $occupied = $request['occupation'];
 
-        $unitsArr = DB::table('units')->get();
-
+        if($location != '') {
+            $unitsArr = DB::table('units')->where("location_id","=",$location)->get();
+        }else {
+            $unitsArr = DB::table('units')->get();
+        }
         // Headings and rows
         $headings = array('UNIT CODE', 'OCCUPIED', 'OCCUPATION START', 'OCCUPATION END', 'CONTRACT ID', 'UNIT ID', 'APPLICATION_ID');
         $array = array();
 
-        foreach($unitsArr as $u){
+        foreach ($unitsArr as $u) {
+            $isValid = FALSE;
 
-                $array[] = array($u->code, 'N', '', '', '', $u->id, '');
+            if ($occupied == 0) {
+                $isValid = TRUE;
+            }
+
+            $occupations = DB::table('occupation_dates')->where('unit_id', '=', $u->id)->get();
+
+            if (!empty($occupations->toArray())) {
+                foreach ($occupations->toArray() as $o) {
+
+                    $unitStartDate = $o['start_date'];
+                    $unitEndDate = $o['end_date'];
+
+                    if ($start_date != '' && $end_date != '') {
+
+                        if (($unitStartDate >= $startDate && $unitStartDate <= $endDate) || ($unitEndDate <= $endDate && $unitEndDate >= $startDate)) {
+                            if ($occupied == 1) {
+                                $isValid = TRUE;
+                            }
+                        }
+                    } else if (this . filterStartDate != '') {
+
+                        if (($unitStartDate >= $startDate && $unitEndDate <= $startDate)) {
+                            if ($occupied == 1) {
+                                $isValid = TRUE;
+                            }
+                        }
+                    } else if (this . filterEndDate != '') {
+
+                        if (($unitEndDate >= $endDate && $unitStartDate <= $endDate)) {
+                            if ($occupied == 1) {
+                                $isValid = TRUE;
+                            }
+                        }
+                    }
+
+                    if ($isValid == TRUE) $array[] = array($u->code, 'Y', $unitStartDate, $unitEndDate, $o['contract_id'], $u->id, $o['application_id']);
+                }
+            } else {
+                 if ($isValid == TRUE){ $array[] = array($u->code, 'N', '', '', '', $u->id, '');}
+            }
+
 
         }
 

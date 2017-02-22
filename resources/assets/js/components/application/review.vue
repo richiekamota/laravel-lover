@@ -1072,8 +1072,6 @@
                         text: "The application has been renewed and the applicant has been emailed.",
                         type: "success",
                         confirmButtonText: "Ok"
-                    }, function () {
-                        window.location.href = '/dashboard';
                     });
 
                 }, (err) => {

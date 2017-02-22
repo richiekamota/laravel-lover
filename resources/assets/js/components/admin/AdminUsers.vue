@@ -22,7 +22,11 @@
                         <div class="table__row table__row--add">
                             <!-- Row Title -->
                             <button class="accordion__heading accordion__heading--add">
-                                <h4 class="--white">Users</h4>
+                                <h4 class="--white row">
+                                    <div class="small-8 medium-8 columns">Users</div>
+
+                                    <div class="small-4 medium-4 columns">Tenant Code</div>
+                                </h4>
                             </button>
 
 
@@ -31,40 +35,65 @@
 
                     <!-- Repeat in here -->
 
-                    <template v-for="(filteredUsers, index) in filteredUsers">
+                    <template v-for="(filteredUser, index) in filteredUsers">
                         <div class="small-12 columns" v-show="index >= pagination.from && index <= pagination.to">
                             <div class="table__row"
-                                 :class="{ even: isEven(index), first: index == 0, last: index == users.length -1 }">
+                                 :class="{ even: isEven(index), first: index == 0, last: index == filteredUsers.length -1 }">
                                 <!-- Row Title -->
-                                <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{
-                                    filteredUsers.first_name }} {{ filteredUsers.last_name }} - {{ filteredUsers.email
-                                    }}
+                                <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">
+
+                                        {{
+                                    filteredUser.first_name }} {{ filteredUser.last_name }} - {{
+                                    filteredUser.email
+                                            }}
+                                    <span class="--right">{{ filteredUser.tenant_code }}</span>
+
                                 </button>
                                 <!-- START Edit form -->
                                 <div class="accordion__content  --bg-calm">
-                                   <!-- <label for="userFirstName">
-                                        First Name
-                                        <input type="text" id="userFirstName" ref="userFirstName"
-                                               name="userFirstName" v-model="editUser.first_name" readonly="readonly">
-                                    </label>
-                                    <label for="userLastName">
-                                        Last Name
-                                        <input type="text" id="userLastName" ref="userLastName"
-                                               name="userLastName" v-model="editUser.last_name" readonly="readonly">
-                                    </label>
-                                    <label for="userEmail">
-                                        Email
-                                        <input type="text" id="userEmail" ref="userEmail"
-                                               name="userEmail" v-model="editUser.email" readonly="readonly">
-                                    </label>-->
+                                    <!-- <label for="userFirstName">
+                                         First Name
+                                         <input type="text" id="userFirstName" ref="userFirstName"
+                                                name="userFirstName" v-model="editUser.first_name" readonly="readonly">
+                                     </label>
+                                     <label for="userLastName">
+                                         Last Name
+                                         <input type="text" id="userLastName" ref="userLastName"
+                                                name="userLastName" v-model="editUser.last_name" readonly="readonly">
+                                     </label>
+                                     <label for="userEmail">
+                                         Email
+                                         <input type="text" id="userEmail" ref="userEmail"
+                                                name="userEmail" v-model="editUser.email" readonly="readonly">
+                                     </label>-->
                                     <label for="userTenantCode">
                                         Tenant Code
                                         <input type="text" id="userTenantCode" ref="userTenantCode"
                                                name="userTenantCode" v-model="editUser.tenant_code">
                                     </label>
 
+                                    <hr />
+                                    <template v-if="filteredUser.contracts.length == 0"><p>There are no contracts for this user</p></template>
+                                    <template v-else><div class="row">
 
-                                    <button type="submit" class="success button"  v-on:click="updateUser"
+                                        <div class="small-6 medium-6 column"><p><strong>CONTRACT UNIT</strong></p></div>
+                                        <div class="small-3 medium-3 column"><p><strong>STATUS</strong></p></div>
+                                        <div class="small-3 medium-3 column"><p><strong>ACTIONS</strong></p></div>
+                                    </div></template>
+                                    <template v-for="(filteredUsersContract, index) in filteredUser.contracts">
+                                        <div class="row">
+
+                                            <div class="small-6 medium-6 column"><p>Unit {{filteredUsersContract.unit_code}}</p></div>
+                                            <div class="small-3 medium-3 column"><p>{{filteredUsersContract.status}}</p></div>
+                                            <div class="small-3 medium-3 column" v-if="filteredUsersContract.status != 'cancelled'"><p><button type="submit" class="success" v-on:click="submitForRenew(filteredUsersContract.application_id)"  v-bind:disabled="loading">RENEW</button> | <button v-on:click="submitForCancel(filteredUsersContract.application_id)" type="submit" class="error"  v-bind:disabled="loading">CANCEL</button> </p></div>
+                                        </div>
+
+                                    </template>
+
+
+
+
+                                    <button type="submit" class="success button" v-on:click="updateUser"
                                             v-bind:disabled="loading">
                                         <span v-if="loading">
                                             <loading></loading>
@@ -195,7 +224,7 @@
                 }, 200)
             },
 
-            updateUser: function() {
+            updateUser: function () {
                 console.log('edit user');
                 this.loading = true;
 
@@ -217,6 +246,86 @@
 
             },
 
+            submitForCancel: function (app_id) {
+                this.loading = true;
+
+                this.$http.post(
+                    '/application/' + app_id + '/cancel'
+                ).then((response) => {
+                    swal({
+                        title: "Application Cancelled",
+                        text: "Your application has been successfully cancelled.",
+                        type: "success",
+                        confirmButtonText: "Ok",
+                    });
+                    this.loading = false;
+                    // If we are successful, there might not be any message to say so let's set it to default.
+                }, (err) => {
+                    console.log("An error occured", err);
+                    let errorMessage = '';
+                    if (err.body.message) {
+                        errorMessage = err.body.message;
+                    } else {
+                        // This should occur if there are any validation errors.
+                        // Let's iterate over the list of errors.
+                        Object.keys(err.body).forEach(function (key) {
+                            let obj = err.body[key];
+                            obj = obj.toString();
+                            errorMessage = errorMessage + obj + '\r \n';
+                        });
+                    }
+                    swal({
+                        title: "Error!",
+                        text: errorMessage,
+                        type: "error",
+                        confirmButtonText: "Ok"
+                    });
+
+                    this.loading = false;
+                });
+            },
+
+            submitForRenew: function (app_id) {
+                this.loading = true;
+
+                this.$http.post(
+                    '/application/' + app_id + '/renew'
+                ).then((response) => {
+                    swal({
+                        title: "Application Cancelled",
+                        text: "Your application has been successfully cancelled.",
+                        type: "success",
+                        confirmButtonText: "Ok",
+                    });
+                    this.loading = false;
+                    // If we are successful, there might not be any message to say so let's set it to default.
+                }, (err) => {
+                    console.log("An error occured", err);
+                    let errorMessage = '';
+                    if (err.body.message) {
+                        errorMessage = err.body.message;
+                    } else {
+                        // This should occur if there are any validation errors.
+                        // Let's iterate over the list of errors.
+                        Object.keys(err.body).forEach(function (key) {
+                            let obj = err.body[key];
+                            obj = obj.toString();
+                            errorMessage = errorMessage + obj + '\r \n';
+                        });
+                    }
+                    swal({
+                        title: "Error!",
+                        text: errorMessage,
+                        type: "error",
+                        confirmButtonText: "Ok"
+                    });
+
+                    this.loading = false;
+                });
+            },
+
+
+
             createEditableObject(index) {
                 // If we want to assign a completly new object which will not update the other form due to
                 // reactivity, we must manually assign whatever is needed.
@@ -227,7 +336,7 @@
                 this.editUser.first_name = this.filteredUsers[index].first_name;
                 this.editUser.last_name = this.filteredUsers[index].last_name;
                 this.editUser.email = this.filteredUsers[index].email;
-                this.editUser.tenant_code  = this.filteredUsers[index].tenant_code;
+                this.editUser.tenant_code = this.filteredUsers[index].tenant_code;
             },
 
 

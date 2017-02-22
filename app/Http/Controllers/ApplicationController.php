@@ -748,6 +748,8 @@ class ApplicationController extends Controller
                 $occupationDate->update($occupationDateData);
             }
 
+            dispatch(new SendContractCancelledEmail($contract, $data['user_id']));
+
             DB::commit();
 
         } catch (\Exception $e) {

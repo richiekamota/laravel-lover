@@ -4,8 +4,8 @@
         <div class="row">
             <div class="medium-9 columns">
                 <h2 class="--focused">OCCUPATIONS |</h2>
-                <p>
-                    A full list of unit occupation dates.
+                <p ref="filterSummary">
+                    {{filterSummary}}
                 </p>
             </div>
         </div>
@@ -131,13 +131,13 @@
                     />
                 </div>
                 <div class="row column">
+                    <input type="radio" id="Occupied" value="1" v-model="occupied">
+                    <label for="Occupied">Occupied Units</label>
+                    <br/>
+                    <input type="radio" id="Unoccupied" value="0" v-model="occupied">
+                    <label for="Unoccupied">Unoccupied Units</label>
 
-                    <input type="radio" id="Occupied" value="1" v-model="Occupied">
-                    <label for="Occupied">Occupied</label>
-                    <br>
-                    <input type="radio" id="Unoccupied" value="0" v-model="Occupied">
-                    <label for="Unoccupied">Unoccupied</label>
-                    <br>
+
                 </div>
                 <div class="row column">
                     <button v-on:click="filter" class="button">
@@ -180,10 +180,11 @@
                 locations: [],
                 filteredUnits: [],
                 loading: false,
-                filterStartDate: '',
-                filterEndDate: '',
+                filterStartDate: '2017-01-01',
+                filterEndDate: '2017-12-01',
                 filterLocation: '',
-                Occupied: 1,
+                filterSummary: 'Showing all units.',
+                occupied: 1,
                 pagination: {
                     total: 1,
                     from: 0,
@@ -199,13 +200,26 @@
         mounted() {
             this.locations = JSON.parse(this.propLocations);
             this.units = JSON.parse(this.propUnits);
-            this.filteredUnits = this.units;
+            this.defaultFilter();
             this.calculatePagination();
         },
         methods: {
 
             isEven: function (n) {
                 return n % 2 == 0;
+            },
+
+            defaultFilter: function () {
+                this.filteredUnits = this.units.filter((unit) => {
+
+                    var isValid = true;
+                    return isValid;
+
+                });
+                this.pagination.currentPage = 1;
+
+
+                this.calculatePagination();
             },
 
             getTime: function (time) {
@@ -292,7 +306,7 @@
                     this.filteredUnits = this.filteredUnits.filter((unit) => {
 
                         var isValid = false;
-                        if (this.Occupied == 0) {
+                        if (this.occupied == 0) {
                             isValid = true;
                         }
                         // console.log(unit);
@@ -311,7 +325,7 @@
                                 if (this.filterStartDate != '' && this.filterEndDate != '') {
 
                                     if ((unitStartDate >= inputStartDate && unitStartDate <= inputEndDate) || (unitEndDate <= inputEndDate && unitEndDate >= inputStartDate)) {
-                                        if (this.Occupied == 1) {
+                                        if (this.occupied == 1) {
                                             isValid = true;
                                             unit.occupation_dates[i] = curOccupationData;
                                         }
@@ -321,7 +335,7 @@
                                 else if (this.filterStartDate != '') {
 
                                     if ((unitStartDate >= inputStartDate && unitEndDate <= inputStartDate)) {
-                                        if (this.Occupied == 1) {
+                                        if (this.occupied == 1) {
                                             isValid = true;
                                             unit.occupation_dates[i] = curOccupationData;
                                         }
@@ -331,7 +345,7 @@
                                 else if (this.filterEndDate != '') {
 
                                     if ((unitEndDate >= inputEndDate && unitStartDate <= inputEndDate)) {
-                                        if (this.Occupied == 1) {
+                                        if (this.occupied == 1) {
                                             isValid = true;
                                             unit.occupation_dates[$i] = curOccupationData;
                                         }
@@ -350,13 +364,21 @@
 
                 }
 
+
                 this.calculatePagination();
+                this.filterSummary = 'Showing ' + this.filteredUnits.length + ' units. ' + (this.occupied?'Occupied':'Unoccupied') + ' between ' + this.filterStartDate + ' and ' + this.filterEndDate + '.' + (this.filterLocation!=''?' In '+this.filterLocation+'.':'');
+
             },
 
             exportToCSV: function () {
                 this.loading = true;
 
-                var postArray = {location:this.filterLocation,start_date:this.filterStartDate,end_date:this.filterEndDate,occupation:this.Occupied};
+                var postArray = {
+                    location: this.filterLocation,
+                    start_date: this.filterStartDate,
+                    end_date: this.filterEndDate,
+                    occupation: this.occupied
+                };
 
                 this.$http.post(
                     '/occupations/export',
@@ -370,7 +392,12 @@
                     });
 
                     var encodedUri = encodeURI("data:text/csv;charset=utf-8," + response.body);
-                    window.open(encodedUri);
+                    var link = document.createElement("a");
+                    link.setAttribute("href", encodedUri);
+                    link.setAttribute("download", "export.csv");
+                    document.body.appendChild(link); // Required for FF
+
+                    link.click();
 
                     this.loading = false;
                 }, (err) => {

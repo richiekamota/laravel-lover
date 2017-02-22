@@ -5,6 +5,8 @@ namespace Portal\Http\Controllers;
 use Gate;
 use DB;
 use Portal\User;
+use Portal\Contract;
+use Portal\Unit;
 use Illuminate\Http\Request;
 use Portal\Http\Requests\UserEditRequest;
 use Response;
@@ -20,6 +22,26 @@ class UsersController extends Controller
 
         abort_unless(Gate::allows('is-admin'), 401);
         $users = User::where("role","=","tenant")->get();
+
+        $usersArr = User::where("role","=","tenant")->get();
+        $users = array();
+        foreach ($usersArr->toArray() as $u) {
+
+            $contracts = Contract::where("user_id", "=", $u['id'])->get();
+            $u['contracts'] = array();
+
+            foreach($contracts->toArray() as $c){
+
+                $unit = Unit::where("id", "=", $c['unit_id'])->get()->toArray();
+
+                $c['unit_code'] = $unit[0]['code'];
+                $u['contracts'][] = $c;
+
+            }
+            $users[] = $u;
+        }
+
+        $users = json_encode($users);
 
         return view('users.index', compact('users'));
 

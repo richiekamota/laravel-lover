@@ -15,6 +15,8 @@ use Portal\Item;
 use Portal\Jobs\SendApplicationAcceptedEmail;
 use Portal\Jobs\SendApplicationDeclinedEmail;
 use Portal\Jobs\SendApplicationPendingEmail;
+use Portal\Jobs\SendApplicationRenewalEmail;
+use Portal\Jobs\SendContractCancelledEmail;
 use Portal\Location;
 use Portal\Unit;
 use Portal\UnitType;
@@ -154,7 +156,7 @@ class ApplicationProcessController extends Controller
                 'note'           => ''
             ]);
 
-            // dispatch(new SendApplicationCancelEmail($application->user, $application));
+            dispatch(new SendContractCancelledEmail($contract, $application->user_id));
 
             DB::commit();
 
@@ -367,11 +369,16 @@ class ApplicationProcessController extends Controller
             // Create new application based on existing approved application
             $currentApplication = Application::find($id);
             $currentApplicationArray = $currentApplication->toArray();
-            $currentApplicationArray['status'] = 'open';
+            $currentApplicationArray['status'] = 'draft';
 
             // Create a new application form
             Application::create($currentApplicationArray);
+            $application = Application::where('user_id', $currentApplicationArray['user_id'])
+                ->whereStatus('draft')
+                ->first();
 
+                // Generate the secure return email for this contract
+            dispatch(new SendApplicationRenewalEmail($application->id, $currentApplicationArray['user_id']));
 
         } catch (\Exception $e) {
 
@@ -381,7 +388,7 @@ class ApplicationProcessController extends Controller
 
             return Response::json([
                 'error'   => 'application_form_step1_error',
-                'message' => trans('portal.application_form_step1_error'),
+                'message' => json_encode($e),
             ], 422);
 
         }
