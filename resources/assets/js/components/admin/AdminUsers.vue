@@ -42,10 +42,10 @@
                                 <!-- Row Title -->
                                 <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">
 
-                                        {{
+                                    {{
                                     filteredUser.first_name }} {{ filteredUser.last_name }} - {{
                                     filteredUser.email
-                                            }}
+                                    }}
                                     <span class="--right">{{ filteredUser.tenant_code }}</span>
 
                                 </button>
@@ -66,42 +66,65 @@
                                          <input type="text" id="userEmail" ref="userEmail"
                                                 name="userEmail" v-model="editUser.email" readonly="readonly">
                                      </label>-->
-                                    <label for="userTenantCode">
-                                        Tenant Code
-                                        <input type="text" id="userTenantCode" ref="userTenantCode"
-                                               name="userTenantCode" v-model="editUser.tenant_code">
+                                    <label for="userTenantCode" class="row">
+
+                                        <div class="small-6 medium-6 column"> Tenant Code<input type="text" id="userTenantCode"
+                                                                                    ref="userTenantCode"
+                                                                                    name="userTenantCode"
+                                                                                    v-model="editUser.tenant_code">
+                                        </div>
+                                        <div class="small-6 medium-6 column">&nbsp;<br/>
+                                            <button type="submit" class="success button" v-on:click="updateUser"
+                                                    v-bind:disabled="loading">
+                                        <span v-if="loading">
+<loading></loading>
+                                        </span>
+
+                                                <span v-else>
+                                            Update User
+                                        </span>
+                                            </button>
+                                        </div>
+
                                     </label>
 
-                                    <hr />
-                                    <template v-if="filteredUser.contracts.length == 0"><p>There are no contracts for this user</p></template>
-                                    <template v-else><div class="row">
+                                    <hr/>
+                                    <template v-if="filteredUser.contracts.length == 0"><p>There are no contracts for
+                                        this user</p></template>
+                                    <template v-else>
+                                        <div class="row">
 
-                                        <div class="small-6 medium-6 column"><p><strong>CONTRACT UNIT</strong></p></div>
-                                        <div class="small-3 medium-3 column"><p><strong>STATUS</strong></p></div>
-                                        <div class="small-3 medium-3 column"><p><strong>ACTIONS</strong></p></div>
-                                    </div></template>
+                                            <div class="small-6 medium-6 column"><p><strong>CONTRACT UNIT</strong></p>
+                                            </div>
+                                            <div class="small-3 medium-3 column"><p><strong>STATUS</strong></p></div>
+                                            <div class="small-3 medium-3 column"><p><strong>ACTIONS</strong></p></div>
+                                        </div>
+                                    </template>
                                     <template v-for="(filteredUsersContract, index) in filteredUser.contracts">
                                         <div class="row">
 
-                                            <div class="small-6 medium-6 column"><p>Unit {{filteredUsersContract.unit_code}}</p></div>
-                                            <div class="small-3 medium-3 column"><p>{{filteredUsersContract.status}}</p></div>
-                                            <div class="small-3 medium-3 column" v-if="filteredUsersContract.status != 'cancelled'"><p><button type="submit" class="success" v-on:click="submitForRenew(filteredUsersContract.application_id)"  v-bind:disabled="loading">RENEW</button> | <button v-on:click="submitForCancel(filteredUsersContract.application_id)" type="submit" class="error"  v-bind:disabled="loading">CANCEL</button> </p></div>
+                                            <div class="small-6 medium-6 column"><p>Unit
+                                                {{filteredUsersContract.unit_code}}</p></div>
+                                            <div class="small-3 medium-3 column"><p>{{filteredUsersContract.status}}</p>
+                                            </div>
+                                            <div class="small-3 medium-3 column"
+                                                 v-if="filteredUsersContract.status != 'cancelled'">
+                                                <p>
+                                                    <button type="submit" class="success"
+                                                            v-on:click="submitForRenew(filteredUsersContract.application_id)"
+                                                            v-bind:disabled="loading">RENEW
+                                                    </button>
+                                                    |
+                                                    <button v-on:click="submitForCancel(filteredUsersContract.application_id)"
+                                                            type="submit" class="error" v-bind:disabled="loading">CANCEL
+                                                    </button>
+                                                </p>
+                                            </div>
                                         </div>
 
                                     </template>
 
 
-
-
-                                    <button type="submit" class="success button" v-on:click="updateUser"
-                                            v-bind:disabled="loading">
-                                        <span v-if="loading">
-                                            <loading></loading>
-                                        </span>
-                                        <span v-else>
-                                            Update User
-                                        </span>
-                                    </button>
                                 </div>
                                 <!-- END Edit form -->
                             </div>
@@ -323,7 +346,6 @@
                     this.loading = false;
                 });
             },
-
 
 
             createEditableObject(index) {
