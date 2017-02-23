@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class UnitsApiTest extends TestCase
+class UnitsApiTest extends Tests\TestCase
 {
     use DatabaseMigrations;
 

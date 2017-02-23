@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class StepSixApiTest extends TestCase
+class StepSixApiTest extends Tests\TestCase
 {
     use DatabaseMigrations;
 
@@ -77,7 +77,7 @@ class StepSixApiTest extends TestCase
             ] )
             ->assertResponseStatus( 422 )
             ->seeJson( [
-                "judgements_details" => ["The judgements details field is required."]
+                "judgements_details" => ["The judgements details field is required when judgements is 1."]
             ] );
 
     }

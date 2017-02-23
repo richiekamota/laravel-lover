@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class StepEightApiTest extends TestCase
+class StepEightApiTest extends Tests\TestCase
 {
     use DatabaseMigrations;
 
@@ -41,6 +41,8 @@ class StepEightApiTest extends TestCase
 
     }
 
+    // Confirmation time validation not required. Automatically saved to system.
+    /*
     public function testStepEightFailConfirmTimeValidation()
     {
 
@@ -60,7 +62,7 @@ class StepEightApiTest extends TestCase
                 "confirm_time" => ["The confirm time field is required."]
             ] );
 
-    }
+    }*/
 
     public function testStepEightPassValidation()
     {

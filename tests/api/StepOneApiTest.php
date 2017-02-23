@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class StepOneApiTest extends TestCase
+class StepOneApiTest extends Tests\TestCase
 {
     use DatabaseMigrations;
 
@@ -133,11 +133,14 @@ class StepOneApiTest extends TestCase
 
         $this->actingAs( $user )
             ->json( 'POST', '/step-1/' . $application->id, [
+                'first_name'      => 'John',
+                'last_name'       => 'Doe',
                 'sa_id_number'    => '123456',
-                'dob'             => '1982-08-06',
-                'nationality'     => 'British',
-                'current_address' => '14 Valentino',
-                'marital_status'  => 'Single'
+                'dob'             => '1970/01/01',
+                'nationality'     => 'South African',
+                'current_address' => 'street name 123',
+                'marital_status'  => 'Married',
+                'married_type'    => 'ANC'
             ] )
             ->assertResponseStatus( 200 );
 
