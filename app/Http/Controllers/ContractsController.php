@@ -92,7 +92,7 @@ class ContractsController extends Controller
             $application->status = 'approved';
             $application->save();
 
-            $applicationUser = $application->user;
+            $applicationUser = User::findOrFail($application->user_id);
 
             // Take the request and store in the DB
             $contract = Contract::create([
@@ -134,7 +134,7 @@ class ContractsController extends Controller
             // Generate a PDF of the contract based on the application
             // The name should be the user first and last name and the date
             // eg FirstName20160424.pdf
-            $pdfName = ucfirst(preg_replace('/[^\w-]/', '', $applicationUser->first_name)) . ucfirst(preg_replace('/[^\w-]/', '', $applicationUser->last_name)) . \Carbon\Carbon::today()->toDateString() . '-' . Carbon::today()->format('h-i-s');
+            $pdfName = ucfirst(preg_replace('/[^\w-]/', '', $applicationUser->first_name)) . ucfirst(preg_replace('/[^\w-]/', '', $applicationUser->last_name)) . \Carbon\Carbon::today()->toDateString();
 
             $data = ['name' => $applicationUser->first_name];
             $filePath = storage_path('contracts/' . $pdfName . '.pdf');
@@ -160,14 +160,6 @@ class ContractsController extends Controller
             // Attach the document to the contract record
             $contract->document_id = $document->id;
             $contract->save();
-
-            /* Removed for now, occupation_dates table will handle this
-             *
-             * // Update the unit to show its no longer available
-            Unit::find( $request->unit_id )->update( [
-                'user_id'     => $applicationUser->id,
-                'contract_id' => $contract->id
-            ] );*/
 
             // Log an event against the application
             ApplicationEvent::create([

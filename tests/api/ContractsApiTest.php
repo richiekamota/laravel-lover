@@ -4,10 +4,15 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Portal\Jobs\SendContractToUserEmail;
 use MailThief\Testing\InteractsWithMail;
 
+use Carbon\Carbon;
+use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Http\Request;
+use Response;
+
 class ContractsApiTest extends Tests\TestCase
 {
 
-    // use DatabaseMigrations;
+    use DatabaseMigrations;
 
     // Provides convenient testing traits and initializes MailThief
     use InteractsWithMail;
@@ -131,14 +136,21 @@ class ContractsApiTest extends Tests\TestCase
             'type_id'     => $unitType->id
         ]);
 
+        $application = factory(Portal\Application::class)->create([
+            'user_id' => $user->id,
+            'unit_id' => $unit->id
+        ]);
+
         $this->actingAs($user)
-            ->json('POST', '/contracts', [
-                'user_id'    => $user->id,
-                'unit_id'    => $unit->id,
-                'start_date' => '2016-01-01',
-                'end_date'   => '2016-11-01',
-            ] )
-            ->assertResponseStatus( 200 );
+            ->json('POST', '/contracts/' . $application->id, [
+                'user_id'        => $user->id,
+                'unit_id'        => $unit->id,
+                'application_id' => $application->id,
+                'unit_occupation_date'     => '2016-01-01',
+                'unit_vacation_date'       => '2016-11-01',
+                'status'         => 'pending'
+            ])
+            ->assertResponseStatus(200);
 
         $pdfName = ucfirst(preg_replace('/[^\w-]/', '', $user->first_name)) . ucfirst(preg_replace('/[^\w-]/', '', $user->last_name)) . \Carbon\Carbon::today()->toDateString();
         $uploaded = 'contracts' . DIRECTORY_SEPARATOR . $pdfName . '.pdf';
@@ -163,20 +175,21 @@ class ContractsApiTest extends Tests\TestCase
             'location_id' => $location->id,
             'type_id'     => $unitType->id
         ]);
-        $application = factory(Portal\Application::class)->states('forApproval')->create([
-            'user_id'       => $user->id,
-            'unit_location' => $location->id,
-            'unit_type'     => $unitType->id
+
+        $application = factory(Portal\Application::class)->create([
+            'user_id' => $user->id
         ]);
 
         $pdfName = ucfirst(preg_replace('/[^\w-]/', '', $user->first_name)) . ucfirst(preg_replace('/[^\w-]/', '', $user->last_name)) . \Carbon\Carbon::today()->toDateString();
 
         $this->actingAs($user)
-            ->json('POST', '/contracts', [
-                'user_id'    => $user->id,
-                'unit_id'    => $unit->id,
-                'start_date' => '2016-01-01',
-                'end_date'   => '2016-11-01',
+            ->json('POST', '/contracts/' . $application->id, [
+                'user_id'        => $user->id,
+                'unit_id'        => $unit->id,
+                'application_id' => $application->id,
+                'unit_occupation_date'     => '2016-01-01',
+                'unit_vacation_date'       => '2016-11-01',
+                'status'         => 'pending'
             ])
             ->assertResponseStatus(200);
 
@@ -205,12 +218,18 @@ class ContractsApiTest extends Tests\TestCase
             'type_id'     => $unitType->id
         ]);
 
+        $application = factory(Portal\Application::class)->create([
+            'user_id' => $user->id
+        ]);
+
         $this->actingAs($user)
-            ->json('POST', '/contracts', [
-                'user_id'    => $user->id,
-                'unit_id'    => $unit->id,
-                'start_date' => '2016-01-01',
-                'end_date'   => '2016-11-01',
+            ->json('POST', '/contracts/' . $application->id, [
+                'user_id'        => $user->id,
+                'unit_id'        => $unit->id,
+                'application_id' => $application->id,
+                'unit_occupation_date'     => '2016-01-01',
+                'unit_vacation_date'       => '2016-11-01',
+                'status'         => 'pending'
             ])
             ->assertResponseStatus(200);
 

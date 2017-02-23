@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Mail;
 use Portal\Application;
 use Portal\User;
+use Portal\Location;
 
 class SendContractToUserEmail implements ShouldQueue
 {

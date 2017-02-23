@@ -51,8 +51,8 @@ class OccupationDateController extends Controller
     {
         abort_unless(Gate::allows('is-admin'), 401);
 
-        $start_date = $request['start_date'];
-        $end_date = $request['end_date'];
+        $startDate = $request['start_date'];
+        $endDate = $request['end_date'];
         $location = $request['location'];
         $occupied = $request['occupation'];
 
@@ -77,8 +77,8 @@ class OccupationDateController extends Controller
             if (!empty($occupations->toArray())) {
                 foreach ($occupations->toArray() as $o) {
 
-                    $unitStartDate = $o['start_date'];
-                    $unitEndDate = $o['end_date'];
+                    $unitStartDate = $o->start_date;
+                    $unitEndDate = $o->end_date;
 
                     if ($start_date != '' && $end_date != '') {
 

@@ -29,6 +29,16 @@
         <env name="SESSION_DRIVER" value="file"/>
         <env name="QUEUE_DRIVER" value="sync"/>
         <env name="DB_CONNECTION" value="mysql"/>
-        <env name="PDF_BINARY" value="/usr/local/bin/wkhtmltopdf"/>
+        <env name="DB_DATABASE" value="portal"/>
+        <env name="DB_HOST" value="localhost"/>
+        <env name="DB_USERNAME" value="root"/>
+        <env name="DB_PASSWORD" value=""/>
+        <env name="PDF_BINARY" value="C:/sites/_tools/wkhtmltopdf/bin/wkhtmltopdf"/>
+        <env name="MAIL_DRIVER" value="smtp"/>
+        <env name="MAIL_HOST" value="smtp.mailtrap.io"/>
+        <env name="MAIL_PORT" value="2525"/>
+        <env name="MAIL_USERNAME" value="7825b85d6200be"/>
+        <env name="MAIL_PASSWORD" value="fe33de7e575ca3"/>
+        <env name="MAIL_ENCRYPTION" value="null"/>
     </php>
 </phpunit>

@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-
+use Laravel\BrowserKitTesting\Concerns\InteractsWithDatabase;
 use Portal\Jobs\SendContractToUserEmail;
 use MailThief\Testing\InteractsWithMail;
 
@@ -96,18 +96,18 @@ class ApplicationProcessTest extends Tests\TestCase
             ->json( 'POST', '/application/' . $this->application->id . '/decline', [
                 'reason' => 'This is the reason'
             ] )
-            ->assertResponseStatus( 200 );
+            ->assertResponseStatus( 200 )
 
-            /*->assertDatabaseHas( 'applications', [
+            ->seeInDatabase( 'applications', [
                 'id' => $this->application->id,
                 'status' => 'declined'
             ] )
-            ->assertDatabaseHas( 'application_events', [
+            ->seeInDatabase( 'application_events', [
                 'application_id' => $this->application->id,
                 'user_id' => $this->user->id,
                 'action' => 'Application declined',
                 'note' => 'This is the reason'
-            ] );*/
+            ] );
 
     }
 
@@ -166,11 +166,11 @@ class ApplicationProcessTest extends Tests\TestCase
                 'reason' => 'This is the reason'
             ] )
             ->assertResponseStatus( 200 )
-            ->assertDatabaseHas( 'applications', [
+            ->seeInDatabase( 'applications', [
                 'id' => $this->application->id,
                 'status' => 'pending'
             ] )
-            ->assertDatabaseHas( 'application_events', [
+            ->seeInDatabase( 'application_events', [
                 'application_id' => $this->application->id,
                 'user_id' => $this->user->id,
                 'action' => 'Application pending',
