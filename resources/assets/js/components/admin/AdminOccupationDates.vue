@@ -30,6 +30,13 @@
                     </div>
 
                     <!-- Repeat in here -->
+                    <template v-if="filteredUnits.length == 0">
+                        <div class="small-12 columns">
+                            <div class="table__row last">
+                                <button class="accordion__heading">No results found</button>
+                            </div>
+                        </div>
+                    </template>
 
                     <template v-for="(filteredUnit, index) in filteredUnits">
                         <div class="small-12 columns" v-show="index >= pagination.from && index <= pagination.to">
@@ -104,6 +111,7 @@
 
 
                 <h3></strong>Filter:</h3>
+                <p class="error">{{filterMessage}}</p>
                 <div class="row column">
                     <label for="filterLocation">
                         <select class="--mb0" ref="filterLocation" id="filterLocation" name="filterLocation"
@@ -153,6 +161,9 @@
                         </div>
                         Units: <span class="float-right">{{filteredUnits.length}}</span>
                         <br/><br/>
+                        <form action="" method="post" target="_blank">
+                            <input type="hidden" name="export_ids" id="export_ids" ref="export_ids" value="">
+                        </form>
                         <button v-on:click="exportToCSV" class="button">
                             Export to CSV
                         </button>
@@ -180,11 +191,12 @@
                 locations: [],
                 filteredUnits: [],
                 loading: false,
-                filterStartDate: '2017-01-01',
-                filterEndDate: '2017-12-01',
+                filterStartDate: '',
+                filterEndDate: '',
                 filterLocation: '',
-                filterSummary: 'Showing all units.',
+                filterSummary: 'Showing all occupied units.',
                 occupied: 1,
+                filterMessage: '',
                 pagination: {
                     total: 1,
                     from: 0,
@@ -211,14 +223,14 @@
 
             defaultFilter: function () {
                 this.filteredUnits = this.units.filter((unit) => {
-
-                    var isValid = true;
-                    return isValid;
-
+                    if (this.filteredUnits.occupation_dates) {
+                        if (this.filteredUnits.occupation_dates.length > 0) {
+                            var isValid = true;
+                            return isValid;
+                        }
+                    }
                 });
                 this.pagination.currentPage = 1;
-
-
                 this.calculatePagination();
             },
 
@@ -285,9 +297,11 @@
             filter() {
                 // Let's get a fresh list before filter.
                 this.filteredUnits = this.units;
+                console.log(this.filteredUnits);
+                this.filterMessage = '';
 
                 if (this.filterLocation != '') {
-                    this.filteredUnits = this.filteredUnits.filter((unit) => {
+                    this.filteredUnits = this.units.filter((unit) => {
                         var isValid = false;
 
                         if (this.filterLocation == unit.location_id) {
@@ -303,22 +317,18 @@
                     var inputStartDate = new Date(this.filterStartDate);
                     var inputEndDate = new Date(this.filterEndDate);
 
-                    this.filteredUnits = this.filteredUnits.filter((unit) => {
+                    this.filteredUnits = this.units.filter((unit) => {
 
                         var isValid = false;
-                        if (this.occupied == 0) {
-                            isValid = true;
-                        }
-                        // console.log(unit);
 
-                        if (unit.occupation_dates.length) {
+                        if (unit.occupation_dates.length && this.occupied == 1) {
                             var i = 0;
                             while (i < unit.occupation_dates.length) {
 
                                 var unitStartDate = new Date(unit.occupation_dates[i].start_date);
                                 var unitEndDate = new Date(unit.occupation_dates[i].end_date);
 
-                                // console.log(unit.occupation_dates[i]);
+                                console.log(unit.occupation_dates[i]);
                                 var curOccupationData = unit.occupation_dates[i];
                                 unit.occupation_dates.splice(i, 1);
 
@@ -332,7 +342,7 @@
                                     }
                                 }
 
-                                else if (this.filterStartDate != '') {
+                                else if (this.filterStartDate != '' && this.filterEndDate == '') {
 
                                     if ((unitStartDate >= inputStartDate && unitEndDate <= inputStartDate)) {
                                         if (this.occupied == 1) {
@@ -342,7 +352,7 @@
                                     }
                                 }
 
-                                else if (this.filterEndDate != '') {
+                                else if (this.filterEndDate != '' && this.filterStartDate == '') {
 
                                     if ((unitEndDate >= inputEndDate && unitStartDate <= inputEndDate)) {
                                         if (this.occupied == 1) {
@@ -351,9 +361,14 @@
                                         }
                                     }
                                 }
+                                console.log(unit.occupation_dates[i]);
 
                                 i++;
 
+                            }
+                        }else{
+                            if (this.occupied == 0 && !unit.occupation_dates.length) {
+                                isValid = true;
                             }
                         }
 
@@ -362,22 +377,40 @@
 
                     this.pagination.currentPage = 1;
 
+                }else{
+                    this.filteredUnits = [];
+                    this.filterMessage = 'Please select START and END dates for this filter.';
+
                 }
 
 
                 this.calculatePagination();
-                this.filterSummary = 'Showing ' + this.filteredUnits.length + ' units. ' + (this.occupied?'Occupied':'Unoccupied') + ' between ' + this.filterStartDate + ' and ' + this.filterEndDate + '.' + (this.filterLocation!=''?' In '+this.filterLocation+'.':'');
+                this.filterSummary = 'Showing ' + this.filteredUnits.length + ' ' + (this.occupied == 1 ? 'Occupied' : 'Unoccupied') + ' units.';
+                if (this.filterStartDate || this.filterEndDate) {
+                    this.filterSummary = this.filterSummary + ' Between ' + this.filterStartDate + ' and ' + this.filterEndDate + '.';
+                }
+                if (this.filterLocation) {
+                    this.filterSummary = this.filterSummary + (this.filterLocation != '' ? ' In ' + this.filterLocation + '.' : '');
+                }
 
             },
 
             exportToCSV: function () {
                 this.loading = true;
 
+                var i = 0;
+                var exportUnits = [];
+                while (i < this.filteredUnits.length) {
+                    exportUnits = exportUnits + ',' + this.filteredUnits[i].id;
+                    i++;
+                }
+
                 var postArray = {
                     location: this.filterLocation,
                     start_date: this.filterStartDate,
                     end_date: this.filterEndDate,
-                    occupation: this.occupied
+                    occupation: this.occupied,
+                    export_ids: exportUnits
                 };
 
                 this.$http.post(
@@ -391,15 +424,26 @@
                         confirmButtonText: "Ok",
                     });
 
-                    var encodedUri = encodeURI("data:text/csv;charset=utf-8," + response.body);
-                    var link = document.createElement("a");
-                    link.setAttribute("href", encodedUri);
-                    link.setAttribute("download", "export.csv");
-                    document.body.appendChild(link); // Required for FF
+                    var blob = response.body;
+                    var base64data = '';
 
-                    link.click();
+                    var reader = new window.FileReader();
+                    reader.readAsDataURL(blob);
+                    reader.onloadend = function () {
+                        base64data = reader.result;
+
+                        var encodedUri = base64data;
+                        var link = document.createElement("a");
+                        link.setAttribute("href", encodedUri);
+                        link.setAttribute("download", "export.csv");
+                        document.body.appendChild(link); // Required for FF
+
+                        link.click();
+
+                    }
 
                     this.loading = false;
+
                 }, (err) => {
                     console.log("An error occured", err);
                     let errorMessage = '';

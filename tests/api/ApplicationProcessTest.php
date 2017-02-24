@@ -2,7 +2,6 @@
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Laravel\BrowserKitTesting\Concerns\InteractsWithDatabase;
 use Portal\Jobs\SendContractToUserEmail;
 use MailThief\Testing\InteractsWithMail;
 

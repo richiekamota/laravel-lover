@@ -25,7 +25,7 @@ return [
     |
     */
 
-    'env' => env( 'APP_ENV', 'local' ),
+    'env' => env('APP_ENV', 'local'),
 
     /*
     |--------------------------------------------------------------------------
@@ -38,7 +38,7 @@ return [
     |
     */
 
-    'debug' => env( 'APP_DEBUG', FALSE ),
+    'debug' => env('APP_DEBUG', FALSE),
 
     /*
     |--------------------------------------------------------------------------
@@ -51,7 +51,7 @@ return [
     |
     */
 
-    'url' => env( 'APP_URL', 'http://local.portal-mydomain' ),
+    'url' => env('APP_URL', 'http://local.portal-mydomain'),
 
     /*
     |--------------------------------------------------------------------------
@@ -103,7 +103,7 @@ return [
     |
     */
 
-    'key' => env( 'APP_KEY' ),
+    'key' => env('APP_KEY'),
 
     'cipher' => 'AES-256-CBC',
 
@@ -120,9 +120,9 @@ return [
     |
     */
 
-    'log' => env( 'APP_LOG', 'single' ),
+    'log' => env('APP_LOG', 'single'),
 
-    'log_level' => env( 'APP_LOG_LEVEL', 'debug' ),
+    'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
     /*
     |--------------------------------------------------------------------------
@@ -183,6 +183,7 @@ return [
          */
 
         Barryvdh\Snappy\ServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
 
     ],
@@ -235,6 +236,7 @@ return [
         'Uuid'         => Webpatser\Uuid\Uuid::class,
         'PDF'          => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'SnappyImage'  => Barryvdh\Snappy\Facades\SnappyImage::class,
+        'Excel'        => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

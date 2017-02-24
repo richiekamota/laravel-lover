@@ -5,7 +5,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Laravel\BrowserKitTesting\Concerns\InteractsWithDatabase;
 use Laravel\BrowserKitTesting\Concerns\MakesHTTPRequests;
 use Illuminate\Http\Request;
-use Response;
 use Illuminate\Http\UploadedFile;
 use Portal\Application;
 use Portal\Document;
@@ -13,7 +12,7 @@ use Portal\Document;
 class DocumentsApiTest extends Tests\TestCase
 {
 
-    // use DatabaseMigrations;
+    use DatabaseMigrations;
     use DatabaseTransactions;
     use InteractsWithDatabase;
 

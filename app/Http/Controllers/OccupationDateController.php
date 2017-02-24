@@ -11,6 +11,7 @@ use Portal\Http\Requests\OccupationFilterRequest;
 use Portal\Location;
 use Portal\Unit;
 use Portal\UnitType;
+use Excel;
 
 use Response;
 
@@ -51,89 +52,73 @@ class OccupationDateController extends Controller
     {
         abort_unless(Gate::allows('is-admin'), 401);
 
+        $unitIDs = $request['unit'];
         $startDate = $request['start_date'];
         $endDate = $request['end_date'];
         $location = $request['location'];
         $occupied = $request['occupation'];
+        $export_ids = explode("," , $request['export_ids']);
 
         if($location != '') {
-            $unitsArr = DB::table('units')->where("location_id","=",$location)->get();
+            $unitsArr = DB::table('units')->where("location_id","=",$location)->whereIn('id',$export_ids)->get();
         }else {
-            $unitsArr = DB::table('units')->get();
+            $unitsArr = DB::table('units')->whereIn('id',$export_ids)->get();
         }
         // Headings and rows
-        $headings = array('UNIT CODE', 'OCCUPIED', 'OCCUPATION START', 'OCCUPATION END', 'CONTRACT ID', 'UNIT ID', 'APPLICATION_ID');
-        $array = array();
+        $csv_array = [['UNIT CODE', 'OCCUPIED', 'OCCUPATION START', 'OCCUPATION END', 'CONTRACT ID', 'UNIT ID', 'APPLICATION_ID']];
 
         foreach ($unitsArr as $u) {
             $isValid = FALSE;
-
-            if ($occupied == 0) {
-                $isValid = TRUE;
-            }
-
             $occupations = DB::table('occupation_dates')->where('unit_id', '=', $u->id)->get();
 
-            if (!empty($occupations->toArray())) {
+            if (!empty($occupations->toArray()) && $occupied == 1) {
                 foreach ($occupations->toArray() as $o) {
 
                     $unitStartDate = $o->start_date;
                     $unitEndDate = $o->end_date;
 
-                    if ($start_date != '' && $end_date != '') {
+                    if ($startDate != '' && $endDate != '') {
 
                         if (($unitStartDate >= $startDate && $unitStartDate <= $endDate) || ($unitEndDate <= $endDate && $unitEndDate >= $startDate)) {
-                            if ($occupied == 1) {
+
                                 $isValid = TRUE;
-                            }
+
                         }
-                    } else if (this . filterStartDate != '') {
+                    } else if ($startDate != '' && $endDate == '') {
 
                         if (($unitStartDate >= $startDate && $unitEndDate <= $startDate)) {
-                            if ($occupied == 1) {
+
                                 $isValid = TRUE;
-                            }
+
                         }
-                    } else if (this . filterEndDate != '') {
+                    } else if ($startDate == '' && $endDate != '') {
 
                         if (($unitEndDate >= $endDate && $unitStartDate <= $endDate)) {
-                            if ($occupied == 1) {
+
                                 $isValid = TRUE;
-                            }
+
                         }
                     }
 
-                    if ($isValid == TRUE) $array[] = array($u->code, 'Y', $unitStartDate, $unitEndDate, $o['contract_id'], $u->id, $o['application_id']);
+                    if ($isValid == TRUE) $csv_array[] =[$u->code, 'Y', $unitStartDate, $unitEndDate, $o->contract_id, $u->id, $o->application_id];
                 }
             } else {
-                 if ($isValid == TRUE){ $array[] = array($u->code, 'N', '', '', '', $u->id, '');}
+                 if (empty($occupations->toArray()) && $occupied == 0){ $csv_array[] = [$u->code, 'N', '', '', '', $u->id, ''];}
             }
 
 
         }
 
-        $fh = fopen('php://output', 'w');
+        $inputArr = json_decode(json_encode($csv_array,true));
+        Excel::create('occupations', function($excel) use($inputArr) {
 
-        ob_start();
-        fputcsv($fh, $headings);
+            $excel->sheet('Sheet1', function($sheet) use($inputArr) {
 
-        if (!empty($array)) {
-            foreach ($array as $item) {
-                fputcsv($fh, $item);
-            }
-        }
-        $string = ob_get_clean();
+                $sheet->fromArray($inputArr, null, 'A1', false, false);
 
-        $filename = 'csv_' . date('Ymd') . '_' . date('His');
+            });
 
-        header("Pragma: public");
-        header("Expires: 0");
-        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-        header("Cache-Control: private", FALSE);
-        header('Content-Type: text/csv; charset=utf-8');
-        header("Content-Disposition: attachment filename=\"$filename.csv\";");
-        header("Content-Transfer-Encoding: binary");
-        exit($string);
+        })->export('csv');
     }
 
 
