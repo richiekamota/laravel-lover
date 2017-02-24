@@ -14,7 +14,7 @@ class ApplicationStepOneRequest extends FormRequest
     public function authorize()
     {
 
-        return true;
+        return TRUE;
     }
 
     /**
@@ -28,6 +28,7 @@ class ApplicationStepOneRequest extends FormRequest
         return [
             'first_name'      => 'required',
             'last_name'       => 'required',
+            'email'           => 'required|email|max:191',
             'sa_id_number'    => 'required_if:passport_number,""',
             'passport_number' => 'required_if:sa_id_number,""',
             'dob'             => 'required|date',

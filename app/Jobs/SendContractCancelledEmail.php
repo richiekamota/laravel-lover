@@ -16,6 +16,7 @@ class SendContractCancelledEmail implements ShouldQueue
 
     protected $contract;
     protected $userID;
+    protected $application;
     /**
      * Create a new job instance.
      *
@@ -38,6 +39,7 @@ class SendContractCancelledEmail implements ShouldQueue
         // Send the email to the user this contract is for
 
         $contract = $this->contract;
+        $this->application = Application::find($contract->application_id);
 
         // The email will include the secure link to
         // review and approve the contract
@@ -46,6 +48,7 @@ class SendContractCancelledEmail implements ShouldQueue
             'contract' => $contract
         ], function ($m) use ($user) {
             $m->to($user->email);
+            $m->cc($this->application->email);
             $m->subject('My Domain contract cancelled');
             $m->from('noreply@mydomain.co.za');
         });

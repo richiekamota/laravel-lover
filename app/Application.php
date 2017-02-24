@@ -19,6 +19,7 @@ class Application extends Model
         'step',
         'first_name',
         'last_name',
+        'email',
         'sa_id_number',
         'passport_number',
         'dob',

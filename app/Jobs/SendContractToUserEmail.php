@@ -18,6 +18,7 @@ class SendContractToUserEmail implements ShouldQueue
     private $userId;
     private $secureLink;
     private $applicationId;
+    private $application;
 
     /**
      * Create a new job instance.
@@ -48,16 +49,17 @@ class SendContractToUserEmail implements ShouldQueue
         $user = User::findOrFail($this->userId);
         // Send the email to the user this contract is for
 
-        $application = Application::with('location')->find($this->applicationId);
+        $this->application = Application::with('location')->find($this->applicationId);
 
         // The email will include the secure link to
         // review and approve the contract
 
         Mail::send('emails.contract', [
             'secureLink' => $this->secureLink,
-            'application' => $application
+            'application' => $this->application
         ], function ($m) use ($user) {
             $m->to($user->email);
+            $m->cc($this->application->email);
             $m->subject('My Domain contract for review');
             $m->from('noreply@mydomain.co.za');
             $m->attach($this->filePath);

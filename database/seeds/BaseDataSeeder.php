@@ -69,6 +69,7 @@ class BaseDataSeeder extends Seeder
 
         factory( Portal\Application::class, 5 )->states( 'forApproval' )->create( [
             'user_id' => $craig->id,
+            'email' => 'craig@swishproperties.co.za',
             'resident_id' => $residentId->id,
             'unit_location' => $location->id,
             'unit_type' => $location->unitTypes->first()->id

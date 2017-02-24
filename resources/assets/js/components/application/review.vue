@@ -85,6 +85,19 @@
                         <h4 id="heading-leaseholder" class="--white">Leaseholder details</h4>
                     </div>
 
+                    <div class="table__row table__row--padded even">
+
+                        <div class="row">
+                            <div class="column">
+                               Email:
+                            </div>
+                            <div class="column">
+                                {{application.email}}
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div class="table__row table__row--padded">
 
                         <div class="row">
@@ -96,6 +109,7 @@
                             </div>
                         </div>
                     </div>
+
 
                     <div class="table__row table__row--padded even">
 

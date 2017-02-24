@@ -44,6 +44,12 @@
                                     <input type="text" name="last_name" v-model="appForm.last_name" required>
                                 </label>
 
+                                <!-- Leaseholder Email -->
+                                <label for="email">
+                                    Email Address
+                                    <input type="text" name="email" v-model="appForm.email" required>
+                                </label>
+
                                 <div class="row">
                                     <div class="column medium-5">
                                         <!-- SA ID number -->
@@ -772,6 +778,7 @@
                 myForm: '',
                 first_name: '',
                 last_name: '',
+                email: '',
                 sa_id_number: '',
                 passport_number: '',
                 dob: '',
@@ -1105,6 +1112,7 @@
                         return {
                             first_name: this.appForm.first_name,
                             last_name: this.appForm.last_name,
+                            email: this.appForm.email,
                             sa_id_number: this.appForm.sa_id_number,
                             passport_number: this.appForm.passport_number,
                             dob: this.appForm.dob,
@@ -1197,6 +1205,7 @@
 
                             first_name: this.appForm.first_name,
                             last_name: this.appForm.last_name,
+                            email: this.appForm.email,
                             sa_id_number: this.appForm.sa_id_number,
                             passport_number: this.appForm.passport_number,
                             dob: this.appForm.dob,

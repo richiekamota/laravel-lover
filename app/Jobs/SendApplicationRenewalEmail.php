@@ -46,6 +46,7 @@ class SendApplicationRenewalEmail implements ShouldQueue
             'application' => $application
         ], function ($m) use ($user) {
             $m->to($user->email);
+            $m->cc($application->email);
             $m->subject('My Domain contract renewal');
             $m->from('noreply@mydomain.co.za');
         });

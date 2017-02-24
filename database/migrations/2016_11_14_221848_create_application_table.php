@@ -24,6 +24,7 @@ class CreateApplicationTable extends Migration
             // Step 1
             $table->string('first_name', 191)->nullable();
             $table->string('last_name', 191)->nullable();
+            $table->string('email', 191)->nullable();
             $table->bigInteger('sa_id_number')->nullable();
             $table->string('passport_number', 191)->nullable();
             $table->dateTime('dob')->nullable();

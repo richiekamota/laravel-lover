@@ -145,6 +145,11 @@ class ApplicationProcessController extends Controller
                 ->where('application_id', $application->id)
                 ->update(['status' => 'cancelled']);
 
+            $contract = DB::table('contracts')
+                ->where('application_id', $application->id)
+                ->where('status', '=', 'cancelled')
+                ->first();
+
             $occupiedUnit = DB::table('occupation_dates')
                 ->where('application_id', $application->id)
                 ->update(['status' => 'cancelled']);

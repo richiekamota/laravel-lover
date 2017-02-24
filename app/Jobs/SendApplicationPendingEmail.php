@@ -47,6 +47,7 @@ class SendApplicationPendingEmail implements ShouldQueue
             'reason' => $this->reason,
         ], function ($message) use ($email) {
             $message->to($email);
+            $m->cc($this->application->email);
             $message->subject('Your application is pending');
         });
 
