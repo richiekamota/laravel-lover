@@ -17,6 +17,7 @@ class CreateItemsTable extends Migration
             $table->uuid('id');
             $table->primary('id');
             $table->string('name', 191);
+            $table->boolean('monthly_payment')->nullable();
             $table->text('description')->nullable();
             $table->integer('cost');
 

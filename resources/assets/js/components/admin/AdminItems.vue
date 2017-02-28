@@ -46,18 +46,29 @@
                                                name="editItemCost" v-model="newItem.cost">
                                     </label>
 
+                                    <label for="itemMonthlyPayment">
+                                        <input type="number" id="itemMonthlyPayment" ref="itemMonthlyPayment"
+                                               name="editItemMonthlyPayment" v-model="newItem.monthly_payment">
+                                        Monthly Payment
+
+                                    </label>
+
                                     <label for="itemUnitTypes">
                                         Unit Types* - (add and remove the required unit types)
                                     </label>
 
                                     <hr class="selected-unit-types__line" v-if="selectedUnitTypes.length > 0">
-                                    <div  v-for="(unit_type , index) in selectedUnitTypes" class="selected-unit-types clearfix">
-                                        <span class="selected-unit-types__name">{{unit_type.name}}</span> <span class="selected-unit-types__remove float-right" v-on:click="removeSelectedUnitType(unit_type, index)">remove</span>
+                                    <div v-for="(unit_type , index) in selectedUnitTypes"
+                                         class="selected-unit-types clearfix">
+                                        <span class="selected-unit-types__name">{{unit_type.name}}</span> <span
+                                            class="selected-unit-types__remove float-right"
+                                            v-on:click="removeSelectedUnitType(unit_type, index)">remove</span>
                                     </div>
                                     <hr class="selected-unit-types__line" v-if="selectedUnitTypes.length > 0">
 
                                     <select multiple ref="itemUnitTypes" id="itemUnitTypes" name="itemUnitTypes">
-                                        <option v-for="(unit_type , index) in unitTypes" v-bind:value="unit_type.id" v-on:click="addSelectedUnitType(unit_type, index)">
+                                        <option v-for="(unit_type , index) in unitTypes" v-bind:value="unit_type.id"
+                                                v-on:click="addSelectedUnitType(unit_type, index)">
                                             {{ unit_type.name }}
                                         </option>
                                     </select>
@@ -94,6 +105,12 @@
                                 </button>
                                 <!-- START Edit form -->
                                 <div class="accordion__content --bg-calm">
+                                    <div class="row column">
+                                        <input type="checkbox" id="editMonthlyPayment" ref="editMonthlyPayment"
+                                               name="editItemMonthlyPayment" v-model="editItem.monthly_payment" />
+                                        <label for="editMonthlyPayment"> This is a recurring / monthly payment item<br/></label>
+
+                                    </div>
                                     <label for="editItemName">
                                         Name
                                         <input type="text" id="editItemName" ref="editItemInput"
@@ -112,17 +129,24 @@
                                                name="editItemCost" v-model="editItem.cost">
                                     </label>
 
+
                                     <label for="editItemUnitTypes">
                                         Unit Types* - (add and remove the required unit types)
                                     </label>
 
                                     <hr class="selected-unit-types__line">
-                                    <div  v-for="(unit_type , index) in editItem.unit_types" class="selected-unit-types clearfix">
-                                        <span class="selected-unit-types__name">{{unit_type.name}}</span> <span class="selected-unit-types__remove float-right" v-on:click="removeEditSelectedUnitType(unit_type, index)">remove</span>
+                                    <div v-for="(unit_type , index) in editItem.unit_types"
+                                         class="selected-unit-types clearfix">
+                                        <span class="selected-unit-types__name">{{unit_type.name}}</span> <span
+                                            class="selected-unit-types__remove float-right"
+                                            v-on:click="removeEditSelectedUnitType(unit_type, index)">remove</span>
                                     </div>
                                     <hr class="selected-unit-types__line">
-                                    <select multiple ref="editItemUnitTypes" id="editItemUnitTypes" name="editItemUnitTypes">
-                                        <option v-for="(unit_type , index) in editingUnitTypes" v-bind:value="unit_type.id" v-on:click="addEditSelectedUnitType(unit_type, index)">
+                                    <select multiple ref="editItemUnitTypes" id="editItemUnitTypes"
+                                            name="editItemUnitTypes">
+                                        <option v-for="(unit_type , index) in editingUnitTypes"
+                                                v-bind:value="unit_type.id"
+                                                v-on:click="addEditSelectedUnitType(unit_type, index)">
                                             {{ unit_type.name }}
                                         </option>
                                     </select>
@@ -176,6 +200,7 @@
                     name: '',
                     description: '',
                     cost: '',
+                    monthly_payment: '',
                     unit_types: [],
                     arrayIndex: '',
                 },
@@ -198,7 +223,7 @@
 
                 this.loading = true;
 
-                this.selectedUnitTypes.forEach((item) =>{
+                this.selectedUnitTypes.forEach((item) => {
                     this.newItem.unit_types.push(item.id);
                 });
 
@@ -224,24 +249,24 @@
 
             },
 
-            addSelectedUnitType: function(unit_type, index){
+            addSelectedUnitType: function (unit_type, index) {
                 this.selectedUnitTypes.push(unit_type);
-                this.unitTypes.splice(index,1);
+                this.unitTypes.splice(index, 1);
             },
 
-            removeSelectedUnitType: function(unit_type, index){
-                this.selectedUnitTypes.splice(index,1);
+            removeSelectedUnitType: function (unit_type, index) {
+                this.selectedUnitTypes.splice(index, 1);
                 this.unitTypes.push(unit_type);
 
             },
 
-            addEditSelectedUnitType: function(unit_type, index){
+            addEditSelectedUnitType: function (unit_type, index) {
                 this.editItem.unit_types.push(unit_type);
-                this.editingUnitTypes.splice(index,1);
+                this.editingUnitTypes.splice(index, 1);
             },
 
-            removeEditSelectedUnitType: function(unit_type, index){
-                this.editItem.unit_types.splice(index,1);
+            removeEditSelectedUnitType: function (unit_type, index) {
+                this.editItem.unit_types.splice(index, 1);
                 this.editingUnitTypes.push(unit_type);
 
             },
@@ -260,7 +285,7 @@
                 // reset to empty array
                 this.editItem.unit_types = [];
 
-                editItemUnitTypes.forEach((item) =>{
+                editItemUnitTypes.forEach((item) => {
                     this.editItem.unit_types.push(item.id);
                 });
 
@@ -332,7 +357,7 @@
                 // We also need the array index so when we update successfully we know which index to update.
 
                 // Get an array featuring all the unit type id's
-                let unitTypeIDArray = this.items[index].unit_types.map((unitType)=>{
+                let unitTypeIDArray = this.items[index].unit_types.map((unitType) => {
                     return unitType.id;
                 });
 
@@ -351,6 +376,7 @@
                 this.editItem.name = this.items[index].name;
                 this.editItem.description = this.items[index].description;
                 this.editItem.cost = this.items[index].cost;
+                this.editItem.monthly_payment = this.items[index].monthly_payment;
                 this.editItem.unit_types = this.items[index].unit_types;
 
             },

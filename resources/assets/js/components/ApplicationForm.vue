@@ -177,7 +177,8 @@
                                            v-model="appForm.current_property_owner"><label for="current_property_owner">Are
                                     you the owner of the property where you currently stay?
                                     <br/>
-                                    </label>
+                                </label>
+
                                 </div>
 
                                 <template v-if="appForm.current_property_owner == false || appForm.current_property_owner == ''" >
