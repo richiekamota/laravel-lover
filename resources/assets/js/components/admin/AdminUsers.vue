@@ -255,10 +255,12 @@
                     '/users/' + this.editUser.id,
                     JSON.stringify(this.editUser)
                 ).then((response) => {
+
                     // If the response is successful, lets set the name to the edited object
                     this.loading = false;
-                    this.filteredUsers[this.editUser.index] = this.editUser;
-                    this.users[this.editUser.index] = this.editUser;
+                    this.filteredUsers[this.editUser.index].tenant_code = this.editUser.tenant_code;
+                    this.users[this.editUser.index].tenant_code = this.editUser.tenant_code;
+
                     // To prevent reactivity from going accross, let's reassign the object.
                     this.createEditableObject(this.editUser.index);
                 }, (err) => {
@@ -399,9 +401,26 @@
                         var filteredInput = this.$refs['filterInput'].value;
                         Object.keys(user).forEach(function (key) {
                             let obj = user[key];
-                            if (obj && obj.indexOf(filteredInput) !== -1) {
-                                isValid = true;
+                            if(key == 'contracts' && user[key].length > 0) {
+                                    var contracts = user[key];
+                                    var i = 0;
+                                    while(i < contracts.length){
+                                        let contractObj = contracts[i];
+                                        Object.keys(contractObj).forEach(function (ckey) {
+                                            if (contractObj[ckey] && contractObj[ckey].indexOf(filteredInput) !== -1) {
+                                                isValid = true;
+                                            }
+                                        });
+                                        i++;
+                                    }
+                            }else{
+                                if (obj && obj.indexOf(filteredInput) !== -1) {
+                                    isValid = true;
+                                }
                             }
+
+
+
                         });
                         return isValid;
                     });
