@@ -20,6 +20,7 @@ use Portal\Jobs\SendContractCancelledEmail;
 use Portal\Location;
 use Portal\Unit;
 use Portal\UnitType;
+use Portal\OccupationDate;
 use Response;
 
 class ApplicationProcessController extends Controller
@@ -348,10 +349,20 @@ class ApplicationProcessController extends Controller
 
         $items = Item::all();
 
-        $availableUnits = Unit::where('user_id', '=', '')
+        $availableUnitsArr = Unit::where('user_id', '=', '')
             ->orWhere('user_id', '=', NULL)
             ->where('type_id', $application->unit_type)
             ->get();
+
+        $availableUnits = array();
+        foreach ($availableUnitsArr as $u) {
+            $occupationDates = OccupationDate::where("unit_id", "=", $u->id)->where("status", "<>", "cancelled")->get();
+            $u->occupation_dates = $occupationDates->toArray();
+            $availableUnits[] = $u;
+        }
+        $availableUnits = json_encode($availableUnits);
+
+        // print_r($availableUnits);
 
         return view('applications.approve', compact('application', 'location', 'suggestedItems', 'items', 'availableUnits'));
 
@@ -382,7 +393,7 @@ class ApplicationProcessController extends Controller
                 ->whereStatus('draft')
                 ->first();
 
-                // Generate the secure return email for this contract
+            // Generate the secure return email for this contract
             dispatch(new SendApplicationRenewalEmail($application->id, $currentApplicationArray['user_id']));
 
         } catch (\Exception $e) {

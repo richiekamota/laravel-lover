@@ -33,19 +33,22 @@
                 <hr class="--mt2 --mb2">
 
                 <h4 class="--mb0">Contract Timings | start and end date of the contract</h4>
-                <p class="--mt1">These dates has been taken from the users contract requests but you can update them if needed.</p>
+                <p class="--mt1">These dates has been taken from the users contract requests but you can update them if
+                    needed.</p>
 
                 <div class="row">
                     <div class="column">
                         <label for="unit_occupation_date">
                             Unit Occupation Date
-                            <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="unit_occupation_date" v-model="unit_occupation_date" @update='unit_occupation_date = $event' required />
+                            <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="unit_occupation_date"
+                                       v-model="unit_occupation_date" @change="filterUnits()" @update='unit_occupation_date = $event' required/>
                         </label>
                     </div>
                     <div class="column">
                         <label for="unit_vacation_date">
                             Unit Vacation Date
-                            <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="unit_vacation_date" v-model="unit_vacation_date" @update='unit_vacation_date = $event' required />
+                            <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="unit_vacation_date"
+                                       v-model="unit_vacation_date" @change="filterUnits()" @update='unit_vacation_date = $event' required/>
                         </label>
                     </div>
                 </div>
@@ -53,13 +56,18 @@
                 <hr class="--mt2 --mb2">
 
                 <h4 class="--mb0">Contract Unit | the unit the tenant will be living in</h4>
-                <p class="--mt1">Select the unit from the list, these are the available units matching the applicants requested type and location.</p>
+                <p class="--mt1">Select the unit from the list, these are the available units matching the applicants
+                    requested type and location.</p>
 
                 <select class="styled-select" name="selectedUnit" v-model="selectedUnit" required>
-                    <option v-for="unit in availableUnits" v-bind:value="unit.id">
+
+                    <option v-for="unit in filteredUnits" v-bind:value="unit.id">
                         {{ unit.code }}
                     </option>
                 </select>
+                <p v-if="filteredUnits.length == 0">
+                    No units available for selected occupation date. Please select a different occupation date range.
+                </p>
 
                 <hr class="--mt2 --mb2">
 
@@ -74,7 +82,8 @@
                     <h4>Available Items</h4>
                 </div>
                 <select multiple ref="items" id="items" name="items" class="available-items">
-                    <option v-for="(item , index) in items" v-bind:value="item.id" v-on:click="addSelectedItem(item, index)">
+                    <option v-for="(item , index) in items" v-bind:value="item.id"
+                            v-on:click="addSelectedItem(item, index)">
                         {{ item.name }}
                     </option>
                 </select>
@@ -83,8 +92,10 @@
                     <h4>Selected Items</h4>
                 </div>
                 <div v-if="selectedItems.length > 0">
-                    <div v-for="(item , index) in selectedItems" class="selected-unit-types clearfix" v-on:click="removeSelectedItem(item, index)">
-                        <span class="selected-unit-types__name">{{item.name}}</span> <span class="selected-unit-types__cost float-right">R{{item.cost.toFixed(2)}}</span>
+                    <div v-for="(item , index) in selectedItems" class="selected-unit-types clearfix"
+                         v-on:click="removeSelectedItem(item, index)">
+                        <span class="selected-unit-types__name">{{item.name}}</span> <span
+                            class="selected-unit-types__cost float-right">R{{item.cost.toFixed(2)}}</span>
                     </div>
                     <hr class="selected-unit-types__line">
                     <span class="selected-unit-types__name"><b>Total Cost:</b></span> <span class="float-right">R{{totalCost.toFixed(2)}}</span>
@@ -107,7 +118,8 @@
 
                         <div class="row column">
                             <a>
-                                <button id="double-check" class="button button--approve --expanded" v-on:click="checkApprovedItems()">
+                                <button id="double-check" class="button button--approve --expanded"
+                                        v-on:click="checkApprovedItems()">
                                     <span v-if="loading">
                                         <loading></loading>
                                     </span>
@@ -124,7 +136,8 @@
                                 and its automatically generated and emailed to the applicant.</p>
 
                             <a>
-                                <button id="pending-application" class="button button--focused --expanded" v-on:click="confirmApproved()">
+                                <button id="pending-application" class="button button--focused --expanded"
+                                        v-on:click="confirmApproved()">
                                     <span v-if="loading">
                                         <loading></loading>
                                     </span>
@@ -145,24 +158,27 @@
 </template>
 <script>
 
-    import Flatpickr  from 'vue-flatpickr';
+
+    import VueFlatpickr from 'vue-flatpickr';
+
+    Vue.use(VueFlatpickr);
 
     var moment = require('moment');
 
+
+
     export default {
-        components: {
-            Flatpickr
-        },
         props: ['propApplication', 'propLocation', 'propSuggestedItems', 'propItems', 'propAvailableUnits'],
         data(){
             return {
                 application: {},
                 location: {},
-                selectedItems : [],
+                selectedItems: [],
                 items: [],
                 availableUnits: [],
-                unit_occupation_date: {},
-                unit_vacation_date: {},
+                filteredUnits: [],
+                unit_occupation_date: '',
+                unit_vacation_date: '',
                 selectedUnit: {},
                 totalCost: 0,
                 loading: false,
@@ -177,27 +193,41 @@
             this.selectedItems = JSON.parse(this.propSuggestedItems);
             this.items = [];
             this.availableUnits = JSON.parse(this.propAvailableUnits);
+            this.filteredUnits = JSON.parse(this.propAvailableUnits);
 
             this.unit_occupation_date = this.application.unit_occupation_date;
 
             this.unit_vacation_date = moment(this.unit_occupation_date).add(this.application.unit_lease_length, 'months');
 
             this.filterItems();
+            this.filterUnits();
+
+        },
+
+        watch: {
+            // whenever question changes, this function will run
+            unit_occupation_date: function () {
+                this.filterUnits();
+            },
+
+            unit_vacation_date: function () {
+                this.filterUnits();
+            }
 
         },
 
         methods: {
 
-            filterItems: function(){
+            filterItems: function () {
                 let selectedItemsId = [];
                 let initialItems = JSON.parse(this.propItems);
 
-                this.selectedItems.forEach((item) =>{
+                this.selectedItems.forEach((item) => {
                     selectedItemsId.push(item.id);
                 });
 
-                initialItems.forEach((item) =>{
-                    if(!selectedItemsId.includes(item.id)){
+                initialItems.forEach((item) => {
+                    if (!selectedItemsId.includes(item.id)) {
                         this.items.push(item);
                     }
                 });
@@ -205,32 +235,83 @@
                 this.updateTotalCost();
             },
 
+
+
+            filterUnits: function () {
+                this.filteredUnits = [];
+
+                for(var i = 0; i < this.availableUnits.length; i++){
+
+                    var unit = this.availableUnits[i];
+                    var isValid = false;
+
+                    if (unit.occupation_dates) {
+
+                        if (unit.occupation_dates.length > 0) {
+
+                            var ll = 0;
+
+                            var inputStartDate = new Date(this.unit_occupation_date);
+                            var inputEndDate = new Date(this.unit_vacation_date);
+
+                            while (unit.occupation_dates.length > ll) {
+                               // alert(inputStartDate + " > " + inputEndDate);
+                                var unitStartDate = new Date(unit.occupation_dates[ll].start_date);
+                                var unitEndDate = new Date(unit.occupation_dates[ll].end_date);
+                               // alert(unitStartDate + " > " + unitEndDate);
+                                if (inputStartDate != '' && inputEndDate != '') {
+
+                                    if ((unitStartDate >= inputStartDate && unitStartDate <= inputEndDate) || (unitEndDate <= inputEndDate && unitEndDate >= inputStartDate)) {
+
+                                    }else{
+                                        isValid = true;
+                                    }
+                                }
+
+                                ll++;
+
+                            }
+                        }else{
+                            isValid = true;
+                        }
+                    } else {
+                        isValid = true;
+                    }
+
+                    if(isValid == true){
+                        this.filteredUnits.push(unit);
+                    }
+                };
+
+                console.log(this.filteredUnits);
+            },
+
             toNiceDate: (date) => {
                 return moment(date).format("dddd, MMMM Do YYYY");
             },
 
-            addSelectedItem : function(item, index){
+            addSelectedItem: function (item, index) {
                 console.log(this.items);
                 this.selectedItems.push(item);
-                this.items.splice(index,1);
+                this.items.splice(index, 1);
                 this.updateTotalCost();
             },
 
-            removeSelectedItem: function(item, index){
-                this.selectedItems.splice(index,1);
+            removeSelectedItem: function (item, index) {
+                this.selectedItems.splice(index, 1);
                 this.items.push(item);
                 this.updateTotalCost();
             },
 
-            updateTotalCost: function(){
+            updateTotalCost: function () {
                 let total = 0;
-                this.selectedItems.forEach((item) =>{
+                this.selectedItems.forEach((item) => {
                     total += item.cost;
                 });
                 this.totalCost = total;
             },
 
-            checkApprovedItems: function(){
+            checkApprovedItems: function () {
 
                 this.doubleCheck = true;
 
@@ -257,14 +338,14 @@
 
                     // Redirect user to dashboard
                     swal({
-                        title: "Success!",
-                        text: "The application has been marked pending and the applicant has been emailed.",
-                        type: "success",
-                        confirmButtonText: "Ok"
-                    },
-                    function(){
-                        location.href = '/dashboard';
-                    });
+                            title: "Success!",
+                            text: "The application has been marked pending and the applicant has been emailed.",
+                            type: "success",
+                            confirmButtonText: "Ok"
+                        },
+                        function () {
+                            location.href = '/dashboard';
+                        });
 
                 }, (err) => {
                     console.log("An error occured", err);
@@ -280,7 +361,7 @@
                             errorMessage = errorMessage + obj + '\r \n';
                         });
                     }
-                   swal({
+                    swal({
                         title: "Error!",
                         text: errorMessage,
                         type: "error",
@@ -320,6 +401,6 @@
 
         }
 
-    }
+    };
 
 </script>

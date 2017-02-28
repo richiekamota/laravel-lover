@@ -175,10 +175,12 @@
                                 <div class="row column">
                                     <input type="checkbox" name="current_property_owner" id="current_property_owner"
                                            v-model="appForm.current_property_owner"><label for="current_property_owner">Are
-                                    you the owner of the property where you currently stay?</label>
+                                    you the owner of the property where you currently stay?
+                                    <br/>
+                                    </label>
                                 </div>
 
-                                <template v-if="appForm.current_property_owner == false">
+                                <template v-if="appForm.current_property_owner == false || appForm.current_property_owner == ''" >
                                     <!-- Rental Time -->
                                     <div class="styled-select">
                                         <label for="rental_time">
@@ -555,6 +557,8 @@
                             <div class="row column">
                                 <input type="checkbox" name="unit_storeroom" id="unit_storeroom"
                                        v-model="appForm.unit_storeroom"><label for="unit_storeroom">Storeroom</label>
+                                <br/>
+                                <br/>
                             </div>
 
                             <!-- Unit occupation date -->
@@ -1064,6 +1068,7 @@
                     '/step-' + step + '/' + this.formApplicationId,
                     JSON.stringify(this.formatStepData(step))
                 ).then((response) => {
+
                     // 8 Is the last step.
                     if (step != 8) {
                         this.showStep = step + 1;
@@ -1076,8 +1081,19 @@
                         this.$refs[nextAccordion].click();
                     }
                     this.loading = false;
+
                     // If we are successful, there might not be any message to say so let's set it to default.
                     this.appForm[stepMessage] = '';
+
+                    if (response.body.error == "Unit Not Available" && step == 5) {
+                        swal({
+                            title: "Warning",
+                            text: response.body.message,
+                            type: "warning",
+                            confirmButtonText: "Ok",
+                            allowOutsideClick: true
+                        });
+                    }
                 }, (err) => {
                     console.log("An error occured", err);
                     let errorMessage = '';

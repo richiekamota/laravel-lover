@@ -328,7 +328,7 @@
                                 var unitStartDate = new Date(unit.occupation_dates[i].start_date);
                                 var unitEndDate = new Date(unit.occupation_dates[i].end_date);
 
-                                console.log(unit.occupation_dates[i]);
+
                                 var curOccupationData = unit.occupation_dates[i];
                                 unit.occupation_dates.splice(i, 1);
 
@@ -361,7 +361,7 @@
                                         }
                                     }
                                 }
-                                console.log(unit.occupation_dates[i]);
+
 
                                 i++;
 
