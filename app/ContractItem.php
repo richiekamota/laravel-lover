@@ -18,7 +18,7 @@ class ContractItem extends Model
      */
 
     protected $fillable = [
-        'contract_id', 'name', 'description', 'value'
+        'contract_id', 'name', 'description', 'value', 'monthly_payment'
     ];
 
     public function contract()

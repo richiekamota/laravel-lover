@@ -18,6 +18,7 @@ use Portal\Jobs\SendApplicationPendingEmail;
 use Portal\Jobs\SendApplicationRenewalEmail;
 use Portal\Jobs\SendContractCancelledEmail;
 use Portal\Location;
+use Portal\Contract;
 use Portal\Unit;
 use Portal\UnitType;
 use Portal\OccupationDate;
@@ -38,6 +39,8 @@ class ApplicationProcessController extends Controller
 
         // Find the application based on the ID
         $application = Application::find($id);
+        $contract = Contract::where('application_id','=',$id)->first();
+        $application->contract = $contract;
 
         // return the view to the user
         return view('applications.review', compact('application'));

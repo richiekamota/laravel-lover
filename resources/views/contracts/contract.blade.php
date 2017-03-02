@@ -14,9 +14,9 @@
         <h4 class="--text-center">Between</h4>
         <h4 class="--text-center">The "Landlord" MY DOMAIN RENTALS (PTY) LTD Company Registration Number: 2014 / 241 873 / 07 (Represented by Chrystal Grauso)</h4>
         <h4 class="--text-center">And</h4>
-        <h4 class="--text-center">The "Tenant" Passport Number: XXXX</h4>
+        <h4 class="--text-center">The "Tenant" ID / Passport Number:  {{$contract['application']['resident_sa_id_number']}} {{$contract['application']['resident_passport_number']}}</h4>
         <h4 class="--text-center">For</h4>
-        <h4 class="--text-center">Unit number XXXX My Domain, 1 Lower Church Street, Wynberg, Cape Town, 7800</h4>
+        <h4 class="--text-center">Unit number {{$contract['unit']['name']}} {{$contract['location']['name']}}, {{$contract['location']['address']}}, {{$contract['location']['city']}} {{$contract['location']['region']}}</h4>
 
 
         <h3 class="--text-center">HARMONIOUS LIVING AT MY DOMAIN</h3>
@@ -41,39 +41,39 @@
         <div class="h4 --mt1">TENANT'S DETAILS</div>
         <table class="--expanded">
             <tbody>
-                <tr><td width="30%">Full Name</td><td>XXXX</td></tr>
-                <tr><td width="30%">Identity or Passport Number</td><td>XXXX</td></tr>
-                <tr><td width="30%">Physical Address</td><td>XXXX</td></tr>
-                <tr><td width="30%">Telephone Number</td><td>XXXX</td></tr>
-                <tr><td width="30%">Email Address</td><td>XXXX</td></tr>
-                <tr><td width="30%">Lease Period</td><td>XXXX</td></tr>
+                <tr><td width="30%">Full Name</td><td>{{$contract['application']['resident_first_name']}} {{$contract['application']['resident_last']}}</td></tr>
+                <tr><td width="30%">Identity or Passport Number</td><td>{{$contract['application']['resident_sa_id_number']}}</td></tr>
+                <tr><td width="30%">Physical Address</td><td>{{$contract['application']['resident_current_address']}}</td></tr>
+                <tr><td width="30%">Telephone Number</td><td>{{$contract['application']['resident_phone_mobile']}}</td></tr>
+                <tr><td width="30%">Email Address</td><td>{{$contract['application']['resident_email']}}</td></tr>
+                <tr><td width="30%">Lease Period</td><td>{{$contract['application']['unit_lease_length']}} months</td></tr>
             </tbody>
         </table>
         <div class="h4 --mt1">LEASE AGREEMENT DETAILS</div>
         <table class="--expanded">
             <tbody>
-                <tr><td width="30%">Lease Period</td><td>XXXX</td></tr>
-                <tr><td width="30%">Start Date</td><td>XXXX</td></tr>
-                <tr><td width="30%">End Date</td><td>XXXX</td></tr>
-                <tr><td width="30%">Date And Time To Vacate</td><td>30 June 2017 at 12pm (unless residency is extended)</td></tr>
+                <tr><td width="30%">Lease Period</td><td>{{$contract['application']['unit_lease_length']}}</td></tr>
+                <tr><td width="30%">Start Date</td><td>{{$contract['start_date']}}</td></tr>
+                <tr><td width="30%">End Date</td><td>{{$contract['end_date']}}</td></tr>
+                <tr><td width="30%">Date And Time To Vacate</td><td>{{$contract['contract']['end_date']}} at 12pm (unless residency is extended)</td></tr>
                 <tr><td width="30%">Annual Rental Escalation</td><td>10%</td></tr>
             </tbody>
         </table>
         <div class="h4 --mt1">PAYMENT DETAILS</div>
         <table class="--expanded">
             <tbody>
-                <tr><td width="30%">Monthly Studio Rental</td><td>R4 20.00</td></tr>
-                <tr><td width="30%">Monthly DSTV Bouquet</td><td>DSTV included in monthly rental (TV is not included)</td></tr>
-                <tr><td width="30%">Monthly Internet Data</td><td>Uncapped and included in monthly rental</td></tr>
-                <tr><td width="30%">Monthly Parking Bay Motorcycle Rental</td><td>N/A</td></tr>
-                <tr><td width="30%">Monthly Storeroom Rental</td><td>N/A</td></tr>
-                <tr><td width="30%">Once-off Security Deposit</td><td>R4 200.00</td></tr>
-                <tr><td width="30%">Once-off Damage Deposit</td><td>R4 200.00</td></tr>
-                <tr><td width="30%">Once-off Access Card</td><td>R200.00</td></tr>
-                <tr><td width="30%">Once-off Access Mattress Protector Fee</td><td>R180.00</td></tr>
-                <tr><td width="30%">Once-off Lease & Credit Worthiness Verification Fee</td><td>R550.00</td></tr>
-                <tr><td width="30%">Total Amount</td><td>R13 530.00</td></tr>
-                <tr><td width="30%">Payable Before Occupation</td><td>R13 530.00</td></tr>
+                @foreach ($contract['items'] as $item)
+                    <tr><td width="30%">
+                            @if ($item['monthly_payment'] === 1)
+                                Monthly
+                            @else
+                               Once-off
+                            @endif
+                                {{$item['name']}}</td><td>R{{$item['value']}}</td></tr>
+                @endforeach
+
+                <tr><td width="30%"><strong>Total amount payable before occupation</strong></td><td><strong>R{{$contract['onceoff_total']}}</strong></td></tr>
+                <tr><td width="30%"><strong>Total monthly amount</strong></td><td><strong>R{{$contract['monthly_total']}}</strong></td></tr>
             </tbody>
         </table>
         <div class="h4 --mt1">MY DOMAIN MANAGEMENT DETAILS</div>

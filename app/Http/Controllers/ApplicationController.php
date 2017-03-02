@@ -461,7 +461,7 @@ class ApplicationController extends Controller
                 $occupiedUnit = OccupationDate::where('unit_id', '=', $u->id)
                     ->where('start_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
                     ->where('start_date', '<=', Carbon::parse($unit_vacation_date)->format("Y-m-d H:i:s"))
-                    ->orWhere('end_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
+                    ->where('end_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
                     ->where('end_date', '<=', Carbon::parse($unit_vacation_date)->format("Y-m-d H:i:s"))
                     ->where('status', '<>', 'cancelled')
                     ->get();
@@ -476,7 +476,7 @@ class ApplicationController extends Controller
                 $type = UnitType::where('id','=', $request->unit_type)->first();
                 return Response::json([
                     'error'   => 'Unit Not Available',
-                    'message' => "Please note, there are no ".$type->name." type units available for the occupation date specified. However, you can still submit this application and we will contact you regarding alternative accommodation.",
+                    'message' => "Please note, there are no ".$type->name." type units available for the occupation date specified. However, you can still submit this application and we will contact you regarding alternative accomoodation.",
                 ], 200);
             }
 

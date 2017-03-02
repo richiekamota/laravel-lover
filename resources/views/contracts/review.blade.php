@@ -13,7 +13,7 @@
     <hr>
 
     <div class="row">
-        <div class="column medium-8">
+        <div class="column medium-12">
             @include('contracts.contract')
         </div>
     </div>

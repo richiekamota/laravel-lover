@@ -5143,7 +5143,11 @@ body, html {
 }
 
 .contract .h4 {
-  margin-bottom: 20px;
+  margin: 40px 0px 20px;
+}
+
+.contract .--text-center {
+  margin: 10px 0px;
 }
 
 .contract ol {

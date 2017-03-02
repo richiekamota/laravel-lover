@@ -20,6 +20,7 @@ use Portal\Jobs\SendApprovedContractToAccounts;
 use Portal\Jobs\SendContractToUserEmail;
 use Portal\Unit;
 use Portal\User;
+use Portal\Location;
 use Response;
 
 class ContractsController extends Controller
@@ -70,7 +71,7 @@ class ContractsController extends Controller
         $occupiedUnit = OccupationDate::where('unit_id', '=', $request->unit_id)
             ->where('start_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
             ->where('start_date', '<=', Carbon::parse($request->unit_vacation_date)->format("Y-m-d H:i:s"))
-            ->orWhere('end_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
+            ->where('end_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
             ->where('end_date', '<=', Carbon::parse($request->unit_vacation_date)->format("Y-m-d H:i:s"))
             ->where('status', '<>', 'cancelled')
             ->get();
@@ -78,7 +79,7 @@ class ContractsController extends Controller
         if (!empty($occupiedUnit->toArray())) {
             return Response::json([
                 'error'   => '',
-                'message' => "The selected unit is not available for the occupation date period specified.",
+                'message' => "The selected unit is not available for the occupation date period specified." . json_encode($occupiedUnit->toArray(), true)
             ], 422);
         }
 
@@ -106,12 +107,12 @@ class ContractsController extends Controller
 
             // Create entry in occupation dates table
             $occupationDate = OccupationDate::create([
-                'contract_id' => $contract->id,
+                'contract_id'    => $contract->id,
                 'application_id' => $id,
-                'unit_id'     => $request->unit_id,
-                'status'     => 'pending',
-                'start_date'  => Carbon::parse($request->unit_occupation_date),
-                'end_date'    => Carbon::parse($request->unit_vacation_date)
+                'unit_id'        => $request->unit_id,
+                'status'         => 'pending',
+                'start_date'     => Carbon::parse($request->unit_occupation_date),
+                'end_date'       => Carbon::parse($request->unit_vacation_date)
             ]);
 
             // Save the items array into the contract so we
@@ -122,10 +123,11 @@ class ContractsController extends Controller
 
                     // Create the contract item
                     ContractItem::create([
-                        'contract_id' => $contract->id,
-                        'name'        => $item['name'],
-                        'description' => $item['description'],
-                        'value'       => $item['cost']
+                        'contract_id'     => $contract->id,
+                        'name'            => $item['name'],
+                        'description'     => $item['description'],
+                        'value'           => $item['cost'],
+                        'monthly_payment' => ($item['monthly_payment']?$item['monthly_payment']:0),
                     ]);
 
                 }
@@ -136,7 +138,13 @@ class ContractsController extends Controller
             // eg FirstName20160424.pdf
             $pdfName = ucfirst(preg_replace('/[^\w-]/', '', $applicationUser->first_name)) . ucfirst(preg_replace('/[^\w-]/', '', $applicationUser->last_name)) . \Carbon\Carbon::today()->toDateString();
 
-            $data = ['name' => $applicationUser->first_name];
+            $contract_data = Contract::where('id','=',$contract->id)->with('items', 'user')->first();
+            $contract_data->application = Application::findOrFail($contract_data->application_id);
+            $contract_data->unit = Unit::findOrFail($contract_data->unit_id);
+            $contract_data->location = Location::findOrFail($contract_data->unit->location_id);
+            $contract_data->occupation_date = OccupationDate::where('application_id', '=', $contract_data->application_id)->first();
+
+            $data = ['name' => $applicationUser->first_name, 'contract' => $contract_data];
             $filePath = storage_path('contracts/' . $pdfName . '.pdf');
 
             // Delete existing PDF
@@ -220,6 +228,23 @@ class ContractsController extends Controller
 
             // Find the secureLink in the DB
             $contract = Contract::whereSecureLink($secureLink)->with('items', 'user')->first();
+            $contract->application = Application::findOrFail($contract->application_id);
+            $contract->unit = Unit::findOrFail($contract->unit_id);
+            $contract->location = Location::findOrFail($contract->unit->location_id);
+            $contract->occupation_date = OccupationDate::where('application_id', '=', $contract->application_id)->first();
+
+            // print_r($contract->toArray());
+
+            $contract->onceoff_total = 0;
+            $contract->monthly_total = 0;
+
+            foreach($contract->items as $item){
+                if($item->monthly_payment == 1){
+                    $contract->monthly_total += $item->value;
+                }else{
+                    $contract->onceoff_total += $item->value;
+                }
+            }
 
             // Check the secure link user_id matches that of the Auth::user()
             abort_unless($contract->user_id == Auth::user()->id, 401);
@@ -257,7 +282,7 @@ class ContractsController extends Controller
             $contract->approved = Carbon::now();
             $contract->save();
 
-            $occupationDate = OccupationDate::where('contract_id','=', $contract->idphpphp );
+            $occupationDate = OccupationDate::where('contract_id', '=', $contract->idphpphp);
 
             $occupationDate->status = 'approved';
             $occupationDate->save();

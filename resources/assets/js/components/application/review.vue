@@ -952,6 +952,14 @@
                     </div>
                     <div class="row column">
 
+                        <button id="view-contract" class="button button--cancel --expanded"
+                                v-on:click="viewContract()" v-bind:disabled="loading">
+                            View Contract
+                        </button>
+
+                    </div>
+                    <div class="row column">
+
                         <button id="renew-application" class="button button--cancel --expanded"
                                 v-on:click="submitForRenew()" v-bind:disabled="loading">
                             Renew Contract
@@ -1014,6 +1022,10 @@
 
             decline: function() {
                 this.declineInput = !this.declineInput;
+            },
+
+            viewContract: function() {
+                window.location.href = '/contracts/secure/' + this.application.contract.secure_link;
             },
 
             submitDecline: function(){
