@@ -16,61 +16,61 @@ class ContractPolicy
      * @param $user
      * @return bool
      */
-    public function before($user)
+    public function before( $user )
     {
 
         // If the users role is admin then allow
         // them access to this.
-        if ($user->role == 'admin') {
-            return true;
+        if ( $user->role == 'admin' ) {
+            return TRUE;
         }
 
     }
 
     /**
-     * Determine whether the user can view the contract.
+     * Determine whether the users can view the contract.
      *
-     * @param  \Portal\User  $user
-     * @param  \Portal\Contract  $contract
+     * @param  \Portal\User $user
      * @return mixed
+     * @internal param Contract $contract
      */
-    public function view(User $user, Contract $contract)
+    public function view( User $user )
     {
-        return false;
+        if ( $user->role != 'tenant' ) {
+            return TRUE;
+        }
+
+        return FALSE;
     }
 
     /**
-     * Determine whether the user can create contracts.
+     * Determine whether the users can create contracts.
      *
-     * @param  \Portal\User  $user
+     * @param  \Portal\User $user
      * @return mixed
      */
-    public function create(User $user)
+    public function create( User $user )
     {
-        return false;
+        if ( $user->role != 'tenant' ) {
+            return TRUE;
+        }
+
+        return FALSE;
     }
 
     /**
-     * Determine whether the user can update the contract.
+     * Determine whether the users can delete the contract.
      *
-     * @param  \Portal\User  $user
-     * @param  \Portal\Contract  $contract
+     * @param  \Portal\User $user
      * @return mixed
+     * @internal param Contract $contract
      */
-    public function update(User $user, Contract $contract)
+    public function delete( User $user )
     {
-        return false;
-    }
+        if ( $user->role != 'tenant' ) {
+            return TRUE;
+        }
 
-    /**
-     * Determine whether the user can delete the contract.
-     *
-     * @param  \Portal\User  $user
-     * @param  \Portal\Contract  $contract
-     * @return mixed
-     */
-    public function delete(User $user, Contract $contract)
-    {
-        return false;
+        return FALSE;
     }
 }

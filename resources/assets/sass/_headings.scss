@@ -1,0 +1,40 @@
+h1, .h1 {
+    font-size: 36px;
+    line-height: 27px;
+    font-family: $opensanssemibold;
+}
+
+h2, .h2 {
+    font-size: 24px;
+    line-height: 1;
+    font-family: $opensanssemibold;
+}
+
+h3, .h3 {
+    font-size: 20px;
+    line-height: 1;
+    font-family: $opensanssemibold;
+}
+
+h4, .h4 {
+    font-size: 18px;
+    line-height: 1;
+    font-family: $opensanssemibold;
+    margin: 0;
+}
+
+h5, .h5 {
+
+}
+
+h6, .h6 {
+
+}
+
+.title-bar {
+    background-color: $clouded;
+    border: solid 1px $mist;
+    display: block;
+    padding: 12px 18px;
+    color: $concrete;
+}

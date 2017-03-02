@@ -1,0 +1,38 @@
+.contract {
+  .h4{
+    margin: 40px 0px 20px;
+  }
+
+  .--text-center{
+    margin: 10px 0px;
+  }
+
+  ol {
+    counter-reset: section;
+    list-style-type: none;
+    padding-left: 10px;
+
+    > li {
+      overflow: hidden;
+      margin-bottom: 10px;
+
+      &::before{
+        counter-increment: section;
+        content: counters(section, ".") " ";
+        font-weight: bold;
+        float: left;
+        margin-right: 10px;
+      }
+    }
+  }
+  table{
+    td{
+      padding: 5px;
+      border-top: 1px solid #eceeef;
+    }
+  }
+}
+
+.contract-approve{
+
+}

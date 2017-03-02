@@ -1,0 +1,136 @@
+// Buttons
+
+.button {
+  background-color: $mist;
+  display: inline-block;
+  text-align: center;
+  line-height: 1;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -webkit-transition: background-color 0.25s ease-out, color 0.25s ease-out;
+  transition: background-color 0.25s ease-out, color 0.25s ease-out;
+  vertical-align: middle;
+  border: 2px solid $focused;
+  border-radius: 0.3rem;
+  padding: 0.85em 3em;
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  color: $focused;
+  font-family: $opensansbold;
+  text-transform: uppercase;
+
+  &:hover{
+    background-color: $calm;
+    color: $focused;
+  }
+  &:active, &:focus{
+    background-color: $white;
+    color: $focused;
+  }
+  &[disabled]{
+    color: $slate;
+    border-color: $slate;
+    background: $mist;
+    cursor: not-allowed;
+  }
+
+  &--large{
+    font-size: 24px;
+  }
+
+  &--small{
+    padding: 0.3em 1em;
+  }
+
+  &--block{
+    display: block;
+    width:100%;
+  }
+
+  &--focused{
+    color: $white;
+    background-color: $focused;
+
+    &:hover{
+      background-color: $calm;
+    }
+    &:active, &:focus{
+      background-color: $calm;
+      border-color: $calm;
+      color: $focused;
+    }
+  }
+
+  &--exuberant{
+    background-color: $exuberant;
+    border-color: $exuberant;
+    color: $white;
+
+    &:hover{
+      background-color: #F94E8C;
+      border-color: #F94E8C;
+      color: $white;
+    }
+
+    &:active, &:focus{
+      background-color: #CB1A5A;
+      border-color: #CB1A5A;
+      color: $white;
+    }
+  }
+
+  &--approve{
+    background-color: $white;
+    border-color: $focused;
+    color: $focused;
+
+    &:hover{
+      background-color: $breeze;
+      border-color: $breeze;
+      color: $white;
+    }
+
+    &:active, &:focus{
+      background-color: $breeze;
+      border-color: $breeze;
+      color: $focused;
+    }
+  }
+
+  &--decline{
+    background-color: $white;
+    border-color: $exuberant;
+    color: $exuberant;
+
+    &:hover{
+      background-color: $exuberant;
+      border-color: $exuberant;
+      color: $white;
+    }
+
+    &:active, &:focus{
+      background-color: $exuberant;
+      border-color: $exuberant;
+      color: $white;
+    }
+  }
+
+  &--pending{
+    background-color: $white;
+    border-color: $alarmed;
+    color: $alarmed;
+
+    &:hover{
+      background-color: $alarmed;
+      border-color: $alarmed;
+      color: $white;
+    }
+
+    &:active, &:focus{
+      background-color: $alarmed;
+      border-color: $alarmed;
+      color: $blazed;
+    }
+  }
+
+}

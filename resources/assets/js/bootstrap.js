@@ -8,7 +8,10 @@ window._ = require('lodash');
  */
 
 window.$ = window.jQuery = require('jquery');
-require('bootstrap-sass');
+
+// Other requires
+window.Dropzone = require('dropzone');
+window.swal = require('sweetalert');
 
 /**
  * Vue is a modern JavaScript library for building interactive web interfaces
@@ -18,6 +21,8 @@ require('bootstrap-sass');
 
 window.Vue = require('vue');
 require('vue-resource');
+require('vue-flatpickr');
+
 
 /**
  * We'll register a HTTP interceptor to attach the "CSRF" header to each of
@@ -26,6 +31,7 @@ require('vue-resource');
  */
 
 Vue.http.interceptors.push((request, next) => {
+
     request.headers.set('X-CSRF-TOKEN', Laravel.csrfToken);
 
     next();

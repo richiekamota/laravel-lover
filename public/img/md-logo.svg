@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="164px" height="164px" viewBox="0 0 164 164" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>MD Logo colour top</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Large-Devices-(-≥-1200px-)-Homepage-Copy" transform="translate(-635.000000, -238.000000)">
+            <g id="Homepage-Copy" transform="translate(-32.457031, -1.000000)">
+                <g id="MD-Logo-colour-top" transform="translate(667.457031, 239.000000)">
+                    <circle id="Combined-Shape" fill="#4A494B" cx="81.5555692" cy="81.5555692" r="81.5555692"></circle>
+                    <polygon id="Path-2" fill="#FFFFFF" points="19.5733366 118.527427 11.4177797 118.527427 22.8355594 40.7777846 54.9140833 103.847425 85.9051995 40.7777846 96.7792754 106.565944 87.5203335 106.565944 82.099273 64.1570478 54.9140833 119.614835 26.6414859 64.1570478"></polygon>
+                    <path d="M90.0288751,120.744609 L118.446392,120.744609 C140.769443,120.744609 158.874485,102.725009 158.874485,80.4969839 C158.874485,58.2631791 140.774087,40.248203 118.446392,40.248203 L91.0880383,40.248203 L92.1472016,48.4153929 L118.453358,48.4153929 C136.247246,48.4153929 150.671835,62.7744361 150.671835,80.4969839 C150.671835,98.2149082 136.240279,112.578575 118.441748,112.578575 L88.9697118,112.578575 L90.0288751,120.744609 Z" id="Fill-1" fill="#73CFCD"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

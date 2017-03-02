@@ -28,49 +28,65 @@ class ItemPolicy
     }
 
     /**
-     * Determine whether the user can view the item.
+     * Determine whether the users can view the item.
      *
-     * @param  \Portal\User  $user
-     * @param  \Portal\Item  $item
+     * @param  \Portal\User $user
      * @return mixed
+     * @internal param Item $item
      */
-    public function view(User $user, Item $item)
+    public function view(User $user)
     {
+        if ($user->role != 'tenant') {
+            return true;
+        }
+
         return false;
     }
 
     /**
-     * Determine whether the user can create items.
+     * Determine whether the users can create items.
      *
      * @param  \Portal\User  $user
      * @return mixed
      */
     public function create(User $user)
     {
+        if ($user->role != 'tenant') {
+            return true;
+        }
+
         return false;
     }
 
     /**
-     * Determine whether the user can update the item.
+     * Determine whether the users can update the item.
      *
-     * @param  \Portal\User  $user
-     * @param  \Portal\Item  $item
+     * @param  \Portal\User $user
      * @return mixed
+     * @internal param Item $item
      */
-    public function update(User $user, Item $item)
+    public function update(User $user)
     {
+        if ($user->role != 'tenant') {
+            return true;
+        }
+
         return false;
     }
 
     /**
-     * Determine whether the user can delete the item.
+     * Determine whether the users can delete the item.
      *
-     * @param  \Portal\User  $user
-     * @param  \Portal\Item  $item
+     * @param  \Portal\User $user
      * @return mixed
+     * @internal param Item $item
      */
-    public function delete(User $user, Item $item)
+    public function delete(User $user)
     {
+        if ($user->role != 'tenant') {
+            return true;
+        }
+
         return false;
     }
 }

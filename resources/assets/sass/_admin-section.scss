@@ -1,0 +1,47 @@
+.admin-menu {
+  min-height: 100vh;
+
+  &__links {
+    padding-left: 0;
+    list-style: none;
+  }
+
+  &__link-item{
+    padding: 0 14px;
+  }
+
+  &__link-active{
+    border-top: 1px solid $concrete;
+    border-bottom: 1px solid $concrete;
+  }
+
+  &__link {
+    display: block;
+    color: #000;
+    padding: 14px 0;
+    text-decoration: none;
+    font-family: $opensans;
+    font-size: 15px;
+    text-transform: uppercase;
+    border-bottom: 1px solid $focused;
+
+    .admin-menu__link-active &{
+      border-bottom: none;
+      font-family: $opensanssemibold;
+    }
+
+    &:hover {
+      color: $focused;
+    }
+  }
+
+}
+
+.application {
+  background-color: #ddd;
+  padding: 0px 20px;
+
+  &:nth-child(even) {
+    background-color: #eee;
+  }
+}

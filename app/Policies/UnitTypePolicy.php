@@ -28,42 +28,56 @@ class UnitTypePolicy
     }
 
     /**
-     * Determine whether the user can view the unitType.
+     * Determine whether the users can view the unitType.
      *
-     * @param  \Portal\User  $user
-     * @param  \Portal\UnitType  $unitType
+     * @param  \Portal\User $user
+     *
      * @return mixed
+     * @internal param UnitType $unitType
      */
-    public function view(User $user, UnitType $unitType)
+    public function view(User $user)
     {
+        if ($user->role != 'tenant') {
+            return true;
+        }
+
         return false;
     }
 
     /**
-     * Determine whether the user can create unitTypes.
+     * Determine whether the users can create unitTypes.
      *
      * @param  \Portal\User  $user
      * @return mixed
      */
     public function create(User $user)
     {
+        if ($user->role != 'tenant') {
+            return true;
+        }
+
         return false;
     }
 
     /**
-     * Determine whether the user can update the unitType.
+     * Determine whether the users can update the unitType.
      *
-     * @param  \Portal\User  $user
-     * @param  \Portal\UnitType  $unitType
+     * @param  \Portal\User $user
+     *
      * @return mixed
+     * @internal param UnitType $unitType
      */
-    public function update(User $user, UnitType $unitType)
+    public function update(User $user)
     {
+        if ($user->role != 'tenant') {
+            return true;
+        }
+
         return false;
     }
 
     /**
-     * Determine whether the user can delete the unitType.
+     * Determine whether the users can delete the unitType.
      *
      * @param  \Portal\User  $user
      * @param  \Portal\UnitType  $unitType

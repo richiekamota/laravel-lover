@@ -4,3 +4,8 @@
 Homestead.yaml
 Homestead.json
 .env
+.idea/
+reports/
+selenium-debug.log
+/bin
+/storage/contracts

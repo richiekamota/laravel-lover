@@ -17,18 +17,13 @@ class ContractItem extends Model
      * do not reference them in case of change.
      */
 
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
-        'contract_id', 'name', 'value'
+        'contract_id', 'name', 'description', 'value', 'monthly_payment'
     ];
 
     public function contract()
     {
         return $this->hasOne('Portal\Contract');
     }
+
 }

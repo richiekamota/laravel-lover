@@ -2,9 +2,9 @@
 
 namespace Portal\Policies;
 
-use Portal\User;
-use Portal\Location;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Portal\Location;
+use Portal\User;
 
 class LocationPolicy
 {
@@ -14,9 +14,10 @@ class LocationPolicy
      * Check this before checking others
      *
      * @param $user
+     *
      * @return bool
      */
-    public function before($user)
+    public function before( $user )
     {
 
         // If the users role is admin then allow
@@ -28,49 +29,78 @@ class LocationPolicy
     }
 
     /**
-     * Determine whether the user can view the location.
+     * Determine whether the users can view the location.
      *
-     * @param  \Portal\User  $user
-     * @param  \Portal\Location  $location
+     * @param  \Portal\User $user
+     *
      * @return mixed
+     * @internal param Location $location
      */
-    public function view(User $user, Location $location)
+    public function view( User $user )
     {
+
+        if ($user->role != 'tenant') {
+            return true;
+        }
+
         return false;
     }
 
     /**
-     * Determine whether the user can create locations.
+     * Determine whether the users can create locations.
      *
-     * @param  \Portal\User  $user
+     * @param  \Portal\User $user
+     *
      * @return mixed
      */
-    public function create(User $user)
+    public function create( User $user )
     {
+
+        if ($user->role != 'tenant') {
+            return true;
+        }
+
         return false;
+
     }
 
     /**
-     * Determine whether the user can update the location.
+     * Determine whether the users can update the location.
      *
-     * @param  \Portal\User  $user
-     * @param  \Portal\Location  $location
+     * @param  \Portal\User $user
+     *
      * @return mixed
+     * @internal param Location $location
+     *
      */
-    public function update(User $user, Location $location)
+    public function update( User $user )
     {
+
+        if ($user->role != 'tenant') {
+            return true;
+        }
+
         return false;
+
     }
 
     /**
-     * Determine whether the user can delete the location.
+     * Determine whether the users can delete the location.
      *
-     * @param  \Portal\User  $user
-     * @param  \Portal\Location  $location
+     * @param  \Portal\User $user
+     *
      * @return mixed
+     * @internal param Location $location
+     *
      */
-    public function delete(User $user, Location $location)
+    public function delete( User $user )
     {
+
+        if ($user->role != 'tenant') {
+            return true;
+        }
+
         return false;
+
     }
 }

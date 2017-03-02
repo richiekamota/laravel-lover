@@ -13,8 +13,154 @@
 
 Auth::routes();
 
+Route::get('/register', function () {
+    return redirect('/login');
+});
+
+Route::get('/home', function () {
+    return redirect('/');
+});
+
+
 Route::get('/', 'HomeController@index');
 
-Route::get('/dashboard', 'DashboardController@index');
+Route::get('ui-kit', 'DashboardController@uiKit');
 
-Route::get('/profile', 'UserController@profile');
+/*
+|--------------------------------------------------------------------------
+| Application form - manage the users application form
+|--------------------------------------------------------------------------
+|
+*/
+
+Route::get('/application-form', 'ApplicationController@create');
+Route::post('/application-form', 'ApplicationController@store');
+
+
+Route::group(['middleware' => 'auth'], function () {
+
+    // Show the users dashboard
+    Route::get('/dashboard', 'DashboardController@index');
+
+    // Show the users profile
+    Route::get('/profile', 'UsersController@profile');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Users - manage the users of the site
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    Route::resource('users', 'UsersController');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Occupation Dates - manage the occupation of units
+    |--------------------------------------------------------------------------
+    |
+    */
+    Route::post('/occupations/export', 'OccupationDateController@exportToCSV');
+    Route::resource('occupations', 'OccupationDateController');
+    Route::post('/occupations/{id}', 'ContractsController@store');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Locations - manage the locations of units
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    Route::resource('locations', 'LocationsController');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Units - manage the units
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    Route::resource('units', 'UnitsController');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Unit types - manage the unit types
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    Route::resource('unit-types', 'UnitTypesController');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Items - manage the items a unit type might have
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    Route::resource('items', 'ItemsController');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Contracts - manage the contracts
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    Route::resource('contracts', 'ContractsController');
+
+    Route::get('/contracts/secure/{secureLink}', 'ContractsController@show');
+    Route::get('/contracts/{id}/approved', 'ContractsController@approve');
+    Route::get('/contracts/{id}/review', 'ContractsController@review');
+    Route::post('/contracts/{id}', 'ContractsController@store');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Documents - manage the documents
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    Route::post('documents/application', 'DocumentsController@storeApplicationDocument');
+    Route::get('documents/{id}', 'DocumentsController@returnDocument');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application form - manage the users application form
+    |--------------------------------------------------------------------------
+    |
+    */
+    Route::get('/application-form/new', 'ApplicationController@store_new');
+    Route::get('/application-form/{id}/edit', 'ApplicationController@edit');
+    Route::get('/application-form/{id}/cancel', 'ApplicationController@cancel');
+    Route::post('/step-1/{id}', 'ApplicationController@stepOne');
+    Route::post('/step-2/{id}', 'ApplicationController@stepTwo');
+    Route::post('/step-3/{id}', 'ApplicationController@stepThree');
+    Route::post('/step-4/{id}', 'ApplicationController@stepFour');
+    Route::post('/step-5/{id}', 'ApplicationController@stepFive');
+    Route::post('/step-6/{id}', 'ApplicationController@stepSix');
+    Route::post('/step-7/{id}', 'ApplicationController@stepSeven');
+    Route::post('/step-8/{id}', 'ApplicationController@stepEight');
+    Route::get('/application-form/{id}', 'ApplicationController@review');
+    Route::post('/application-form/{id}/submit', 'ApplicationController@submit');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Applications - manage the applications
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    Route::get('/application/{id}/review', 'ApplicationProcessController@review');
+    Route::get('/application/{id}/approve', 'ApplicationProcessController@approve');
+    Route::post('/application/{id}/approve', 'ContractsController@store');
+    Route::get('/application/{id}/pending', 'ApplicationProcessController@pending');
+    Route::post('/application/{id}/pending', 'ApplicationProcessController@processPending');
+    Route::get('/application/{id}/decline', 'ApplicationProcessController@decline');
+    Route::post('/application/{id}/decline', 'ApplicationProcessController@processDecline');
+    Route::post('/application/{id}/cancel', 'ApplicationProcessController@processCancelApproved');
+    Route::post('/application/{id}/renew', 'ApplicationProcessController@renew');
+
+});

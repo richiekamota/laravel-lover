@@ -17,7 +17,9 @@ class CreateContractItemsTable extends Migration
             $table->uuid('id');
             $table->primary('id');
             $table->uuid('contract_id');
-            $table->uuid('item_id');
+            $table->string('name', 191);
+            $table->text('description')->nullable();
+            $table->boolean('monthly_payment')->nullable();
             $table->integer('value');
 
             $table->timestamps();

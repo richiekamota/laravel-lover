@@ -3,23 +3,24 @@
 namespace Portal;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Unit extends Model
 {
     use Uuids;
+    use SoftDeletes;
 
     /*
      * A Unit is a physical room. A Contract is taken out on a Unit.
      */
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'location_id', 'code', 'type_id', 'user_id', 'contract_id'
     ];
+
+    protected $dates = ['deleted_at'];
+
+    public $incrementing = false;
 
     public function location()
     {

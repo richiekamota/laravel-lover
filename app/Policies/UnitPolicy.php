@@ -28,7 +28,7 @@ class UnitPolicy
     }
 
     /**
-     * Determine whether the user can view the unit.
+     * Determine whether the users can view the unit.
      *
      * @param  \Portal\User  $user
      * @param  \Portal\Unit  $unit
@@ -36,41 +36,57 @@ class UnitPolicy
      */
     public function view(User $user, Unit $unit)
     {
+        if ($user->role != 'tenant') {
+            return true;
+        }
+
         return false;
     }
 
     /**
-     * Determine whether the user can create units.
+     * Determine whether the users can create units.
      *
      * @param  \Portal\User  $user
      * @return mixed
      */
     public function create(User $user)
     {
+        if ($user->role != 'tenant') {
+            return true;
+        }
+
         return false;
     }
 
     /**
-     * Determine whether the user can update the unit.
+     * Determine whether the users can update the unit.
      *
-     * @param  \Portal\User  $user
-     * @param  \Portal\Unit  $unit
+     * @param  \Portal\User $user
      * @return mixed
+     * @internal param Unit $unit
      */
-    public function update(User $user, Unit $unit)
+    public function update(User $user)
     {
+        if ($user->role != 'tenant') {
+            return true;
+        }
+
         return false;
     }
 
     /**
-     * Determine whether the user can delete the unit.
+     * Determine whether the users can delete the unit.
      *
-     * @param  \Portal\User  $user
-     * @param  \Portal\Unit  $unit
+     * @param  \Portal\User $user
      * @return mixed
+     * @internal param Unit $unit
      */
-    public function delete(User $user, Unit $unit)
+    public function delete(User $user)
     {
+        if ($user->role != 'tenant') {
+            return true;
+        }
+
         return false;
     }
 }

@@ -1,22 +1,29 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
 
-                <div class="panel-body">
-                    <p>
-                        This is your dashboard
-                    </p>
-                    <p>
-                        Soon we will be showing the list of incoming applications.
-                    </p>
-                </div>
-            </div>
-        </div>
+    <div class="row column">
+
+            <h2 class="--focused">DASHBOARD | where stuff gets done</h2>
+
+            @if(!Gate::check('is-tenant'))
+
+                <open-applications prop-open-applications="{{$openApplications}}"></open-applications>
+
+                <pending-applications prop-pending-applications="{{$pendingApplications}}"></pending-applications>
+
+                <all-applications prop-all-applications="{{$allApplications}}"></all-applications>
+
+            @endif
+
+            @if(Gate::check('is-tenant'))
+
+                <tenant-applications prop-applications="{{$applications}}"></tenant-applications>
+
+                <tenant-contracts prop-contracts="{{$contracts}}"></tenant-contracts>
+
+            @endif
+
     </div>
-</div>
+
 @endsection

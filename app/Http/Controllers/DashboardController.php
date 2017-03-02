@@ -2,14 +2,16 @@
 
 namespace Portal\Http\Controllers;
 
+use Auth;
+use Gate;
 use Illuminate\Http\Request;
+use Portal\Application;
 
 class DashboardController extends Controller
 {
     /**
      * Create a new controller instance.
      *
-     * @return void
      */
     public function __construct()
     {
@@ -23,6 +25,42 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+
+        // If the user is not a tenant
+        if (Gate::denies('is-tenant')) {
+
+            $openApplications = Application::with('user', 'location')->whereStatus('open')->get();
+
+            $pendingApplications = Application::with('user', 'location')->whereStatus('pending')->get();
+
+            $allApplications = Application::with('user', 'location')
+                ->where('status', '=', 'declined')
+                ->orWhere('status', '=', 'approved')
+                ->get();
+
+            return view('dashboard', compact('openApplications', 'pendingApplications', 'allApplications'));
+
+        } else {
+
+            $applications = Auth::user()->fullApplications();
+
+            $contracts = Auth::user()->contracts;
+
+            return view('dashboard', compact('applications', 'contracts'));
+
+        }
+
+    }
+
+    /**
+     * Return the UI Kit page
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function uiKit()
+    {
+
+        return view('ui-kit');
+
     }
 }

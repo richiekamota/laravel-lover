@@ -1,0 +1,14 @@
+.page-login{
+
+  &__title{
+    margin-top: 10vh;
+    font-family: $opensansbold;
+    font-size: 48px;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: 0.5px;
+    text-align: center;
+    color: $concrete;
+    text-transform: uppercase;
+  }
+}
