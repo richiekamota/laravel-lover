@@ -329,7 +329,8 @@ class StepFiveApiTest extends Tests\TestCase
                 'unit_bike_parking'    => FALSE,
                 'unit_tv'              => FALSE,
                 'unit_storeroom'       => FALSE,
-                'unit_occupation_date' => '2016-01-21'
+                'unit_occupation_date' => '2020-01-01',
+                'hide_response'        => TRUE
             ])
             ->assertResponseStatus(200);
 

@@ -16,7 +16,9 @@
                     <div class="column">
                         <label for="pendingComment">
                             Your message to the applicant
-                            <textarea name="pendingComment" id="pendingComment" cols="30" rows="3" placeholder="Type your message to the applicant here" v-model="pendingReason"></textarea>
+                            <textarea name="pendingComment" id="pendingComment" cols="30" rows="3"
+                                      placeholder="Type your message to the applicant here"
+                                      v-model="pendingReason"></textarea>
                         </label>
                     </div>
                 </div>
@@ -27,11 +29,13 @@
                     <h3>Other possible unit types at {{location.name}}</h3>
                 </div>
 
-                <div class="row column"  v-for="(unit_type , index) in unitTypes">
+                <div class="row column" v-for="(unit_type , index) in unitTypes">
                     {{unit_type.name}} <span class="float-right">{{unit_type.total}} units available</span>
                 </div>
 
-                <button class="application-step__heading --mt2" v-on:click="accordionToggle(1, $event)" ref="accordion1" data-accordion="1" >Application Details</button>
+                <button class="application-step__heading --mt2" v-on:click="accordionToggle(1, $event)" ref="accordion1"
+                        data-accordion="1">Application Details
+                </button>
                 <div class="application-step__content application-step__content--no-padding">
 
                     <!-- User details -->
@@ -872,8 +876,9 @@
                         </div>
 
                         <div class="row column">
-                            <a >
-                                <button id="pending-application" class="button button--pending --expanded" v-on:click="confirmPending()">
+                            <a>
+                                <button id="pending-application" class="button button--pending --expanded"
+                                        v-on:click="confirmPending()">
                                     <span v-if="loading">
                                         <loading></loading>
                                     </span>
@@ -904,7 +909,7 @@
                 location: {},
                 unitTypes: [],
                 declineInput: false,
-                showStep : 0,
+                showStep: 0,
                 loading: false
             }
         },
@@ -920,7 +925,7 @@
 
         methods: {
 
-            accordionToggle: function(step, event) {
+            accordionToggle: function (step, event) {
 
                 console.log('click');
 
@@ -949,7 +954,7 @@
                 this.$http.post(
                     '/application/' + this.application.id + '/pending',
                     {
-                        'reason' : this.pendingReason
+                        'reason': this.pendingReason
                     }
                 ).then((response) => {
 
@@ -957,11 +962,14 @@
 
                     // Redirect user to dashboard
                     swal({
-                        title: "Success!",
-                        text: "The application has been marked pending and the applicant has been emailed.",
-                        type: "success",
-                        confirmButtonText: "Ok"
-                    });
+                            title: "Success!",
+                            text: "The application has been marked pending and the applicant has been emailed.",
+                            type: "success",
+                            confirmButtonText: "Ok"
+                        },
+                        function () {
+                            location.href = '/dashboard';
+                        });
 
                 }, (err) => {
 

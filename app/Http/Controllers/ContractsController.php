@@ -22,6 +22,7 @@ use Portal\Unit;
 use Portal\User;
 use Portal\Location;
 use Response;
+use Portal\Jobs\ConvertNumberToText;
 
 class ContractsController extends Controller
 {
@@ -143,9 +144,14 @@ class ContractsController extends Controller
             $contract_data->unit = Unit::findOrFail($contract_data->unit_id);
             $contract_data->location = Location::findOrFail($contract_data->unit->location_id);
             $contract_data->occupation_date = OccupationDate::where('application_id', '=', $contract_data->application_id)->first();
-
+            $contract_data->start_date = Carbon::parse($contract_data->start_date)->format("d F Y");
+            $contract_data->end_date = Carbon::parse($contract_data->end_date)->format("d F Y");
             $contract_data->onceoff_total = 0;
             $contract_data->monthly_total = 0;
+            $contract_data->deposit_total = 0;
+            $contract_data->rental_total = 0;
+            $contract_data->deposit_text = '';
+            $contract_data->rental_text = '';
 
             foreach ($contract_data->items as $item) {
                 if ($item->payment_type == 'Monthly') {
@@ -153,7 +159,27 @@ class ContractsController extends Controller
                 } else {
                     $contract_data->onceoff_total += $item->value;
                 }
+
+                if($item->payment_type == 'Deposit'){
+                    $contract_data->deposit_total += $item->value;
+                }
+
+                if($item->payment_type == 'Rental'){
+                    $contract_data->rental_total += $item->value;
+                }
+
+                $item->value = number_format($item->value,2,".",",");
             }
+            $contract_data->onceoff_total = number_format($contract_data->onceoff_total,2,".",",");
+            $contract_data->monthly_total = number_format($contract_data->monthly_total,2,".",",");
+
+            $contract_data->deposit_text = new ConvertNumberToText($contract_data->deposit_total,0,".","");
+            $contract_data->deposit_text = $contract_data->deposit_text->toWords(number_format($contract_data->deposit_total,0,".",""));
+
+            $contract_data->rental_text = new ConvertNumberToText($contract_data->rental_total);
+            $contract_data->rental_text = $contract_data->rental_text->toWords(number_format($contract_data->rental_total,0,".",""));
+
+            $contract_data->deposit_total = number_format($contract_data->deposit_total,2,".",",");
 
             $data = ['name' => $applicationUser->first_name, 'contract' => $contract_data];
             $filePath = storage_path('contracts/' . $pdfName . '.pdf');
@@ -162,7 +188,6 @@ class ContractsController extends Controller
             if (file_exists(storage_path('contracts/' . $pdfName . '.pdf'))) {
                 unlink(storage_path('contracts/' . $pdfName . '.pdf'));
             }
-
 
 
             $pdf = PDF::loadView('pdf.contract', $data)->save($filePath);
@@ -246,11 +271,17 @@ class ContractsController extends Controller
             $contract->unit = Unit::findOrFail($contract->unit_id);
             $contract->location = Location::findOrFail($contract->unit->location_id);
             $contract->occupation_date = OccupationDate::where('application_id', '=', $contract->application_id)->first();
+            $contract->start_date = Carbon::parse($contract->start_date)->format("d F Y");
+            $contract->end_date = Carbon::parse($contract->end_date)->format("d F Y");
 
             // print_r($contract->toArray());
 
             $contract->onceoff_total = 0;
             $contract->monthly_total = 0;
+            $contract->deposit_total = 0;
+            $contract->rental_total = 0;
+            $contract->deposit_text = '';
+            $contract->rental_text = '';
 
             foreach ($contract->items as $item) {
                 if ($item->payment_type == 'Monthly') {
@@ -258,7 +289,29 @@ class ContractsController extends Controller
                 } else {
                     $contract->onceoff_total += $item->value;
                 }
+
+                if($item->payment_type == 'Deposit'){
+                    $contract->deposit_total += $item->value;
+                }
+
+                if($item->payment_type == 'Rental'){
+                    $contract->rental_total += $item->value;
+                }
+
+                $item->value = number_format($item->value,2,".",",");
             }
+
+            $contract->onceoff_total = number_format($contract->onceoff_total,2,".",",");
+            $contract->monthly_total = number_format($contract->monthly_total,2,".",",");
+
+            $contract->deposit_text = new ConvertNumberToText(number_format($contract->deposit_total,0,"",""));
+            $contract->deposit_text = $contract->deposit_text->toWords(number_format($contract->deposit_total,0,".",""));
+
+            $contract->rental_text = new ConvertNumberToText($contract->rental_total);
+            $contract->rental_text = $contract->rental_text->toWords(number_format($contract->rental_total,0,".",""));
+
+            $contract->deposit_total = number_format($contract->deposit_total,2,".",",");
+
 
             // Check the secure link user_id matches that of the Auth::user()
             abort_unless($contract->user_id == Auth::user()->id, 401);
@@ -284,28 +337,31 @@ class ContractsController extends Controller
         // If the logged in user is matching the ID
         abort_unless($request->user_id == Auth::user()->id, 422);
 
-        // find the contract
-        $contract = Contract::with('user', 'unit', 'items', 'application')->find($id);
-
-        abort_unless($contract->isEmpty(), 422);
-
         DB::beginTransaction();
 
         try {
 
-            $contract->approved = Carbon::now();
-            $contract->save();
+            $contract = Contract::findOrFail($id);
+            $application = Application::findOrFail($contract->application_id);
 
-            $occupationDate = OccupationDate::where('contract_id', '=', $contract->idphpphp);
+            // find the contract
+            DB::table('contracts')
+                ->where('id', $contract->id)
+                ->update(['status' => 'approved']);
 
-            $occupationDate->status = 'approved';
-            $occupationDate->save();
+            DB::table('applications')
+                ->where('id', $contract->application_id)
+                ->update(['status' => 'approved']);
+
+            DB::table('occupation_dates')
+                ->where('contract_id', $contract->id)
+                ->update(['status' => 'approved']);
 
             // TODO do we need to update the contract on the file system
             // to show that a user has approved it.
 
             // Send an email to the accounting team so they can update the user
-            dispatch(new SendApprovedContractToAccounts(Auth::user(), $contract));
+            dispatch(new SendApprovedContractToAccounts(Auth::user(), $contract, $application));
 
             DB::commit();
 

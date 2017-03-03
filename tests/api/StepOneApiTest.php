@@ -134,6 +134,7 @@ class StepOneApiTest extends Tests\TestCase
         $this->actingAs( $user )
             ->json( 'POST', '/step-1/' . $application->id, [
                 'first_name'      => 'John',
+                'email'      => 'test@test.com',
                 'last_name'       => 'Doe',
                 'sa_id_number'    => '123456',
                 'dob'             => '1970/01/01',

@@ -18,7 +18,7 @@ class CreateApplicationTable extends Migration
             $table->uuid('id');
             $table->primary('id');
             $table->uuid('user_id');
-            $table->enum('status', ['draft', 'open', 'pending', 'declined', 'approved','cancelled']);
+            $table->enum('status', ['draft', 'open', 'pending', 'declined', 'pre-approved', 'approved','cancelled']);
             $table->enum('step', [1,2,3,4,5,6,7,8]);
 
             // Step 1

@@ -8,6 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 use Portal\Contract;
+use Portal\Application;
 use Portal\User;
 
 class SendApprovedContractToAccounts implements ShouldQueue
@@ -16,6 +17,7 @@ class SendApprovedContractToAccounts implements ShouldQueue
 
     protected $user;
     protected $contract;
+    protected $application;
 
     /**
      * Create a new job instance.
@@ -23,10 +25,11 @@ class SendApprovedContractToAccounts implements ShouldQueue
      * @param User $user
      * @param Contract $contract
      */
-    public function __construct(User $user, Contract $contract)
+    public function __construct(User $user, Contract $contract, Application $application)
     {
         $this->user = $user;
         $this->contract = $contract;
+        $this->application = $application;
     }
 
     /**
@@ -39,6 +42,7 @@ class SendApprovedContractToAccounts implements ShouldQueue
 
         Mail::send('emails.sendApprovedContractToAccounts', [
             'contract' => $this->contract,
+            'application' => $this->application,
             'user' => $this->user
         ], function ($message) {
             $message->to("accounts@swish.co.za");

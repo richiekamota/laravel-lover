@@ -17,7 +17,7 @@ class CreateItemsTable extends Migration
             $table->uuid('id');
             $table->primary('id');
             $table->string('name', 191);
-            $table->enum('payment_type', ['Rental', 'Deposit', 'Once-off', 'Monthly']);
+            $table->enum('payment_type', ['Rental', 'Deposit', 'Once-off', 'Monthly', 'Free']);
             $table->text('description')->nullable();
             $table->integer('cost');
 

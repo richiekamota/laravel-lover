@@ -472,7 +472,7 @@ class ApplicationController extends Controller
             }
 
             DB::commit();
-            if($found == 0){
+            if($found == 0 && !isset($request->hide_response)){
                 $type = UnitType::where('id','=', $request->unit_type)->first();
                 return Response::json([
                     'error'   => 'Unit Not Available',

@@ -19,7 +19,7 @@ class CreateContractItemsTable extends Migration
             $table->uuid('contract_id');
             $table->string('name', 191);
             $table->text('description')->nullable();
-            $table->enum('payment_type', ['Rental', 'Deposit', 'Once-off', 'Monthly']);
+            $table->enum('payment_type', ['Rental', 'Deposit', 'Once-off', 'Monthly', 'Free']);
             $table->integer('value');
 
             $table->timestamps();

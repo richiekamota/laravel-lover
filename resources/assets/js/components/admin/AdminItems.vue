@@ -49,17 +49,18 @@
                                     <label for="itemPaymentType">
                                         Item Payment Type
 
-                                        <select multiple ref="itemPaymentType" id="itemPaymentType" name="itemPaymentType">
+                                        <select ref="itemPaymentType" id="itemPaymentType" name="itemPaymentType" v-model="newItem.payment_type">
                                             <option value="Rental">Monthly Rental Cost</option>
                                             <option value="Deposit">Deposit</option>
                                             <option value="Once-off">Once-off Contract Item</option>
                                             <option value="Monthly">Monthly Contract Item</option>
+                                            <option value="Free">Free (Part of Contract)</option>
                                         </select>
                                     </label>
 
-                                    <label for="itemUnitTypes">
+                                    <label  for="itemUnitTypes">
                                         Unit Types* - (add and remove the required unit types)
-                                    </label>
+                                    </labelmultiple>
 
                                     <hr class="selected-unit-types__line" v-if="selectedUnitTypes.length > 0">
                                     <div v-for="(unit_type , index) in selectedUnitTypes"
@@ -70,7 +71,7 @@
                                     </div>
                                     <hr class="selected-unit-types__line" v-if="selectedUnitTypes.length > 0">
 
-                                    <select ref="itemUnitTypes" id="itemUnitTypes" name="itemUnitTypes">
+                                    <select multiple ref="itemUnitTypes" id="itemUnitTypes" name="itemUnitTypes">
                                         <option v-for="(unit_type , index) in unitTypes" v-bind:value="unit_type.id"
                                                 v-on:click="addSelectedUnitType(unit_type, index)">
                                             {{ unit_type.name }}
@@ -137,6 +138,7 @@
                                             <option value="Deposit">Deposit</option>
                                             <option value="Once-off">Once-off Contract Item</option>
                                             <option value="Monthly">Monthly Contract Item</option>
+                                            <option value="Free">Free (Part of Contract)</option>
                                         </select>
                                     </label>
 

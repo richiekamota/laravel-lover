@@ -107,7 +107,7 @@ class ApplicationProcessController extends Controller
 
             return Response::json([
                 'error'   => 'process_decline_error',
-                'message' => trans('portal.process_decline_error'),
+                'message' => trans('portal.process_decline_error').json_encode($e),
             ], 422);
 
         }
@@ -310,7 +310,7 @@ class ApplicationProcessController extends Controller
 
             return Response::json([
                 'error'   => 'process_pending_error',
-                'message' => trans('portal.process_pending_error'),
+                'message' => trans('portal.process_pending_error').json_encode($e),
             ], 422);
 
 

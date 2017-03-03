@@ -20,7 +20,7 @@ class CreateContractsTable extends Migration
             $table->uuid( 'unit_id' );
             $table->uuid( 'application_id' );
             $table->uuid( 'document_id' )->nullable();
-            $table->enum('status', ['pending', 'declined', 'accepted', 'cancelled']);
+            $table->enum('status', ['pending', 'declined', 'accepted', 'cancelled', 'approved']);
             $table->dateTime( 'start_date' );
             $table->dateTime( 'end_date' );
             $table->text( 'secure_link' )->nullable();
