@@ -32,7 +32,7 @@
         <env name="DB_DATABASE" value="portal"/>
         <env name="DB_HOST" value="localhost"/>
         <env name="DB_USERNAME" value="root"/>
-        <env name="DB_PASSWORD" value=""/>
+        <env name="DB_PASSWORD" value="root"/>
         <env name="PDF_BINARY" value="C:/sites/_tools/wkhtmltopdf/bin/wkhtmltopdf"/>
         <env name="MAIL_DRIVER" value="smtp"/>
         <env name="MAIL_HOST" value="smtp.mailtrap.io"/>
