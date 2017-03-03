@@ -79,7 +79,7 @@ class ContractsController extends Controller
         if (!empty($occupiedUnit->toArray())) {
             return Response::json([
                 'error'   => '',
-                'message' => "The selected unit is not available for the occupation date period specified." . json_encode($occupiedUnit->toArray(), true)
+                'message' => "The selected unit is not available for the occupation date period specified." . json_encode($occupiedUnit->toArray(), TRUE)
             ], 422);
         }
 
@@ -123,11 +123,11 @@ class ContractsController extends Controller
 
                     // Create the contract item
                     ContractItem::create([
-                        'contract_id'     => $contract->id,
-                        'name'            => $item['name'],
-                        'description'     => $item['description'],
-                        'value'           => $item['cost'],
-                        'monthly_payment' => ($item['monthly_payment']?$item['monthly_payment']:0),
+                        'contract_id'  => $contract->id,
+                        'name'         => $item['name'],
+                        'description'  => $item['description'],
+                        'value'        => $item['cost'],
+                        'payment_type' => $item['payment_type'],
                     ]);
 
                 }
@@ -138,11 +138,22 @@ class ContractsController extends Controller
             // eg FirstName20160424.pdf
             $pdfName = ucfirst(preg_replace('/[^\w-]/', '', $applicationUser->first_name)) . ucfirst(preg_replace('/[^\w-]/', '', $applicationUser->last_name)) . \Carbon\Carbon::today()->toDateString();
 
-            $contract_data = Contract::where('id','=',$contract->id)->with('items', 'user')->first();
+            $contract_data = Contract::where('id', '=', $contract->id)->with('items', 'user')->first();
             $contract_data->application = Application::findOrFail($contract_data->application_id);
             $contract_data->unit = Unit::findOrFail($contract_data->unit_id);
             $contract_data->location = Location::findOrFail($contract_data->unit->location_id);
             $contract_data->occupation_date = OccupationDate::where('application_id', '=', $contract_data->application_id)->first();
+
+            $contract_data->onceoff_total = 0;
+            $contract_data->monthly_total = 0;
+
+            foreach ($contract_data->items as $item) {
+                if ($item->payment_type == 'Monthly') {
+                    $contract_data->monthly_total += $item->value;
+                } else {
+                    $contract_data->onceoff_total += $item->value;
+                }
+            }
 
             $data = ['name' => $applicationUser->first_name, 'contract' => $contract_data];
             $filePath = storage_path('contracts/' . $pdfName . '.pdf');
@@ -151,6 +162,8 @@ class ContractsController extends Controller
             if (file_exists(storage_path('contracts/' . $pdfName . '.pdf'))) {
                 unlink(storage_path('contracts/' . $pdfName . '.pdf'));
             }
+
+
 
             $pdf = PDF::loadView('pdf.contract', $data)->save($filePath);
 
@@ -228,6 +241,7 @@ class ContractsController extends Controller
 
             // Find the secureLink in the DB
             $contract = Contract::whereSecureLink($secureLink)->with('items', 'user')->first();
+            $contract->items = $contract->items->sortByDesc('cost');
             $contract->application = Application::findOrFail($contract->application_id);
             $contract->unit = Unit::findOrFail($contract->unit_id);
             $contract->location = Location::findOrFail($contract->unit->location_id);
@@ -238,10 +252,10 @@ class ContractsController extends Controller
             $contract->onceoff_total = 0;
             $contract->monthly_total = 0;
 
-            foreach($contract->items as $item){
-                if($item->monthly_payment == 1){
+            foreach ($contract->items as $item) {
+                if ($item->payment_type == 'Monthly') {
                     $contract->monthly_total += $item->value;
-                }else{
+                } else {
                     $contract->onceoff_total += $item->value;
                 }
             }

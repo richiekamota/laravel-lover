@@ -34,19 +34,19 @@
 
                                 <!-- Resident First name -->
                                 <label for="first_name">
-                                    First name
+                                    First name *
                                     <input type="text" name="first_name" v-model="appForm.first_name" required>
                                 </label>
 
                                 <!-- Resident Last name -->
                                 <label for="last_name">
-                                    Last Name
+                                    Last Name *
                                     <input type="text" name="last_name" v-model="appForm.last_name" required>
                                 </label>
 
                                 <!-- Leaseholder Email -->
                                 <label for="email">
-                                    Email Address
+                                    Email Address *
                                     <input type="text" name="email" v-model="appForm.email" required>
                                 </label>
 
@@ -185,7 +185,7 @@
                                     <!-- Rental Time -->
                                     <div class="styled-select">
                                         <label for="rental_time">
-                                            How long have you rented there
+                                            How long have you rented there *
                                             <select name="rental_time" v-model="appForm.rental_time">
                                                 <option value="12">12 Months</option>
                                                 <option value="24">24 Months</option>
@@ -197,27 +197,27 @@
 
                                     <!-- Rental Amount -->
                                     <label for="rental_amount">
-                                        Monthly rental amount
+                                        Monthly rental amount *
                                         <input type="number" name="rental_amount" v-model="appForm.rental_amount"
                                                required>
                                     </label>
 
                                     <!-- Rental Name -->
                                     <label for="rental_name">
-                                        Name of the Rental Agent / Landlord
+                                        Name of the Rental Agent / Landlord *
                                         <input type="text" name="rental_name" v-model="appForm.rental_name" required>
                                     </label>
 
                                     <!-- Rental Phone Home -->
                                     <label for="rental_phone_home">
-                                        Work phone number
+                                        Work phone number *
                                         <input type="text" name="rental_phone_home" v-model="appForm.rental_phone_home"
                                                required>
                                     </label>
 
                                     <!-- Rental Phone Mobile -->
                                     <label for="rental_phone_mobile">
-                                        Mobile phone number
+                                        Mobile phone number *
                                         <input type="text" name="rental_phone_mobile"
                                                v-model="appForm.rental_phone_mobile"
                                                required>
@@ -261,13 +261,13 @@
 
                                 <!-- Occupation -->
                                 <label for="occupation">
-                                    Occupation
+                                    Occupation *
                                     <input type="text" name="occupation" v-model="appForm.occupation" required>
                                 </label>
 
                                 <!-- Current Monthly Expenses -->
                                 <label for="current_monthly_expenses">
-                                    Current monthly expenses
+                                    Current monthly expenses *
                                     <input type="text" name="current_monthly_expenses"
                                            v-model="appForm.current_monthly_expenses" required>
                                 </label>
@@ -278,21 +278,21 @@
 
                                     <!-- Employer Company -->
                                     <label for="employer_company">
-                                        Name of company
+                                        Name of company *
                                         <input type="text" name="employer_company" v-model="appForm.employer_company"
                                                required>
                                     </label>
 
                                     <!-- Employer Name -->
                                     <label for="employer_name">
-                                        Employer's name
+                                        Employer's name *
                                         <input type="text" name="employer_name" v-model="appForm.employer_name"
                                                required>
                                     </label>
 
                                     <!-- Employer phone work -->
                                     <label for="employer_phone_work">
-                                        Employer's telephone number
+                                        Employer's telephone number *
                                         <input type="text" name="employer_phone_work"
                                                v-model="appForm.employer_phone_work"
                                                required>
@@ -300,7 +300,7 @@
 
                                     <!-- Employer Email -->
                                     <label for="employer_email">
-                                        Employer's email address
+                                        Employer's email address *
                                         <input type="text" name="employer_email" v-model="appForm.employer_email"
                                                required>
                                     </label>
@@ -308,7 +308,7 @@
                                     <!-- Employer Salary -->
                                     <label for="employer_salary">
                                         Gross monthly salary before deducations and tax (copy of pay slip to be
-                                        attached)
+                                        attached) *
                                         <input type="text" name="employer_salary" v-model="appForm.employer_salary"
                                                required>
                                     </label>
@@ -347,14 +347,14 @@
 
                                 <!-- Resident First name -->
                                 <label for="resident_first_name">
-                                    First name
+                                    First name *
                                     <input type="text" name="resident_first_name" v-model="appForm.resident_first_name"
                                            required>
                                 </label>
 
                                 <!-- Resident Last name -->
                                 <label for="resident_last_name">
-                                    Last Name
+                                    Last Name *
                                     <input type="text" name="resident_last_name" v-model="appForm.resident_last_name"
                                            required>
                                 </label>
@@ -379,7 +379,7 @@
 
                                 <!-- Resident Date of birth DOB -->
                                 <label for="resident_dob">
-                                    Date Of Birth
+                                    Date Of Birth *
                                     <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="resident_dob"
                                                v-model="appForm.resident_dob" @update='appForm.resident_dob = $event'
                                                required/>
@@ -387,7 +387,7 @@
 
                                 <!-- Resident Nationality -->
                                 <label for="resident_nationality">
-                                    Nationality
+                                    Nationality *
                                     <select name="resident_nationality" v-model="appForm.resident_nationality" required
                                             v-on:change="roomInfo($event)" required>
                                         <option v-for="country in countries" v-bind:value="country.nationality">
@@ -398,7 +398,7 @@
 
                                 <!-- Resident Mobile phone number -->
                                 <label for="resident_phone_mobile">
-                                    Telephone (Mobile)
+                                    Telephone (Mobile) *
                                     <input type="text" name="resident_phone_mobile"
                                            v-model="appForm.resident_phone_mobile"
                                            required>
@@ -406,13 +406,13 @@
 
                                 <!-- Resident Email Address -->
                                 <label for="resident_email">
-                                    Email Address
+                                    Email Address *
                                     <input type="text" name="resident_email" v-model="appForm.resident_email" required>
                                 </label>
 
                                 <!-- Resident Current Address -->
                                 <label for="resident_current_address">
-                                    Address where you currently stay
+                                    Address where you currently stay *
                                     <input type="text" name="resident_current_address"
                                            v-model="appForm.resident_current_address" required>
                                 </label>
@@ -426,21 +426,21 @@
 
                                 <!-- Resident Landlord work phone number -->
                                 <label for="resident_landlord_phone_work">
-                                    Landlord's work phone number
+                                    Landlord's work phone number *
                                     <input type="text" name="resident_landlord_phone_work"
                                            v-model="appForm.resident_landlord_phone_work" required>
                                 </label>
 
                                 <!-- Resident Landlord phone number -->
                                 <label for="resident_landlord_phone_mobile">
-                                    Landlord's mobile phone number
+                                    Landlord's mobile phone number *
                                     <input type="text" name="resident_landlord_phone_mobile"
                                            v-model="appForm.resident_landlord_phone_mobile" required>
                                 </label>
 
                                 <!-- Resident Study location-->
                                 <label for="resident_study_location">
-                                    Where will you be studying
+                                    Where will you be studying *
                                     <input type="text" name="resident_study_location"
                                            v-model="appForm.resident_study_location"
                                            required>
@@ -448,14 +448,14 @@
 
                                 <!-- Resident Study year -->
                                 <label for="resident_study_year">
-                                    What year of study will you be in
+                                    What year of study will you be in *
                                     <input type="text" name="resident_study_year" v-model="appForm.resident_study_year"
                                            required>
                                 </label>
 
                                 <!-- Employer Name -->
                                 <label for="resident_gender">
-                                    What is your gender
+                                    What is your gender *
                                     <select name="resident_gender" v-model="appForm.resident_gender" required>
                                         <option value="Male">Male</option>
                                         <option value="Female">Female</option>
@@ -491,7 +491,7 @@
 
                             <!-- Unit Location -->
                             <label for="unit_location">
-                                Unit Location
+                                Unit Location *
                                 <select name="unit_location" v-model="appForm.unit_location" required>
                                     <option></option>
                                     <option v-for="location in locations" v-bind:value="location.id">
@@ -502,7 +502,7 @@
 
                             <!-- Unit Type -->
                             <label for="unit_type">
-                                Unit Type
+                                Unit Type *
                                 <select name="unit_type" v-model="appForm.unit_type" required
                                         v-on:change="roomInfo($event)">
                                     <option></option>
@@ -521,7 +521,7 @@
 
                             <!-- Unit Lease Length -->
                             <label for="unit_lease_length">
-                                Unit lease length
+                                Unit lease length *
                                 <select name="unit_lease_length" v-model="appForm.unit_lease_length" required>
                                     <option value=""></option>
                                     <option value="3">3 months</option>
@@ -564,7 +564,7 @@
 
                             <!-- Unit occupation date -->
                             <label for="unit_occupation_date">
-                                Unit Occupation Date
+                                Unit Occupation Date *
                                 <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="unit_occupation_date"
                                            v-model="appForm.unit_occupation_date"
                                            @update='appForm.unit_occupation_date = $event' required/>
@@ -636,44 +636,44 @@
 
                             <!-- Resident ID -->
                             <label for="resident_id">
-                                Resident ID
+                                Resident ID *
                                 <div id="resident_id" name="resident_id" class="dropzone"></div>
                             </label>
 
                             <!-- Resident Study permit -->
                             <label for="resident_study_permit">
-                                Resident Study Permit
+                                Resident Study Permit *
                                 <div id="resident_study_permit" name="resident_study_permit" class="dropzone"></div>
                             </label>
 
                             <!-- Resident Acceptance -->
                             <label for="resident_acceptance">
-                                Resident Acceptance
+                                Resident Acceptance *
                                 <div id="resident_acceptance" name="resident_acceptance" class="dropzone"></div>
                             </label>
 
                             <!-- Resident Financial Aid -->
                             <label for="resident_financial_aid">
-                                Resident Financial Aid
+                                Resident Financial Aid *
                                 <div id="resident_financial_aid" name="resident_financial_aid" class="dropzone"></div>
                             </label>
 
                             <!-- Leaseholder ID -->
                             <label for="leaseholder_id">
-                                Leaseholder's ID
+                                Leaseholder's ID *
                                 <div id="leaseholder_id" name="leaseholder_id" class="dropzone"></div>
                             </label>
 
                             <!-- Leaseholder Address proof -->
                             <label for="leaseholder_address_proof">
-                                Leaseholder's Proof of Address
+                                Leaseholder's Proof of Address *
                                 <div id="leaseholder_address_proof" name="leaseholder_address_proof"
                                      class="dropzone"></div>
                             </label>
 
                             <!-- Leaseholder's payslip -->
                             <label for="leaseholder_payslip">
-                                Leaseholder's payslip
+                                Leaseholder's payslip *
                                 <div id="leaseholder_payslip" name="leaseholder_payslip" class="dropzone"></div>
                             </label>
 
@@ -1069,7 +1069,6 @@
                     '/step-' + step + '/' + this.formApplicationId,
                     JSON.stringify(this.formatStepData(step))
                 ).then((response) => {
-
                     // 8 Is the last step.
                     if (step != 8) {
                         this.showStep = step + 1;
@@ -1080,6 +1079,29 @@
 
                         let nextAccordion = 'accordion' + (step + 1);
                         this.$refs[nextAccordion].click();
+                    }else{
+                        swal({
+                                title: "Application Form Complete",
+                                text: "You have successfully completed the Application Form, \n do you want to submit this application for processing?",
+                                type: "success",
+                                showCancelButton: true,
+                                confirmButtonText: 'Yes',
+                                cancelButtonText: "Not Yet",
+                                closeOnConfirm: false,
+                                closeOnCancel: true
+                            },
+                            function(isConfirm) {
+                                if (isConfirm) {
+                                    swal({
+                                        title: 'Thank You!',
+                                        text: 'Your application will be sent for processing.',
+                                        type: 'success'
+                                    }, function() {
+                                        window.location.href = '/dashboard';
+                                    });
+
+                                }
+                            });
                     }
                     this.loading = false;
 

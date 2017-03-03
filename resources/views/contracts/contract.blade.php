@@ -64,10 +64,8 @@
             <tbody>
                 @foreach ($contract['items'] as $item)
                     <tr><td width="30%">
-                            @if ($item['monthly_payment'] === 1)
-                                Monthly
-                            @else
-                               Once-off
+                            @if ($item['payment_type'] != 'Rental' && $item['payment_type'] != 'Deposit')
+                                {{$item['payment_type']}}
                             @endif
                                 {{$item['name']}}</td><td>R{{$item['value']}}</td></tr>
                 @endforeach

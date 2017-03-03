@@ -82,7 +82,8 @@ class BaseDataSeeder extends Seeder
         ] )->each( function ( $l ) use ($unit) {
             DB::table( 'item_unit_type' )->insert( [
                 'item_id' => $l->id,
-                'unit_type_id' => $unit->id
+                'unit_type_id' => $unit->id,
+
             ]);
         });
 
