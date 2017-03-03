@@ -46,16 +46,21 @@
                                                name="editItemCost" v-model="newItem.cost">
                                     </label>
 
-                                    <label for="itemMonthlyPayment">
-                                        <input type="number" id="itemMonthlyPayment" ref="itemMonthlyPayment"
-                                               name="editItemMonthlyPayment" v-model="newItem.monthly_payment">
-                                        Monthly Payment
+                                    <label for="itemPaymentType">
+                                        Item Payment Type
 
+                                        <select ref="itemPaymentType" id="itemPaymentType" name="itemPaymentType" v-model="newItem.payment_type">
+                                            <option value="Rental">Monthly Rental Cost</option>
+                                            <option value="Deposit">Deposit</option>
+                                            <option value="Once-off">Once-off Contract Item</option>
+                                            <option value="Monthly">Monthly Contract Item</option>
+                                            <option value="Free">Free (Part of Contract)</option>
+                                        </select>
                                     </label>
 
-                                    <label for="itemUnitTypes">
+                                    <label  for="itemUnitTypes">
                                         Unit Types* - (add and remove the required unit types)
-                                    </label>
+                                    </labelmultiple>
 
                                     <hr class="selected-unit-types__line" v-if="selectedUnitTypes.length > 0">
                                     <div v-for="(unit_type , index) in selectedUnitTypes"
@@ -105,12 +110,7 @@
                                 </button>
                                 <!-- START Edit form -->
                                 <div class="accordion__content --bg-calm">
-                                    <div class="row column">
-                                        <input type="checkbox" id="editMonthlyPayment" ref="editMonthlyPayment"
-                                               name="editItemMonthlyPayment" v-model="editItem.monthly_payment" />
-                                        <label for="editMonthlyPayment"> This is a recurring / monthly payment item<br/></label>
 
-                                    </div>
                                     <label for="editItemName">
                                         Name
                                         <input type="text" id="editItemName" ref="editItemInput"
@@ -127,6 +127,19 @@
                                         Cost
                                         <input type="number" id="editItemCost" ref="editItemCost"
                                                name="editItemCost" v-model="editItem.cost">
+                                    </label>
+
+
+                                    <label for="itemPaymentType">
+                                        Item Payment Type
+
+                                        <select ref="itemPaymentType" id="itemPaymentType" name="itemPaymentType" v-model="editItem.payment_type">
+                                            <option value="Rental">Monthly Rental Cost</option>
+                                            <option value="Deposit">Deposit</option>
+                                            <option value="Once-off">Once-off Contract Item</option>
+                                            <option value="Monthly">Monthly Contract Item</option>
+                                            <option value="Free">Free (Part of Contract)</option>
+                                        </select>
                                     </label>
 
 
@@ -200,7 +213,7 @@
                     name: '',
                     description: '',
                     cost: '',
-                    monthly_payment: '',
+                    payment_type: '',
                     unit_types: [],
                     arrayIndex: '',
                 },
@@ -376,7 +389,7 @@
                 this.editItem.name = this.items[index].name;
                 this.editItem.description = this.items[index].description;
                 this.editItem.cost = this.items[index].cost;
-                this.editItem.monthly_payment = this.items[index].monthly_payment;
+                this.editItem.payment_type = this.items[index].payment_type;
                 this.editItem.unit_types = this.items[index].unit_types;
 
             },
@@ -410,7 +423,8 @@
                     name: '',
                     description: '',
                     cost: '',
-                    unit_types: []
+                    unit_types: [],
+                    payment_type: ''
                 };
             }
 

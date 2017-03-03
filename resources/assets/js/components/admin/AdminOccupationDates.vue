@@ -301,6 +301,16 @@
                 this.filterMessage = '';
 
                 if (this.filterLocation != '') {
+                    var locationName = '';
+
+                    var locationLoop = this.locations.filter((location) => {
+                        if (location.id == this.filterLocation) {
+                            locationName = location.name;
+                        }
+
+                        return true;
+                    });
+
                     this.filteredUnits = this.units.filter((unit) => {
                         var isValid = false;
 
@@ -366,7 +376,7 @@
                                 i++;
 
                             }
-                        }else{
+                        } else {
                             if (this.occupied == 0 && !unit.occupation_dates.length) {
                                 isValid = true;
                             }
@@ -377,7 +387,7 @@
 
                     this.pagination.currentPage = 1;
 
-                }else{
+                } else {
                     this.filteredUnits = [];
                     this.filterMessage = 'Please select START and END dates for this filter.';
 
@@ -390,7 +400,7 @@
                     this.filterSummary = this.filterSummary + ' Between ' + this.filterStartDate + ' and ' + this.filterEndDate + '.';
                 }
                 if (this.filterLocation) {
-                    this.filterSummary = this.filterSummary + (this.filterLocation != '' ? ' In ' + this.filterLocation + '.' : '');
+                    this.filterSummary = this.filterSummary + (this.filterLocation != '' ? ' In ' + locationName + '.' : '');
                 }
 
             },

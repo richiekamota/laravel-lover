@@ -17,7 +17,7 @@ class Item extends Model
      */
 
     protected $fillable = [
-        'name', 'description', 'cost', 'monthly_payment'
+        'name', 'description', 'cost', 'payment_type'
     ];
 
     protected $dates = ['deleted_at'];

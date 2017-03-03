@@ -161,7 +161,7 @@
                     // Redirect user to dashboard
                     swal({
                         title: "Success!",
-                        text: "The application has been marked pending and the applicant has been emailed.",
+                        text: "Your contract will now be sent for final processing.",
                         type: "success",
                         confirmButtonText: "Ok"
                     });

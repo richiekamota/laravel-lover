@@ -318,7 +318,7 @@
                 ).then((response) => {
                     swal({
                         title: "Application Cancelled",
-                        text: "Your application has been successfully cancelled.",
+                        text: "The application has been successfully renewed.",
                         type: "success",
                         confirmButtonText: "Ok",
                     });
@@ -407,9 +407,7 @@
                                     while(i < contracts.length){
                                         let contractObj = contracts[i];
                                         Object.keys(contractObj).forEach(function (ckey) {
-                                            if (contractObj[ckey] && contractObj[ckey].indexOf(filteredInput) !== -1) {
-                                                isValid = true;
-                                            }
+                                            alert(contractObj[ckey]);
                                         });
                                         i++;
                                     }

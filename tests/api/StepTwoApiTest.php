@@ -52,12 +52,11 @@ class StepTwoApiTest extends Tests\TestCase
 
         $this->actingAs( $user )
             ->json( 'POST', '/step-2/' . $application->id, [
-                'current_property_owner' => 'false',
-                'rental_time'            => '06'
+                'current_property_owner' => 'false'
             ] )
             ->assertResponseStatus( 422 )
             ->seeJson( [
-                "rental_time" => ["The selected rental time is invalid."]
+                "rental_time" => ["The rental time field is required when current property owner is false."]
             ] );
 
     }
@@ -79,7 +78,7 @@ class StepTwoApiTest extends Tests\TestCase
             ] )
             ->assertResponseStatus( 422 )
             ->seeJson( [
-                "rental_amount" => ["The rental amount must be an integer."]
+                "rental_amount" => ["The rental amount must be a number."]
             ] );
 
     }

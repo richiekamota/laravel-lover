@@ -134,7 +134,7 @@ class ItemsController extends Controller
 
             return Response::json( [
                 'error'   => 'items_store_error',
-                'message' => trans( 'portal.items_store_error' ),
+                'message' => json_encode($e),
             ], 422 );
 
         }

@@ -246,7 +246,7 @@ class ContractsApiTest extends Tests\TestCase
 
         // Make sure the email contains text in the body of the message
         // Default is to search the html rendered view
-        $this->assertTrue($this->lastMessage()->contains('Here is the latest contract for your approval'));
+        $this->assertTrue($this->lastMessage()->contains('Congratulations!'));
 
         $pdfName = ucfirst(preg_replace('/[^\w-]/', '', $user->first_name)) . ucfirst(preg_replace('/[^\w-]/', '', $user->last_name)) . \Carbon\Carbon::today()->toDateString();
         $uploaded = 'contracts' . DIRECTORY_SEPARATOR . $pdfName . '.pdf';
