@@ -147,6 +147,8 @@ class BaseDataSeeder extends Seeder
 
         $unit = $location->unitTypes->first();
 
+        // RENTAL FEES
+
         DB::table( 'items' )->insert([
             'id'           => Uuid::generate()->string,
             'name'         => 'Studio Unit - Rental Fee',
@@ -201,10 +203,12 @@ class BaseDataSeeder extends Seeder
             'created_at' => \Carbon\Carbon::today()
         ]);
 
+        // SECURITY DEPOSITS
+
         DB::table( 'items' )->insert([
             'id'           => Uuid::generate()->string,
-            'name'         => 'Studio Unit - Deposit',
-            'description'  => 'Studio Unit - Deposit',
+            'name'         => 'Studio Unit - Security Deposit',
+            'description'  => 'Studio Unit - Security Deposit',
             'cost'         => 3850,
             'payment_type' => 'Once-off',
             'created_at' => \Carbon\Carbon::today()
@@ -212,8 +216,8 @@ class BaseDataSeeder extends Seeder
 
         DB::table( 'items' )->insert([
             'id'           => Uuid::generate()->string,
-            'name'         => 'Classic Studio Unit - Deposit',
-            'description'  => 'Classic Studio Unit - Deposit',
+            'name'         => 'Classic Studio Unit - Security Deposit',
+            'description'  => 'Classic Studio Unit - Security Deposit',
             'cost'         => 4250,
             'payment_type' => 'Once-off',
             'created_at' => \Carbon\Carbon::today()
@@ -221,8 +225,8 @@ class BaseDataSeeder extends Seeder
 
         DB::table( 'items' )->insert([
             'id'           => Uuid::generate()->string,
-            'name'         => 'Premium Studio Unit - Deposit',
-            'description'  => 'Premium Studio Unit - Deposit',
+            'name'         => 'Premium Studio Unit - Security Deposit',
+            'description'  => 'Premium Studio Unit - Security Deposit',
             'cost'         => 4750,
             'payment_type' => 'Once-off',
             'created_at' => \Carbon\Carbon::today()
@@ -230,8 +234,8 @@ class BaseDataSeeder extends Seeder
 
         DB::table( 'items' )->insert([
             'id'           => Uuid::generate()->string,
-            'name'         => 'Deluxe Studio Unit - Deposit',
-            'description'  => 'Deluxe Studio Unit - Deposit',
+            'name'         => 'Deluxe Studio Unit - Security Deposit',
+            'description'  => 'Deluxe Studio Unit - Security Deposit',
             'cost'         => 5250,
             'payment_type' => 'Once-off',
             'created_at' => \Carbon\Carbon::today()
@@ -239,8 +243,8 @@ class BaseDataSeeder extends Seeder
 
         DB::table( 'items' )->insert([
             'id'           => Uuid::generate()->string,
-            'name'         => 'Twin Studio Unit - Deposit',
-            'description'  => 'Twin Studio Unit - Deposit',
+            'name'         => 'Twin Studio Unit - Security Deposit',
+            'description'  => 'Twin Studio Unit - Security Deposit',
             'cost'         => 5350,
             'payment_type' => 'Once-off',
             'created_at' => \Carbon\Carbon::today()
@@ -248,8 +252,63 @@ class BaseDataSeeder extends Seeder
 
         DB::table( 'items' )->insert([
             'id'           => Uuid::generate()->string,
-            'name'         => '2 Bedroom Unit - Deposit',
-            'description'  => '2 Bedroom Unit - Deposit',
+            'name'         => '2 Bedroom Unit - Security Deposit',
+            'description'  => '2 Bedroom Unit - Security Deposit',
+            'cost'         => 6850,
+            'payment_type' => 'Once-off',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
+
+        // DAMAGE DEPOSIT
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => 'Studio Unit - Damage Deposit',
+            'description'  => 'Studio Unit - Damage Deposit',
+            'cost'         => 3850,
+            'payment_type' => 'Once-off',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
+
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => 'Classic Studio Unit - Damage Deposit',
+            'description'  => 'Classic Studio Unit - Damage Deposit',
+            'cost'         => 4250,
+            'payment_type' => 'Once-off',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
+
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => 'Premium Studio Unit - Damage Deposit',
+            'description'  => 'Premium Studio Unit - Damage Deposit',
+            'cost'         => 4750,
+            'payment_type' => 'Once-off',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
+
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => 'Deluxe Studio Unit - Damage Deposit',
+            'description'  => 'Deluxe Studio Unit - Damage Deposit',
+            'cost'         => 5250,
+            'payment_type' => 'Once-off',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
+
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => 'Twin Studio Unit - Damage Deposit',
+            'description'  => 'Twin Studio Unit - Damage Deposit',
+            'cost'         => 5350,
+            'payment_type' => 'Once-off',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
+
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => '2 Bedroom Unit - Damage Deposit',
+            'description'  => '2 Bedroom Unit - Damage Deposit',
             'cost'         => 6850,
             'payment_type' => 'Once-off',
             'created_at' => \Carbon\Carbon::today()
