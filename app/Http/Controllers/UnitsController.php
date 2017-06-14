@@ -25,7 +25,10 @@ class UnitsController extends Controller
 
         $locations = Location::all();
         $unitTypes = UnitType::all();
-        $units = Unit::all();
+        $units = DB::table('units')
+            ->join("locations", 'locations.id', '=', 'units.location_id')
+            ->select('units.*', 'locations.name')
+            ->get();
 
         return view( 'units.index', compact( 'locations', 'unitTypes', 'units' ) );
 

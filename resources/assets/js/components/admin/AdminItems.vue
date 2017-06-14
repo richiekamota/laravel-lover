@@ -106,7 +106,7 @@
 
                                 <!-- Row Title -->
                                 <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{
-                                    item.name }} - {{item.address}}
+                                    item.name }} : R{{item.cost}} ({{item.payment_type}})
                                 </button>
                                 <!-- START Edit form -->
                                 <div class="accordion__content --bg-calm">

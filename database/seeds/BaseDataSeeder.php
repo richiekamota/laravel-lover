@@ -15,31 +15,100 @@ class BaseDataSeeder extends Seeder
 
         $locationId = Uuid::generate()->string;
 
-        DB::table( 'locations' )->insert( [
+        DB::table( 'locations' )->insert([
             'id'      => $locationId,
             'name'    => "Wynburg",
-            'address' => "123 Some Street",
+            'address' => "No 9, Lower Church Street",
             'city'    => 'Cape Town',
             'region'  => 'Western Provence',
-            'code'    => 'loc123'
-        ] );
+            'code'    => '7824'
+        ]);
 
-        DB::table( 'unit_types' )->insert( [
+        DB::table( 'unit_types' )->insert([
             'id'           => Uuid::generate()->string,
-            'name'         => "Wynburg",
-            'description'  => "Our Studios are ideal for students wanting to keep costs their down without sacrificing comfort whilst enjoying their fabulous Cape Town student accommodation. The  Studio features: Open plan studio furnished with a single bed base, mattress and mattress protector. Built-in work desk (chair is not provided), clothes wardrobe and a small kitchenette with a mini-refrigerator and induction hotplate. Innovative bathroom pod with a shower, basin and toilet. Uncapped internet data per month",
+            'name'         => "Studio",
+            'description'  => "Open plan studio furnished with single bed base & single mattress, built in  desk(no chair ), wardrobe, kitchenette with prep bowl & induction hot plate, mini-refrigerator, bathroom pod (shower, basin and toilet) and WI FI- uncapped internet data per month(Fibre lines installed). Water & Electricity included.",
             'location_id'  => $locationId,
-            'cost'         => '3456',
-            'wifi'         => false,
-            'electricity'  => false,
+            'cost'         => '3850',
+            'wifi'         => true,
+            'electricity'  => true,
             'dstv'         => false,
             'parking_car'  => false,
             'parking_bike' => false,
             'storeroom'    => false,
-        ] );
+        ]);
 
+        DB::table( 'unit_types' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => "Classic Studio",
+            'description'  => "Open plan studio furnished with 3/4 bed base & 3/4 mattress, built in  desk(no chair ), wardrobe, kitchenette with prep bowl & induction hot plate, mini-refrigerator, bathroom pod (shower, basin and toilet) and WI FI- uncapped internet data per month(Fibre lines installed). Water & Electricity included.",
+            'location_id'  => $locationId,
+            'cost'         => '4250',
+            'wifi'         => true,
+            'electricity'  => true,
+            'dstv'         => false,
+            'parking_car'  => false,
+            'parking_bike' => false,
+            'storeroom'    => false,
+        ]);
 
-        factory( Portal\Location::class, 3 )->create( [
+        DB::table( 'unit_types' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => "Premium Studio",
+            'description'  => "Open plan studio furnished with double bed base & double mattress, built in  desk(no chair ), wardrobe, kitchenette with prep bowl & induction hot plate, mini-refrigerator, bathroom pod (shower, basin and toilet),  10 channel DSTV bouquet and WI FI- uncapped internet data per month(Fibre lines installed). Water & Electricity included.",
+            'location_id'  => $locationId,
+            'cost'         => '4750',
+            'wifi'         => true,
+            'electricity'  => true,
+            'dstv'         => true,
+            'parking_car'  => false,
+            'parking_bike' => false,
+            'storeroom'    => false,
+        ]);
+
+        DB::table( 'unit_types' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => "Deluxe Studio",
+            'description'  => "Open plan studio furnished with double bed base & double mattress, built in  desk(no chair ), wardrobe, kitchenette with prep bowl & induction hot plate, mini-refrigerator, conventional bathroom (shower, basin and toilet),  10 channel DSTV bouquet and WI FI- uncapped internet data per month(Fibre lines installed). Water & Electricity included.",
+            'location_id'  => $locationId,
+            'cost'         => '5250',
+            'wifi'         => true,
+            'electricity'  => true,
+            'dstv'         => true,
+            'parking_car'  => false,
+            'parking_bike' => false,
+            'storeroom'    => false,
+        ]);
+
+        DB::table( 'unit_types' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => "Twin Studio",
+            'description'  => "Open plan studio furnished with 2 single bed bases& 2 double mattresses, 2 built in desks(no chair ), 2 wardrobes, kitchenette with prep bowl & induction hot plate, mini-refrigerator, conventional bathroom (shower, basin and toilet and WI FI- uncapped internet data per month(Fibre lines installed). Water & Electricity included.",
+            'location_id'  => $locationId,
+            'cost'         => '5350',
+            'wifi'         => true,
+            'electricity'  => true,
+            'dstv'         => false,
+            'parking_car'  => false,
+            'parking_bike' => false,
+            'storeroom'    => false,
+        ]);
+
+        DB::table( 'unit_types' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => "2 Bedroom Unit",
+            'description'  => "2 Separate bedrooms with 2 ¾ beds & 2 ¾  mattresses, 2 built in desks(no chair ), 2 wardrobes, kitchenette with prep bowl & induction hot plate, mini-refrigerator, conventional bathroom (shower, basin and toilet.) 10 channel DSTV bouquet and WI FI- uncapped internet data per month(Fibre lines installed). Water & Electricity included.",
+            'location_id'  => $locationId,
+            'cost'         => '6850',
+            'wifi'         => true,
+            'electricity'  => true,
+            'dstv'         => true,
+            'parking_car'  => false,
+            'parking_bike' => false,
+            'storeroom'    => false,
+        ]);
+
+        /*factory( Portal\Location::class, 3 )->create( [
             'id' => Uuid::generate()->string
         ] )->each( function ( $l ) {
 
@@ -52,7 +121,8 @@ class BaseDataSeeder extends Seeder
                     'type_id'     => $u->id
                 ] );
             } );
-        } );
+        } );*/
+
 
         $user = factory( Portal\User::class )->create( [
             'role' => 'tenant'
@@ -77,15 +147,224 @@ class BaseDataSeeder extends Seeder
 
         $unit = $location->unitTypes->first();
 
-        factory( Portal\Item::class, 5 )->create( [
-            'id' => Uuid::generate()->string
-        ] )->each( function ( $l ) use ($unit) {
-            DB::table( 'item_unit_type' )->insert( [
-                'item_id' => $l->id,
-                'unit_type_id' => $unit->id,
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => 'Studio Unit - Rental Fee',
+            'description'  => 'Studio Unit - Rental Fee',
+            'cost'         => 3850,
+            'payment_type' => 'Monthly',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
 
-            ]);
-        });
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => 'Classic Studio Unit - Rental Fee',
+            'description'  => 'Classic Studio Unit - Rental Fee',
+            'cost'         => 4250,
+            'payment_type' => 'Monthly',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
 
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => 'Premium Studio Unit - Rental Fee',
+            'description'  => 'Premium Studio Unit - Rental Fee',
+            'cost'         => 4750,
+            'payment_type' => 'Monthly',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
+
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => 'Deluxe Studio Unit - Rental Fee',
+            'description'  => 'Deluxe Studio Unit - Rental Fee',
+            'cost'         => 5250,
+            'payment_type' => 'Monthly',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
+
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => 'Twin Studio Unit - Rental Fee',
+            'description'  => 'Twin Studio Unit - Rental Fee',
+            'cost'         => 5350,
+            'payment_type' => 'Monthly',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
+
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => '2 Bedroom Unit - Rental Fee',
+            'description'  => '2 Bedroom Unit - Rental Fee',
+            'cost'         => 6850,
+            'payment_type' => 'Monthly',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
+
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => 'Studio Unit - Deposit',
+            'description'  => 'Studio Unit - Deposit',
+            'cost'         => 3850,
+            'payment_type' => 'Once-off',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
+
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => 'Classic Studio Unit - Deposit',
+            'description'  => 'Classic Studio Unit - Deposit',
+            'cost'         => 4250,
+            'payment_type' => 'Once-off',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
+
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => 'Premium Studio Unit - Deposit',
+            'description'  => 'Premium Studio Unit - Deposit',
+            'cost'         => 4750,
+            'payment_type' => 'Once-off',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
+
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => 'Deluxe Studio Unit - Deposit',
+            'description'  => 'Deluxe Studio Unit - Deposit',
+            'cost'         => 5250,
+            'payment_type' => 'Once-off',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
+
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => 'Twin Studio Unit - Deposit',
+            'description'  => 'Twin Studio Unit - Deposit',
+            'cost'         => 5350,
+            'payment_type' => 'Once-off',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
+
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => '2 Bedroom Unit - Deposit',
+            'description'  => '2 Bedroom Unit - Deposit',
+            'cost'         => 6850,
+            'payment_type' => 'Once-off',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
+
+
+
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => 'Parking Bay',
+            'description'  => 'Parking Bay',
+            'cost'         => 300,
+            'payment_type' => 'Monthly',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
+
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => 'Motorcycle Parking Bay',
+            'description'  => 'Motorcycle Parking Bay',
+            'cost'         => 150,
+            'payment_type' => 'Monthly',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
+
+
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => 'DSTV',
+            'description'  => '10 Channel DSTV bouquet',
+            'cost'         => 150,
+            'payment_type' => 'Monthly',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
+
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => 'DSTV - Activation Fee',
+            'description'  => 'Once-off DSTV activation fee',
+            'cost'         => 750,
+            'payment_type' => 'Once-off',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
+
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => 'Storeroom',
+            'description'  => 'Storeroom',
+            'cost'         => 400,
+            'payment_type' => 'Monthly',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
+
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => 'Access Card Fee',
+            'description'  => 'Access Card Fee',
+            'cost'         => 400,
+            'payment_type' => 'Once-off',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
+
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => 'Mattress Protector Fee - 1x Single',
+            'description'  => 'Mattress Protector Fee - 1x Single',
+            'cost'         => 235,
+            'payment_type' => 'Once-off',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
+
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => 'Mattress Protector Fee - 1x 3/4',
+            'description'  => 'Mattress Protector Fee - 1x 3/4',
+            'cost'         => 255,
+            'payment_type' => 'Once-off',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
+
+
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => 'Mattress Protector Fee - 1x Double',
+            'description'  => 'Mattress Protector Fee - 1x Double',
+            'cost'         => 290,
+            'payment_type' => 'Once-off',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
+
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => 'Mattress Protector Fee - 2x Single',
+            'description'  => 'Mattress Protector Fee - 2x Single',
+            'cost'         => 470,
+            'payment_type' => 'Once-off',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
+
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => 'Mattress Protector Fee - 2x 3/4',
+            'description'  => 'Mattress Protector Fee - 2x 3/4',
+            'cost'         => 580,
+            'payment_type' => 'Once-off',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
+
+        DB::table( 'items' )->insert([
+            'id'           => Uuid::generate()->string,
+            'name'         => 'Lease & Credit Check Fee',
+            'description'  => 'Lease & Credit Check Fee',
+            'cost'         => 550,
+            'payment_type' => 'Once-off',
+            'created_at' => \Carbon\Carbon::today()
+        ]);
     }
 }

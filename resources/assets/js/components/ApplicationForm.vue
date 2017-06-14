@@ -535,8 +535,8 @@
                             <!-- Unit Car parking -->
                             <div class="row column">
                                 <input type="checkbox" name="unit_car_parking" id="unit_car_parking"
-                                       v-model="appForm.unit_car_parking"><label for="unit_car_parking">Motor vehicle
-                                parking bay</label>
+                                       v-model="appForm.unit_car_parking"><label for="unit_car_parking">Vehicle
+                                Parking bay</label>
                             </div>
 
                             <!-- Unit Bike parking -->
@@ -544,14 +544,13 @@
                             <div class="row column">
                                 <input type="checkbox" name="unit_bike_parking" id="unit_bike_parking"
                                        v-model="appForm.unit_bike_parking"><label for="unit_bike_parking">Motorcycle
-                                vehicle parking bay</label>
+                                Parking Bay</label>
                             </div>
 
                             <!-- Unit TV -->
                             <div class="row column">
                                 <input type="checkbox" name="unit_tv" id="unit_tv"
-                                       v-model="appForm.unit_tv"><label for="unit_tv">10 Channel DSTV
-                                bouqet</label>
+                                       v-model="appForm.unit_tv"><label for="unit_tv">10 Channel DSTV Bouquet</label>
                             </div>
 
                             <!-- Unit Storeroom -->
@@ -961,7 +960,7 @@
                 }
             },
 
-            submitForReview: function (event) {
+            submitForReview: function () {
                 this.loading = true;
                 var stepMessage = 'submit';
 
@@ -1082,25 +1081,13 @@
                     }else{
                         swal({
                                 title: "Application Form Complete",
-                                text: "You have successfully completed the Application Form, \n do you want to submit this application for processing?",
+                                text: "You have successfully completed the Application Form, \n You can now submit it for processing.",
                                 type: "success",
-                                showCancelButton: true,
-                                confirmButtonText: 'Yes',
-                                cancelButtonText: "Not Yet",
-                                closeOnConfirm: false,
-                                closeOnCancel: true
+                                confirmButtonText: "Ok",
+                                allowOutsideClick: true
                             },
                             function(isConfirm) {
-                                if (isConfirm) {
-                                    swal({
-                                        title: 'Thank You!',
-                                        text: 'Your application will be sent for processing.',
-                                        type: 'success'
-                                    }, function() {
-                                        window.location.href = '/dashboard';
-                                    });
 
-                                }
                             });
                     }
                     this.loading = false;

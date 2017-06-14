@@ -59,13 +59,13 @@
                 <p class="--mt1">Select the unit from the list, these are the available units matching the applicants
                     requested type and location.</p>
 
-                <select class="styled-select" name="selectedUnit" v-model="selectedUnit" required>
+                <select class="styled-select" name="selectedUnit" v-model="selectedUnit" required v-if="filteredUnits.length != 0">
 
                     <option v-for="unit in filteredUnits" v-bind:value="unit.id">
                         {{ unit.code }}
                     </option>
                 </select>
-                <p v-if="filteredUnits.length == 0">
+                <p v-else>
                     No units available for selected occupation date. Please select a different occupation date range.
                 </p>
 

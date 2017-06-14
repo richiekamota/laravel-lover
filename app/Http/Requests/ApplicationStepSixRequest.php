@@ -26,7 +26,7 @@ class ApplicationStepSixRequest extends FormRequest
 
         return [
             'judgements'         => 'required|boolean',
-            'judgements_details' => 'required_if:judgements,true',
+            'judgements_details' => 'required_if:judgements,1',
         ];
     }
 }
