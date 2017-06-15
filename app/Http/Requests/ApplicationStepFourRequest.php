@@ -14,7 +14,7 @@ class ApplicationStepFourRequest extends FormRequest
     public function authorize()
     {
 
-        return true;
+        return TRUE;
     }
 
     /**
@@ -35,6 +35,7 @@ class ApplicationStepFourRequest extends FormRequest
             'resident_phone_mobile'          => 'required|max:191',
             'resident_email'                 => 'required|email|max:191',
             'resident_current_address'       => 'required|max:191',
+            'resident_landlord'              => 'required|max:191',
             'resident_landlord_phone_work'   => 'required|max:191',
             'resident_landlord_phone_mobile' => 'required|max:191',
             'resident_study_location'        => 'required|max:191',

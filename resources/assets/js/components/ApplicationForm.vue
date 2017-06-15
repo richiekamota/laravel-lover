@@ -419,7 +419,7 @@
 
                                 <!-- Resident Landlord -->
                                 <label for="resident_landlord">
-                                    Name of rental agent/ landlord
+                                    Name of rental agent/ landlord *
                                     <input type="text" name="resident_landlord" v-model="appForm.resident_landlord"
                                            required>
                                 </label>
