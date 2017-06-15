@@ -21,7 +21,6 @@ class CreateContractItemsTable extends Migration
             $table->text('description')->nullable();
             $table->enum('payment_type', ['Rental', 'Deposit', 'Once-off', 'Monthly', 'Free']);
             $table->integer('value');
-
             $table->timestamps();
         });
     }

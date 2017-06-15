@@ -24,12 +24,12 @@ class Unit extends Model
 
     public function location()
     {
-        return $this->hasOne('Portal\Location');
+        return $this->belongsTo('Portal\Location');
     }
 
-    public function type()
+    public function unitType()
     {
-        return $this->hasOne('Portal\Type');
+        return $this->belongsTo('Portal\UnitType', 'type_id');
     }
 
     public function user()

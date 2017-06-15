@@ -25,7 +25,7 @@ class UnitsController extends Controller
 
         $locations = Location::all();
         $unitTypes = UnitType::all();
-        $units = Unit::all();
+        $units = Unit::with('location','unitType')->get();
 
         return view( 'units.index', compact( 'locations', 'unitTypes', 'units' ) );
 

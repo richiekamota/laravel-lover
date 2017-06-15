@@ -23,7 +23,7 @@
                         <div class="table__row table__row--add">
                             <!-- Row Title -->
                             <button class="accordion__heading accordion__heading--add --white" v-on:click="addEntry = !addEntry">
-                                <h4 class="--white">Add new location</h4>
+                                <h4 class="--white">Add New Unit Type</h4>
                             </button>
                             <!-- START Edit form -->
                             <div class="accordion__content --bg-calm" v-bind:class="{ 'accordion__content--active' : addEntry }" v-show="addEntry">

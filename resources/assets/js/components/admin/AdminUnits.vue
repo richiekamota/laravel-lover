@@ -80,7 +80,7 @@
                         <div class="small-12 columns" v-show="index >= pagination.from && index <= pagination.to">
                             <div class="table__row" :class="{ even: isEven(index), first: index == 0, last: index == units.length -1 }">
                                 <!-- Row Title -->
-                                <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{ filteredUnit.code }}</button>
+                                <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{ filteredUnit.code }} - {{filteredUnit.location.name}} </button>
                                 <!-- START Edit form -->
                                 <div class="accordion__content  --bg-calm">
 
