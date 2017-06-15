@@ -48,7 +48,8 @@ class UnitsController extends Controller
         try {
 
             // Store the location in the DB
-            $unit = Unit::create($request->all());
+            $unitInsert = Unit::create($request->all());
+            $unit = Unit::with('location','unitType')->findOrFail($unitInsert->id);
 
             DB::commit();
 
