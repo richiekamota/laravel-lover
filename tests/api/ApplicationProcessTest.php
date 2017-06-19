@@ -124,7 +124,7 @@ class ApplicationProcessTest extends Tests\TestCase
 
         $this->seeMessageFor($this->userTenant->email);
         $this->seeMessageWithSubject('Your application has been declined');
-        $this->seeMessageFrom('My Domain');
+        $this->seeMessageFrom('info@mydomainliving.co.za');
         $this->assertTrue($this->lastMessage()->contains('Your application for accommodation at My Domain Southern Suburbs has been declined'));
 
     }
@@ -191,7 +191,7 @@ class ApplicationProcessTest extends Tests\TestCase
 
         $this->seeMessageFor($this->userTenant->email);
         $this->seeMessageWithSubject('Your application is pending');
-        $this->seeMessageFrom('My Domain');
+        $this->seeMessageFrom('info@mydomainliving.co.za');
         $this->assertTrue($this->lastMessage()->contains('Your application has been marked pending.'));
         $this->assertTrue($this->lastMessage()->contains('The reason for the application being marked as pending is: This is the reason'));
 

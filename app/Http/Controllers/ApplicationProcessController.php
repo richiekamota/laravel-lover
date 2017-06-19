@@ -83,18 +83,7 @@ class ApplicationProcessController extends Controller
             DB::commit();
 
             return Response::json([
-                'message' => trans('portal.process_decline_complete'),
-                'data'    => Application::with(
-                    'user',
-                    'residentId',
-                    'residentStudyPermit',
-                    'residentAcceptance',
-                    'residentFinancialAid',
-                    'leaseholderId',
-                    'leaseholderAddressProof',
-                    'leaseholderPayslip',
-                    'events'
-                )->find($id)->toArray()
+                'message' => trans('portal.process_decline_complete')
             ], 200);
 
         } catch (\Exception $e) {
