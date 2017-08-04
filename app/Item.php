@@ -17,7 +17,7 @@ class Item extends Model
      */
 
     protected $fillable = [
-        'name', 'description', 'cost', 'payment_type'
+        'name', 'description', 'cost', 'payment_type', 'for_lease'
     ];
 
     protected $dates = ['deleted_at'];
@@ -30,5 +30,13 @@ class Item extends Model
     public function unitTypes()
     {
         return $this->belongsToMany('Portal\UnitType');
+    }
+
+    /**
+     * The unit types that belongs to the item.
+     */
+    public function itemLeaseDates()
+    {
+        return $this->hasMany('Portal\ItemLeaseDates');
     }
 }

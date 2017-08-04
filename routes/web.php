@@ -100,6 +100,7 @@ Route::group(['middleware' => 'auth'], function () {
     */
 
     Route::resource('items', 'ItemsController');
+    Route::get('items-leased', 'ItemsController@leasedItems');
 
     /*
     |--------------------------------------------------------------------------

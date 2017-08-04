@@ -22,13 +22,16 @@
                             <a href="{{ url('/units') }}" class="admin-menu__link">Units</a></li>
                         <li class="admin-menu__link-item @if(Request::path() == 'items')admin-menu__link-active --bg-mist @endif">
                             <a href="{{ url('/items') }}" class="admin-menu__link">Items</a></li>
+                        <li class="admin-menu__link-item @if(Request::path() == 'item-lease')admin-menu__link-active --bg-mist @endif">
+                            <a href="{{ url('/items-leased') }}" class="admin-menu__link">Leased Items</a></li>
                     </ul>
                 @endif
 
                 @if(Gate::check('is-tenant'))
                     <ul class="admin-menu__links">
                         <li class="admin-menu__link-item @if(Request::path() == '')admin-menu__link-active --bg-mist @endif">
-                            <a href="{{ url('/application-form/new') }}" class="admin-menu__link">New Application</a></li>
+                            <a href="{{ url('/application-form/new') }}" class="admin-menu__link">New Application</a>
+                        </li>
                     </ul>
                 @endif
             </div>

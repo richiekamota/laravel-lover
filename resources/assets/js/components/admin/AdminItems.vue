@@ -58,9 +58,18 @@
                                         </select>
                                     </label>
 
+                                    <label for="itemForLease">
+                                        Is this item stock limited?
+
+                                        <select ref="itemForLease" id="itemForLease" name="itemForLease" v-model="newItem.for_lease">
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
+                                        </select>
+                                    </label>
+
                                     <label  for="itemUnitTypes">
                                         Unit Types* - (add and remove the required unit types)
-                                    </labelmultiple>
+                                    </label>
 
                                     <hr class="selected-unit-types__line" v-if="selectedUnitTypes.length > 0">
                                     <div v-for="(unit_type , index) in selectedUnitTypes"
@@ -142,6 +151,15 @@
                                         </select>
                                     </label>
 
+                                    <label for="itemForLease">
+                                        Is this item stock limited?
+
+                                        <select ref="itemForLease" id="itemForLease" name="itemForLease" v-model="editItem.for_lease">
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
+                                        </select>
+                                    </label>
+
 
                                     <label for="editItemUnitTypes">
                                         Unit Types* - (add and remove the required unit types)
@@ -213,6 +231,7 @@
                     name: '',
                     description: '',
                     cost: '',
+                    for_lease: 0,
                     payment_type: '',
                     unit_types: [],
                     arrayIndex: '',
@@ -389,6 +408,7 @@
                 this.editItem.name = this.items[index].name;
                 this.editItem.description = this.items[index].description;
                 this.editItem.cost = this.items[index].cost;
+                this.editItem.for_lease = this.items[index].for_lease;
                 this.editItem.payment_type = this.items[index].payment_type;
                 this.editItem.unit_types = this.items[index].unit_types;
 
@@ -424,6 +444,7 @@
                     description: '',
                     cost: '',
                     unit_types: [],
+                    for_lease: 0,
                     payment_type: ''
                 };
             }

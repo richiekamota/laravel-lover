@@ -8,6 +8,7 @@ use Portal\Http\Requests\ItemCreateRequest;
 use Portal\Http\Requests\ItemEditRequest;
 use Portal\Item;
 use Portal\UnitType;
+use Portal\ItemLeaseDates;
 use Response;
 
 class ItemsController extends Controller
@@ -29,6 +30,25 @@ class ItemsController extends Controller
         $unitTypes = UnitType::all();
 
         return view('items.index', compact('items', 'unitTypes'));
+
+    }
+
+    /**
+     * Display a leased items
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function leasedItems()
+    {
+
+        // abort unless Auth > tenant
+        $this->authorize('view', Item::class);
+
+        $items = Item::with('ItemLeaseDates')->where("for_lease",1)->get();
+        $unitTypes = UnitType::all();
+        // print_r($items);
+
+        return view('items.leased-items', compact('items', 'unitTypes'));
 
     }
 
