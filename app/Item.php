@@ -37,6 +37,6 @@ class Item extends Model
      */
     public function itemLeaseDates()
     {
-        return $this->hasMany('Portal\ItemLeaseDates');
+        return $this->hasMany('Portal\ItemLeaseDate');
     }
 }

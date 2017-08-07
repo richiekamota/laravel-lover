@@ -18,6 +18,7 @@ class CreateItemLeaseDates extends Migration
             $table->primary( 'id' );
             $table->uuid( 'user_id' )->nullable();
             $table->text( 'leasee_name' )->nullable();
+            $table->text( 'item_name' )->nullable();
             $table->uuid( 'item_id' );
             $table->enum('status', ['pending', 'declined', 'approved','cancelled']);
             $table->dateTime( 'start_date' );

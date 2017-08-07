@@ -21,28 +21,97 @@
                                 <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{
                                     item.name }} : R{{item.cost}} ({{item.payment_type}})
                                 </button>
+
                                 <!-- START Edit form -->
                                 <div class="accordion__content --bg-calm">
-                                    <div class="row" v-if="item.item_lease_dates.length > 0">
-                                        <div class="small-4 medium-6 columns"><strong>Leased By</strong></div>
-                                        <div class="small-3 medium-2 columns"><strong>Start Date</strong></div>
-                                        <div class="small-3 medium-2 columns"><strong>End Date</strong></div>
-                                        <div class="small-2 medium-2 columns"></div>
-                                    </div>
-                                    <div class="row column" v-else>
-                                        <p>No lease dates found for this item.</p>
-                                    </div>
-                                    <div class="row" v-for="lease in item.item_lease_dates">
-                                        <div class="small-4 medium-6 columns">{{lease.leasee_name}}</div>
-                                        <div class="small-3 medium-2 columns">{{toNiceDate(lease.start_date)}}</div>
-                                        <div class="small-3 medium-2 columns">{{toNiceDate(lease.end_date)}}</div>
-                                        <div class="small-2 medium-2 columns"><a href="#">Remove</a></div>
-                                    </div>
-                                </div>
-                    
-                                <!-- END Edit form -->
+                                    <template v-if="!addEntry">
+                                        <div class="row table-head" v-if="item.item_lease_dates.length > 0">
+                                            <div class="small-3 medium-3 columns"><strong>Item Name</strong></div>
+                                            <div class="small-3 medium-3 columns"><strong>Leased By</strong></div>
+                                            <div class="small-2 medium-2 columns"><strong>Start Date</strong></div>
+                                            <div class="small-2 medium-2 columns"><strong>End Date</strong></div>
+                                            <div class="small-2 medium-2 columns"></div>
+                                        </div>
+                                        <div class="row column" v-else>
+                                            <p>No lease dates found for this item.</p>
+                                        </div>
+                                        <div class="row table-row" v-for="(lease, index2) in item.item_lease_dates"
+                                             :class="{ even: isEven(index2), first: index2 == 0, last: index2 == items.length -1 }">
+                                            <div class="small-3 medium-3 columns">{{lease.item_name}}</div>
+                                            <div class="small-3 medium-3 columns">{{lease.leasee_name}}</div>
+                                            <div class="small-2 medium-2 columns">{{toNiceDate(lease.start_date)}}</div>
+                                            <div class="small-2 medium-2 columns">{{toNiceDate(lease.end_date)}}</div>
+                                            <div class="small-2 medium-2 columns"><a href="#"
+                                                                                     v-on:click="removeItem(index, index2)">Remove</a>
+                                            </div>
+                                        </div>
+                                        <button class="button lease-button" v-on:click="showAddForm()">Add Lease
+                                        </button>
+                                    </template>
+                                    <template v-else>
+                                        
+                                        <div class="row column">
+                                            <!-- START Location input form -->
+                                            <label for="leasee_name">
+                                                Item Name
+                                                <input type="text" id="leasee_name" ref="leasee_name"
+                                                       name="leasee_name" v-model="editItem.leasee_name">
+                                            </label>
 
+                                            <label for="item_name">
+                                                Leasee Name
+                                                <textarea ref="item_name" id="item_name"
+                                                          name="item_name"
+                                                          v-model="editItem.item_name"></textarea>
+                                            </label>
+
+                                            <label for="start_date">
+                                                Start Date
+                                                <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="start_date"
+                                                           v-model="editItem.start_date" @update='editItem.start_date = $event'
+                                                           required/>
+                                            </label>
+
+                                            <label for="end_date">
+                                                End Date
+                                                <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="end_date"
+                                                           v-model="editItem.end_date" @update='editItem.end_date = $event'
+                                                           required/>
+                                            </label>
+
+                                            <label for="status">
+                                                Status
+
+                                                <select ref="status" id="status" name="status"
+                                                        v-model="newItem.status">
+                                                    <option value="Active">Active</option>
+                                                    <option value="Inactive">Inactive</option>
+                                                </select>
+                                            </label>
+
+                                        </div>
+                                        <!-- END Edit form -->
+
+                                        <div class="row column">
+                                            <button type="submit" name="addItem" class="button lease-button focused --mt1"
+                                                    v-on:click="addItem" v-bind:disabled="loading">
+                                                <span>Add</span>
+                                            </button>
+                                            <button type="submit" name="cancelItem" class="button lease-button float-right --mt1"
+                                                    v-on:click="cancelAddItem">
+                                                <span>Cancel</span>
+                                            </button>
+                                        </div>
+
+                                    </template>
+
+                                    <!-- END Edit form -->
+
+
+                                </div>
                             </div>
+
+
                         </div>
 
                     </div>
@@ -64,6 +133,13 @@
     </div>
 </template>
 <script>
+
+    import {Data} from '../../data.js';
+
+    import VueFlatpickr from 'vue-flatpickr';
+
+    Vue.use(VueFlatpickr);
+
     var moment = require('moment');
     export default {
         props: ['propItems', 'propUnitTypes'],
@@ -72,8 +148,6 @@
                 items: [],
                 unitTypes: [],
                 selectedUnitTypes: [],
-                editSelectedUnitTypes: [],
-                editingUnitTypes: [],
                 loading: false,
                 editItem: {
                     id: '',
@@ -93,7 +167,6 @@
         mounted() {
             this.items = JSON.parse(this.propItems);
             this.unitTypes = JSON.parse(this.propUnitTypes);
-            this.newItem = this.initializeItem();
 
             console.log(this.items);
         },
@@ -105,6 +178,10 @@
 
             toNiceDate: (date) => {
                 return moment(date).format("DD / MM / YY");
+            },
+
+            showAddForm: function () {
+                this.addEntry = true;
             },
 
             addItem: function () {
@@ -125,7 +202,6 @@
                     let newItemToAdd = response.data.data;
                     this.items.push(newItemToAdd);
                     // Reset the new location.
-                    this.newItem = this.initializeItem();
                     this.addEntry = false;
 
                 }, (err) => {
@@ -137,62 +213,22 @@
 
             },
 
-            addSelectedUnitType: function (unit_type, index) {
-                this.selectedUnitTypes.push(unit_type);
-                this.unitTypes.splice(index, 1);
-            },
-
-            removeSelectedUnitType: function (unit_type, index) {
-                this.selectedUnitTypes.splice(index, 1);
-                this.unitTypes.push(unit_type);
-
-            },
-
-            addEditSelectedUnitType: function (unit_type, index) {
-                this.editItem.unit_types.push(unit_type);
-                this.editingUnitTypes.splice(index, 1);
-            },
-
-            removeEditSelectedUnitType: function (unit_type, index) {
-                this.editItem.unit_types.splice(index, 1);
-                this.editingUnitTypes.push(unit_type);
-
-            },
-
             cancelAddItem: function () {
-                this.newItem = this.initializeItem();
                 this.addEntry = false;
             },
 
-            updateItem: function () {
+            removeItem: function (index, index2) {
 
                 this.loading = true;
-
-                // save the editing items unit types out
-                let editItemUnitTypes = this.editItem.unit_types;
-                // reset to empty array
-                this.editItem.unit_types = [];
-
-                editItemUnitTypes.forEach((item) => {
-                    this.editItem.unit_types.push(item.id);
-                });
-
-                this.$http.patch(
-                    '/items/' + this.editItem.id,
-                    JSON.stringify(this.editItem)
+                this.$http.delete(
+                    '/items/lease/' + this.items[index].item_lease_dates[index2].id,
+                    JSON.stringify(this.items[index].item_lease_dates[index2])
                 ).then((response) => {
-
-                    // If the response is successful, lets set the name to the edited object
                     this.loading = false;
-                    this.items[this.editItem.index] = this.editItem;
-                    this.items[this.editItem.index].unit_types = editItemUnitTypes;
-                    // To prevent reactivity from going accross, let's reassign the object.
-                    this.createEditableObject(this.editItem.index);
-                    this.closeAllAccordions();
-
+                    this.items[index].item_lease_dates.splice(index2, 1);
+                    this.displaySuccess(response);
                 }, (err) => {
                     this.loading = false;
-                    // There is an error, let's display an alert.
                     this.displayError(err);
                 });
 
@@ -214,14 +250,6 @@
                     selectedElement.classList.toggle("accordion__heading--active");
                     selectedElement.nextElementSibling.classList.toggle("accordion__content--active");
                 }
-
-                // Let's load up the editable object with the selected item
-                // Let's wait for the previous accordion animation to finish then do this.
-                setTimeout(() => {
-                    // If we want to use vue with it's reactivity use the below
-                    //this.editItem = this.items[index];
-                    this.createEditableObject(index);
-                }, 200)
             },
 
             closeAllAccordions() {
@@ -234,43 +262,6 @@
                         element.classList.toggle("accordion__content--active");
                     });
                 }
-            },
-
-            createEditableObject(index) {
-
-                console.log(this.items[index]);
-
-                // If we want to assign a completely new object which will not update the other form due to
-                // reactivity, we must manually assign whatever is needed.
-                // We also need the array index so when we update successfully we know which index to update.
-
-                // Get an array featuring all the unit type id's
-                let unitTypeIDArray = this.items[index].unit_types.map((unitType) => {
-                    return unitType.id;
-                });
-
-                // If the selected items unit type id is in the array of unit type
-                this.editingUnitTypes = this.unitTypes.filter((unitType) => {
-                    return unitTypeIDArray.indexOf(unitType.id) < 0;
-                });
-
-                // TODO is this not better if we take the entire object and delete the obserable instead?
-                /*this.editItem = this.items[index];
-                 delete this.editItem.__ob__;*/
-                //console.log("This edit item is", this.editItem);
-                this.editItem = {};
-                this.editItem.index = index;
-                this.editItem.id = this.items[index].id;
-                this.editItem.name = this.items[index].name;
-                this.editItem.description = this.items[index].description;
-                this.editItem.cost = this.items[index].cost;
-                this.editItem.for_lease = this.items[index].for_lease;
-                this.editItem.item_lease_dates = this.items[index].item_lease_dates;
-                this.editItem.payment_type = this.items[index].payment_type;
-                this.editItem.unit_types = this.items[index].unit_types;
-
-                console.log(this.editItem);
-
             },
 
             displayError(err) {
@@ -297,16 +288,29 @@
                 });
             },
 
-            initializeItem() {
-                return {
-                    name: '',
-                    description: '',
-                    cost: '',
-                    unit_types: [],
-                    for_lease: 0,
-                    payment_type: ''
-                };
-            }
+            displaySuccess(msg) {
+                // There is an error, let's display an alert.
+                let message = '';
+                if (msg.body.message) {
+                    message = msg.body.message;
+                } else {
+                    // This should occur if there are any validation errors.
+                    // Let's iterate over the list of errors.
+                    Object.keys(msg.body).forEach(function (key) {
+                        let obj = msg.body[key];
+                        obj = obj.toString();
+                        message = message + obj + '\r \n';
+                    });
+                }
+
+                // THere is an error, let's display an alert.
+                swal({
+                    title: "Success!",
+                    text: message,
+                    type: "success",
+                    confirmButtonText: "Ok"
+                });
+            },
 
         }
     }

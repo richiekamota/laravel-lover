@@ -8,7 +8,7 @@ use Portal\Http\Requests\ItemCreateRequest;
 use Portal\Http\Requests\ItemEditRequest;
 use Portal\Item;
 use Portal\UnitType;
-use Portal\ItemLeaseDates;
+use Portal\ItemLeaseDate;
 use Response;
 
 class ItemsController extends Controller
@@ -33,24 +33,6 @@ class ItemsController extends Controller
 
     }
 
-    /**
-     * Display a leased items
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function leasedItems()
-    {
-
-        // abort unless Auth > tenant
-        $this->authorize('view', Item::class);
-
-        $items = Item::with('ItemLeaseDates')->where("for_lease",1)->get();
-        $unitTypes = UnitType::all();
-        // print_r($items);
-
-        return view('items.leased-items', compact('items', 'unitTypes'));
-
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -58,7 +40,7 @@ class ItemsController extends Controller
      * @param Request|ItemsController|ItemCreateRequest $request
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function store( ItemCreateRequest $request )
+    public function store(ItemCreateRequest $request)
     {
 
         // abort unless Auth > tenant
@@ -89,16 +71,16 @@ class ItemsController extends Controller
 
         } catch (\Exception $e) {
 
-            \Log::info( $e );
+            \Log::info($e);
 
             //Bugsnag::notifyException($e);
 
             DB::rollback();
 
-            return Response::json( [
-                'error'   => 'items_store_error',
-                'message' => trans( 'portal.items_store_error' ),
-            ], 422 );
+            return Response::json([
+                'error' => 'items_store_error',
+                'message' => trans('portal.items_store_error'),
+            ], 422);
 
         }
 
@@ -111,7 +93,7 @@ class ItemsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function update( ItemEditRequest $request, $id )
+    public function update(ItemEditRequest $request, $id)
     {
 
         // abort unless Auth > tenant
@@ -146,16 +128,16 @@ class ItemsController extends Controller
 
         } catch (\Exception $e) {
 
-            \Log::info( $e );
+            \Log::info($e);
 
             //Bugsnag::notifyException($e);
 
             DB::rollback();
 
-            return Response::json( [
-                'error'   => 'items_store_error',
+            return Response::json([
+                'error' => 'items_store_error',
                 'message' => json_encode($e),
-            ], 422 );
+            ], 422);
 
         }
 
@@ -168,10 +150,78 @@ class ItemsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy( $id )
+    public function destroy($id)
     {
 
         //
+
+    }
+
+
+
+    /**
+     * Display a leased items
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function leasedItems()
+    {
+
+        // abort unless Auth > tenant
+        $this->authorize('view', Item::class);
+
+        $items = Item::with('ItemLeaseDates')->where("for_lease",1)->get();
+        $unitTypes = UnitType::all();
+        // print_r($items);
+
+        return view('items.leased-items', compact('items', 'unitTypes'));
+
+    }
+
+    /**
+     * Delete a item lease
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteItemLease($id)
+    {
+
+        // abort unless Auth > tenant
+        $this->authorize('delete', Item::class);
+       // $lease_dates = ItemLeaseDate::where("id",$id)->first();;
+       // echo $id;
+      //  print_r($lease_dates);
+
+        DB::beginTransaction();
+
+        try {
+
+            // Remove the array of ids from the input
+            $lease_dates = ItemLeaseDate::where("id",$id)->first();
+
+            DB::table('item_lease_dates')->where('id', $id)->delete();
+
+            DB::commit();
+
+            return Response::json([
+                'message' => trans('Item lease deleted.'),
+                'data' => $lease_dates->toArray()
+            ], 200);
+
+        } catch (\Exception $e) {
+
+            \Log::info( $e );
+
+            //Bugsnag::notifyException($e);
+
+            DB::rollback();
+
+            return Response::json( [
+                'error'   => 'items_store_error',
+                'message' => trans( 'Error deleting item lease.' ),
+            ], 422 );
+
+        }
 
     }
 
