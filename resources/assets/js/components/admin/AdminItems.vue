@@ -67,6 +67,13 @@
                                         </select>
                                     </label>
 
+                                    <label for="qty" v-if="newItem.for_lease == 1">
+                                        Total Quantity
+
+                                        <input type="number" id="qty" ref="qty"
+                                               name="qty" v-model="newItem.qty">
+                                    </label>
+
                                     <label  for="itemUnitTypes">
                                         Unit Types* - (add and remove the required unit types)
                                     </label>
@@ -160,6 +167,13 @@
                                         </select>
                                     </label>
 
+                                    <label for="qty" v-if="editItem.for_lease == 1">
+                                        Total Quantity
+
+                                        <input type="number" id="qty" ref="qty"
+                                               name="qty" v-model="editItem.qty">
+                                    </label>
+
 
                                     <label for="editItemUnitTypes">
                                         Unit Types* - (add and remove the required unit types)
@@ -232,6 +246,7 @@
                     description: '',
                     cost: '',
                     for_lease: 0,
+                    qty: 0,
                     payment_type: '',
                     unit_types: [],
                     arrayIndex: '',
@@ -409,6 +424,7 @@
                 this.editItem.description = this.items[index].description;
                 this.editItem.cost = this.items[index].cost;
                 this.editItem.for_lease = this.items[index].for_lease;
+                this.editItem.qty = this.items[index].qty;
                 this.editItem.payment_type = this.items[index].payment_type;
                 this.editItem.unit_types = this.items[index].unit_types;
 
@@ -445,6 +461,7 @@
                     cost: '',
                     unit_types: [],
                     for_lease: 0,
+                    qty: 0,
                     payment_type: ''
                 };
             }

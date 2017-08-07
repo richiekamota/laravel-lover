@@ -49,7 +49,7 @@
                                         </button>
                                     </template>
                                     <template v-else>
-                                        
+
                                         <div class="row column">
                                             <!-- START Location input form -->
                                             <label for="leasee_name">

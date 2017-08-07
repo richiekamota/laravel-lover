@@ -20,6 +20,7 @@ class CreateItemsTable extends Migration
             $table->enum('payment_type', ['Rental', 'Deposit', 'Once-off', 'Monthly', 'Free']);
             $table->text('description')->nullable();
             $table->boolean('for_lease')->nullable();
+            $table->integer('qty')->nullable();
             $table->integer('cost');
 
             $table->timestamps();
