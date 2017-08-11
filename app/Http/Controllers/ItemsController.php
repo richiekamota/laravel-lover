@@ -6,7 +6,9 @@ use DB;
 use Illuminate\Http\Request;
 use Portal\Http\Requests\ItemCreateRequest;
 use Portal\Http\Requests\ItemEditRequest;
+use Portal\Http\Requests\ItemLeaseCreateRequest;
 use Portal\Item;
+use Portal\User;
 use Portal\UnitType;
 use Portal\ItemLeaseDate;
 use Response;
@@ -25,7 +27,7 @@ class ItemsController extends Controller
         // abort unless Auth > tenant
         $this->authorize('view', Item::class);
 
-        $items = Item::with('unitTypes')->get();
+        $items = Item::with('unitTypes')->orderBy('name', 'ASC')->get();
 
         $unitTypes = UnitType::all();
 
@@ -172,9 +174,75 @@ class ItemsController extends Controller
 
         $items = Item::with('ItemLeaseDates')->where("for_lease",1)->get();
         $unitTypes = UnitType::all();
+        $users = User::all();
         // print_r($items);
 
-        return view('items.leased-items', compact('items', 'unitTypes'));
+        return view('items.leased-items', compact('items', 'unitTypes', 'users'));
+
+    }
+
+    /**
+     * Create a item lease
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createItemLease(ItemLeaseCreateRequest $request)
+    {
+
+        // abort unless Auth > tenant
+        $this->authorize('create', Item::class);
+        $leases = ItemLeaseDate::where("item_name", $request->item_name)
+            ->whereBetween('start_date', array($request->start_date, $request->end_date))
+            ->whereBetween('end_date', array($request->start_date, $request->end_date))
+            ->get();
+
+        if(count($leases) > 0){
+            return Response::json( [
+                'error'   => 'items_lease_store_error',
+                'message' => trans( 'Error creating item lease. This item is not available for the selected date period.' ),
+            ], 422 );
+        }
+
+        // print_r($request->all());
+
+        DB::beginTransaction();
+
+        try {
+
+            $data = array(
+                "leasee_name" => $request->leasee_name,
+                "user_id" => $request->user_id,
+                "item_name" => $request->item_name,
+                "item_id" =>  $request->item_id,
+                "start_date" => $request->start_date,
+                "end_date" => $request->end_date,
+                "status" => 'Active'
+            );
+
+            // Store the location in the DB
+            $itemLease = ItemLeaseDate::create($data);
+
+            DB::commit();
+
+            return Response::json([
+                'message' => trans('Item lease created.'),
+                'data' => $itemLease->toArray()
+            ], 200);
+
+        } catch (\Exception $e) {
+
+            \Log::info( $e );
+
+            //Bugsnag::notifyException($e);
+
+            DB::rollback();
+
+            return Response::json( [
+                'error'   => 'items_lease_store_error',
+                'message' =>$e,
+            ], 422 );
+
+        }
 
     }
 
@@ -217,7 +285,7 @@ class ItemsController extends Controller
             DB::rollback();
 
             return Response::json( [
-                'error'   => 'items_store_error',
+                'error'   => 'items_lease_delete_error',
                 'message' => trans( 'Error deleting item lease.' ),
             ], 422 );
 

@@ -259,10 +259,12 @@
                                 var unitStartDate = new Date(unit.occupation_dates[ll].start_date);
                                 var unitEndDate = new Date(unit.occupation_dates[ll].end_date);
                                // alert(unitStartDate + " > " + unitEndDate);
-                                if (inputStartDate != '' && inputEndDate != '') {
+                                if (inputStartDate != '' && inputEndDate != '' ) {
 
                                     if ((unitStartDate >= inputStartDate && unitStartDate <= inputEndDate) || (unitEndDate <= inputEndDate && unitEndDate >= inputStartDate)) {
-
+                                        if(this.application.unit_fee_split){
+                                            isValid = true;
+                                        }
                                     }else{
                                         isValid = true;
                                     }

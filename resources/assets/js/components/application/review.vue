@@ -626,6 +626,18 @@
                         </div>
                     </div>
 
+                    <div class="table__row table__row--padded even">
+
+                        <div class="row">
+                            <div class="column">
+                                Rental Cost Split:
+                            </div>
+                            <div class="column">
+                                {{application.unit_fee_split}}
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="table__row table__row--padded">
 
                         <div class="row">
@@ -633,7 +645,7 @@
                                 Unit lease length:
                             </div>
                             <div class="column">
-                                {{application.unit_lease_length}}
+                                {{application.unit_lease_length}} Months
                             </div>
                         </div>
                     </div>

@@ -514,19 +514,30 @@
                                 </select>
                             </label>
 
+
+
                             <p v-show="unitTypeInfo">
                                 Unit Description: <br>
                                 {{ unitTypeInfo }}
                             </p>
+
+                            <label for="unit_fee_split" v-if="twoRoomUnits.includes(appForm.unit_type)">
+                                Will rental costs be split?
+                                <select name="unit_type" v-model="appForm.unit_fee_split" required
+                                >
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
+
+                                </select>
+                            </label>
 
                             <!-- Unit Lease Length -->
                             <label for="unit_lease_length">
                                 Unit lease length *
                                 <select name="unit_lease_length" v-model="appForm.unit_lease_length" required>
                                     <option value=""></option>
-                                    <option value="3">3 months</option>
-                                    <option value="6">6 months</option>
-                                    <option value="9">9 months</option>
+                                    <option value="10">10 months</option>
+                                    <option value="11">11 months</option>
                                     <option value="12">12 months</option>
 
                                 </select>
@@ -837,6 +848,7 @@
                 unit_bike_parking: false,
                 unit_tv: false,
                 unit_storeroom: false,
+                unit_fee_split: 0,
                 unit_occupation_date: '',
                 // Step 6
                 step6: '',
@@ -865,11 +877,14 @@
                 showStep: '',
                 unitTypeInfo: '',
                 loading: false,
-                countries: ''
+                countries: '',
+                twoRoomUnits: []
             };
         },
         mounted() {
             this.showStep = this.step;
+
+
 
             // Toggle the accordion based on the parameter passed
             document.querySelector('[data-accordion="' + this.step + '"]').click();
@@ -882,6 +897,18 @@
             this.locations = JSON.parse(this.propLocations);
             this.unitTypes = JSON.parse(this.propUnitTypes);
             this.appForm = JSON.parse(this.applicationFormData);
+            this.twoRoomUnits = [];
+
+            this.unitTypes.forEach(child => {
+                // console.log(child);
+                if(child.occupants > 1){
+                    this.twoRoomUnits.push(child.id);
+                }
+            });
+
+            this.unitTypes = JSON.parse(this.propUnitTypes);
+
+            console.log(this.appForm);
 
             // Add dropzones
             let residentIdDropzone = new Dropzone("#resident_id", {url: "/documents/application"});
@@ -1201,6 +1228,7 @@
                             unit_bike_parking: this.appForm.unit_bike_parking,
                             unit_tv: this.appForm.unit_tv,
                             unit_storeroom: this.appForm.unit_storeroom,
+                            unit_fee_split: this.appForm.unit_fee_split,
                             unit_occupation_date: this.appForm.unit_occupation_date,
                         };
                         break;

@@ -17,7 +17,7 @@ class ItemLeaseDate extends Model
      */
 
     protected $fillable = [
-        'leasee_name','item_name', 'status', 'start_date', 'end_date', 'user_id'
+        'leasee_name','item_name', 'status', 'start_date', 'end_date', 'item_id', 'user_id'
     ];
 
     protected $dates = ['deleted_at'];

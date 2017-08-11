@@ -102,6 +102,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('items', 'ItemsController');
     Route::get('items-leased', 'ItemsController@leasedItems');
     Route::delete('items/lease/{id}', 'ItemsController@deleteItemLease');
+    Route::post('items/lease', 'ItemsController@createItemLease');
 
     /*
     |--------------------------------------------------------------------------

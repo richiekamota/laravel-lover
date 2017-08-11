@@ -66,6 +66,7 @@ class Application extends Model
         'unit_bike_parking',
         'unit_tv',
         'unit_storeroom',
+        'unit_fee_split',
         'unit_occupation_date',
         'judgements',
         'judgements_details',
