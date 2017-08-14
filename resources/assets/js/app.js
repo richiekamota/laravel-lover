@@ -27,6 +27,7 @@ Vue.component('admin-locations', require('./components/admin/AdminLocations.vue'
 Vue.component('admin-unit-types', require('./components/admin/AdminUnitTypes.vue'));
 Vue.component('admin-units', require('./components/admin/AdminUnits.vue'));
 Vue.component('admin-items', require('./components/admin/AdminItems.vue'));
+Vue.component('admin-leased-items', require('./components/admin/AdminLeasedItems.vue'));
 Vue.component('admin-users', require('./components/admin/AdminUsers.vue'));
 Vue.component('admin-occupation-dates', require('./components/admin/AdminOccupationDates.vue'));
 

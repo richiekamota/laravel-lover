@@ -72,7 +72,6 @@
                                             </div>
 
 
-                                            </label>
                                         </div>
 
                                         <hr/>
@@ -185,7 +184,7 @@
 
     export default {
         props: ['propLocations', 'propUnits'],
-        data(){
+        data() {
             return {
                 units: [],
                 locations: [],
