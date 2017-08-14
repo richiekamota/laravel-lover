@@ -20,6 +20,7 @@ class CreateUnitTypesTable extends Migration
             $table->text('description')->nullable();
             $table->uuid('location_id');
             $table->integer('cost');
+            $table->integer('occupants')->default(1);
             $table->boolean('wifi')->default(0);
             $table->boolean('electricity')->default(0);
             $table->boolean('dstv')->default(0);

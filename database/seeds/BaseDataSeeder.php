@@ -154,6 +154,7 @@ class BaseDataSeeder extends Seeder
             'name'         => 'Studio Unit - Rental Fee',
             'description'  => 'Studio Unit - Rental Fee',
             'cost'         => 3850,
+            'for_lease'     => 0,
             'payment_type' => 'Monthly',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -163,6 +164,7 @@ class BaseDataSeeder extends Seeder
             'name'         => 'Classic Studio Unit - Rental Fee',
             'description'  => 'Classic Studio Unit - Rental Fee',
             'cost'         => 4250,
+            'for_lease'     => 0,
             'payment_type' => 'Monthly',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -172,6 +174,7 @@ class BaseDataSeeder extends Seeder
             'name'         => 'Premium Studio Unit - Rental Fee',
             'description'  => 'Premium Studio Unit - Rental Fee',
             'cost'         => 4750,
+            'for_lease'     => 0,
             'payment_type' => 'Monthly',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -181,6 +184,7 @@ class BaseDataSeeder extends Seeder
             'name'         => 'Deluxe Studio Unit - Rental Fee',
             'description'  => 'Deluxe Studio Unit - Rental Fee',
             'cost'         => 5250,
+            'for_lease'     => 0,
             'payment_type' => 'Monthly',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -190,6 +194,7 @@ class BaseDataSeeder extends Seeder
             'name'         => 'Twin Studio Unit - Rental Fee',
             'description'  => 'Twin Studio Unit - Rental Fee',
             'cost'         => 5350,
+            'for_lease'     => 0,
             'payment_type' => 'Monthly',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -199,6 +204,7 @@ class BaseDataSeeder extends Seeder
             'name'         => '2 Bedroom Unit - Rental Fee',
             'description'  => '2 Bedroom Unit - Rental Fee',
             'cost'         => 6850,
+            'for_lease'     => 0,
             'payment_type' => 'Monthly',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -210,6 +216,7 @@ class BaseDataSeeder extends Seeder
             'name'         => 'Studio Unit - Security Deposit',
             'description'  => 'Studio Unit - Security Deposit',
             'cost'         => 3850,
+            'for_lease'     => 0,
             'payment_type' => 'Once-off',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -219,6 +226,7 @@ class BaseDataSeeder extends Seeder
             'name'         => 'Classic Studio Unit - Security Deposit',
             'description'  => 'Classic Studio Unit - Security Deposit',
             'cost'         => 4250,
+            'for_lease'     => 0,
             'payment_type' => 'Once-off',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -228,6 +236,7 @@ class BaseDataSeeder extends Seeder
             'name'         => 'Premium Studio Unit - Security Deposit',
             'description'  => 'Premium Studio Unit - Security Deposit',
             'cost'         => 4750,
+            'for_lease'     => 0,
             'payment_type' => 'Once-off',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -237,6 +246,7 @@ class BaseDataSeeder extends Seeder
             'name'         => 'Deluxe Studio Unit - Security Deposit',
             'description'  => 'Deluxe Studio Unit - Security Deposit',
             'cost'         => 5250,
+            'for_lease'     => 0,
             'payment_type' => 'Once-off',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -246,6 +256,7 @@ class BaseDataSeeder extends Seeder
             'name'         => 'Twin Studio Unit - Security Deposit',
             'description'  => 'Twin Studio Unit - Security Deposit',
             'cost'         => 5350,
+            'for_lease'     => 0,
             'payment_type' => 'Once-off',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -255,6 +266,7 @@ class BaseDataSeeder extends Seeder
             'name'         => '2 Bedroom Unit - Security Deposit',
             'description'  => '2 Bedroom Unit - Security Deposit',
             'cost'         => 6850,
+            'for_lease'     => 0,
             'payment_type' => 'Once-off',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -265,6 +277,7 @@ class BaseDataSeeder extends Seeder
             'name'         => 'Studio Unit - Damage Deposit',
             'description'  => 'Studio Unit - Damage Deposit',
             'cost'         => 3850,
+            'for_lease'     => 0,
             'payment_type' => 'Once-off',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -274,6 +287,7 @@ class BaseDataSeeder extends Seeder
             'name'         => 'Classic Studio Unit - Damage Deposit',
             'description'  => 'Classic Studio Unit - Damage Deposit',
             'cost'         => 4250,
+            'for_lease'     => 0,
             'payment_type' => 'Once-off',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -283,6 +297,7 @@ class BaseDataSeeder extends Seeder
             'name'         => 'Premium Studio Unit - Damage Deposit',
             'description'  => 'Premium Studio Unit - Damage Deposit',
             'cost'         => 4750,
+            'for_lease'     => 0,
             'payment_type' => 'Once-off',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -292,6 +307,7 @@ class BaseDataSeeder extends Seeder
             'name'         => 'Deluxe Studio Unit - Damage Deposit',
             'description'  => 'Deluxe Studio Unit - Damage Deposit',
             'cost'         => 5250,
+            'for_lease'     => 0,
             'payment_type' => 'Once-off',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -301,6 +317,7 @@ class BaseDataSeeder extends Seeder
             'name'         => 'Twin Studio Unit - Damage Deposit',
             'description'  => 'Twin Studio Unit - Damage Deposit',
             'cost'         => 5350,
+            'for_lease'     => 0,
             'payment_type' => 'Once-off',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -310,6 +327,7 @@ class BaseDataSeeder extends Seeder
             'name'         => '2 Bedroom Unit - Damage Deposit',
             'description'  => '2 Bedroom Unit - Damage Deposit',
             'cost'         => 6850,
+            'for_lease'     => 0,
             'payment_type' => 'Once-off',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -321,6 +339,7 @@ class BaseDataSeeder extends Seeder
             'name'         => 'Parking Bay',
             'description'  => 'Parking Bay',
             'cost'         => 300,
+            'for_lease'     => 0,
             'payment_type' => 'Monthly',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -330,6 +349,7 @@ class BaseDataSeeder extends Seeder
             'name'         => 'Motorcycle Parking Bay',
             'description'  => 'Motorcycle Parking Bay',
             'cost'         => 150,
+            'for_lease'     => 0,
             'payment_type' => 'Monthly',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -340,6 +360,7 @@ class BaseDataSeeder extends Seeder
             'name'         => 'DSTV',
             'description'  => '10 Channel DSTV bouquet',
             'cost'         => 150,
+            'for_lease'     => 0,
             'payment_type' => 'Monthly',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -349,6 +370,7 @@ class BaseDataSeeder extends Seeder
             'name'         => 'DSTV - Activation Fee',
             'description'  => 'Once-off DSTV activation fee',
             'cost'         => 750,
+            'for_lease'     => 0,
             'payment_type' => 'Once-off',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -358,6 +380,7 @@ class BaseDataSeeder extends Seeder
             'name'         => 'Storeroom',
             'description'  => 'Storeroom',
             'cost'         => 400,
+            'for_lease'     => 0,
             'payment_type' => 'Monthly',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -367,6 +390,7 @@ class BaseDataSeeder extends Seeder
             'name'         => 'Access Card Fee',
             'description'  => 'Access Card Fee',
             'cost'         => 400,
+            'for_lease'     => 0,
             'payment_type' => 'Once-off',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -376,6 +400,7 @@ class BaseDataSeeder extends Seeder
             'name'         => 'Mattress Protector Fee - 1x Single',
             'description'  => 'Mattress Protector Fee - 1x Single',
             'cost'         => 235,
+            'for_lease'     => 0,
             'payment_type' => 'Once-off',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -385,6 +410,7 @@ class BaseDataSeeder extends Seeder
             'name'         => 'Mattress Protector Fee - 1x 3/4',
             'description'  => 'Mattress Protector Fee - 1x 3/4',
             'cost'         => 255,
+            'for_lease'     => 0,
             'payment_type' => 'Once-off',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -395,6 +421,7 @@ class BaseDataSeeder extends Seeder
             'name'         => 'Mattress Protector Fee - 1x Double',
             'description'  => 'Mattress Protector Fee - 1x Double',
             'cost'         => 290,
+            'for_lease'     => 0,
             'payment_type' => 'Once-off',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -404,6 +431,7 @@ class BaseDataSeeder extends Seeder
             'name'         => 'Mattress Protector Fee - 2x Single',
             'description'  => 'Mattress Protector Fee - 2x Single',
             'cost'         => 470,
+            'for_lease'     => 0,
             'payment_type' => 'Once-off',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -413,6 +441,7 @@ class BaseDataSeeder extends Seeder
             'name'         => 'Mattress Protector Fee - 2x 3/4',
             'description'  => 'Mattress Protector Fee - 2x 3/4',
             'cost'         => 580,
+            'for_lease'     => 0,
             'payment_type' => 'Once-off',
             'created_at' => \Carbon\Carbon::today()
         ]);
@@ -422,6 +451,7 @@ class BaseDataSeeder extends Seeder
             'name'         => 'Lease & Credit Check Fee',
             'description'  => 'Lease & Credit Check Fee',
             'cost'         => 550,
+            'for_lease'     => 0,
             'payment_type' => 'Once-off',
             'created_at' => \Carbon\Carbon::today()
         ]);

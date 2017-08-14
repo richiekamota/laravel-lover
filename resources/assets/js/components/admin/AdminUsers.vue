@@ -68,10 +68,11 @@
                                      </label>-->
                                     <label for="userTenantCode" class="row">
 
-                                        <div class="small-6 medium-6 column"> Tenant Code<input type="text" id="userTenantCode"
-                                                                                    ref="userTenantCode"
-                                                                                    name="userTenantCode"
-                                                                                    v-model="editUser.tenant_code">
+                                        <div class="small-6 medium-6 column"> Tenant Code<input type="text"
+                                                                                                id="userTenantCode"
+                                                                                                ref="userTenantCode"
+                                                                                                name="userTenantCode"
+                                                                                                v-model="editUser.tenant_code">
                                         </div>
                                         <div class="small-6 medium-6 column">&nbsp;<br/>
                                             <button type="submit" class="success button" v-on:click="updateUser"
@@ -182,7 +183,7 @@
 <script>
     export default {
         props: ['propUsers'],
-        data(){
+        data() {
             return {
                 users: [],
                 filteredUsers: [],
@@ -401,22 +402,21 @@
                         var filteredInput = this.$refs['filterInput'].value;
                         Object.keys(user).forEach(function (key) {
                             let obj = user[key];
-                            if(key == 'contracts' && user[key].length > 0) {
-                                    var contracts = user[key];
-                                    var i = 0;
-                                    while(i < contracts.length){
-                                        let contractObj = contracts[i];
-                                        Object.keys(contractObj).forEach(function (ckey) {
-                                            alert(contractObj[ckey]);
-                                        });
-                                        i++;
-                                    }
-                            }else{
+                            if (key == 'contracts' && user[key].length > 0) {
+                                var contracts = user[key];
+                                var i = 0;
+                                while (i < contracts.length) {
+                                    let contractObj = contracts[i];
+                                    Object.keys(contractObj).forEach(function (ckey) {
+                                        alert(contractObj[ckey]);
+                                    });
+                                    i++;
+                                }
+                            } else {
                                 if (obj && obj.indexOf(filteredInput) !== -1) {
                                     isValid = true;
                                 }
                             }
-
 
 
                         });

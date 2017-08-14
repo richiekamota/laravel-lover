@@ -70,11 +70,12 @@ class CreateApplicationTable extends Migration
             // Step 5
             $table->string('unit_location', 191)->nullable();
             $table->uuid('unit_type')->nullable();
-            $table->enum('unit_lease_length', ['3', '6', '9', '12'])->nullable();
+            $table->enum('unit_lease_length', ['10', '11', '12'])->nullable();
             $table->boolean('unit_car_parking')->nullable();
             $table->boolean('unit_bike_parking')->nullable();
             $table->boolean('unit_tv')->nullable();
             $table->boolean('unit_storeroom')->nullable();
+            $table->boolean('unit_fee_split')->default(0);
             $table->dateTime('unit_occupation_date')->nullable();
             // Step 6
             $table->boolean('judgements')->nullable();
