@@ -34,10 +34,12 @@ class OccupationDateController extends Controller
             $u->occupation_dates = $occupationDates->toArray();
             $units[] = $u;
         }
+
+        print_r($units);
         $units = json_encode($units);
         $locations = Location::all();
 
-        // print_r($units);
+
 
         return view('occupation-dates.index', compact('units', 'locations'));
 
