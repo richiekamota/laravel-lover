@@ -15,24 +15,6 @@ class UserTableSeeder extends Seeder
 
         DB::table( 'users' )->insert( [
             'id'         => Uuid::generate()->string,
-            'first_name' => "First",
-            'last_name'  => "Last",
-            'email'      => 'first_last@test.com',
-            'password'   => bcrypt( 'qwerty' ),
-            'role'       => 'admin'
-        ] );
-
-        DB::table( 'users' )->insert( [
-            'id'         => Uuid::generate()->string,
-            'first_name' => "Craig",
-            'last_name'  => "Getz",
-            'email'      => 'craig@swishproperties.co.za',
-            'password'   => bcrypt( 'craig2016' ),
-            'role'       => 'admin'
-        ] );
-
-        DB::table( 'users' )->insert( [
-            'id'         => Uuid::generate()->string,
             'first_name' => "Catherine",
             'last_name'  => "Dohlhoff",
             'email'      => 'catherine@mydomainliving.co.za',
