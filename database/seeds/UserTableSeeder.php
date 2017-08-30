@@ -35,7 +35,7 @@ class UserTableSeeder extends Seeder
             'id'         => Uuid::generate()->string,
             'first_name' => "Catherine",
             'last_name'  => "Dohlhoff",
-            'email'      => 'craig@mydomainliving.co.za',
+            'email'      => 'catherine@mydomainliving.co.za',
             'password'   => bcrypt( 'catherine20!7' ),
             'role'       => 'admin'
         ] );
