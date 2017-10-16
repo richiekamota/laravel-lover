@@ -1010,9 +1010,7 @@
         mounted() {
 
             this.application = JSON.parse(this.propApplication);
-            this.declineInput = false;
-
-            console.log(this.application);
+            this.declineInput = false;            
 
         },
 
