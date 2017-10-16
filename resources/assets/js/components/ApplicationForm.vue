@@ -699,7 +699,7 @@
                                 <span v-else>
                         Save and continue
                     </span>
-                            </button>
+                            </button> 
 
                         </div>
                         <!-- END Step 7 -->
@@ -712,7 +712,9 @@
                         <div class="application-step__content">
                             <!-- Comments -->
                             <label for="comments">
-                                Comments
+                                Comments <br /> 
+                                <span>Please add a second choice of Unit Type below, should your preferred choice not be available.</span><br/> 
+
                                 <textarea name="comments" v-model="appForm.comments"></textarea>
                             </label>
 
