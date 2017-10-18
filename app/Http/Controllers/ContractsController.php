@@ -206,6 +206,7 @@ class ContractsController extends Controller
             // Attach the document to the contract record
             $contract->document_id = $document->id;
             $contract->save();
+            
 
             // Log an event against the application
             ApplicationEvent::create([
