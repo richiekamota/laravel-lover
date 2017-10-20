@@ -269,19 +269,19 @@ export default {
                 }
             };
 
-            console.log(this.filteredUnits);
-        },
+                
+            },
 
         toNiceDate: (date) => {
             return moment(date).format("dddd, MMMM Do YYYY");
         },
 
-        addSelectedItem: function (item, index) {
-            console.log(this.items);
-            this.selectedItems.push(item);
-            this.items.splice(index, 1);
-            this.updateTotalCost();
-        },
+            addSelectedItem: function (item, index) {
+                
+                this.selectedItems.push(item);
+                this.items.splice(index, 1);
+                this.updateTotalCost();
+            },
 
         removeSelectedItem: function (item, index) {
             this.selectedItems.splice(index, 1);
@@ -343,7 +343,7 @@ export default {
                     });
 
                 }, (err) => {
-                    console.log("An error occured", err);
+                    
                     let errorMessage = '';
                     if (err.message) {
                         errorMessage = err.message;

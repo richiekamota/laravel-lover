@@ -203,8 +203,6 @@ class ItemsController extends Controller
             ], 422 );
         }
 
-        // print_r($request->all());
-
         DB::beginTransaction();
 
         try {
@@ -256,9 +254,6 @@ class ItemsController extends Controller
 
         // abort unless Auth > tenant
         $this->authorize('delete', Item::class);
-       // $lease_dates = ItemLeaseDate::where("id",$id)->first();;
-       // echo $id;
-      //  print_r($lease_dates);
 
         DB::beginTransaction();
 
