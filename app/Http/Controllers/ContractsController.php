@@ -206,6 +206,7 @@ class ContractsController extends Controller
             // Attach the document to the contract record
             $contract->document_id = $document->id;
             $contract->save();
+            
 
             // Log an event against the application
             ApplicationEvent::create([
@@ -273,8 +274,6 @@ class ContractsController extends Controller
             $contract->occupation_date = OccupationDate::where('application_id', '=', $contract->application_id)->first();
             $contract->start_date = Carbon::parse($contract->start_date)->format("d F Y");
             $contract->end_date = Carbon::parse($contract->end_date)->format("d F Y");
-
-            // print_r($contract->toArray());
 
             $contract->onceoff_total = 0;
             $contract->monthly_total = 0;

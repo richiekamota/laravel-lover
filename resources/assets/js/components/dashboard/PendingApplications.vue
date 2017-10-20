@@ -54,7 +54,7 @@
         },
         mounted() {
             this.pendingApplications = JSON.parse(this.propPendingApplications);
-            console.log('pendingApplications', this.pendingApplications);
+            
         },
         methods: {
 

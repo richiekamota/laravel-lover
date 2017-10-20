@@ -489,6 +489,27 @@
                         </button>
                         <div class="application-step__content">
 
+                            <!-- Unit occupation date -->
+                            <label for="unit_occupation_date">
+                                Unit Occupation Date *
+                                <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="unit_occupation_date"
+                                           v-model="appForm.unit_occupation_date"
+                                           @update='appForm.unit_occupation_date = $event' required/>
+                            </label>
+
+
+                            <!-- Unit Lease Length -->
+                            <label for="unit_lease_length">
+                                Unit lease length *
+                                <select name="unit_lease_length" v-model="appForm.unit_lease_length" required>
+                                    <option value=""></option>
+                                    <option value="10">10 months</option>
+                                    <option value="11">11 months</option>
+                                    <option value="12">12 months</option>
+
+                                </select>
+                            </label>
+
                             <!-- Unit Location -->
                             <label for="unit_location">
                                 Unit Location *
@@ -508,8 +529,9 @@
                                     <option></option>
                                     <option v-for="unit in unitTypes" v-bind:value="unit.id"
                                             v-bind:data-description="unit.description"
+                                            v-bind:data-price="unit.cost"
                                             v-if="appForm.unit_location == unit.location_id">
-                                        {{ unit.name }} - R{{ unit.cost }}
+                                        {{ unit.name }}
                                     </option>
                                 </select>
                             </label>
@@ -517,7 +539,8 @@
 
 
                             <p v-show="unitTypeInfo">
-                                Unit Description: <br>
+                                <strong>Price:</strong> From R{{ unitTypePrice }}<br/><br/>
+                                <strong>Description:</strong> <br>
                                 {{ unitTypeInfo }}
                             </p>
 
@@ -531,17 +554,7 @@
                                 </select>
                             </label>
 
-                            <!-- Unit Lease Length -->
-                            <label for="unit_lease_length">
-                                Unit lease length *
-                                <select name="unit_lease_length" v-model="appForm.unit_lease_length" required>
-                                    <option value=""></option>
-                                    <option value="10">10 months</option>
-                                    <option value="11">11 months</option>
-                                    <option value="12">12 months</option>
 
-                                </select>
-                            </label>
 
                             <!-- Unit Car parking -->
                             <div class="row column">
@@ -571,14 +584,6 @@
                                 <br/>
                                 <br/>
                             </div>
-
-                            <!-- Unit occupation date -->
-                            <label for="unit_occupation_date">
-                                Unit Occupation Date *
-                                <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="unit_occupation_date"
-                                           v-model="appForm.unit_occupation_date"
-                                           @update='appForm.unit_occupation_date = $event' required/>
-                            </label>
 
                             <div v-if="appForm.step5" v-html="appForm.step5"></div>
 
@@ -876,6 +881,7 @@
                 formAction: formAction,
                 showStep: '',
                 unitTypeInfo: '',
+                unitTypePrice: 0,
                 loading: false,
                 countries: '',
                 twoRoomUnits: []
@@ -900,7 +906,7 @@
             this.twoRoomUnits = [];
 
             this.unitTypes.forEach(child => {
-                // console.log(child);
+                // 
                 if(child.occupants > 1){
                     this.twoRoomUnits.push(child.id);
                 }
@@ -908,7 +914,7 @@
 
             this.unitTypes = JSON.parse(this.propUnitTypes);
 
-            console.log(this.appForm);
+            
 
             // Add dropzones
             let residentIdDropzone = new Dropzone("#resident_id", {url: "/documents/application"});
@@ -975,15 +981,17 @@
 
             update (val) {
                 this.msg = val
-                console.log("Update", val);
+                
             },
 
             roomInfo: function (event) {
                 let sel = event.target;
                 if (typeof sel.options[sel.selectedIndex] !== "undefined") {
                     this.unitTypeInfo = sel.options[sel.selectedIndex].getAttribute('data-description');
+                    this.unitTypePrice = sel.options[sel.selectedIndex].getAttribute('data-price');
                 } else {
                     this.unitTypeInfo = '';
+                    this.unitTypePrice = '0';
                 }
             },
 
@@ -1017,7 +1025,7 @@
                         // If we are successful, there might not be any message to say so let's set it to default.
                         this.appForm[stepMessage] = 'Thank you. Your Application has been sent for review.';
                     }, (err) => {
-                        console.log("An error occured", err);
+                        
                         let errorMessage = '';
                         if (err.body.message) {
                             errorMessage = err.body.message;
@@ -1062,7 +1070,7 @@
                     // If we are successful, there might not be any message to say so let's set it to default.
                     this.appForm[stepMessage] = 'Thank you. Your Application has been cancelled.';
                 }, (err) => {
-                    console.log("An error occured", err);
+                    
                     let errorMessage = '';
                     if (err.body.message) {
                         errorMessage = err.body.message;
@@ -1132,7 +1140,7 @@
                         });
                     }
                 }, (err) => {
-                    console.log("An error occured", err);
+                    
                     let errorMessage = '';
                     if (err.body.message) {
                         errorMessage = err.body.message;

@@ -73,7 +73,7 @@
         },
         mounted() {
             this.contracts = JSON.parse(this.propContracts);
-            console.log("contracts", this.contracts);
+            
         },
         methods: {
 

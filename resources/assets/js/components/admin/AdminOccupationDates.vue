@@ -11,10 +11,8 @@
         </div>
 
         <div class="row">
-
             <!-- Title -->
             <div class="small-12 medium-9 columns">
-
                 <!-- START List Section -->
                 <div class="row table">
 
@@ -24,8 +22,6 @@
                             <button class="accordion__heading accordion__heading--add">
                                 <h4 class="--white">Units</h4>
                             </button>
-
-
                         </div>
                     </div>
 
@@ -41,200 +37,268 @@
                     <template v-for="(filteredUnit, index) in filteredUnits">
                         <div class="small-12 columns" v-show="index >= pagination.from && index <= pagination.to">
                             <div class="table__row"
-                                 :class="{ even: isEven(index), first: index == 0, last: index == filteredUnits.length -1 }">
-                                <!-- Row Title -->
-                                <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{
-                                    filteredUnit.code }}
-                                </button>
-                                <!-- START Edit form -->
-                                <div class="accordion__content  --bg-calm">
-                                    <div v-if="filteredUnit.occupation_dates.length == 0">
+                            :class="{ even: isEven(index), first: index == 0, last: index == filteredUnits.length -1 }">
+                            <!-- Row Title -->
+                            <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{
+                                filteredUnit.code }}
+                            </button>
+                            <!-- START Edit form -->
+                            <div class="accordion__content  --bg-calm">
+                                <div v-if="filteredUnit.occupation_dates.length == 0">
 
-                                        <p>There are no occupations for this unit</p>
+                                    <p>There are no occupations for this unit</p>
 
-                                    </div>
-                                    <template v-for="(occupationDate, index) in filteredUnit.occupation_dates">
-
-                                        <div class="row column">
-                                            <!-- START Unit input form -->
-                                            <p><strong>Contract</strong>:
-                                                {{ occupationDate.contract_id }}</p>
-
-                                            <div class="col row">
-                                                <div class="small-6 columns">
-                                                    <p><strong>Start Date</strong>:
-                                                        {{ occupationDate.start_date }}</p>
-                                                </div>
-                                                <div class="small-6 columns">
-                                                    <p><strong>End Date</strong>:
-                                                        {{ occupationDate.end_date }}</p>
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-
-                                        <hr/>
-                                    </template>
                                 </div>
-                                <!-- END Edit form -->
+                                <template v-for="(occupationDate, index) in filteredUnit.occupation_dates">
+
+                                    <div class="row column">
+                                        <!-- START Unit input form -->
+                                        <p><strong>Contract</strong>:
+                                        {{ occupationDate.contract_id }}</p>
+
+                                        <div class="col row">
+                                            <div class="small-6 columns">
+                                                <p><strong>Start Date</strong>:
+                                                {{ occupationDate.start_date }}</p>
+                                            </div>
+                                            <div class="small-6 columns">
+                                                <p><strong>End Date</strong>:
+                                                {{ occupationDate.end_date }}</p>
+                                                <div class="row">                                                    
+                                                     <div class="small-12 large-8 columns">
+                                                        <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' 
+                                                         name="updatedEndDate" placeholder="Edit End Date" v-model="updatedEndDate"/>                                                      
+                                                        </Flatpickr>
+                                                    </div>
+                                                    <div class="small-4 columns"><button v-on:click="updateEndDate(occupationDate)" class="button button--small">Submit</button></div>       
+                                               </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr/>
+                                </template>
                             </div>
+                            <!-- END Edit form -->
                         </div>
-                    </template>
-
-                    <!-- START Pagination buttons -->
-                    <div class="row">
-                        <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-                            <!-- <li class="pagination-previous" v-on:click="pagination.currentPage = pagination.currentPage - 1; calculatePagination()" v-bind:class="{disabled: pagination.previousPage > 0}" >Previous</li> -->
-                            <template v-for="n in pagination.maxPages">
-                                <li class="current" v-show="n ==  pagination.currentPage"><span class="show-for-sr">You're on page</span>
-                                    {{n}}
-                                </li>
-                                <li><a v-bind:aria-label="'Page ' + n"
-                                       v-on:click="pagination.currentPage = n; calculatePagination()"
-                                       v-show="n !=  pagination.currentPage"> {{n}}</a></li>
-                            </template>
-                            <!-- <li class="pagination-next" v-on:click="pagination.currentPage = pagination.currentPage + 1; calculatePagination()" v-show="pagination.nextPage <= pagination.maxPages"><a aria-label="Next page">Next</a></li> -->
-                        </ul>
                     </div>
-                    <!-- END Pagination buttons -->
+                </template>
+
+                <!-- START Pagination buttons -->
+                <div class="row">
+                    <ul class="pagination text-center" role="navigation" aria-label="Pagination">
+                        <!-- <li class="pagination-previous" v-on:click="pagination.currentPage = pagination.currentPage - 1; calculatePagination()" v-bind:class="{disabled: pagination.previousPage > 0}" >Previous</li> -->
+                        <template v-for="n in pagination.maxPages">
+                            <li class="current" v-show="n ==  pagination.currentPage"><span class="show-for-sr">You're on page</span>
+                                {{n}}
+                            </li>
+                            <li><a v-bind:aria-label="'Page ' + n"
+                               v-on:click="pagination.currentPage = n; calculatePagination()"
+                               v-show="n !=  pagination.currentPage"> {{n}}</a></li>
+                           </template>
+                           <!-- <li class="pagination-next" v-on:click="pagination.currentPage = pagination.currentPage + 1; calculatePagination()" v-show="pagination.nextPage <= pagination.maxPages"><a aria-label="Next page">Next</a></li> -->
+                       </ul>
+                   </div>
+                   <!-- END Pagination buttons -->
+               </div>
+           </div>
+
+           <div class="medium-3 columns">
+
+            <!-- START Filter Section -->
+
+            <h3></strong>Filter:</h3>
+            <p class="error">{{filterMessage}}</p>
+            <div class="row column">
+                <label for="filterLocation">
+                    <select class="--mb0" ref="filterLocation" id="filterLocation" name="filterLocation"
+                    v-model="filterLocation" placeholder="Filter by location">
+                    <option value="">Select Location</option>
+                    <option v-for="location in locations" v-bind:value="location.id">
+                        {{ location.name }}
+                    </option>
+                </select>
+            </label>
+            <br/>
+        </div>
+        <div class="row column">
+
+            <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="filterStartDate"
+            placeholder="Start Date"
+            v-model="filterStartDate"
+            />
+        </div>
+        <div class="row column">
+
+            <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="filterEndDate"
+            placeholder="End Date"
+            v-model="filterEndDate"
+            />
+        </div>
+        <div class="row column">
+            <input type="radio" id="Occupied" value="1" v-model="occupied">
+            <label for="Occupied">Occupied Units</label>
+            <br/>
+            <input type="radio" id="Unoccupied" value="0" v-model="occupied">
+            <label for="Unoccupied">Unoccupied Units</label>
 
 
-                </div>
-
-            </div>
-
-            <div class="medium-3 columns">
-
-                <!-- START Filter Section -->
-
-
-                <h3></strong>Filter:</h3>
-                <p class="error">{{filterMessage}}</p>
-                <div class="row column">
-                    <label for="filterLocation">
-                        <select class="--mb0" ref="filterLocation" id="filterLocation" name="filterLocation"
-                                v-model="filterLocation" placeholder="Filter by location">
-                            <option value="">Select Location</option>
-                            <option v-for="location in locations" v-bind:value="location.id">
-                                {{ location.name }}
-                            </option>
-                        </select>
-                    </label>
-                    <br/>
-                </div>
-                <div class="row column">
-
-                    <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="filterStartDate"
-                               placeholder="Start Date"
-                               v-model="filterStartDate"
-                    />
-                </div>
-                <div class="row column">
-
-                    <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="filterEndDate"
-                               placeholder="End Date"
-                               v-model="filterEndDate"
-                    />
-                </div>
-                <div class="row column">
-                    <input type="radio" id="Occupied" value="1" v-model="occupied">
-                    <label for="Occupied">Occupied Units</label>
-                    <br/>
-                    <input type="radio" id="Unoccupied" value="0" v-model="occupied">
-                    <label for="Unoccupied">Unoccupied Units</label>
-
-
-                </div>
-                <div class="row column">
-                    <button v-on:click="filter" class="button">
-                        Filter
-                    </button>
-
-                </div>
-
-                <div class="row column --border-wrap">
-                    <div class="stats-box">
-                        <div class="row column clearfix">
-                            <h3 class="stats-box__header --focused --mt0">Stats</h3>
-                        </div>
-                        Units: <span class="float-right">{{filteredUnits.length}}</span>
-                        <br/><br/>
-                        <form action="" method="post" target="_blank">
-                            <input type="hidden" name="export_ids" id="export_ids" ref="export_ids" value="">
-                        </form>
-                        <button v-on:click="exportToCSV" class="button">
-                            Export to CSV
-                        </button>
-                    </div>
-                </div>
-            </div>
+        </div>
+        <div class="row column">
+            <button v-on:click="filter" class="button">
+                Filter
+            </button>
 
         </div>
 
+        <div class="row column --border-wrap">
+            <div class="stats-box">
+                <div class="row column clearfix">
+                    <h3 class="stats-box__header --focused --mt0">Stats</h3>
+                </div>
+                Units: <span class="float-right">{{filteredUnits.length}}</span>
+                <br/><br/>
+                <form action="" method="post" target="_blank">
+                    <input type="hidden" name="export_ids" id="export_ids" ref="export_ids" value="">
+                </form>
+                <button v-on:click="exportToCSV" class="button">
+                    Export to CSV
+                </button>
+            </div>
+        </div>
     </div>
+
+</div>
+
+</div>
 </template>
 <script>
 
-    const moment = require('moment');
+const moment = require('moment');
 
-    import VueFlatpickr from 'vue-flatpickr';
+import VueFlatpickr from 'vue-flatpickr';
 
-    Vue.use(VueFlatpickr);
+Vue.use(VueFlatpickr);
 
-    export default {
-        props: ['propLocations', 'propUnits'],
-        data() {
-            return {
-                units: [],
-                locations: [],
-                filteredUnits: [],
-                loading: false,
-                filterStartDate: '',
-                filterEndDate: '',
-                filterLocation: '',
-                filterSummary: 'Showing all occupied units.',
-                occupied: 1,
-                filterMessage: '',
-                pagination: {
-                    total: 1,
-                    from: 0,
-                    to: 1,
-                    per_page: 10,
-                    currentPage: 1,
-                    nextPage: 1,
-                    previousPage: 1,
-                    maxPages: 0
-                }
+export default {
+    props: ['propLocations', 'propUnits'],
+    data() {
+        return {
+            units: [],
+            locations: [],
+            filteredUnits: [],
+            loading: false,
+            filterStartDate: '',
+            filterEndDate: '',
+            filterLocation: '',
+            updatedEndDate:'',
+            filterSummary: 'Showing all occupied units.',
+            occupied: 1,
+            filterMessage: '',
+            pagination: {
+                total: 1,
+                from: 0,
+                to: 1,
+                per_page: 10,
+                currentPage: 1,
+                nextPage: 1,
+                previousPage: 1,
+                maxPages: 0
             }
+        }
+    },
+    mounted() {
+        this.locations = JSON.parse(this.propLocations);
+        this.units = JSON.parse(this.propUnits);
+        this.defaultFilter();
+        console.log(this.units);
+        this.calculatePagination();
+    },
+    methods: {
+
+        isEven: function (n) {
+            return n % 2 == 0;
         },
-        mounted() {
-            this.locations = JSON.parse(this.propLocations);
-            this.units = JSON.parse(this.propUnits);
-            this.defaultFilter();
+
+        defaultFilter: function () {
+            this.filteredUnits = this.units.filter((unit) => {
+                if (this.filteredUnits.occupation_dates) {
+                    if (this.filteredUnits.occupation_dates.length > 0) {
+                        var isValid = true;
+                        return isValid;
+                    }
+                }
+            });
+
+            this.pagination.currentPage = 1;
             this.calculatePagination();
         },
-        methods: {
 
-            isEven: function (n) {
-                return n % 2 == 0;
-            },
+        getTime: function (time) {
+            return moment(time).format("MMMM Do YYYY");
+        },
 
-            defaultFilter: function () {
-                this.filteredUnits = this.units.filter((unit) => {
-                    if (this.filteredUnits.occupation_dates) {
-                        if (this.filteredUnits.occupation_dates.length > 0) {
-                            var isValid = true;
-                            return isValid;
-                        }
+        updateEndDate: function(unit){
+
+            //Validation to prevent an empty date submission
+            if(this.updatedEndDate == ''){
+               return false;
+            } else {
+
+            //Only when the date is chosen the submit can proceed
+            //
+            this.$http.post(
+                '/occupations/' + unit.contract_id + '/editenddate',
+                {"date" : this.updatedEndDate}
+                ).then((response) => {
+                    swal({
+                        title: "Update Successful",
+                        text: "The update to the end date has been successful.",
+                        type: "success",
+                        confirmButtonText: "Ok",
+                    });
+
+                   // Loop through units to update the occupation date
+                   var i = 0;
+                    while (i < this.units.length) {
+                        var ii = 0;
+                         while (ii < this.units[i].occupation_dates.length) {
+
+                                if(this.units[i].occupation_dates[ii].contract_id == unit.contract_id){
+                                    this.units[i].occupation_dates[ii].end_date = this.updatedEndDate;
+                                }
+
+                            ii++;
+                         }
+                         i++;
                     }
-                });
-                this.pagination.currentPage = 1;
-                this.calculatePagination();
-            },
+                    this.loading = false;
+                }
+                , (err) => {
+                    console.log("An error occured", err);
+                    let errorMessage = '';
+                    if (err.body.message) {
+                        errorMessage = err.body.message;
+                    } else {
+                        // This should occur if there are any validation errors.
+                        // Let's iterate over the list of errors.
+                        Object.keys(err.body).forEach(function (key) {
+                            let obj = err.body[key];
+                            obj = obj.toString();
+                            errorMessage = errorMessage + obj + '\r \n';
+                        });
+                    }
+                    swal({
+                        title: "Error updating the contract end date",
+                        text: errorMessage,
+                        type: "error",
+                        confirmButtonText: "Ok"
+                    });
 
-            getTime: function (time) {
-                return moment(time).format("MMMM Do YYYY");
+                    this.loading = false;
+                });
+             }  
+            
             },
 
             accordionToggle: function (index, event) {
@@ -292,7 +356,6 @@
                 });
             },
 
-
             filter() {
                 // Let's get a fresh list before filter.
                 this.filteredUnits = this.units;
@@ -321,18 +384,17 @@
                     });
 
                 }
+                            if (this.filterStartDate != '' || this.filterEndDate != '') {
+                             var inputStartDate = new Date(this.filterStartDate);
+                             var inputEndDate = new Date(this.filterEndDate);
 
-                if (this.filterStartDate != '' || this.filterEndDate != '') {
-                    var inputStartDate = new Date(this.filterStartDate);
-                    var inputEndDate = new Date(this.filterEndDate);
+                             this.filteredUnits = this.units.filter((unit) => {
 
-                    this.filteredUnits = this.units.filter((unit) => {
+                             var isValid = false;
 
-                        var isValid = false;
-
-                        if (unit.occupation_dates.length && this.occupied == 1) {
-                            var i = 0;
-                            while (i < unit.occupation_dates.length) {
+                            if (unit.occupation_dates.length && this.occupied == 1) {
+                             var i = 0;
+                             while (i < unit.occupation_dates.length) {
 
                                 var unitStartDate = new Date(unit.occupation_dates[i].start_date);
                                 var unitEndDate = new Date(unit.occupation_dates[i].end_date);
@@ -342,15 +404,16 @@
                                 unit.occupation_dates.splice(i, 1);
 
                                 if (this.filterStartDate != '' && this.filterEndDate != '') {
-
-                                    if ((unitStartDate >= inputStartDate && unitStartDate <= inputEndDate) || (unitEndDate <= inputEndDate && unitEndDate >= inputStartDate)) {
+                                    //alert(inputStartDate + ":" + unitStartDate)
+                                    
+                                    if ((unitStartDate <= inputStartDate) || (unitEndDate <= inputEndDate && unitEndDate >= inputStartDate)) {
                                         if (this.occupied == 1) {
                                             isValid = true;
                                             unit.occupation_dates[i] = curOccupationData;
                                         }
                                     }
-                                }
 
+                                }
                                 else if (this.filterStartDate != '' && this.filterEndDate == '') {
 
                                     if ((unitStartDate >= inputStartDate && unitEndDate <= inputStartDate)) {
@@ -360,7 +423,6 @@
                                         }
                                     }
                                 }
-
                                 else if (this.filterEndDate != '' && this.filterStartDate == '') {
 
                                     if ((unitEndDate >= inputEndDate && unitStartDate <= inputEndDate)) {
@@ -370,17 +432,13 @@
                                         }
                                     }
                                 }
-
-
                                 i++;
-
                             }
                         } else {
                             if (this.occupied == 0 && !unit.occupation_dates.length) {
                                 isValid = true;
                             }
                         }
-
                         return isValid;
                     });
 
@@ -392,7 +450,6 @@
 
                 }
 
-
                 this.calculatePagination();
                 this.filterSummary = 'Showing ' + this.filteredUnits.length + ' ' + (this.occupied == 1 ? 'Occupied' : 'Unoccupied') + ' units.';
                 if (this.filterStartDate || this.filterEndDate) {
@@ -401,7 +458,6 @@
                 if (this.filterLocation) {
                     this.filterSummary = this.filterSummary + (this.filterLocation != '' ? ' In ' + locationName + '.' : '');
                 }
-
             },
 
             exportToCSV: function () {
@@ -425,30 +481,29 @@
                 this.$http.post(
                     '/occupations/export',
                     JSON.stringify(postArray)
-                ).then((response) => {
-                    swal({
-                        title: "Export to CSV",
-                        text: "Your CSV export will download shortly.",
-                        type: "success",
-                        confirmButtonText: "Ok",
-                    });
+                    ).then((response) => {
+                        swal({
+                            title: "Export to CSV",
+                            text: "Your CSV export will download shortly.",
+                            type: "success",
+                            confirmButtonText: "Ok",
+                        });
 
-                    var blob = response.body;
-                    var base64data = '';
+                        var blob = response.body;
+                        var base64data = '';
 
-                    var reader = new window.FileReader();
-                    reader.readAsDataURL(blob);
-                    reader.onloadend = function () {
-                        base64data = reader.result;
+                        var reader = new window.FileReader();
+                        reader.readAsDataURL(blob);
+                        reader.onloadend = function () {
+                            base64data = reader.result;
 
-                        var encodedUri = base64data;
-                        var link = document.createElement("a");
-                        link.setAttribute("href", encodedUri);
-                        link.setAttribute("download", "export.csv");
+                            var encodedUri = base64data;
+                            var link = document.createElement("a");
+                            link.setAttribute("href", encodedUri);
+                            link.setAttribute("download", "export.csv");
                         document.body.appendChild(link); // Required for FF
 
                         link.click();
-
                     }
 
                     this.loading = false;
@@ -476,10 +531,10 @@
 
                     this.loading = false;
                 });
-            },
+                },
 
-            calculatePagination() {
-                this.pagination.total = this.filteredUnits.length;
+                calculatePagination() {
+                    this.pagination.total = this.filteredUnits.length;
                 // Since Arrays start from 0, we must subtract an additional 1.
                 this.pagination.from = (this.pagination.currentPage - 1) * this.pagination.per_page;
                 this.pagination.to = this.pagination.from + this.pagination.per_page - 1;
@@ -488,8 +543,7 @@
                 // Since Arrays start at 0 we need to increment this value
                 this.pagination.maxPages = Math.round((this.pagination.total / this.pagination.per_page));
             }
-
         }
     }
 
-</script>
+    </script>

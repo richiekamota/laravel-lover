@@ -34,10 +34,11 @@ class OccupationDateController extends Controller
             $u->occupation_dates = $occupationDates->toArray();
             $units[] = $u;
         }
+
         $units = json_encode($units);
         $locations = Location::all();
 
-        // print_r($units);
+
 
         return view('occupation-dates.index', compact('units', 'locations'));
 
@@ -165,7 +166,6 @@ class OccupationDateController extends Controller
         }
 
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -176,5 +176,38 @@ class OccupationDateController extends Controller
     public function destroy($id)
     {
         //
+    }
+    //Updating lease end date changes in the database
+    public function updateEndDate(Request $request, $id)
+    {          
+        abort_unless(Gate::allows('is-admin'), 401);
+
+        $updateEndDate = $request['date'];
+        
+        DB::beginTransaction();
+        try {
+
+            OccupationDate::where('contract_id',$id)->update(['end_date' => $updateEndDate]);
+
+            DB::commit();
+
+            return Response::json([
+                'message' => trans('End date succesfully updated!'),               
+            ], 200);
+
+        } catch (\Exception $e) {
+
+            \Log::info($e);
+
+            //Bugsnag::notifyException($e);
+
+            DB::rollback();
+
+            return Response::json([
+                'error'   => 'occcupationdate_edit_error',
+                'message' => trans('End date could not be updated!'),
+            ], 422);
+
+        }
     }
 }

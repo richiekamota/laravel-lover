@@ -55,7 +55,7 @@
         },
         mounted() {
             this.allApplications = JSON.parse(this.propAllApplications);
-            console.log('allApplications', this.allApplications);
+            
         },
         methods: {
 
