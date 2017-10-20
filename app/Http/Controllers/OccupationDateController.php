@@ -35,7 +35,6 @@ class OccupationDateController extends Controller
             $units[] = $u;
         }
 
-        print_r($units);
         $units = json_encode($units);
         $locations = Location::all();
 

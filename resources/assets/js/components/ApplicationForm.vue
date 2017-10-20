@@ -906,7 +906,7 @@
             this.twoRoomUnits = [];
 
             this.unitTypes.forEach(child => {
-                // console.log(child);
+                // 
                 if(child.occupants > 1){
                     this.twoRoomUnits.push(child.id);
                 }
@@ -914,7 +914,7 @@
 
             this.unitTypes = JSON.parse(this.propUnitTypes);
 
-            console.log(this.appForm);
+            
 
             // Add dropzones
             let residentIdDropzone = new Dropzone("#resident_id", {url: "/documents/application"});
@@ -981,7 +981,7 @@
 
             update (val) {
                 this.msg = val
-                console.log("Update", val);
+                
             },
 
             roomInfo: function (event) {
@@ -1025,7 +1025,7 @@
                         // If we are successful, there might not be any message to say so let's set it to default.
                         this.appForm[stepMessage] = 'Thank you. Your Application has been sent for review.';
                     }, (err) => {
-                        console.log("An error occured", err);
+                        
                         let errorMessage = '';
                         if (err.body.message) {
                             errorMessage = err.body.message;
@@ -1070,7 +1070,7 @@
                     // If we are successful, there might not be any message to say so let's set it to default.
                     this.appForm[stepMessage] = 'Thank you. Your Application has been cancelled.';
                 }, (err) => {
-                    console.log("An error occured", err);
+                    
                     let errorMessage = '';
                     if (err.body.message) {
                         errorMessage = err.body.message;
@@ -1140,7 +1140,7 @@
                         });
                     }
                 }, (err) => {
-                    console.log("An error occured", err);
+                    
                     let errorMessage = '';
                     if (err.body.message) {
                         errorMessage = err.body.message;

@@ -927,7 +927,7 @@
 
             accordionToggle: function (step, event) {
 
-                console.log('click');
+                
 
                 event.preventDefault();
 

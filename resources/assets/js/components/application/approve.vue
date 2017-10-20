@@ -285,7 +285,7 @@
                     }
                 };
 
-                console.log(this.filteredUnits);
+                
             },
 
             toNiceDate: (date) => {
@@ -293,7 +293,7 @@
             },
 
             addSelectedItem: function (item, index) {
-                console.log(this.items);
+                
                 this.selectedItems.push(item);
                 this.items.splice(index, 1);
                 this.updateTotalCost();
@@ -323,7 +323,7 @@
 
                 this.loading = true;
 
-                console.log(this.selectedUnit);
+                
 
                 this.$http.post(
                     '/application/' + this.application.id + '/approve',
@@ -350,7 +350,7 @@
                         });
 
                 }, (err) => {
-                    console.log("An error occured", err);
+                    
                     let errorMessage = '';
                     if (err.message) {
                         errorMessage = err.message;

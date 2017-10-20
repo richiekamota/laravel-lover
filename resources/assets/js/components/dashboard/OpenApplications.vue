@@ -46,7 +46,7 @@
         },
         mounted() {
             this.openApplications = JSON.parse(this.propOpenApplications);
-            console.log('openApplications', this.openApplications);
+            
         },
         methods: {
 
