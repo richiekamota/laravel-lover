@@ -11,10 +11,8 @@
         </div>
 
         <div class="row">
-
             <!-- Title -->
             <div class="small-12 medium-9 columns">
-
                 <!-- START List Section -->
                 <div class="row table">
 
@@ -24,8 +22,6 @@
                             <button class="accordion__heading accordion__heading--add">
                                 <h4 class="--white">Units</h4>
                             </button>
-
-
                         </div>
                     </div>
 
@@ -70,8 +66,6 @@
                                                         {{ occupationDate.end_date }}</p>
                                                 </div>
                                             </div>
-
-
                                         </div>
 
                                         <hr/>
@@ -98,16 +92,11 @@
                         </ul>
                     </div>
                     <!-- END Pagination buttons -->
-
-
                 </div>
-
             </div>
 
             <div class="medium-3 columns">
-
                 <!-- START Filter Section -->
-
 
                 <h3></strong>Filter:</h3>
                 <p class="error">{{filterMessage}}</p>
@@ -143,16 +132,12 @@
                     <br/>
                     <input type="radio" id="Unoccupied" value="0" v-model="occupied">
                     <label for="Unoccupied">Unoccupied Units</label>
-
-
                 </div>
                 <div class="row column">
                     <button v-on:click="filter" class="button">
                         Filter
                     </button>
-
                 </div>
-
                 <div class="row column --border-wrap">
                     <div class="stats-box">
                         <div class="row column clearfix">
@@ -292,7 +277,6 @@
                 });
             },
 
-
             filter() {
                 // Let's get a fresh list before filter.
                 this.filteredUnits = this.units;
@@ -321,18 +305,17 @@
                     });
 
                 }
+                            if (this.filterStartDate != '' || this.filterEndDate != '') {
+                             var inputStartDate = new Date(this.filterStartDate);
+                             var inputEndDate = new Date(this.filterEndDate);
 
-                if (this.filterStartDate != '' || this.filterEndDate != '') {
-                    var inputStartDate = new Date(this.filterStartDate);
-                    var inputEndDate = new Date(this.filterEndDate);
+                             this.filteredUnits = this.units.filter((unit) => {
 
-                    this.filteredUnits = this.units.filter((unit) => {
+                             var isValid = false;
 
-                        var isValid = false;
-
-                        if (unit.occupation_dates.length && this.occupied == 1) {
-                            var i = 0;
-                            while (i < unit.occupation_dates.length) {
+                            if (unit.occupation_dates.length && this.occupied == 1) {
+                             var i = 0;
+                             while (i < unit.occupation_dates.length) {
 
                                 var unitStartDate = new Date(unit.occupation_dates[i].start_date);
                                 var unitEndDate = new Date(unit.occupation_dates[i].end_date);
@@ -342,15 +325,15 @@
                                 unit.occupation_dates.splice(i, 1);
 
                                 if (this.filterStartDate != '' && this.filterEndDate != '') {
-
-                                    if ((unitStartDate >= inputStartDate && unitStartDate <= inputEndDate) || (unitEndDate <= inputEndDate && unitEndDate >= inputStartDate)) {
+                                    //alert(inputStartDate + ":" + unitStartDate)
+                                    
+                                    if ((unitStartDate <= inputStartDate) || (unitEndDate <= inputEndDate && unitEndDate >= inputStartDate)) {
                                         if (this.occupied == 1) {
                                             isValid = true;
                                             unit.occupation_dates[i] = curOccupationData;
                                         }
                                     }
                                 }
-
                                 else if (this.filterStartDate != '' && this.filterEndDate == '') {
 
                                     if ((unitStartDate >= inputStartDate && unitEndDate <= inputStartDate)) {
@@ -360,7 +343,6 @@
                                         }
                                     }
                                 }
-
                                 else if (this.filterEndDate != '' && this.filterStartDate == '') {
 
                                     if ((unitEndDate >= inputEndDate && unitStartDate <= inputEndDate)) {
@@ -370,17 +352,13 @@
                                         }
                                     }
                                 }
-
-
                                 i++;
-
                             }
                         } else {
                             if (this.occupied == 0 && !unit.occupation_dates.length) {
                                 isValid = true;
                             }
                         }
-
                         return isValid;
                     });
 
@@ -392,7 +370,6 @@
 
                 }
 
-
                 this.calculatePagination();
                 this.filterSummary = 'Showing ' + this.filteredUnits.length + ' ' + (this.occupied == 1 ? 'Occupied' : 'Unoccupied') + ' units.';
                 if (this.filterStartDate || this.filterEndDate) {
@@ -401,7 +378,6 @@
                 if (this.filterLocation) {
                     this.filterSummary = this.filterSummary + (this.filterLocation != '' ? ' In ' + locationName + '.' : '');
                 }
-
             },
 
             exportToCSV: function () {
@@ -448,7 +424,6 @@
                         document.body.appendChild(link); // Required for FF
 
                         link.click();
-
                     }
 
                     this.loading = false;
@@ -477,7 +452,6 @@
                     this.loading = false;
                 });
             },
-
             calculatePagination() {
                 this.pagination.total = this.filteredUnits.length;
                 // Since Arrays start from 0, we must subtract an additional 1.
@@ -488,7 +462,6 @@
                 // Since Arrays start at 0 we need to increment this value
                 this.pagination.maxPages = Math.round((this.pagination.total / this.pagination.per_page));
             }
-
         }
     }
 
