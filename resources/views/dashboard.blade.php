@@ -4,7 +4,7 @@
 
     <div class="row column">
 
-            <h2 class="--focused">DASHBOARD | where stuff gets done</h2>
+            <h2 class="--focused">DASHBOARD</h2>
 
             @if(!Gate::check('is-tenant'))
 
