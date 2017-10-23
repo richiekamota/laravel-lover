@@ -130,4 +130,38 @@ class UnitsController extends Controller
     {
         //
     }
+
+    public function import(){
+
+        $filename = "units.csv";
+        $delimiter = ";";
+
+         if (!file_exists($filename) || !is_readable($filename))
+            return "Error finding CSV";
+
+        $header = null;
+        $data = array();
+        if (($handle = fopen($filename, 'r')) !== false)
+        {
+            while (($row = fgetcsv($handle, 1000, $delimiter)) !== false)
+            {
+                if (!$header)
+                    $header = $row;
+                else
+                    $data[] = array_combine($header, $row);
+            }
+            fclose($handle);
+        }
+
+        foreach($data as $unit){
+            $unitInsert = Unit::create([
+                "location_id" => $unit['location_id'],
+                "type_id" => $unit['type_id'],
+                "code" => $unit['code']
+            ]);
+        }
+
+        //print_r($data);
+         return 'Success';
+    }
 }

@@ -408,7 +408,7 @@
                                 while (i < contracts.length) {
                                     let contractObj = contracts[i];
                                     Object.keys(contractObj).forEach(function (ckey) {
-                                        alert(contractObj[ckey]);
+                                        //alert(contractObj[ckey]);
                                     });
                                     i++;
                                 }
