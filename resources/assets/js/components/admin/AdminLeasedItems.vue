@@ -37,12 +37,12 @@
                                         </div>
                                         <div class="row table-row" v-for="(lease, index2) in item.item_lease_dates"
                                              :class="{ even: isEven(index2), first: index2 == 0, last: index2 == items.length -1 }">
-                                            <div class="small-3 medium-3 columns">{{lease.item_name}}</div>
-                                            <div class="small-3 medium-3 columns">{{lease.leasee_name}}</div>
-                                            <div class="small-2 medium-2 columns">{{toNiceDate(lease.start_date)}}</div>
-                                            <div class="small-2 medium-2 columns">{{toNiceDate(lease.end_date)}}</div>
-                                            <div class="small-2 medium-2 columns"><a href="#"
-                                                                                     v-on:click="removeItem(index, index2)">Remove</a>
+                                            <div class="small-3 medium-3 columns"><p>{{lease.item_name}}</p></div>
+                                            <div class="small-3 medium-3 columns"><p>{{lease.leasee_name}}</p></div>
+                                            <div class="small-2 medium-2 columns"><p>{{toNiceDate(lease.start_date)}}</p></div>
+                                            <div class="small-2 medium-2 columns"><p>{{toNiceDate(lease.end_date)}}</p></div>
+                                            <div class="small-2 medium-2 columns"><p><a href="#"
+                                                                                     v-on:click="removeItem(index, index2)">Remove</a></p>
                                             </div>
                                         </div>
                                         <button class="button lease-button" v-on:click="showAddForm()">Add Lease

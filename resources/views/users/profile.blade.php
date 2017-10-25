@@ -5,8 +5,7 @@
         <div class="column">
             <h1>{{ Auth::user()->name() }}</h1>
             <div>
-                <p>This is the users profile</p>
-                <p>Eventually the user can update their details within the system</p>
+                <p>Full profile page coming soon</p>
             </div>
         </div>
     </div>
