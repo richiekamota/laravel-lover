@@ -5,14 +5,14 @@ return array(
 
     'pdf' => array(
         'enabled' => true,
-        'binary' => env('PDF_BINARY', 'C:/sites/_tools/wkhtmltopdf/bin/wkhtmltopdf'),
+        'binary' => env('PDF_BINARY', '/usr/local/wkhtmltopdf'),
         'timeout' => false,
         'options' => array(),
         'env'     => array(),
     ),
     'image' => array(
         'enabled' => true,
-        'binary'  => 'C:/sites/_tools/wkhtmltopdf/wkhtmltoimage',
+        'binary'  => '/usr/local/wkhtmltopdf',
         'timeout' => false,
         'options' => array(),
         'env'     => array(),
