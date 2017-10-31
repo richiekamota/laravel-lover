@@ -64,7 +64,7 @@
        <div class="row">
            <div class="columns">
                <div class="page__copyright">
-                   All rights reserved. © 2016
+                   All rights reserved. © 2017
                </div>
            </div>
            <div class="columns">
