@@ -1,6 +1,7 @@
 <?php
 
 namespace Portal\Http\Controllers;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -22,8 +23,9 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $year = Carbon::now()->year;
 
-        return view( 'home' );
+        return view( 'home', compact('year') );
 
     }
 }
