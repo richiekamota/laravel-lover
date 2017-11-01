@@ -882,7 +882,7 @@ class ApplicationController extends Controller
         return Validator::make($data, [
             'resident_id'               => 'required',
             'resident_study_permit'     => 'required',
-            'resident_acceptance'       => 'required',
+            'resident_acceptance'       => 'sometimes',
             'resident_financial_aid'    => 'required',
             'leaseholder_id'            => 'required',
             'leaseholder_address_proof' => 'required',
