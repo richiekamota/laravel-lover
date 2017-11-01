@@ -16,7 +16,7 @@ class CreateUnitTypesTable extends Migration
         Schema::create('unit_types', function (Blueprint $table) {
             $table->uuid('id');
             $table->primary('id');
-            $table->string('name', 191);            
+            $table->string('name', 191);
             $table->text('description')->nullable();
             $table->uuid('location_id');
             $table->integer('cost');

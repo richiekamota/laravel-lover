@@ -164,7 +164,7 @@ export default {
     data(){
         return {
             application: {},
-            location: {},            
+            location: {},
             selectedItems: [],
             items: [],
             availableUnits: [],
@@ -270,19 +270,19 @@ export default {
                 }
             };
 
-                
-            },
+            
+        },
 
         toNiceDate: (date) => {
             return moment(date).format("dddd, MMMM Do YYYY");
         },
 
-            addSelectedItem: function (item, index) {
-                
-                this.selectedItems.push(item);
-                this.items.splice(index, 1);
-                this.updateTotalCost();
-            },
+        addSelectedItem: function (item, index) {
+            
+            this.selectedItems.push(item);
+            this.items.splice(index, 1);
+            this.updateTotalCost();
+        },
 
         removeSelectedItem: function (item, index) {
             this.selectedItems.splice(index, 1);
