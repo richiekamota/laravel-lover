@@ -38,7 +38,6 @@ class SendGitLabTicketEmail implements ShouldQueue
     public function handle()
     {
         // Send the email to GitLab
-
         Mail::send('emails.gitlabIssue', [
             'user' => $this->user,
             'userIssue' => $this->userIssue,

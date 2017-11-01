@@ -29,7 +29,7 @@ class SupportController extends Controller
 
         } catch (\Exception $e) {
 
-            \Log::info($e);
+            \Log::info($e); // LIVE: Match back to Sentry for issue tracking
 
             return Response::json([
                 'error'   => 'support_admin_error',
