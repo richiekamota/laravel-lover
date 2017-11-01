@@ -184,6 +184,8 @@ return [
 
         Barryvdh\Snappy\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        // Sentry Error logging
+        Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
 
 
     ],
@@ -237,6 +239,7 @@ return [
         'PDF'          => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'SnappyImage'  => Barryvdh\Snappy\Facades\SnappyImage::class,
         'Excel'        => Maatwebsite\Excel\Facades\Excel::class,
+        'Sentry'       => Sentry\SentryLaravel\SentryFacade::class,
 
     ],
 
