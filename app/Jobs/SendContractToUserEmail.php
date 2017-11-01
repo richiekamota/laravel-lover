@@ -10,6 +10,7 @@ use Mail;
 use Portal\Application;
 use Portal\User;
 use Portal\Location;
+use Carbon\Carbon;
 
 class SendContractToUserEmail implements ShouldQueue
 {

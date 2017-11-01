@@ -783,9 +783,7 @@
 <script>
 
     import {Data} from '../data.js';
-
     import VueFlatpickr from 'vue-flatpickr';
-
     Vue.use(VueFlatpickr);
 
 
@@ -890,8 +888,6 @@
         mounted() {
             this.showStep = this.step;
 
-
-
             // Toggle the accordion based on the parameter passed
             document.querySelector('[data-accordion="' + this.step + '"]').click();
 
@@ -913,8 +909,6 @@
             });
 
             this.unitTypes = JSON.parse(this.propUnitTypes);
-
-            
 
             // Add dropzones
             let residentIdDropzone = new Dropzone("#resident_id", {url: "/documents/application"});
