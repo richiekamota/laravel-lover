@@ -535,26 +535,26 @@
                                     </option>
                                 </select>
                             </label>
-
-
-
+                            
                             <p v-show="unitTypeInfo">
                                 <strong>Price:</strong> From R{{ unitTypePrice }}<br/><br/>
                                 <strong>Description:</strong> <br>
                                 {{ unitTypeInfo }}
                             </p>
 
-                            <label for="unit_fee_split" v-if="twoRoomUnits.includes(appForm.unit_type)">
+                            <label for="unit_fee_split" v-if="twoRoomUnits.includes(appForm.unit_type)"> 
                                 Will rental costs be split?
-                                <select name="unit_type" v-model="appForm.unit_fee_split" required
-                                >
+                                <select name="unit_fee_split" v-model="appForm.unit_fee_split" required>
                                     <option value="0">No</option>
                                     <option value="1">Yes</option>
-
                                 </select>
-                            </label>
+                            </label>                             
 
-
+                            <label for="unit_room_mate">
+                                    If known, please enter the name of your prefered roommate.
+                                    <input type="text" name="unit_room_mate" v-model="appForm.unit_room_mate" placeholder="Name" required>
+                            </label>                       
+                            
 
                             <!-- Unit Car parking -->
                             <div class="row column">
@@ -855,6 +855,7 @@
                 unit_storeroom: false,
                 unit_fee_split: 0,
                 unit_occupation_date: '',
+                unit_room_mate: false ,               
                 // Step 6
                 step6: '',
                 judgements: false,
@@ -1236,6 +1237,7 @@
                             unit_bike_parking: this.appForm.unit_bike_parking,
                             unit_tv: this.appForm.unit_tv,
                             unit_storeroom: this.appForm.unit_storeroom,
+                            unit_room_mate:this.appForm.unit_room_mate,
                             unit_fee_split: this.appForm.unit_fee_split,
                             unit_occupation_date: this.appForm.unit_occupation_date,
                         };

@@ -626,7 +626,7 @@
                         </div>
                     </div>
 
-                    <div class="table__row table__row--padded even">
+                    <div class="table__row table__row--padded">
 
                         <div class="row">
                             <div class="column">
@@ -634,6 +634,18 @@
                             </div>
                             <div class="column">
                                 {{application.unit_fee_split}}
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="table__row table__row--padded even">
+
+                        <div class="row">
+                            <div class="column">
+                                Room mate name:
+                            </div>
+                            <div class="column">
+                                {{application.unit_room_mate}}
                             </div>
                         </div>
                     </div>

@@ -30,6 +30,7 @@ class ApplicationStepFiveRequest extends FormRequest
             'unit_type'            => 'required',
             'unit_lease_length'    => 'required',
             'unit_occupation_date' => 'required|date',
+            'unit_room_mate' => 'sometimes'
         ];
     }
 }

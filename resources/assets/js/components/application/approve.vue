@@ -164,13 +164,14 @@ export default {
     data(){
         return {
             application: {},
-            location: {},
+            location: {},            
             selectedItems: [],
             items: [],
             availableUnits: [],
             filteredUnits: [],
             unit_occupation_date: '',
             unit_vacation_date: '',
+            unit_fee_split: '',
             selectedUnit: '',
             totalCost: 0,
             loading: false,

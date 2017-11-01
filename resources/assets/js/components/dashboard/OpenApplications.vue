@@ -22,7 +22,7 @@
                         <a v-bind:href="getUrl(application.id)">
 
                             <button class="accordion__heading">
-                                {{application.created_at }} - {{application.user.first_name }} {{application.user.last_name }} - {{application.location.name }}
+                                {{application.created_at }} - {{application.user.first_name }} {{application.user.last_name }}
                             </button>
                         </a>
 

@@ -109,7 +109,7 @@ class ApplicationController extends Controller
 
             return Response::json([
                 'error'   => 'application_form_step1_error',
-                'message' => trans('portal.application_form_step1_error'),
+                'message' => trans('portal.application_form_step1_error' . json_encode($e)),
             ], 422);
 
         }
@@ -476,7 +476,7 @@ class ApplicationController extends Controller
                 $type = UnitType::where('id','=', $request->unit_type)->first();
                 return Response::json([
                     'error'   => 'Unit Not Available',
-                    'message' => "Please note, there are no ".$type->name." type units available for the occupation date specified. However, you can still submit this application and we will contact you regarding alternative accomoodation.",
+                    'message' => "Please note, there are no ".$type->name." type units available for the occupation date specified. However, you can still submit this application and we will contact you regarding alternative accomodation.",
                 ], 200);
             }
 
