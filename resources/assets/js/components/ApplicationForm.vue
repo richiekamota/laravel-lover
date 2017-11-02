@@ -657,7 +657,7 @@
 
                             <!-- Resident Study permit -->
                             <label for="resident_study_permit">
-                                Resident Study Permit *
+                                Resident Study Permit (Optional)
                                 <div id="resident_study_permit" name="resident_study_permit" class="dropzone"></div>
                             </label>
 
@@ -862,7 +862,7 @@
                 // Step 7
                 step7: '',
                 resident_id: '',
-                resident_study_permit: '',
+                resident_study_permit: false,
                 resident_acceptance: '',
                 resident_financial_aid: '',
                 leaseholder_id: '',
