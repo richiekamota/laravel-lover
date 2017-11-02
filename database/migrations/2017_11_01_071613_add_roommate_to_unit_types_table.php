@@ -25,8 +25,8 @@ class AddRoommateToUnitTypesTable extends Migration
      */
     public function down()
     {
-            if (Schema::hasColumn('unit_room_mate', function (Blueprint $table) {
-                $table->dropColumn('unit_room_mate');
+        if (Schema::hasColumn('unit_room_mate', function (Blueprint $table) {
+            $table->dropColumn('unit_room_mate');
         }); 
     }
 }
