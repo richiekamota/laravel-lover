@@ -663,7 +663,7 @@
 
                             <!-- Resident Acceptance -->
                             <label for="resident_acceptance">
-                                Resident Acceptance *
+                                Resident University/College Letter of Acceptance (Optional)
                                 <div id="resident_acceptance" name="resident_acceptance" class="dropzone"></div>
                             </label>
 
