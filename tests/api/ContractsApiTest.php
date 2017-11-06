@@ -383,4 +383,67 @@ class ContractsApiTest extends Tests\TestCase
 
     }
 
+     /**
+     * Test that user with a secure link that's not theirs
+     * cannot view the page
+     */
+    public function testAdminContractUpdate()
+    {
+
+        $user = factory(Portal\User::class)->create([
+            'role' => 'application'
+        ]);
+        $location = factory(Portal\Location::class)->create();
+        $unitType = factory(Portal\UnitType::class)->create([
+            'location_id' => $location->id
+        ]);
+        $unit = factory(Portal\Unit::class)->create([
+            'location_id' => $location->id,
+            'type_id'     => $unitType->id
+        ]);
+
+        $application = factory(Portal\Application::class)->create([
+            'user_id'       => $user->id,
+            'unit_location' => $location->id,
+            'unit_type'     => $unitType->id
+        ]);
+
+        $items = factory(Portal\Item::class, 5)->create();
+
+        $this->actingAs($user)
+            ->json('POST', '/contracts/' . $application->id, [
+                'user_id'              => $user->id,
+                'unit_id'              => $unit->id,
+                'application_id'       => $application->id,
+                'unit_occupation_date' => '2021-01-01',
+                'unit_vacation_date'   => '2021-11-01',
+                'status'               => 'pending',
+                'items'                => $items
+            ])
+            ->assertResponseStatus(200);
+
+        $response = $this->actingAs($user)->seeInDatabase('contract_items', [
+            'name'  => $items[0]->name,
+            'value' => $items[0]->cost
+        ]);
+
+        // UPDATE existing contract
+        $this->actingAs($user)
+            ->json('POST', '/contracts/' . $application->id . '/update', [
+                'user_id'              => $user->id,
+                'unit_id'              => $unit->id,
+                'application_id'       => $application->id,
+                'unit_occupation_date' => '2022-01-01',
+                'unit_vacation_date'   => '2022-11-01',
+                'status'               => 'pending',
+                'items'                =>  $items
+            ])
+            ->assertResponseStatus(200);
+
+        $pdfName = ucfirst(preg_replace('/[^\w-]/', '', $user->first_name)) . ucfirst(preg_replace('/[^\w-]/', '', $user->last_name)) . \Carbon\Carbon::today()->toDateString();
+        $uploaded = 'contracts' . DIRECTORY_SEPARATOR . $pdfName . '.pdf';
+        unlink(storage_path($uploaded));
+
+    }
+
 }

@@ -89,902 +89,861 @@
 
                         <div class="row">
                             <div class="column">
-                               Email:
-                            </div>
-                            <div class="column">
-                                {{application.email}}
-                            </div>
+                             Email:
+                         </div>
+                         <div class="column">
+                            {{application.email}}
                         </div>
                     </div>
-
-
-                    <div class="table__row table__row--padded">
-
-                        <div class="row">
-                            <div class="column">
-                                SA ID:
-                            </div>
-                            <div class="column">
-                                {{application.sa_id_number}}
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="table__row table__row--padded even">
-
-                        <div class="row">
-                            <div class="column">
-                                Passport number:
-                            </div>
-                            <div class="column">
-                                {{application.passport_number}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded">
-
-                        <div class="row">
-                            <div class="column">
-                                Date of birth:
-                            </div>
-                            <div class="column">
-                                {{toNiceDate(application.dob)}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded even">
-
-                        <div class="row">
-                            <div class="column">
-                                Nationality:
-                            </div>
-                            <div class="column">
-                                {{application.nationality}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded">
-
-                        <div class="row">
-                            <div class="column">
-                                Phone - mobile:
-                            </div>
-                            <div class="column">
-                                {{application.phone_mobile}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded even">
-
-                        <div class="row">
-                            <div class="column">
-                                Phone - home:
-                            </div>
-                            <div class="column">
-                                {{application.phone_home}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded">
-
-                        <div class="row">
-                            <div class="column">
-                                Phone - work:
-                            </div>
-                            <div class="column">
-                                {{application.phone_work}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded even">
-
-                        <div class="row">
-                            <div class="column">
-                                Current address:
-                            </div>
-                            <div class="column">
-                                {{application.current_address}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded">
-
-                        <div class="row">
-                            <div class="column">
-                                Marital status:
-                            </div>
-                            <div class="column">
-                                {{application.marital_status}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded even">
-
-                        <div class="row">
-                            <div class="column">
-                                Married type:
-                            </div>
-                            <div class="column">
-                                {{application.married_type}}
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
 
-                <!-- Leaseholder home ownership -->
 
-                <div class="row column">
+                <div class="table__row table__row--padded">
 
-                    <div class="accordion__heading accordion__heading--add">
-                        <h4 id="heading-leaseholder-home-ownership" class="--white">Leaseholder home ownership</h4>
-                    </div>
-
-                    <div class="table__row table__row--padded">
-
-                        <div class="row">
-                            <div class="column">
-                                Current property owner:
-                            </div>
-                            <div class="column">
-                                {{application.current_property_owner ? 'True' : 'False'}}
-                            </div>
+                    <div class="row">
+                        <div class="column">
+                            SA ID:
+                        </div>
+                        <div class="column">
+                            {{application.sa_id_number}}
                         </div>
                     </div>
-
-                    <div class="table__row table__row--padded even" v-if="!application.current_property_owner">
-                        <div class="row">
-                            <div class="column">
-                                Rental length:
-                            </div>
-                            <div class="column">
-                                {{application.rental_time}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded" v-if="!application.current_property_owner">
-                        <div class="row">
-                            <div class="column">
-                                Monthly rental amount:
-                            </div>
-                            <div class="column">
-                                {{application.rental_amount}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded even" v-if="!application.current_property_owner">
-                        <div class="row">
-                            <div class="column">
-                                Name of the Rental Agent / Landlord:
-                            </div>
-                            <div class="column">
-                                {{application.rental_name}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded" v-if="!application.current_property_owner">
-                        <div class="row">
-                            <div class="column">
-                                Work phone number:
-                            </div>
-                            <div class="column">
-                                {{application.rental_phone_home}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded even" v-if="!application.current_property_owner">
-                        <div class="row">
-                            <div class="column">
-                                Mobile phone number:
-                            </div>
-                            <div class="column">
-                                {{application.rental_phone_mobile}}
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
 
-                <!-- Employment status -->
 
-                <div class="row column">
+                <div class="table__row table__row--padded even">
 
-                    <div class="accordion__heading accordion__heading--add">
-                        <h4 id="heading-employment-status" class="--white">Employment status</h4>
-                    </div>
-
-                    <div class="table__row table__row--padded">
-
-                        <div class="row">
-                            <div class="column">
-                                Self employed:
-                            </div>
-                            <div class="column">
-                                {{application.selfemployed ? 'True' : 'False'}}
-                            </div>
+                    <div class="row">
+                        <div class="column">
+                            Passport number:
+                        </div>
+                        <div class="column">
+                            {{application.passport_number}}
                         </div>
                     </div>
-
-                    <div class="table__row table__row--padded even">
-
-                        <div class="row">
-                            <div class="column">
-                                Occupation:
-                            </div>
-                            <div class="column">
-                                {{application.occupation}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded">
-
-                        <div class="row">
-                            <div class="column">
-                                Current monthly expenses:
-                            </div>
-                            <div class="column">
-                                {{application.current_monthly_expenses}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded even">
-
-                        <div class="row">
-                            <div class="column">
-                                Name of company:
-                            </div>
-                            <div class="column">
-                                {{application.employer_company}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded">
-
-                        <div class="row">
-                            <div class="column">
-                                Employer's name:
-                            </div>
-                            <div class="column">
-                                {{application.employer_name}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded even">
-
-                        <div class="row">
-                            <div class="column">
-                                Employer's telephone number:
-                            </div>
-                            <div class="column">
-                                {{application.employer_phone_work}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded">
-
-                        <div class="row">
-                            <div class="column">
-                                Employer's email address:
-                            </div>
-                            <div class="column">
-                                {{application.employer_email}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded even">
-
-                        <div class="row">
-                            <div class="column">
-                                Gross monthly salary before deducations and tax:
-                            </div>
-                            <div class="column">
-                                {{application.employer_salary}}
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
 
-                <!-- Resident details -->
+                <div class="table__row table__row--padded">
 
-                <div class="row column">
-
-                    <div class="accordion__heading accordion__heading--add">
-                        <h4 id="heading-resident-details" class="--white">Resident details</h4>
-                    </div>
-
-                    <div class="table__row table__row--padded">
-
-                        <div class="row">
-                            <div class="column">
-                                First name:
-                            </div>
-                            <div class="column">
-                                {{application.resident_first_name}}
-                            </div>
+                    <div class="row">
+                        <div class="column">
+                            Date of birth:
+                        </div>
+                        <div class="column">
+                            {{toNiceDate(application.dob)}}
                         </div>
                     </div>
-
-                    <div class="table__row table__row--padded even">
-
-                        <div class="row">
-                            <div class="column">
-                                Last Name:
-                            </div>
-                            <div class="column">
-                                {{application.resident_last_name}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded">
-
-                        <div class="row">
-                            <div class="column">
-                                ID Number:
-                            </div>
-                            <div class="column">
-                                {{application.resident_sa_id_number}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded even">
-
-                        <div class="row">
-                            <div class="column">
-                                Passport number:
-                            </div>
-                            <div class="column">
-                                {{application.resident_passport_number}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded">
-
-                        <div class="row">
-                            <div class="column">
-                                Date Of Birth:
-                            </div>
-                            <div class="column">
-                                {{toNiceDate(application.resident_dob)}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded even">
-
-                        <div class="row">
-                            <div class="column">
-                                Nationality:
-                            </div>
-                            <div class="column">
-                                {{application.resident_nationality}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded">
-
-                        <div class="row">
-                            <div class="column">
-                                Telephone (Mobile):
-                            </div>
-                            <div class="column">
-                                {{application.resident_phone_mobile}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded even">
-
-                        <div class="row">
-                            <div class="column">
-                                Email Address:
-                            </div>
-                            <div class="column">
-                                {{application.resident_email}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded">
-
-                        <div class="row">
-                            <div class="column">
-                                Address where you currently stay:
-                            </div>
-                            <div class="column">
-                                {{application.resident_current_address}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded even">
-
-                        <div class="row">
-                            <div class="column">
-                                Name of rental agent/ landlord:
-                            </div>
-                            <div class="column">
-                                {{application.resident_landlord}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded">
-
-                        <div class="row">
-                            <div class="column">
-                                Landlord's work phone number:
-                            </div>
-                            <div class="column">
-                                {{application.resident_landlord_phone_work}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded even">
-
-                        <div class="row">
-                            <div class="column">
-                                Landlord's mobile phone number:
-                            </div>
-                            <div class="column">
-                                {{application.resident_landlord_phone_mobile}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded">
-
-                        <div class="row">
-                            <div class="column">
-                                Where will you be studying:
-                            </div>
-                            <div class="column">
-                                {{application.resident_study_location}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded even">
-
-                        <div class="row">
-                            <div class="column">
-                                What year of study will you be in:
-                            </div>
-                            <div class="column">
-                                {{application.resident_study_year}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded">
-
-                        <div class="row">
-                            <div class="column">
-                                What is your gender:
-                            </div>
-                            <div class="column">
-                                {{application.resident_gender}}
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
 
-                <!-- Premises -->
+                <div class="table__row table__row--padded even">
 
-                <div class="row column">
-
-                    <div class="accordion__heading accordion__heading--add">
-                        <h4 id="heading-premises" class="--white">Details of the premises</h4>
-                    </div>
-
-                    <div class="table__row table__row--padded">
-
-                        <div class="row">
-                            <div class="column">
-                                Unit Location:
-                            </div>
-                            <div class="column">
-                                {{application.unit_location}}
-                            </div>
+                    <div class="row">
+                        <div class="column">
+                            Nationality:
+                        </div>
+                        <div class="column">
+                            {{application.nationality}}
                         </div>
                     </div>
-
-                    <div class="table__row table__row--padded even">
-
-                        <div class="row">
-                            <div class="column">
-                                Unit Type:
-                            </div>
-                            <div class="column">
-                                {{application.unit_type}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded even">
-
-                        <div class="row">
-                            <div class="column">
-                                Rental Cost Split:
-                            </div>
-                            <div class="column">
-                                {{application.unit_fee_split}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded">
-
-                        <div class="row">
-                            <div class="column">
-                                Unit lease length:
-                            </div>
-                            <div class="column">
-                                {{application.unit_lease_length}} Months
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded even">
-
-                        <div class="row">
-                            <div class="column">
-                                Motor vehicle parking bay:
-                            </div>
-                            <div class="column">
-                                {{application.unit_car_parking}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded">
-
-                        <div class="row">
-                            <div class="column">
-                                Motorcycle parking bay:
-                            </div>
-                            <div class="column">
-                                {{application.unit_bike_parking}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded even">
-
-                        <div class="row">
-                            <div class="column">
-                                DSTV:
-                            </div>
-                            <div class="column">
-                                {{application.unit_tv}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded">
-
-                        <div class="row">
-                            <div class="column">
-                                Storeroom
-                            </div>
-                            <div class="column">
-                                {{application.unit_storeroom}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded even">
-
-                        <div class="row">
-                            <div class="column">
-                                Unit Occupation Date
-                            </div>
-                            <div class="column">
-                                {{toNiceDate(application.unit_occupation_date)}}
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
 
-                <!-- General -->
+                <div class="table__row table__row--padded">
 
-                <div class="row column">
-
-                    <div class="accordion__heading accordion__heading--add">
-                        <h4 id="heading-general" class="--white">General</h4>
-                    </div>
-
-                    <div class="table__row table__row--padded">
-
-                        <div class="row">
-                            <div class="column">
-                                Judgements:
-                            </div>
-                            <div class="column">
-                                {{application.judgements}}
-                            </div>
+                    <div class="row">
+                        <div class="column">
+                            Phone - mobile:
+                        </div>
+                        <div class="column">
+                            {{application.phone_mobile}}
                         </div>
                     </div>
-
-                    <div class="table__row table__row--padded even">
-
-                        <div class="row">
-                            <div class="column">
-                                Judgement Details:
-                            </div>
-                            <div class="column">
-                                {{application.judgements_details}}
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
 
-                <!--Supporting Documents -->
+                <div class="table__row table__row--padded even">
 
-                <div class="row column">
-
-                    <div class="accordion__heading accordion__heading--add">
-                        <h4 id="heading-supporting" class="--white">Supporting documents</h4>
-                    </div>
-
-                    <div class="table__row table__row--padded even" v-if="application.resident_id">
-
-                        <div class="row">
-                            <div class="column">
-                                Resident ID:
-                            </div>
-                            <div class="column">
-                                <a v-bind:href="getDocumentDownloadLink(application.resident_id)">
-                                    Download
-                                </a>
-                            </div>
+                    <div class="row">
+                        <div class="column">
+                            Phone - home:
+                        </div>
+                        <div class="column">
+                            {{application.phone_home}}
                         </div>
                     </div>
-
-                    <div class="table__row table__row--padded even" v-if="application.resident_study_permit">
-
-                        <div class="row">
-                            <div class="column">
-                                Resident Study Permit:
-                            </div>
-                            <div class="column">
-                                <a v-bind:href="getDocumentDownloadLink(application.resident_study_permit)">
-                                    Download
-                                </a>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded even" v-if="application.resident_acceptance">
-
-                        <div class="row">
-                            <div class="column">
-                                Resident Acceptance:
-                            </div>
-                            <div class="column">
-                                <a v-bind:href="getDocumentDownloadLink(application.resident_acceptance)">
-                                    Download
-                                </a>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded even" v-if="application.resident_financial_aid">
-
-                        <div class="row">
-                            <div class="column">
-                                Resident Financial Aid:
-                            </div>
-                            <div class="column">
-                                <a v-bind:href="getDocumentDownloadLink(application.resident_financial_aid)">
-                                    Download
-                                </a>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded odd"  v-if="application.leaseholder_id">
-                        <div class="row">
-                            <div class="column">
-                                Leaseholder ID:
-                            </div>
-                            <div class="column">
-                                <a v-bind:href="getDocumentDownloadLink(application.leaseholder_id)">
-                                    Download
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded even" v-if="application.leaseholder_address_proof">
-
-                        <div class="row">
-                            <div class="column">
-                                Resident Proof of Address:
-                            </div>
-                            <div class="column">
-                                <a v-bind:href="getDocumentDownloadLink(application.leaseholder_address_proof)">
-                                    Download
-                                </a>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="table__row table__row--padded even" v-if="application.leaseholder_payslip">
-
-                        <div class="row">
-                            <div class="column">
-                                Leaseholder's payslip:
-                            </div>
-                            <div class="column">
-                                <a v-bind:href="getDocumentDownloadLink(application.leaseholder_payslip)">
-                                    Download
-                                </a>
-                            </div>
-
-                        </div>
-                    </div>
-
-
                 </div>
 
-                <!-- Comments -->
+                <div class="table__row table__row--padded">
 
-                <div class="row column">
-
-                    <div class="accordion__heading accordion__heading--add">
-                        <h4 id="heading-comments" class="--white">Comments</h4>
-                    </div>
-
-                    <div class="table__row table__row--padded last">
-
-                        <div class="row">
-                            <div class="column">
-                                Comments:
-                            </div>
-                            <div class="column">
-                                {{application.comments}}
-                            </div>
+                    <div class="row">
+                        <div class="column">
+                            Phone - work:
+                        </div>
+                        <div class="column">
+                            {{application.phone_work}}
                         </div>
                     </div>
-
                 </div>
 
-            </div>
-            <div class="medium-4 columns" v-if="application.status != 'approved' && application.status != 'declined'">
+                <div class="table__row table__row--padded even">
 
-                <div class="stats-box">
-                    <div class="row column clearfix">
-                        <h3 class="stats-box__header --focused --mt0 --mb0">Actions</h3>
-                    </div>
-
-                    <div class="row column">
-                        <p>Select a new state for this application</p>
-                    </div>
-                    <div class="row column">
-
-                        <a v-bind:href="getApproveUrl(application.id)">
-                            <button id="approve-application" class="button button--approve --expanded">
-                                Approve
-                            </button>
-                        </a>
-
-                    </div>
-
-                    <div class="row column">
-
-                        <a v-bind:href="getPendingUrl(application.id)">
-                            <button id="pending-application" class="button button--pending --expanded">
-                                Pending
-                            </button>
-                        </a>
-
-                    </div>
-
-                    <div class="row column">
-
-                        <button id="decline-application" class="button button--decline --expanded" v-on:click="decline()">
-                            Decline
-                        </button>
-
-                        <div class="row" v-if="declineInput">
-
-                            <div class="small-12 columns">
-                                <label for="declineInput">
-                                    Reason for decline
-                                    <input type="text" name="declineInput" id="declineInput" v-model="declineReason">
-                                </label>
-                            </div>
-
-                            <div class="small-12 large-expand columns text-center">
-                                <button id="confirm-decline" class="button button--decline button--small --mt1 --expanded" v-on:click="submitDecline()">
-                                    <span v-if="loading" class="--loading-expander">
-                                        <loading></loading>
-                                    </span>
-
-                                    <template v-if="!loading">
-                                        Confirm
-                                    </template>
-                                </button>
-                            </div>
-
-                            <div class="columns">
-                                <button id="cancel-application" class="button button--cancel --expanded"
-                                        v-on:click="submitForCancel()" v-bind:disabled="loading">
-                                    Cancel
-                                </button>
-                            </div>
-
+                    <div class="row">
+                        <div class="column">
+                            Current address:
                         </div>
+                        <div class="column">
+                            {{application.current_address}}
+                        </div>
+                    </div>
+                </div>
 
+                <div class="table__row table__row--padded">
+
+                    <div class="row">
+                        <div class="column">
+                            Marital status:
+                        </div>
+                        <div class="column">
+                            {{application.marital_status}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded even">
+
+                    <div class="row">
+                        <div class="column">
+                            Married type:
+                        </div>
+                        <div class="column">
+                            {{application.married_type}}
+                        </div>
                     </div>
                 </div>
 
             </div>
-            <div class="medium-4 columns" v-if="application.status == 'approved'">
 
-                <div class="stats-box">
-                    <div class="row column clearfix">
-                        <h3 class="stats-box__header --focused --mt0 --mb0">Actions</h3>
+            <!-- Leaseholder home ownership -->
+
+            <div class="row column">
+
+                <div class="accordion__heading accordion__heading--add">
+                    <h4 id="heading-leaseholder-home-ownership" class="--white">Leaseholder home ownership</h4>
+                </div>
+
+                <div class="table__row table__row--padded">
+
+                    <div class="row">
+                        <div class="column">
+                            Current property owner:
+                        </div>
+                        <div class="column">
+                            {{application.current_property_owner ? 'True' : 'False'}}
+                        </div>
                     </div>
+                </div>
 
-                    <div class="row column">
-                        <p>Perform action on this application.</p>
+                <div class="table__row table__row--padded even" v-if="!application.current_property_owner">
+                    <div class="row">
+                        <div class="column">
+                            Rental length:
+                        </div>
+                        <div class="column">
+                            {{application.rental_time}}
+                        </div>
                     </div>
-                    <div class="row column">
+                </div>
 
-                        <button id="view-contract" class="button button--cancel --expanded"
-                                v-on:click="viewContract()" v-bind:disabled="loading">
-                            View Contract
+                <div class="table__row table__row--padded" v-if="!application.current_property_owner">
+                    <div class="row">
+                        <div class="column">
+                            Monthly rental amount:
+                        </div>
+                        <div class="column">
+                            {{application.rental_amount}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded even" v-if="!application.current_property_owner">
+                    <div class="row">
+                        <div class="column">
+                            Name of the Rental Agent / Landlord:
+                        </div>
+                        <div class="column">
+                            {{application.rental_name}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded" v-if="!application.current_property_owner">
+                    <div class="row">
+                        <div class="column">
+                            Work phone number:
+                        </div>
+                        <div class="column">
+                            {{application.rental_phone_home}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded even" v-if="!application.current_property_owner">
+                    <div class="row">
+                        <div class="column">
+                            Mobile phone number:
+                        </div>
+                        <div class="column">
+                            {{application.rental_phone_mobile}}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Employment status -->
+
+            <div class="row column">
+
+                <div class="accordion__heading accordion__heading--add">
+                    <h4 id="heading-employment-status" class="--white">Employment status</h4>
+                </div>
+
+                <div class="table__row table__row--padded">
+
+                    <div class="row">
+                        <div class="column">
+                            Self employed:
+                        </div>
+                        <div class="column">
+                            {{application.selfemployed ? 'True' : 'False'}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded even">
+
+                    <div class="row">
+                        <div class="column">
+                            Occupation:
+                        </div>
+                        <div class="column">
+                            {{application.occupation}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded">
+
+                    <div class="row">
+                        <div class="column">
+                            Current monthly expenses:
+                        </div>
+                        <div class="column">
+                            {{application.current_monthly_expenses}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded even">
+
+                    <div class="row">
+                        <div class="column">
+                            Name of company:
+                        </div>
+                        <div class="column">
+                            {{application.employer_company}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded">
+
+                    <div class="row">
+                        <div class="column">
+                            Employer's name:
+                        </div>
+                        <div class="column">
+                            {{application.employer_name}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded even">
+
+                    <div class="row">
+                        <div class="column">
+                            Employer's telephone number:
+                        </div>
+                        <div class="column">
+                            {{application.employer_phone_work}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded">
+
+                    <div class="row">
+                        <div class="column">
+                            Employer's email address:
+                        </div>
+                        <div class="column">
+                            {{application.employer_email}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded even">
+
+                    <div class="row">
+                        <div class="column">
+                            Gross monthly salary before deducations and tax:
+                        </div>
+                        <div class="column">
+                            {{application.employer_salary}}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Resident details -->
+
+            <div class="row column">
+
+                <div class="accordion__heading accordion__heading--add">
+                    <h4 id="heading-resident-details" class="--white">Resident details</h4>
+                </div>
+
+                <div class="table__row table__row--padded">
+
+                    <div class="row">
+                        <div class="column">
+                            First name:
+                        </div>
+                        <div class="column">
+                            {{application.resident_first_name}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded even">
+
+                    <div class="row">
+                        <div class="column">
+                            Last Name:
+                        </div>
+                        <div class="column">
+                            {{application.resident_last_name}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded">
+
+                    <div class="row">
+                        <div class="column">
+                            ID Number:
+                        </div>
+                        <div class="column">
+                            {{application.resident_sa_id_number}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded even">
+
+                    <div class="row">
+                        <div class="column">
+                            Passport number:
+                        </div>
+                        <div class="column">
+                            {{application.resident_passport_number}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded">
+
+                    <div class="row">
+                        <div class="column">
+                            Date Of Birth:
+                        </div>
+                        <div class="column">
+                            {{toNiceDate(application.resident_dob)}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded even">
+
+                    <div class="row">
+                        <div class="column">
+                            Nationality:
+                        </div>
+                        <div class="column">
+                            {{application.resident_nationality}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded">
+
+                    <div class="row">
+                        <div class="column">
+                            Telephone (Mobile):
+                        </div>
+                        <div class="column">
+                            {{application.resident_phone_mobile}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded even">
+
+                    <div class="row">
+                        <div class="column">
+                            Email Address:
+                        </div>
+                        <div class="column">
+                            {{application.resident_email}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded">
+
+                    <div class="row">
+                        <div class="column">
+                            Address where you currently stay:
+                        </div>
+                        <div class="column">
+                            {{application.resident_current_address}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded even">
+
+                    <div class="row">
+                        <div class="column">
+                            Name of rental agent/ landlord:
+                        </div>
+                        <div class="column">
+                            {{application.resident_landlord}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded">
+
+                    <div class="row">
+                        <div class="column">
+                            Landlord's work phone number:
+                        </div>
+                        <div class="column">
+                            {{application.resident_landlord_phone_work}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded even">
+
+                    <div class="row">
+                        <div class="column">
+                            Landlord's mobile phone number:
+                        </div>
+                        <div class="column">
+                            {{application.resident_landlord_phone_mobile}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded">
+
+                    <div class="row">
+                        <div class="column">
+                            Where will you be studying:
+                        </div>
+                        <div class="column">
+                            {{application.resident_study_location}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded even">
+
+                    <div class="row">
+                        <div class="column">
+                            What year of study will you be in:
+                        </div>
+                        <div class="column">
+                            {{application.resident_study_year}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded">
+
+                    <div class="row">
+                        <div class="column">
+                            What is your gender:
+                        </div>
+                        <div class="column">
+                            {{application.resident_gender}}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Premises -->
+
+            <div class="row column">
+
+                <div class="accordion__heading accordion__heading--add">
+                    <h4 id="heading-premises" class="--white">Details of the premises</h4>
+                </div>
+
+                <div class="table__row table__row--padded">
+
+                    <div class="row">
+                        <div class="column">
+                            Unit Location:
+                        </div>
+                        <div class="column">
+                            {{application.unit_location}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded even">
+
+                    <div class="row">
+                        <div class="column">
+                            Unit Type:
+                        </div>
+                        <div class="column">
+                            {{application.unit_type}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded even">
+
+                    <div class="row">
+                        <div class="column">
+                            Rental Cost Split:
+                        </div>
+                        <div class="column">
+                            {{application.unit_fee_split}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded">
+
+                    <div class="row">
+                        <div class="column">
+                            Unit lease length:
+                        </div>
+                        <div class="column">
+                            {{application.unit_lease_length}} Months
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded even">
+
+                    <div class="row">
+                        <div class="column">
+                            Motor vehicle parking bay:
+                        </div>
+                        <div class="column">
+                            {{application.unit_car_parking}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded">
+
+                    <div class="row">
+                        <div class="column">
+                            Motorcycle parking bay:
+                        </div>
+                        <div class="column">
+                            {{application.unit_bike_parking}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded even">
+
+                    <div class="row">
+                        <div class="column">
+                            DSTV:
+                        </div>
+                        <div class="column">
+                            {{application.unit_tv}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded">
+
+                    <div class="row">
+                        <div class="column">
+                            Storeroom
+                        </div>
+                        <div class="column">
+                            {{application.unit_storeroom}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded even">
+
+                    <div class="row">
+                        <div class="column">
+                            Unit Occupation Date
+                        </div>
+                        <div class="column">
+                            {{toNiceDate(application.unit_occupation_date)}}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- General -->
+
+            <div class="row column">
+
+                <div class="accordion__heading accordion__heading--add">
+                    <h4 id="heading-general" class="--white">General</h4>
+                </div>
+
+                <div class="table__row table__row--padded">
+
+                    <div class="row">
+                        <div class="column">
+                            Judgements:
+                        </div>
+                        <div class="column">
+                            {{application.judgements}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded even">
+
+                    <div class="row">
+                        <div class="column">
+                            Judgement Details:
+                        </div>
+                        <div class="column">
+                            {{application.judgements_details}}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!--Supporting Documents -->
+
+            <div class="row column">
+
+                <div class="accordion__heading accordion__heading--add">
+                    <h4 id="heading-supporting" class="--white">Supporting documents</h4>
+                </div>
+
+                <div class="table__row table__row--padded even" v-if="application.resident_id">
+
+                    <div class="row">
+                        <div class="column">
+                            Resident ID:
+                        </div>
+                        <div class="column">
+                            <a v-bind:href="getDocumentDownloadLink(application.resident_id)">
+                                Download
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded even" v-if="application.resident_study_permit">
+
+                    <div class="row">
+                        <div class="column">
+                            Resident Study Permit:
+                        </div>
+                        <div class="column">
+                            <a v-bind:href="getDocumentDownloadLink(application.resident_study_permit)">
+                                Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded even" v-if="application.resident_acceptance">
+
+                    <div class="row">
+                        <div class="column">
+                            Resident Acceptance:
+                        </div>
+                        <div class="column">
+                            <a v-bind:href="getDocumentDownloadLink(application.resident_acceptance)">
+                                Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded even" v-if="application.resident_financial_aid">
+
+                    <div class="row">
+                        <div class="column">
+                            Resident Financial Aid:
+                        </div>
+                        <div class="column">
+                            <a v-bind:href="getDocumentDownloadLink(application.resident_financial_aid)">
+                                Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded odd"  v-if="application.leaseholder_id">
+                    <div class="row">
+                        <div class="column">
+                            Leaseholder ID:
+                        </div>
+                        <div class="column">
+                            <a v-bind:href="getDocumentDownloadLink(application.leaseholder_id)">
+                                Download
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded even" v-if="application.leaseholder_address_proof">
+
+                    <div class="row">
+                        <div class="column">
+                            Resident Proof of Address:
+                        </div>
+                        <div class="column">
+                            <a v-bind:href="getDocumentDownloadLink(application.leaseholder_address_proof)">
+                                Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="table__row table__row--padded even" v-if="application.leaseholder_payslip">
+
+                    <div class="row">
+                        <div class="column">
+                            Leaseholder's payslip:
+                        </div>
+                        <div class="column">
+                            <a v-bind:href="getDocumentDownloadLink(application.leaseholder_payslip)">
+                                Download
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- Comments -->
+
+            <div class="row column">
+
+                <div class="accordion__heading accordion__heading--add">
+                    <h4 id="heading-comments" class="--white">Comments</h4>
+                </div>
+
+                <div class="table__row table__row--padded last">
+
+                    <div class="row">
+                        <div class="column">
+                            Comments:
+                        </div>
+                        <div class="column">
+                            {{application.comments}}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="medium-4 columns" v-if="application.status != 'approved' && application.status != 'declined'">
+
+            <div class="stats-box">
+                <div class="row column clearfix">
+                    <h3 class="stats-box__header --focused --mt0 --mb0">Actions</h3>
+                </div>
+
+                <div class="row column">
+                    <p>Select a new state for this application</p>
+                </div>
+                <div class="row column">
+
+                    <a v-bind:href="getApproveUrl(application.id)">
+                        <button id="approve-application" class="button button--approve --expanded">
+                            Approve
                         </button>
+                    </a>
 
-                    </div>
-                    <div class="row column">
+                </div>
 
-                        <button id="renew-application" class="button button--cancel --expanded"
-                                v-on:click="submitForRenew()" v-bind:disabled="loading">
-                            Renew Contract
+                <div class="row column">
+
+                    <a v-bind:href="getPendingUrl(application.id)">
+                        <button id="pending-application" class="button button--pending --expanded">
+                            Pending
                         </button>
+                    </a>
 
-                    </div>
-                    <div class="row column">
+                </div>
 
-                        <button id="cancel-application" class="button button--cancel --expanded"
-                                v-on:click="submitForCancel()" v-bind:disabled="loading">
-                            Cancel Current
+                <div class="row column">
+
+                    <button id="decline-application" class="button button--decline --expanded" v-on:click="decline()">
+                        Decline
+                    </button>
+
+                    <div class="row" v-if="declineInput">
+
+                        <div class="small-12 columns">
+                            <label for="declineInput">
+                                Reason for decline
+                                <input type="text" name="declineInput" id="declineInput" v-model="declineReason">
+                            </label>
+                        </div>
+
+                        <div class="small-12 large-expand columns text-center">
+                            <button id="confirm-decline" class="button button--decline button--small --mt1 --expanded" v-on:click="submitDecline()">
+                                <span v-if="loading" class="--loading-expander">
+                                    <loading></loading>
+                                </span>
+
+                                <template v-if="!loading">
+                                    Confirm
+                                </template>
+                            </button>
+                        </div>
+
+                        <div class="columns">
+                            <button id="cancel-application" class="button button--cancel --expanded"
+                            v-on:click="submitForCancel()" v-bind:disabled="loading">
+                            Cancel
                         </button>
-
                     </div>
 
                 </div>
@@ -993,62 +952,115 @@
         </div>
 
     </div>
+    <div class="medium-4 columns" v-if="application.status == 'approved'">
+
+        <div class="stats-box">
+            <div class="row column clearfix">
+                <h3 class="stats-box__header --focused --mt0 --mb0">Actions</h3>
+            </div>
+
+            <div class="row column">
+                <p>Perform action on this application.</p>
+            </div>
+            <div class="row column">
+
+                <button id="view-contract" class="button button--cancel --expanded"
+                v-on:click="viewContract()" v-bind:disabled="loading">
+                View Contract
+            </button>
+
+        </div>
+        <div class="row column">
+
+            <button id="renew-application" class="button button--cancel --expanded"
+            v-on:click="submitForRenew()" v-bind:disabled="loading">
+            Renew Contract
+        </button>
+
+    </div>
+    <div class="row column">
+
+        <button id="cancel-application" class="button button--cancel --expanded"
+        v-on:click="submitForCancel()" v-bind:disabled="loading">
+        Cancel Current
+    </button>
+
+</div>
+<div class="row column">
+
+    <button id="edit-application" class="button button--cancel --expanded"
+    v-on:click="reviewForEdit()" v-bind:disabled="loading">
+    Edit Contract
+</button>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
 </template>
 <script>
 
-    var moment = require('moment');
+var moment = require('moment');
 
-    export default {
-        props: ['propApplication'],
-        data(){
-            return {
-                application: {},
-                declineInput: false,
-                loading: false
-            }
+export default {
+    props: ['propApplication'],
+    data(){
+        return {
+            application: {},
+            declineInput: false,
+            loading: false
+        }
+    },
+    mounted() {
+
+        this.application = JSON.parse(this.propApplication);
+        this.declineInput = false;            
+
+    },
+
+    methods: {
+
+        toNiceDate: (date) => {
+            return moment(date).format("dddd, MMMM Do YYYY");
         },
-        mounted() {
 
-            this.application = JSON.parse(this.propApplication);
-            this.declineInput = false;            
+        getDocumentDownloadLink: (id) => {
 
+            return '/documents/' + id;
         },
 
-        methods: {
+        getApproveUrl: (id) => {
+            return "/application/"+id+"/approve";
+        },
+        getPendingUrl: (id) => {
+            return "/application/"+id+"/pending";
+        },
 
-            toNiceDate: (date) => {
-                return moment(date).format("dddd, MMMM Do YYYY");
-            },
+        decline: function() {
+            this.declineInput = !this.declineInput;
+        },
 
-            getDocumentDownloadLink: (id) => {
+        viewContract: function() {
+            window.location.href = '/contracts/secure/' + this.application.contract.secure_link;
+        },
 
-                return '/documents/' + id;
-            },
+        reviewForEdit: function() {
+            window.location.href = '/application/' + this.application.id + '/approve';
+        },
 
-            getApproveUrl: (id) => {
-                return "/application/"+id+"/approve";
-            },
-            getPendingUrl: (id) => {
-                return "/application/"+id+"/pending";
-            },
+        submitDecline: function(){
 
-            decline: function() {
-                this.declineInput = !this.declineInput;
-            },
+            this.loading = true;
 
-            viewContract: function() {
-                window.location.href = '/contracts/secure/' + this.application.contract.secure_link;
-            },
-
-            submitDecline: function(){
-
-                this.loading = true;
-
-                this.$http.post(
-                    '/application/' + this.application.id + '/decline',
-                    {
-                        'reason' : this.declineReason
-                    }
+            this.$http.post(
+                '/application/' + this.application.id + '/decline',
+                {
+                    'reason' : this.declineReason
+                }
                 ).then((response) => {
 
                     this.loading = false;
@@ -1074,9 +1086,9 @@
 
                 this.$http.post(
                     '/application/' + this.application.id + '/cancel'
-                ).then((response) => {
+                    ).then((response) => {
 
-                    this.loading = false;
+                        this.loading = false;
                     // If the decline call is successful then update the shown application.
                     this.application = response.data.data;
 
@@ -1093,15 +1105,15 @@
                     this.loading = false;
                     this.displayError(err);
                 });
-            },
-            submitForRenew: function (event) {
-                this.loading = true;
+                },
+                submitForRenew: function (event) {
+                    this.loading = true;
 
-                this.$http.post(
-                    '/application/' + this.application.id + '/renew'
-                ).then((response) => {
+                    this.$http.post(
+                        '/application/' + this.application.id + '/renew'
+                        ).then((response) => {
 
-                    this.loading = false;
+                            this.loading = false;
                     // If the decline call is successful then update the shown application.
                     this.application = response.data.data;
 
@@ -1116,9 +1128,9 @@
                     this.loading = false;
                     this.displayError(err);
                 });
-            },
+                    },
 
-            displayError(err) {
+                    displayError(err) {
                 // There is an error, let's display an alert.
                 let errorMessage = '';
                 if (err.body.message) {
@@ -1146,4 +1158,4 @@
 
     }
 
-</script>
+    </script>

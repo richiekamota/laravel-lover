@@ -68,14 +68,21 @@ class ContractsController extends Controller
         $this->authorize('create', Contract::class);
         $filePath = FALSE;
 
+        $oldContract = Contract::where('application_id', $id)->first();
+            // Approve the application
+            if(!empty($oldContract)){
+                $oldContract->status = 'cancelled';
+                $oldContract->save();
+            }
+
         // Check if selected unit available for occupation date period
         $occupiedUnit = OccupationDate::where('unit_id', '=', $request->unit_id)
-            ->where('start_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
-            ->where('start_date', '<=', Carbon::parse($request->unit_vacation_date)->format("Y-m-d H:i:s"))
-            ->where('end_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
-            ->where('end_date', '<=', Carbon::parse($request->unit_vacation_date)->format("Y-m-d H:i:s"))
-            ->where('status', '<>', 'cancelled')
-            ->get();
+        ->where('start_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
+        ->where('start_date', '<=', Carbon::parse($request->unit_vacation_date)->format("Y-m-d H:i:s"))
+        ->where('end_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
+        ->where('end_date', '<=', Carbon::parse($request->unit_vacation_date)->format("Y-m-d H:i:s"))
+        ->where('status', '<>', 'cancelled')
+        ->get();
 
         if (!empty($occupiedUnit->toArray())) {
             return Response::json([
@@ -93,6 +100,9 @@ class ContractsController extends Controller
             // Approve the application
             $application->status = 'approved';
             $application->save();
+
+            
+            
 
             $applicationUser = User::findOrFail($application->user_id);
 
@@ -247,6 +257,229 @@ class ContractsController extends Controller
 
     }
 
+
+    /**
+     * update an existing contract.
+     *
+     * @param Request|ContractCreateRequest $request
+     * @param null                          $id
+     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     */
+    public function update(ContractCreateRequest $request, $id = NULL)
+    {
+
+        // TODO : Update existing contract. Change status to ammended and pending.
+      DB::beginTransaction();
+
+      try {
+
+        $oldContract = Contract::where('application_id', $id)->first();
+            // Approve the application
+        $oldContract->status = 'cancelled';
+        $oldContract->save();
+
+    } catch (\Exception $e) {
+
+        \Log::info($e);
+
+            //Bugsnag::notifyException($e);
+
+        DB::rollback();
+
+        return Response::json([
+            'error'   => 'contracts_store_error',
+            'message' => json_encode($e),
+        ], 422);
+
+    }
+
+        // about unless Auth is level above tenant
+
+    $this->authorize('create', Contract::class);
+    $filePath = FALSE;
+
+        // Check if selected unit available for occupation date period
+    $occupiedUnit = OccupationDate::where('unit_id', '=', $request->unit_id)
+    ->where('start_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
+    ->where('start_date', '<=', Carbon::parse($request->unit_vacation_date)->format("Y-m-d H:i:s"))
+    ->where('end_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
+    ->where('end_date', '<=', Carbon::parse($request->unit_vacation_date)->format("Y-m-d H:i:s"))
+    ->where('status', '<>', 'cancelled')
+    ->get();
+
+    if (!empty($occupiedUnit->toArray())) {
+        return Response::json([
+            'error'   => '',
+            'message' => "The selected unit is not available for the occupation date period specified." . json_encode($occupiedUnit->toArray(), TRUE)
+        ], 422);
+    }
+
+    DB::beginTransaction();
+
+    try {
+
+        $application = Application::findOrFail($id);
+
+            // Approve the application
+        $application->status = 'approved';
+        $application->save();
+
+        $applicationUser = User::findOrFail($application->user_id);
+
+            // Take the request and store in the DB
+        $contract = Contract::create([
+            'user_id'        => $applicationUser->id,
+            'unit_id'        => $request->unit_id,
+            'start_date'     => Carbon::parse($request->unit_occupation_date),
+            'end_date'       => Carbon::parse($request->unit_vacation_date),
+            'application_id' => $id,
+            'status'         => 'pending'
+        ]);
+
+            // Create entry in occupation dates table
+        $occupationDate = OccupationDate::create([
+            'contract_id'    => $contract->id,
+            'application_id' => $id,
+            'unit_id'        => $request->unit_id,
+            'status'         => 'pending',
+            'start_date'     => Carbon::parse($request->unit_occupation_date),
+            'end_date'       => Carbon::parse($request->unit_vacation_date)
+        ]);
+
+            // Save the items array into the contract so we
+            // have a structured list of the items for this
+            // specific contract
+        if ($request->items) {
+            foreach ($request->items as $item) {
+
+                    // Create the contract item
+                ContractItem::create([
+                    'contract_id'  => $contract->id,
+                    'name'         => $item['name'],
+                    'description'  => $item['description'],
+                    'value'        => $item['cost'],
+                    'payment_type' => $item['payment_type'],
+                ]);
+
+            }
+        }
+
+            // Generate a PDF of the contract based on the application
+            // The name should be the user first and last name and the date
+            // eg FirstName20160424.pdf
+        $pdfName = ucfirst(preg_replace('/[^\w-]/', '', $applicationUser->first_name)) . ucfirst(preg_replace('/[^\w-]/', '', $applicationUser->last_name)) . \Carbon\Carbon::today()->toDateString();
+
+        $contract_data = Contract::where('id', '=', $contract->id)->with('items', 'user')->first();
+        $contract_data->application = Application::findOrFail($contract_data->application_id);
+        $contract_data->unit = Unit::findOrFail($contract_data->unit_id);
+        $contract_data->location = Location::findOrFail($contract_data->unit->location_id);
+        $contract_data->occupation_date = OccupationDate::where('application_id', '=', $contract_data->application_id)->first();
+        $contract_data->start_date = Carbon::parse($contract_data->start_date)->format("d F Y");
+        $contract_data->end_date = Carbon::parse($contract_data->end_date)->format("d F Y");
+        $contract_data->onceoff_total = 0;
+        $contract_data->monthly_total = 0;
+        $contract_data->deposit_total = 0;
+        $contract_data->rental_total = 0;
+        $contract_data->deposit_text = '';
+        $contract_data->rental_text = '';
+
+        foreach ($contract_data->items as $item) {
+            if ($item->payment_type == 'Monthly') {
+                $contract_data->monthly_total += $item->value;
+            } else {
+                $contract_data->onceoff_total += $item->value;
+            }
+
+            if($item->payment_type == 'Deposit'){
+                $contract_data->deposit_total += $item->value;
+            }
+
+            if($item->payment_type == 'Rental'){
+                $contract_data->rental_total += $item->value;
+            }
+
+            $item->value = number_format($item->value,2,".",",");
+        }
+        $contract_data->onceoff_total = number_format($contract_data->onceoff_total,2,".",",");
+        $contract_data->monthly_total = number_format($contract_data->monthly_total,2,".",",");
+
+        $contract_data->deposit_text = new ConvertNumberToText($contract_data->deposit_total,0,".","");
+        $contract_data->deposit_text = $contract_data->deposit_text->toWords(number_format($contract_data->deposit_total,0,".",""));
+
+        $contract_data->rental_text = new ConvertNumberToText($contract_data->rental_total);
+        $contract_data->rental_text = $contract_data->rental_text->toWords(number_format($contract_data->rental_total,0,".",""));
+
+        $contract_data->deposit_total = number_format($contract_data->deposit_total,2,".",",");
+
+        $data = ['name' => $applicationUser->first_name, 'contract' => $contract_data];
+        $filePath = storage_path('contracts/' . $pdfName . '.pdf');
+
+            // Delete existing PDF
+        if (file_exists(storage_path('contracts/' . $pdfName . '.pdf'))) {
+            unlink(storage_path('contracts/' . $pdfName . '.pdf'));
+        }
+
+
+        $pdf = PDF::loadView('pdf.contract', $data)->save($filePath);
+
+        $document = Document::create([
+            'user_id'   => $applicationUser->id,
+            'location'  => $pdfName . '.pdf',
+            'type'      => 'contract',
+            'file_name' => $pdfName . '.pdf'
+        ]);
+
+            // TODO Save the PDF into S3
+
+            // Generate a secure link for the user_id passed in
+        $contract->secure_link = encrypt($applicationUser->email . '##' . $filePath);
+            // Attach the document to the contract record
+        $contract->document_id = $document->id;
+        $contract->save();
+
+
+            // Log an event against the application
+        ApplicationEvent::create([
+            'user_id'        => Auth::user()->id,
+            'application_id' => $application->id,
+            'action'         => 'Application approved',
+            'note'           => ''
+        ]);
+
+            // Generate the secure return email for this contract
+        dispatch(new SendContractToUserEmail($filePath, $applicationUser->id, $contract->secure_link, $application->id));
+
+        DB::commit();
+
+        return Response::json([
+            'message' => trans('portal.contracts_store_complete'),
+            'data'    => $contract->toArray()
+        ], 200);
+
+    } catch (\Exception $e) {
+
+        \Log::info($e);
+
+        if (file_exists($filePath)) {
+            unlink($filePath);
+        }
+
+            //Bugsnag::notifyException($e);
+
+        DB::rollback();
+
+        return Response::json([
+            'error'   => 'contracts_store_error',
+            'message' => json_encode($e),
+        ], 422);
+
+    }
+
+}
+
+
+
     /**
      * Show a user a copy of the contract for approval.
      *
@@ -345,16 +578,16 @@ class ContractsController extends Controller
 
             // find the contract
             DB::table('contracts')
-                ->where('id', $contract->id)
-                ->update(['status' => 'approved']);
+            ->where('id', $contract->id)
+            ->update(['status' => 'approved']);
 
             DB::table('applications')
-                ->where('id', $contract->application_id)
-                ->update(['status' => 'approved']);
+            ->where('id', $contract->application_id)
+            ->update(['status' => 'approved']);
 
             DB::table('occupation_dates')
-                ->where('contract_id', $contract->id)
-                ->update(['status' => 'approved']);
+            ->where('contract_id', $contract->id)
+            ->update(['status' => 'approved']);
 
             // TODO do we need to update the contract on the file system
             // to show that a user has approved it.
