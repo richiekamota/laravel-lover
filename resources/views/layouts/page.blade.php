@@ -13,6 +13,8 @@
     <!-- Styles -->
     {{--<link href="/css/app.css" rel="stylesheet">--}}
     <link rel="stylesheet" href="{{ elixir('css/app.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.0/sweetalert2.min.css">
+    
 
     <!-- Scripts -->
     <script>
@@ -28,5 +30,6 @@
 <!-- Scripts -->
 {{--<script src="/js/app.js"></script>--}}
 <script src="{{ elixir('js/app.js') }}"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.0/sweetalert2.all.min.js"></script>
 </body>
 </html>

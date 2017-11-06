@@ -80,6 +80,7 @@ class Application extends Model
         'comments',
         'confirm',
         'confirm_time',
+        'contract_decline_reason',        
     ];
     protected $dates = [ 'deleted_at' ];
 

@@ -184,6 +184,7 @@ return [
 
         Barryvdh\Snappy\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        UxWeb\SweetAlert\SweetAlertServiceProvider::class,
 
 
     ],
@@ -200,7 +201,7 @@ return [
     */
 
     'aliases' => [
-
+        
         'App'          => Illuminate\Support\Facades\App::class,
         'Artisan'      => Illuminate\Support\Facades\Artisan::class,
         'Auth'         => Illuminate\Support\Facades\Auth::class,
@@ -232,11 +233,12 @@ return [
         'Storage'      => Illuminate\Support\Facades\Storage::class,
         'URL'          => Illuminate\Support\Facades\URL::class,
         'Validator'    => Illuminate\Support\Facades\Validator::class,
-        'View'         => Illuminate\Support\Facades\View::class,
+        'View'         => Illuminate\Support\Facades\View::class,        
         'Uuid'         => Webpatser\Uuid\Uuid::class,
         'PDF'          => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'SnappyImage'  => Barryvdh\Snappy\Facades\SnappyImage::class,
         'Excel'        => Maatwebsite\Excel\Facades\Excel::class,
+
 
     ],
 
