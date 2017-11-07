@@ -195,56 +195,56 @@ export default {
     },
 
     watch: {
-            // whenever question changes, this function will run
-            unit_occupation_date: function () {
-                this.filterUnits();
-            },
-            unit_vacation_date: function () {
-                this.filterUnits();
-            }
+        // whenever question changes, this function will run
+        unit_occupation_date: function () {
+            this.filterUnits();
+        },
+        unit_vacation_date: function () {
+            this.filterUnits();
+        }
+    },
+
+    methods: {
+        filterItems: function () {
+            let selectedItemsId = [];
+            let initialItems = JSON.parse(this.propItems);
+
+            this.selectedItems.forEach((item) => {
+                selectedItemsId.push(item.id);
+            });
+
+            initialItems.forEach((item) => {
+                if (!selectedItemsId.includes(item.id)) {
+                    this.items.push(item);
+                }
+            });
+
+            this.updateTotalCost();
         },
 
-        methods: {
-            filterItems: function () {
-                let selectedItemsId = [];
-                let initialItems = JSON.parse(this.propItems);
+        filterUnits: function () {
+            this.filteredUnits = [];
 
-                this.selectedItems.forEach((item) => {
-                    selectedItemsId.push(item.id);
-                });
+            for(var i = 0; i < this.availableUnits.length; i++){
 
-                initialItems.forEach((item) => {
-                    if (!selectedItemsId.includes(item.id)) {
-                        this.items.push(item);
-                    }
-                });
+                var unit = this.availableUnits[i];
+                var isValid = false;
 
-                this.updateTotalCost();
-            },
+                if (unit.occupation_dates) {
 
-            filterUnits: function () {
-                this.filteredUnits = [];
+                    if (unit.occupation_dates.length > 0) {
 
-                for(var i = 0; i < this.availableUnits.length; i++){
+                        var ll = 0;
 
-                    var unit = this.availableUnits[i];
-                    var isValid = false;
+                        var inputStartDate = new Date(this.unit_occupation_date);
+                        var inputEndDate = new Date(this.unit_vacation_date);
 
-                    if (unit.occupation_dates) {
-
-                        if (unit.occupation_dates.length > 0) {
-
-                            var ll = 0;
-
-                            var inputStartDate = new Date(this.unit_occupation_date);
-                            var inputEndDate = new Date(this.unit_vacation_date);
-
-                            while (unit.occupation_dates.length > ll) {
-                               // alert(inputStartDate + " > " + inputEndDate);
-                               var unitStartDate = new Date(unit.occupation_dates[ll].start_date);
-                               var unitEndDate = new Date(unit.occupation_dates[ll].end_date);
-                               // alert(unitStartDate + " > " + unitEndDate);
-                               if (inputStartDate != '' && inputEndDate != '' ) {
+                        while (unit.occupation_dates.length > ll) {
+                            // alert(inputStartDate + " > " + inputEndDate);
+                            var unitStartDate = new Date(unit.occupation_dates[ll].start_date);
+                            var unitEndDate = new Date(unit.occupation_dates[ll].end_date);
+                            // alert(unitStartDate + " > " + unitEndDate);
+                            if (inputStartDate != '' && inputEndDate != '' ) {
 
                                 if ((unitStartDate >= inputStartDate && unitStartDate <= inputEndDate) || (unitEndDate <= inputEndDate && unitEndDate >= inputStartDate)) {
                                     if(this.application.unit_fee_split){
@@ -269,19 +269,18 @@ export default {
                 }
             };
 
-                
-            },
+        },
 
         toNiceDate: (date) => {
             return moment(date).format("dddd, MMMM Do YYYY");
         },
 
-            addSelectedItem: function (item, index) {
-                
-                this.selectedItems.push(item);
-                this.items.splice(index, 1);
-                this.updateTotalCost();
-            },
+        addSelectedItem: function (item, index) {
+            
+            this.selectedItems.push(item);
+            this.items.splice(index, 1);
+            this.updateTotalCost();
+        },
 
         removeSelectedItem: function (item, index) {
             this.selectedItems.splice(index, 1);
@@ -320,8 +319,7 @@ export default {
                 return false;
             }
 
-            this.$http.post(
-                '/application/' + this.application.id + '/approve',
+            this.$http.post('/application/' + this.application.id + '/approve',
                 {
                     items: this.selectedItems,
                     user_id: this.application.user_id,
@@ -365,32 +363,32 @@ export default {
                     });
 
                     this.loading = false;
-                });
+            });
 
-            },
+        },
 
-            displayError(err) {
-                // There is an error, let's display an alert.
-                let errorMessage = '';
-                if (err.body.message) {
-                    errorMessage = err.body.message;
-                } else {
-                    // This should occur if there are any validation errors.
-                    // Let's iterate over the list of errors.
-                    Object.keys(err.body).forEach(function (key) {
-                        let obj = err.body[key];
-                        obj = obj.toString();
-                        errorMessage = errorMessage + obj + '\r \n';
-                    });
-                }
-                // THere is an error, let's display an alert.
-                swal({
-                    title: "Error!",
-                    text: errorMessage,
-                    type: "error",
-                    confirmButtonText: "Ok"
+        displayError(err) {
+            // There is an error, let's display an alert.
+            let errorMessage = '';
+            if (err.body.message) {
+                errorMessage = err.body.message;
+            } else {
+                // This should occur if there are any validation errors.
+                // Let's iterate over the list of errors.
+                Object.keys(err.body).forEach(function (key) {
+                    let obj = err.body[key];
+                    obj = obj.toString();
+                    errorMessage = errorMessage + obj + '\r \n';
                 });
-            },
-        }
-    };
-    </script>
+            }
+            // THere is an error, let's display an alert.
+            swal({
+                title: "Error!",
+                text: errorMessage,
+                type: "error",
+                confirmButtonText: "Ok"
+            });
+        },
+    }
+};
+</script>

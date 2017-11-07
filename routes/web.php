@@ -117,7 +117,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/contracts/{id}/approved', 'ContractsController@approve');
     Route::get('/contracts/{id}/review', 'ContractsController@review');
     Route::post('/contracts/{id}', 'ContractsController@store');
-    Route::post('/contracts/{id}/update', 'ContractsController@update');
 
     /*
     |--------------------------------------------------------------------------
