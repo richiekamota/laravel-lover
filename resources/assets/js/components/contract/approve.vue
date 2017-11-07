@@ -46,13 +46,13 @@
 
                     <template v-if="!loading">
                         Decline Contract
-                    </template>
+                    </template> 
                 </button>
             </div>
-        </div>
+        </div> 
 
     </div>
-</template>
+</template>  
 
 <script>
 
