@@ -90,7 +90,7 @@ class ContractsController extends Controller
 
                 OccupationDate::where('application_id', $id)
                                 ->update(['status' => 'cancelled']);
-                
+
             }
 
             // Check if selected unit available for occupation date period
