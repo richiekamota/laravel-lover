@@ -18,7 +18,7 @@ class UnitType extends Model
 
     protected $fillable = [
         'name', 'description', 'location_id', 'cost', 'occupants', 'wifi', 'electricity', 'dstv',
-        'parking_car', 'parking_bike', 'storeroom'
+        'parking_car', 'parking_bike', 'storeroom','unit_room_mate'
     ];
 
     protected $dates = ['deleted_at'];

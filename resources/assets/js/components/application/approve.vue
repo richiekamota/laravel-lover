@@ -171,6 +171,7 @@ export default {
             filteredUnits: [],
             unit_occupation_date: '',
             unit_vacation_date: '',
+            unit_fee_split: '',
             selectedUnit: '',
             totalCost: 0,
             loading: false,
@@ -269,19 +270,19 @@ export default {
                 }
             };
 
-                
-            },
+            
+        },
 
         toNiceDate: (date) => {
             return moment(date).format("dddd, MMMM Do YYYY");
         },
 
-            addSelectedItem: function (item, index) {
-                
-                this.selectedItems.push(item);
-                this.items.splice(index, 1);
-                this.updateTotalCost();
-            },
+        addSelectedItem: function (item, index) {
+            
+            this.selectedItems.push(item);
+            this.items.splice(index, 1);
+            this.updateTotalCost();
+        },
 
         removeSelectedItem: function (item, index) {
             this.selectedItems.splice(index, 1);
