@@ -70,10 +70,10 @@ class ContractsController extends Controller
 
         $oldContract = Contract::where('application_id', $id)->first();
             // Approve the application
-            if(!empty($oldContract)){
-                $oldContract->status = 'cancelled';
-                $oldContract->save();
-            }
+        if(!empty($oldContract)){
+            $oldContract->status = 'cancelled';
+            $oldContract->save();
+        }
 
         // Check if selected unit available for occupation date period
         $occupiedUnit = OccupationDate::where('unit_id', '=', $request->unit_id)
