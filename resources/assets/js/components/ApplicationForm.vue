@@ -148,13 +148,45 @@
 
                     <div v-if="appForm.step1" v-html="appForm.step1"></div>
 
-                    <hr class="application-step__line --mt2">
+                            <button type="submit" id="step6-save" class="button button--focused"
+                                    v-on:click="submitStep(6)"
+                                    v-bind:disabled="loading">
+                    <span v-if="loading">
+                        <loading></loading>
+                    </span>
+                                <span v-else>
+                        Save and continue
+                    </span>
+                            </button>
+                        </div>
+                        <!-- END Step 6 -->
 
-                    <button type="submit" id="step1-save" class="button button--focused --mt2"
-                    v-on:click="submitStep(1)" v-bind:disabled="loading">
-                    <span v-if="loading"><loading></loading></span>
-                    <span v-else>Save and continue</span>
-                </button>
+                        <!-- START Step 7 -->
+                        <button class="application-step__heading" v-on:click="accordionToggle(7, $event)"
+                                ref="accordion7"
+                                v-bind:class="{ '--disabled' : showStep <  7}" data-accordion="7">Step 7: Required
+                            supporting
+                            documents
+                        </button>
+                        <div class="application-step__content">
+
+                            <!-- Resident ID -->
+                            <label for="resident_id">
+                                Resident ID *
+                                <div id="resident_id" name="resident_id" class="dropzone"></div>
+                            </label>
+
+                            <!-- Resident Study permit -->
+                            <label for="resident_study_permit">
+                                Resident Study Permit (Optional)
+                                <div id="resident_study_permit" name="resident_study_permit" class="dropzone"></div>
+                            </label>
+
+                            <!-- Resident Acceptance -->
+                            <label for="resident_acceptance">
+                                Resident University/College Letter of Acceptance (Optional)
+                                <div id="resident_acceptance" name="resident_acceptance" class="dropzone"></div>
+                            </label>
 
             </template>
 
@@ -861,7 +893,7 @@ export default {
                 // Step 7
                 step7: '',
                 resident_id: '',
-                resident_study_permit: '',
+                resident_study_permit: false,
                 resident_acceptance: '',
                 resident_financial_aid: '',
                 leaseholder_id: '',
