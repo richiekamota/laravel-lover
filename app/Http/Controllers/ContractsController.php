@@ -421,6 +421,7 @@ class ContractsController extends Controller
             $contract = Contract::findOrFail($id);
             $application = Application::findOrFail($contract->application_id);
             $application->contract_decline_reason = $data['data'];
+            $contact->status = 'declined';
             $application->save();
 
             // ApplicationEvent::create([
