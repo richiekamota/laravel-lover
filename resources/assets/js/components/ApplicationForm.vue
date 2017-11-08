@@ -812,11 +812,9 @@ v-bind:class="{ '--disabled' : showStep <  8}" data-accordion="8">Step 8: Commen
 
 <script>
 
-import {Data} from '../data.js';
-
-import VueFlatpickr from 'vue-flatpickr';
-
-Vue.use(VueFlatpickr);
+    import {Data} from '../data.js';
+    import VueFlatpickr from 'vue-flatpickr';
+    Vue.use(VueFlatpickr);
 
 
 export default {
@@ -921,8 +919,6 @@ export default {
         mounted() {
             this.showStep = this.step;
 
-
-
             // Toggle the accordion based on the parameter passed
             document.querySelector('[data-accordion="' + this.step + '"]').click();
 
@@ -944,8 +940,6 @@ export default {
             });
 
             this.unitTypes = JSON.parse(this.propUnitTypes);
-
-            
 
             // Add dropzones
             let residentIdDropzone = new Dropzone("#resident_id", {url: "/documents/application"});

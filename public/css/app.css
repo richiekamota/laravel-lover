@@ -4313,6 +4313,12 @@ body.stop-scrolling {
   font-size: 14px;
 }
 
+.support-button {
+  bottom: 0;
+  left: 1em;
+  position: absolute;
+}
+
 h1, .h1 {
   font-size: 36px;
   line-height: 27px;

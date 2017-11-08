@@ -166,4 +166,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/application/{id}/cancel', 'ApplicationProcessController@processCancelApproved');
     Route::post('/application/{id}/renew', 'ApplicationProcessController@renew');
 
+    /*
+    |--------------------------------------------------------------------------
+    | Support - admin support routes
+    |--------------------------------------------------------------------------
+    |
+    */
+    Route::post('/submit-admin-issue', 'SupportController@adminIssue');
+
 });
