@@ -565,13 +565,10 @@ class ApplicationController extends Controller
 
             return Response::json(
                 $message
-                , 422);
+            , 422);
         }
 
         try {
-
-            // Validate images
-
 
             // Update the form
             $applicationForm->update([
@@ -589,8 +586,8 @@ class ApplicationController extends Controller
             DB::rollback();
 
             return Response::json([
-                'error'   => 'application_form_step6_error',
-                'message' => trans('portal.application_form_step6_error'),
+                'error'   => 'application_form_step7_error',
+                'message' => trans('portal.application_form_step7_error'),
             ], 422);
 
         }
@@ -877,7 +874,7 @@ class ApplicationController extends Controller
         return Validator::make($data, [
             'resident_id'               => 'required',
             'resident_study_permit'     => 'sometimes',
-            'resident_acceptance'       => 'required',
+            'resident_acceptance'       => 'sometimes',
             'resident_financial_aid'    => 'required',
             'leaseholder_id'            => 'required',
             'leaseholder_address_proof' => 'required',

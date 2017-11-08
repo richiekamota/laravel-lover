@@ -14,7 +14,7 @@ class AddRoommateToUnitTypesTable extends Migration
     public function up()
     {
         Schema::table('applications', function (Blueprint $table) {
-            $table->string('unit_room_mate')->nullable();
+            $table->string('unit_room_mate')->after('unit_fee_split')->nullable();
         });
     }
 
@@ -25,8 +25,12 @@ class AddRoommateToUnitTypesTable extends Migration
      */
     public function down()
     {
-        if (Schema::hasColumn('unit_room_mate', function (Blueprint $table) {
-            $table->dropColumn('unit_room_mate');
-        }); 
+        if (Schema::hasColumn('applications', 'unit_room_mate'))
+        {
+            Schema::table('applications', function (Blueprint $table)
+            {
+                $table->dropColumn('unit_room_mate');
+            });
+        }
     }
 }

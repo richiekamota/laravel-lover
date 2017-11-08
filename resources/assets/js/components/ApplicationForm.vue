@@ -121,10 +121,8 @@
                                     </label>
                                 </div>
 
-                                <!-- TODO: Use vbind to check if maritial status is check and then make this required. -->
-
                                 <!-- Married Type -->
-                                <div class="styled-select">
+                                <div class="styled-select" v-if="appForm.marital_status === 'Married'">
                                     <label for="married_type">
                                         If married, please select the appropriate option
                                         <select name="married_type" v-model="appForm.married_type" v-bind:required="appForm.marital_status == 'Married'">
@@ -322,21 +320,27 @@
                                     <input type="text" name="resident_last_name" v-model="appForm.resident_last_name" required>
                                 </label>
 
-                                <!-- Resident ID Number-->
-                                <label for="resident_sa_id_number">
-                                    ID Number
-                                    <input type="text" name="resident_sa_id_number" v-model="appForm.resident_sa_id_number">
-                                </label>
-
-                                <p>
-                                    <strong>OR</strong>
-                                </p>
-
-                                <!-- Resident Passport Number -->
-                                <label for="resident_passport_number">
-                                    Passport number
-                                    <input type="text" name="resident_passport_number" v-model="appForm.resident_passport_number">
-                                </label>
+                                <div class="row">
+                                    <div class="column medium-5">
+                                        <!-- SA ID number -->
+                                        <label for="resident_sa_id_number">
+                                            South African ID Number
+                                            <input type="text" name="resident_sa_id_number" v-model="appForm.resident_sa_id_number">
+                                        </label>
+                                    </div>
+                                    <div class="column medium-2">
+                                        <p>
+                                            <strong>OR</strong>
+                                        </p>
+                                    </div>
+                                    <div class="column medium-5">
+                                        <!-- passport number -->
+                                        <label for="resident_passport_number">
+                                            Passport number
+                                            <input type="text" name="resident_passport_number" v-model="appForm.resident_passport_number">
+                                        </label>
+                                    </div>
+                                </div>
 
                                 <!-- Resident Date of birth DOB -->
                                 <label for="resident_dob">
@@ -588,13 +592,13 @@
 
                             <!-- Resident Study permit -->
                             <label for="resident_study_permit">
-                                Resident Study Permit *
+                                Resident Study Permit (optional)
                                 <div id="resident_study_permit" name="resident_study_permit" class="dropzone"></div>
                             </label>
 
                             <!-- Resident Acceptance -->
                             <label for="resident_acceptance">
-                                Resident Acceptance *
+                                Resident Acceptance Letter (optional)
                                 <div id="resident_acceptance" name="resident_acceptance" class="dropzone"></div>
                             </label>
 
@@ -645,7 +649,8 @@
                         <div class="application-step__content">
                             <!-- Comments -->
                             <label for="comments">
-                                Comments
+                                <strong>Comments</strong> <br>
+                                <span>Please add a second choice of Unit Type below, should your preferred choice not be available.</span><br/> 
                                 <textarea name="comments" v-model="appForm.comments"></textarea>
                             </label>
 
