@@ -44,8 +44,6 @@ Vue.component('application-approve', require('./components/application/approve.v
 
 Vue.component('contract-approve', require('./components/contract/approve.vue'));
 
-
-
 const app = new Vue({
     el: '#app'
 });

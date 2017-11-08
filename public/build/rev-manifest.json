@@ -1,9 +1,4 @@
 {
-<<<<<<< HEAD
-  "css/app.css": "css/app-2b26e36441.css",
-  "js/app.js": "js/app-5b09a224ae.js"
-=======
   "css/app.css": "css/app-0bbcc19bae.css",
-  "js/app.js": "js/app-6f9649e3e4.js"
->>>>>>> origin/feature/99-adminIssueReport
+  "js/app.js": "js/app-89b6fbd6c0.js"
 }

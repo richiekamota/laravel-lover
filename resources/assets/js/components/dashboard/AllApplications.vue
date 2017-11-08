@@ -30,7 +30,9 @@
                         <a v-bind:href="getUrl(application.id)">
 
                             <button class="accordion__heading">
-                                {{application.created_at }} - {{application.user.first_name }} {{application.user.last_name }} <span class="float-right --caps-first">{{application.status}}</span>
+                                {{application.created_at }} - {{application.user.first_name }} {{application.user.last_name }}
+                                <span
+                                    class="float-right --caps-first">{{application.status}}</span>
                             </button>
                         </a>
 
@@ -48,14 +50,14 @@
 
     export default {
         props: ['propAllApplications'],
-        data(){
+        data() {
             return {
                 allApplications: []
             }
         },
         mounted() {
             this.allApplications = JSON.parse(this.propAllApplications);
-            
+
         },
         methods: {
 
@@ -64,7 +66,7 @@
             },
 
             getUrl: function (id) {
-                return '/application/'+id+'/review';
+                return '/application/' + id + '/review';
             }
 
         }

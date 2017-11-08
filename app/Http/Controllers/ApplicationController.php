@@ -105,12 +105,7 @@ class ApplicationController extends Controller
 
             \Log::info($e);
 
-            //Bugsnag::notifyException($e);
-
-            return Response::json([
-                'error'   => 'application_form_step1_error',
-                'message' => trans('portal.application_form_step1_error' . json_encode($e)),
-            ], 422);
+            return redirect()->back()->withInput();
 
         }
 

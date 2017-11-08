@@ -14,35 +14,50 @@
 
                     <div v-for="(item, index) in items" style="width:100%">
                         <div class="small-12 columns">
-                            <div class="table__row"
-                                 :class="{ even: isEven(index), first: index == 0, last: index == items.length -1 }">
+                            <div class="table__row" :class="{ even: isEven(index), first: index == 0, last: index == items.length -1 }">
 
                                 <!-- Row Title -->
-                                <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{
-                                    item.name }} : R{{item.cost}} ({{item.payment_type}})
+                                <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{ item.name }} : R{{item.cost}} ({{item.payment_type}})
                                 </button>
 
                                 <!-- START Edit form -->
                                 <div class="accordion__content --bg-calm">
                                     <template v-if="!addEntry">
                                         <div class="row table-head" v-if="item.item_lease_dates.length > 0">
-                                            <div class="small-3 medium-3 columns"><strong>Item Name</strong></div>
-                                            <div class="small-3 medium-3 columns"><strong>Leased By</strong></div>
-                                            <div class="small-2 medium-2 columns"><strong>Start Date</strong></div>
-                                            <div class="small-2 medium-2 columns"><strong>End Date</strong></div>
+                                            <div class="small-3 medium-3 columns">
+                                                <strong>Item Name</strong>
+                                            </div>
+                                            <div class="small-3 medium-3 columns">
+                                                <strong>Leased By</strong>
+                                            </div>
+                                            <div class="small-2 medium-2 columns">
+                                                <strong>Start Date</strong>
+                                            </div>
+                                            <div class="small-2 medium-2 columns">
+                                                <strong>End Date</strong>
+                                            </div>
                                             <div class="small-2 medium-2 columns"></div>
                                         </div>
                                         <div class="row column" v-else>
                                             <p>No lease dates found for this item.</p>
                                         </div>
-                                        <div class="row table-row" v-for="(lease, index2) in item.item_lease_dates"
-                                             :class="{ even: isEven(index2), first: index2 == 0, last: index2 == items.length -1 }">
-                                            <div class="small-3 medium-3 columns"><p>{{lease.item_name}}</p></div>
-                                            <div class="small-3 medium-3 columns"><p>{{lease.leasee_name}}</p></div>
-                                            <div class="small-2 medium-2 columns"><p>{{toNiceDate(lease.start_date)}}</p></div>
-                                            <div class="small-2 medium-2 columns"><p>{{toNiceDate(lease.end_date)}}</p></div>
-                                            <div class="small-2 medium-2 columns"><p><a href="#"
-                                                                                     v-on:click="removeItem(index, index2)">Remove</a></p>
+                                        <div class="row table-row" v-for="(lease, index2) in item.item_lease_dates" :class="{ even: isEven(index2), first: index2 == 0, last: index2 == items.length -1 }">
+                                            <div class="small-3 medium-3 columns">
+                                                <p>{{lease.item_name}}</p>
+                                            </div>
+                                            <div class="small-3 medium-3 columns">
+                                                <p>{{lease.leasee_name}}</p>
+                                            </div>
+                                            <div class="small-2 medium-2 columns">
+                                                <p>{{toNiceDate(lease.start_date)}}</p>
+                                            </div>
+                                            <div class="small-2 medium-2 columns">
+                                                <p>{{toNiceDate(lease.end_date)}}</p>
+                                            </div>
+                                            <div class="small-2 medium-2 columns">
+                                                <p>
+                                                    <a href="#" v-on:click="removeItem(index, index2)">Remove</a>
+                                                </p>
                                             </div>
                                         </div>
                                         <button class="button lease-button" v-on:click="showAddForm()">Add Lease
@@ -51,21 +66,17 @@
                                     <template v-else>
 
                                         <div class="row column">
-                                            <input type="hidden" id="item_id" ref="item_id"
-                                                   name="item_id" v-model="newItem.item_id">
+                                            <input type="hidden" id="item_id" ref="item_id" name="item_id" v-model="newItem.item_id">
 
                                             <!-- START Location input form -->
                                             <label for="leasee_name">
                                                 Item Name
-                                                <input type="text" id="leasee_name" ref="leasee_name"
-                                                       name="leasee_name" v-model="newItem.leasee_name">
+                                                <input type="text" id="leasee_name" ref="leasee_name" name="leasee_name" v-model="newItem.leasee_name">
                                             </label>
 
                                             <label for="item_name">
                                                 Leasee Name
-                                                <textarea ref="item_name" id="item_name"
-                                                          name="item_name"
-                                                          v-model="newItem.item_name"></textarea>
+                                                <textarea ref="item_name" id="item_name" name="item_name" v-model="newItem.item_name"></textarea>
                                             </label>
 
                                             <label for="user_id">
@@ -73,27 +84,21 @@
                                                 <select ref="user_id" id="user_id" name="user_id" v-model="newItem.user_id">
                                                     <option value=""></option>
                                                     <option v-for="user in users" v-bind:value="user.id">
-                                                        {{ user.first_name }}  {{ user.last_name }}
+                                                        {{ user.first_name }} {{ user.last_name }}
                                                     </option>
                                                 </select>
                                             </label>
 
                                             <label for="start_date">
                                                 Start Date
-                                                <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }'
-                                                           name="start_date"
-                                                           v-model="newItem.start_date"
-                                                           @update='newItem.start_date = $event'
-                                                           required/>
+                                                <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="start_date" v-model="newItem.start_date" @update='newItem.start_date = $event'
+                                                    required/>
                                             </label>
 
                                             <label for="end_date">
                                                 End Date
-                                                <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }'
-                                                           name="end_date"
-                                                           v-model="newItem.end_date"
-                                                           @update='newItem.end_date = $event'
-                                                           required/>
+                                                <Flatpickr :options='{ altInput: true, altFormat: "d F Y" }' name="end_date" v-model="newItem.end_date" @update='newItem.end_date = $event'
+                                                    required/>
                                             </label>
 
                                             <!--<label for="status">-->
@@ -110,14 +115,10 @@
                                         <!-- END Edit form -->
 
                                         <div class="row column">
-                                            <button type="submit" name="addItem"
-                                                    class="button lease-button focused --mt1"
-                                                    v-on:click="addItem" v-bind:disabled="loading">
+                                            <button type="submit" name="addItem" class="button lease-button focused --mt1" v-on:click="addItem" v-bind:disabled="loading">
                                                 <span>Add</span>
                                             </button>
-                                            <button type="submit" name="cancelItem"
-                                                    class="button lease-button float-right --mt1"
-                                                    v-on:click="cancelAddItem">
+                                            <button type="submit" name="cancelItem" class="button lease-button float-right --mt1" v-on:click="cancelAddItem">
                                                 <span>Cancel</span>
                                             </button>
                                         </div>
@@ -153,7 +154,8 @@
                         <div class="row column clearfix">
                             <h3 class="stats-box__header --focused --mt0">Stats</h3>
                         </div>
-                        Lease Count: <span class="float-right">{{total_leases}}</span>
+                        Lease Count:
+                        <span class="float-right">{{total_leases}}</span>
                     </div>
                 </div>
             </div>
@@ -163,7 +165,7 @@
 </template>
 <script>
 
-    import {Data} from '../../data.js';
+    import { Data } from '../../data.js';
 
     import VueFlatpickr from 'vue-flatpickr';
 
@@ -302,14 +304,14 @@
                                             console.log(child)
                                         })
 
-//                                        obj2.forEach(function (lease_val) {
-//                                            let obj3 = lease_val;
-//                                            console.log(typeof obj3);
-//                                            if (typeof obj3 === 'string' && obj3.indexOf(filteredInput) !== -1) {
-//
-//                                                isValid = item;
-//                                            }
-//                                        });
+                                        //                                        obj2.forEach(function (lease_val) {
+                                        //                                            let obj3 = lease_val;
+                                        //                                            console.log(typeof obj3);
+                                        //                                            if (typeof obj3 === 'string' && obj3.indexOf(filteredInput) !== -1) {
+                                        //
+                                        //                                                isValid = item;
+                                        //                                            }
+                                        //                                        });
                                     }
                                 });
                             }

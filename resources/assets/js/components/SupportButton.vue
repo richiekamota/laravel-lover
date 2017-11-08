@@ -4,7 +4,7 @@
 
 <script>
   export default {
-    mounted() {},
+    mounted() { },
     methods: {
       supportSubmit: function () {
         swal({
@@ -16,22 +16,22 @@
           type: 'input',
           animation: "slide-from-top"
         }, (inputValue) => {
-          this.$http.post('/submit-admin-issue', JSON.stringify({'user_issue': inputValue, 'location' : window.location.href })
+          this.$http.post('/submit-admin-issue', JSON.stringify({ 'user_issue': inputValue, 'location': window.location.href })
           ).then((response) => {
             swal("Thanks!",
               "Your issue has been logged.",
               "success");
           }, (err) => {
-              let errorMessage = '';
-              if (err.body.message) {
-                  errorMessage = err.body.message;
-              }
-              swal({
-                  title: "Error!",
-                  text: errorMessage,
-                  type: "error",
-                  confirmButtonText: "Ok"
-              });
+            let errorMessage = 'You cancelled the submission';
+            if (err.body.message) {
+              errorMessage = err.body.message;
+            }
+            swal({
+              title: "Error!",
+              text: errorMessage,
+              type: "error",
+              confirmButtonText: "Ok"
+            });
           });
         });
 

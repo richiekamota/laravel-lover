@@ -3,8 +3,8 @@
         <div class="row columns">
             <h2 class="--focused">APPLICATION PENDING | can we offer the applicant something else? </h2>
             <p>
-                Applications that are not approved or declined might be offered another unit or the chance to update
-                their application with more information.
+                Applications that are not approved or declined might be offered another unit or the chance to update their application with
+                more information.
             </p>
         </div>
 
@@ -16,9 +16,8 @@
                     <div class="column">
                         <label for="pendingComment">
                             Your message to the applicant
-                            <textarea name="pendingComment" id="pendingComment" cols="30" rows="3"
-                                      placeholder="Type your message to the applicant here"
-                                      v-model="pendingReason"></textarea>
+                            <textarea name="pendingComment" id="pendingComment" cols="30" rows="3" placeholder="Type your message to the applicant here"
+                                v-model="pendingReason"></textarea>
                         </label>
                     </div>
                 </div>
@@ -30,11 +29,11 @@
                 </div>
 
                 <div class="row column" v-for="(unit_type , index) in unitTypes">
-                    {{unit_type.name}} <span class="float-right">{{unit_type.total}} units available</span>
+                    {{unit_type.name}}
+                    <span class="float-right">{{unit_type.total}} units available</span>
                 </div>
 
-                <button class="application-step__heading --mt2" v-on:click="accordionToggle(1, $event)" ref="accordion1"
-                        data-accordion="1">Application Details
+                <button class="application-step__heading --mt2" v-on:click="accordionToggle(1, $event)" ref="accordion1" data-accordion="1">Application Details
                 </button>
                 <div class="application-step__content application-step__content--no-padding">
 
@@ -877,8 +876,7 @@
 
                         <div class="row column">
                             <a>
-                                <button id="pending-application" class="button button--pending --expanded"
-                                        v-on:click="confirmPending()">
+                                <button id="pending-application" class="button button--pending --expanded" v-on:click="confirmPending()">
                                     <span v-if="loading">
                                         <loading></loading>
                                     </span>
@@ -903,7 +901,7 @@
 
     export default {
         props: ['propApplication', 'propLocation', 'propUnitTypes'],
-        data(){
+        data() {
             return {
                 application: {},
                 location: {},
@@ -927,7 +925,7 @@
 
             accordionToggle: function (step, event) {
 
-                
+
 
                 event.preventDefault();
 
@@ -962,11 +960,11 @@
 
                     // Redirect user to dashboard
                     swal({
-                            title: "Success!",
-                            text: "The application has been marked pending and the applicant has been emailed.",
-                            type: "success",
-                            confirmButtonText: "Ok"
-                        },
+                        title: "Success!",
+                        text: "The application has been marked pending and the applicant has been emailed.",
+                        type: "success",
+                        confirmButtonText: "Ok"
+                    },
                         function () {
                             location.href = '/dashboard';
                         });
