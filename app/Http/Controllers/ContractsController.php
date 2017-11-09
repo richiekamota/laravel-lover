@@ -21,6 +21,7 @@ use Portal\Jobs\SendApprovedContractToAccounts;
 use Portal\Jobs\SendContractDeclinedEmail;
 use Portal\Jobs\SendContractToUserEmail;
 use Portal\Unit;
+use Portal\UnitType;
 use Portal\User;
 use Portal\Location;
 use Response;
@@ -290,11 +291,12 @@ class ContractsController extends Controller
             $contract = Contract::whereSecureLink($secureLink)->with('items', 'user')->first();
             $contract->items = $contract->items->sortByDesc('cost');
             $contract->application = Application::findOrFail($contract->application_id);
-            $contract->unit = Unit::findOrFail($contract->unit_id);
+            $contract->unit = Unit::with('unitType')->find($contract->unit_id);
             $contract->location = Location::findOrFail($contract->unit->location_id);
             $contract->occupation_date = OccupationDate::where('application_id', '=', $contract->application_id)->first();
             $contract->start_date = Carbon::parse($contract->start_date)->format("d F Y");
             $contract->end_date = Carbon::parse($contract->end_date)->format("d F Y");
+            $contract->unit_description = UnitType::find($contract->unit->type_id)->description;
 
             $contract->onceoff_total = 0;
             $contract->monthly_total = 0;
@@ -322,6 +324,7 @@ class ContractsController extends Controller
             }
 
             $contract->onceoff_total = number_format($contract->onceoff_total,2,".",",");
+            $contract->monthly_total_max_cancel = number_format(($contract->monthly_total * 2),2,".",",");
             $contract->monthly_total = number_format($contract->monthly_total,2,".",",");
 
             $contract->deposit_text = new ConvertNumberToText(number_format($contract->deposit_total,0,"",""));
@@ -331,6 +334,26 @@ class ContractsController extends Controller
             $contract->rental_text = $contract->rental_text->toWords(number_format($contract->rental_total,0,".",""));
 
             $contract->deposit_total = number_format($contract->deposit_total,2,".",",");
+
+            // If the sa id or passport match for the applicatant and tennant then is same = true
+            // We need to check that the fields are not null also hence the != NULL checks
+            if(
+                (
+                    ($contract->application->sa_id_number === $contract->application->resident_sa_id_number) && 
+                    ($contract->application->sa_id_number != NULL) && 
+                    ($contract->application->resident_sa_id_number != NULL)
+                )
+                || 
+                (
+                    ($contract->application->passport_number === $contract->application->resident_passport_number) && 
+                    ($contract->application->passport_number != NULL) && 
+                    ($contract->application->resident_passport_number != NULL)
+                )
+            ){
+                $contract->isSamePerson = true;
+            } else {
+                $contract->isSamePerson = false;
+            }
 
 
             // Check the secure link user_id matches that of the Auth::user()
