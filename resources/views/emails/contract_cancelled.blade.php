@@ -42,7 +42,7 @@
                         <tr>
                             <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="center">
                                 <div style="cursor:auto;color:#58585d;font-family:Ubuntu;font-size:15px;line-height:22px;">
-                                    Your contract for accommodation at My Domain Southern Suburbs has been cancelled.
+                                    Your contract for accommodation at My Domain has been cancelled.
                                 </div>
                             </td>
                         </tr>

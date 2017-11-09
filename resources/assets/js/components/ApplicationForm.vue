@@ -995,7 +995,8 @@ export default {
 
                 let errorMessage = '';
                 if (err.body.message) {
-                    errorMessage = err.body.message;
+                    console.log(err.body.message);
+                    errorMessage = (Object.keys(err.body.message).length === 0 && err.body.message.constructor === Object) ? 'There was an error cancelling your application, please try again.' : err.body.message ;
                 } else {
                     // This should occur if there are any validation errors.
                     // Let's iterate over the list of errors.
@@ -1005,6 +1006,7 @@ export default {
                         errorMessage = errorMessage + obj + '\r \n';
                     });
                 }
+                console.log(errorMessage);
                 this.appForm[stepMessage] = errorMessage.replace(/\r/g, "<br/>");
                 swal({
                     title: "Error!",

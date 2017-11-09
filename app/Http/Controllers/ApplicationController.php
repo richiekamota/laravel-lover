@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Portal\Application;
 use Portal\Http\Requests\ApplicationCreateRequest;
+use Portal\Http\Requests\ApplicationCancelRequest;
 use Portal\Http\Requests\ApplicationStepEightRequest;
 use Portal\Http\Requests\ApplicationStepFiveRequest;
 use Portal\Http\Requests\ApplicationStepFourRequest;
@@ -18,12 +19,14 @@ use Portal\Http\Requests\ApplicationStepSixRequest;
 use Portal\Http\Requests\ApplicationStepThreeRequest;
 use Portal\Http\Requests\ApplicationStepTwoRequest;
 use Portal\Http\Requests\ApplicationSubmitRequest;
+use Portal\Jobs\SendContractCancelledEmail;
 use Portal\Location;
 use Portal\UnitType;
 use Portal\User;
 use Portal\Unit;
 use Portal\Contract;
 use Portal\OccupationDate;
+use Portal\ApplicationEvent;
 use Response;
 use Validator;
 
@@ -740,45 +743,52 @@ class ApplicationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function cancel($id)
+    public function cancel(ApplicationCancelRequest $request, $id)
     {
 
-        $applicationForm = Application::find($id);
+        $application = Application::find($id);
 
-        $this->authorize('update', $applicationForm);
+        $this->authorize('update', $application);
 
         DB::beginTransaction();
 
         try {
 
-            // Update the form status to cancelled
-            $data = $applicationForm->toArray();
-            $data['status'] = 'cancelled';
-            $applicationForm->update($data);
+            $application->status = 'cancelled';
+            $application->save();
 
-            $contract = Contract::where("application_id","=",$id)->get();
-            if(!empty($contract)) {
-                $contractData = $contract->toArray();
-                $contractData['status'] = 'cancelled';
-                $contract->update($contractData);
-            }
+            $contract = DB::table('contracts')
+                ->where('application_id', $application->id)
+                ->update(['status' => 'cancelled']);
 
-            $occupationDate = OccupationDate::where("contract_id","=",$contractData['id'])->get();
-            if(!empty($occupationDate)) {
-                $occupationDateData = $occupationDate->toArray();
-                $occupationDateData['status'] = 'cancelled';
-                $occupationDate->update($occupationDateData);
-            }
+            $contract = DB::table('contracts')
+                ->where('application_id', $application->id)
+                ->where('status', '=', 'cancelled')
+                ->first();
 
-            dispatch(new SendContractCancelledEmail($contract, $data['user_id']));
+            $occupiedUnit = DB::table('occupation_dates')
+                ->where('application_id', $application->id)
+                ->update(['status' => 'cancelled']);
+
+            ApplicationEvent::create([
+                'user_id'        => Auth::user()->id,
+                'application_id' => $id,
+                'action'         => 'Application cancelled',
+                'note'           => ''
+            ]);
+
+            dispatch(new SendContractCancelledEmail($id, $application->user_id));
 
             DB::commit();
+
+            return Response::json([
+                'error'   => '',
+                'message' => '',
+            ], 200);
 
         } catch (\Exception $e) {
 
             \Log::info($e);
-
-            //Bugsnag::notifyException($e);
 
             DB::rollback();
 

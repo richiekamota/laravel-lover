@@ -453,12 +453,12 @@ class ContractsController extends Controller
     }
 
     /**
-    * Allow a user to decline a contract.
-    *
-    * @param  int $id
-    *
-    * @return \Illuminate\Http\Response
-    */
+        * Allow a user to decline a contract.
+        *
+        * @param  int $id
+        *
+        * @return \Illuminate\Http\Response
+        */
     public function decline(ContractDeclineRequest $request, $id)
     {
 

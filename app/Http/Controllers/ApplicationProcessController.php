@@ -154,7 +154,7 @@ class ApplicationProcessController extends Controller
                 'note'           => ''
             ]);
 
-            dispatch(new SendContractCancelledEmail($contract, $application->user_id));
+            dispatch(new SendContractCancelledEmail($id, $application->user_id));
 
             DB::commit();
 
@@ -187,12 +187,6 @@ class ApplicationProcessController extends Controller
             ], 422);
 
         }
-
-        // Update the application status
-
-        // Email the user with the reason
-
-        // Return the updated application to the user
 
 
     }
