@@ -13,10 +13,11 @@ require('./bootstrap');
  * the application, or feel free to tweak this setup for your needs.
  */
 
-Vue.component('example', require('./components/Example.vue'));
-
 // Loading utility.
 Vue.component('loading', require('./components/Loading.vue'));
+
+// Support Button
+Vue.component('support-button', require('./components/SupportButton.vue'));
 
 // Application form.
 Vue.component('application-form', require('./components/ApplicationForm.vue'));
@@ -42,8 +43,6 @@ Vue.component('application-pending', require('./components/application/pending.v
 Vue.component('application-approve', require('./components/application/approve.vue'));
 
 Vue.component('contract-approve', require('./components/contract/approve.vue'));
-
-
 
 const app = new Vue({
     el: '#app'

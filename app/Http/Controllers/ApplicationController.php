@@ -105,12 +105,7 @@ class ApplicationController extends Controller
 
             \Log::info($e);
 
-            //Bugsnag::notifyException($e);
-
-            return Response::json([
-                'error'   => 'application_form_step1_error',
-                'message' => trans('portal.application_form_step1_error'),
-            ], 422);
+            return redirect()->back()->withInput();
 
         }
 
@@ -476,7 +471,7 @@ class ApplicationController extends Controller
                 $type = UnitType::where('id','=', $request->unit_type)->first();
                 return Response::json([
                     'error'   => 'Unit Not Available',
-                    'message' => "Please note, there are no ".$type->name." type units available for the occupation date specified. However, you can still submit this application and we will contact you regarding alternative accomoodation.",
+                    'message' => "Please note, there are no ".$type->name." type units available for the occupation date specified. However, you can still submit this application and we will contact you regarding alternative accomodation.",
                 ], 200);
             }
 
@@ -570,13 +565,10 @@ class ApplicationController extends Controller
 
             return Response::json(
                 $message
-                , 422);
+            , 422);
         }
 
         try {
-
-            // Validate images
-
 
             // Update the form
             $applicationForm->update([
@@ -594,8 +586,8 @@ class ApplicationController extends Controller
             DB::rollback();
 
             return Response::json([
-                'error'   => 'application_form_step6_error',
-                'message' => trans('portal.application_form_step6_error'),
+                'error'   => 'application_form_step7_error',
+                'message' => trans('portal.application_form_step7_error'),
             ], 422);
 
         }
@@ -881,8 +873,8 @@ class ApplicationController extends Controller
 
         return Validator::make($data, [
             'resident_id'               => 'required',
-            'resident_study_permit'     => 'required',
-            'resident_acceptance'       => 'required',
+            'resident_study_permit'     => 'sometimes',
+            'resident_acceptance'       => 'sometimes',
             'resident_financial_aid'    => 'required',
             'leaseholder_id'            => 'required',
             'leaseholder_address_proof' => 'required',

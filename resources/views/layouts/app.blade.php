@@ -25,6 +25,8 @@
                         <li class="admin-menu__link-item @if(Request::path() == 'item-lease')admin-menu__link-active --bg-mist @endif">
                             <a href="{{ url('/items-leased') }}" class="admin-menu__link">Leased Items</a></li>
                     </ul>
+
+                    <support-button></support-button>
                 @endif
 
                 @if(Gate::check('is-tenant'))

@@ -31,34 +31,33 @@
             </template>
 
         </div>
-
     </div>
 
 </template>
 <script>
 
-    export default {
-        props: ['propOpenApplications'],
-        data(){
-            return {
-                openApplications: []
-            }
-        },
-        mounted() {
-            this.openApplications = JSON.parse(this.propOpenApplications);
-            
-        },
-        methods: {
-
-            isEven: function (n) {
-                return n % 2 == 0;
-            },
-
-            getUrl: function (id) {
-                return '/application/'+id+'/review';
-            }
-
+export default {
+    props: ['propOpenApplications'],
+    data(){
+        return {
+            openApplications: []
         }
+    },
+    mounted() {
+        this.openApplications = JSON.parse(this.propOpenApplications);
+        console.log(this.openApplications);
+    },
+    methods: {
+
+        isEven: function (n) {
+            return n % 2 == 0;
+        },
+
+        getUrl: function (id) {
+            return '/application/'+id+'/review';
+        }
+
     }
+}
 
 </script>

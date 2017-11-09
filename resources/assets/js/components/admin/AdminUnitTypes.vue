@@ -5,8 +5,8 @@
             <div class="medium-9 columns">
                 <h2 class="--focused">UNIT TYPES | types of units tenants stay in</h2>
                 <p>
-                    A list of the different unit types a tenant can choose from. These can be different across different locations and each
-                    unit type can have different options and a different monthly cost.
+                    A list of the different unit types a tenant can choose from. These can be different across different locations and each unit
+                    type can have different options and a different monthly cost.
                 </p>
             </div>
         </div>
@@ -56,8 +56,8 @@
                                     </label>
 
                                     <!--<label for="unitTypeCost">-->
-                                        <!--Unit type Cost*-->
-                                        <!--<input type="number" ref="unitTypeCost" id="unitTypeCost" name="unitTypeCost" v-model="newUnitType.cost">-->
+                                    <!--Unit type Cost*-->
+                                    <!--<input type="number" ref="unitTypeCost" id="unitTypeCost" name="unitTypeCost" v-model="newUnitType.cost">-->
                                     <!--</label>-->
 
                                     <div class="row column">
@@ -75,31 +75,31 @@
                                     </div>
 
                                     <!--<div class="row column">-->
-                                        <!--<input type="checkbox" ref="unitTypeDstv" id="unitTypeDstv" name="unitTypeDstv" v-model="newUnitType.dstv">-->
-                                        <!--<label for="unitTypeDstv">-->
-                                            <!--Dstv-->
-                                        <!--</label>-->
+                                    <!--<input type="checkbox" ref="unitTypeDstv" id="unitTypeDstv" name="unitTypeDstv" v-model="newUnitType.dstv">-->
+                                    <!--<label for="unitTypeDstv">-->
+                                    <!--Dstv-->
+                                    <!--</label>-->
                                     <!--</div>-->
 
                                     <!--<div class="row column">-->
-                                        <!--<input type="checkbox" ref="unitTypeParkingCar" id="unitTypeParkingCar" name="unitTypeParkingCar" v-model="newUnitType.parking_car">-->
-                                        <!--<label for="unitTypeParkingCar">-->
-                                            <!--Car parking-->
-                                        <!--</label>-->
+                                    <!--<input type="checkbox" ref="unitTypeParkingCar" id="unitTypeParkingCar" name="unitTypeParkingCar" v-model="newUnitType.parking_car">-->
+                                    <!--<label for="unitTypeParkingCar">-->
+                                    <!--Car parking-->
+                                    <!--</label>-->
                                     <!--</div>-->
 
                                     <!--<div class="row column">-->
-                                        <!--<input type="checkbox" ref="unitTypeParkingBike" id="unitTypeParkingBike" name="unitTypeParkingBike" v-model="newUnitType.parking_bike">-->
-                                        <!--<label for="unitTypeParkingBike">-->
-                                            <!--Bike parking-->
-                                        <!--</label>-->
+                                    <!--<input type="checkbox" ref="unitTypeParkingBike" id="unitTypeParkingBike" name="unitTypeParkingBike" v-model="newUnitType.parking_bike">-->
+                                    <!--<label for="unitTypeParkingBike">-->
+                                    <!--Bike parking-->
+                                    <!--</label>-->
                                     <!--</div>-->
 
                                     <!--<div class="row column">-->
-                                        <!--<input type="checkbox" ref="unitTypeStoreroom" id="unitTypeStoreroom" name="unitTypeStoreroom" v-model="newUnitType.storeroom">-->
-                                        <!--<label for="unitTypeStoreroom">-->
-                                            <!--Storeroom-->
-                                        <!--</label>-->
+                                    <!--<input type="checkbox" ref="unitTypeStoreroom" id="unitTypeStoreroom" name="unitTypeStoreroom" v-model="newUnitType.storeroom">-->
+                                    <!--<label for="unitTypeStoreroom">-->
+                                    <!--Storeroom-->
+                                    <!--</label>-->
                                     <!--</div>-->
                                 </div>
                                 <!-- END Edit form -->
@@ -128,7 +128,7 @@
                         </div>
                     </div>
 
-                    <template v-for="(unitType, index) in unitTypes" >
+                    <template v-for="(unitType, index) in unitTypes">
                         <div class="small-12 columns">
                             <div class="table__row" :class="{ even: isEven(index), first: index == 0, last: index == unitTypes.length -1 }">
                                 <!-- Row Title -->
@@ -156,8 +156,8 @@
                                     </label>
 
                                     <!--<label for="editUnitTypeCost">-->
-                                        <!--Unit type Cost*-->
-                                        <!--<input type="number" id="editUnitTypeCost" ref="editUnitTypeCost" name="editUnitTypeCost" v-model="editUnitType.cost">-->
+                                    <!--Unit type Cost*-->
+                                    <!--<input type="number" id="editUnitTypeCost" ref="editUnitTypeCost" name="editUnitTypeCost" v-model="editUnitType.cost">-->
                                     <!--</label>-->
 
                                     <label for="unitTypeOccupants">
@@ -173,47 +173,48 @@
                                     </div>
 
                                     <div class="row column">
-                                        <input type="checkbox" :id="'editUnitTypeElectricity'+index" ref="editUnitTypeElectricity" name="editUnitTypeElectricity" v-model="editUnitType.electricity">
+                                        <input type="checkbox" :id="'editUnitTypeElectricity'+index" ref="editUnitTypeElectricity" name="editUnitTypeElectricity"
+                                            v-model="editUnitType.electricity">
                                         <label :for="'editUnitTypeElectricity'+index">
                                             Electricity
                                         </label>
                                     </div>
 
                                     <!--<div class="row column">-->
-                                        <!--<input type="checkbox" :id="'unitTypeDstv'+index" ref="unitTypeDstv" name="unitTypeDstv" v-model="editUnitType.dstv">-->
-                                        <!--<label :for="'unitTypeDstv'+index">-->
-                                            <!--Dstv-->
-                                        <!--</label>-->
+                                    <!--<input type="checkbox" :id="'unitTypeDstv'+index" ref="unitTypeDstv" name="unitTypeDstv" v-model="editUnitType.dstv">-->
+                                    <!--<label :for="'unitTypeDstv'+index">-->
+                                    <!--Dstv-->
+                                    <!--</label>-->
                                     <!--</div>-->
 
                                     <!--<div class="row column">-->
-                                        <!--<input type="checkbox" :id="'unitTypeParkingCar'+index" ref="unitTypeParkingCar" name="unitTypeParkingCar" v-model="editUnitType.parking_car">-->
-                                        <!--<label :for="'unitTypeParkingCar'+index">-->
-                                            <!--Car parking-->
-                                        <!--</label>-->
+                                    <!--<input type="checkbox" :id="'unitTypeParkingCar'+index" ref="unitTypeParkingCar" name="unitTypeParkingCar" v-model="editUnitType.parking_car">-->
+                                    <!--<label :for="'unitTypeParkingCar'+index">-->
+                                    <!--Car parking-->
+                                    <!--</label>-->
                                     <!--</div>-->
 
                                     <!--<div class="row column">-->
-                                        <!--<input type="checkbox" :id="'unitTypeParkingBike'+index" ref="unitTypeParkingBike" name="unitTypeParkingBike" v-model="editUnitType.parking_bike">-->
-                                        <!--<label :for="'unitTypeParkingBike'+index">-->
-                                            <!--Bike parking-->
-                                        <!--</label>-->
+                                    <!--<input type="checkbox" :id="'unitTypeParkingBike'+index" ref="unitTypeParkingBike" name="unitTypeParkingBike" v-model="editUnitType.parking_bike">-->
+                                    <!--<label :for="'unitTypeParkingBike'+index">-->
+                                    <!--Bike parking-->
+                                    <!--</label>-->
                                     <!--</div>-->
 
                                     <!--<div class="row column">-->
-                                        <!--<input type="checkbox" :id="'unitTypeStoreroom'+index" ref="unitTypeStoreroom" name="unitTypeStoreroom" v-model="editUnitType.storeroom">-->
-                                        <!--<label :for="'unitTypeStoreroom'+index">-->
-                                            <!--Storeroom-->
-                                        <!--</label>-->
+                                    <!--<input type="checkbox" :id="'unitTypeStoreroom'+index" ref="unitTypeStoreroom" name="unitTypeStoreroom" v-model="editUnitType.storeroom">-->
+                                    <!--<label :for="'unitTypeStoreroom'+index">-->
+                                    <!--Storeroom-->
+                                    <!--</label>-->
                                     <!--</div>-->
 
                                     <button type="submit" name="addUnitType" class="success button --mt1" v-on:click="updateUnitType" v-bind:disabled="loading">
-                                    <span v-if="loading">
-                                        <loading></loading>
-                                    </span>
+                                        <span v-if="loading">
+                                            <loading></loading>
+                                        </span>
                                         <span v-else>
-                                        Update unit type
-                                    </span>
+                                            Update unit type
+                                        </span>
                                     </button>
 
                                 </div>
@@ -232,7 +233,8 @@
                         <div class="row column clearfix">
                             <h3 class="stats-box__header --focused --mt0">Stats</h3>
                         </div>
-                        Unit Types: <span class="float-right">{{unitTypes.length}}</span>
+                        Unit Types:
+                        <span class="float-right">{{unitTypes.length}}</span>
                     </div>
                 </div>
             </div>
@@ -244,9 +246,9 @@
 <script>
 
     export default {
-        props: ['propLocations','propUnitTypes'],
-        data(){
-            return{
+        props: ['propLocations', 'propUnitTypes'],
+        data() {
+            return {
                 locations: [],
                 unitTypes: [],
                 loading: false,
@@ -280,7 +282,7 @@
                 return n % 2 == 0;
             },
 
-            addUnitType : function() {
+            addUnitType: function () {
 
                 this.loading = true;
 
@@ -309,7 +311,7 @@
                 this.addEntry = false;
             },
 
-            updateUnitType: function() {
+            updateUnitType: function () {
 
                 this.loading = true;
 
@@ -332,7 +334,7 @@
 
             },
 
-            accordionToggle: function(index, event) {
+            accordionToggle: function (index, event) {
                 event.preventDefault();
                 let selectedElement = event.target;
 
@@ -343,7 +345,7 @@
                 this.closeAllAccordions();
 
                 // If the button was open, we don't want to reopen it.
-                if(shouldClose) {
+                if (shouldClose) {
                     selectedElement.classList.toggle("accordion__heading--active");
                     selectedElement.nextElementSibling.classList.toggle("accordion__content--active");
                 }
@@ -358,23 +360,23 @@
             },
 
             closeAllAccordions() {
-                if(this.$el.querySelector(".accordion__heading--active")) {
-                    this.$el.querySelectorAll(".accordion__heading--active").forEach(function(element) {
+                if (this.$el.querySelector(".accordion__heading--active")) {
+                    this.$el.querySelectorAll(".accordion__heading--active").forEach(function (element) {
                         element.classList.toggle("accordion__heading--active");
                     });
 
-                    this.$el.querySelectorAll(".accordion__content--active").forEach(function(element) {
+                    this.$el.querySelectorAll(".accordion__content--active").forEach(function (element) {
                         element.classList.toggle("accordion__content--active");
                     });
                 }
             },
 
             createEditableObject(index) {
-                 // If we want to assign a completely new object which will not update the other form due to
-                 // reactivity, we must manually assign whatever is needed.
-                 // We also need the array index so when we update successfully we know which index to update.
+                // If we want to assign a completely new object which will not update the other form due to
+                // reactivity, we must manually assign whatever is needed.
+                // We also need the array index so when we update successfully we know which index to update.
 
-                 // TODO is this not better if we take the entire object and delete the obserable instead?
+                // TODO is this not better if we take the entire object and delete the obserable instead?
                 /*this.editUnitType = this.locations[index];
                 delete this.editUnitType.__ob__;*/
                 //console.log("This edit item is", this.editUnitType);
@@ -396,41 +398,41 @@
 
             initializeUnitType() {
                 return {
-                        name: '',
-                        description: '',
-                        location_id: '',
-                        cost: '',
-                        occupants: '',
-                        wifi: false,
-                        electricity: false,
-                        dstv: false,
-                        parking_car: false,
-                        parking_bike: false,
-                        storeroom: false
-                    };
+                    name: '',
+                    description: '',
+                    location_id: '',
+                    cost: '',
+                    occupants: '',
+                    wifi: false,
+                    electricity: false,
+                    dstv: false,
+                    parking_car: false,
+                    parking_bike: false,
+                    storeroom: false
+                };
             },
 
             displayError(err) {
                 // There is an error, let's display an alert.
                 let errorMessage = '';
-                if(err.body.message) {
+                if (err.body.message) {
                     errorMessage = err.body.message;
                 } else {
                     // This should occur if there are any validation errors.
                     // Let's iterate over the list of errors.
                     Object.keys(err.body).forEach(function (key) {
-                     let obj = err.body[key];
-                     obj = obj.toString();
-                     errorMessage = errorMessage + obj + '\r \n';
+                        let obj = err.body[key];
+                        obj = obj.toString();
+                        errorMessage = errorMessage + obj + '\r \n';
                     });
                 }
 
                 // THere is an error, let's display an alert.
                 swal({
-                  title: "Error!",
-                  text: errorMessage,
-                  type: "error",
-                  confirmButtonText: "Ok"
+                    title: "Error!",
+                    text: errorMessage,
+                    type: "error",
+                    confirmButtonText: "Ok"
                 });
             }
 

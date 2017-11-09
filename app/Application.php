@@ -61,6 +61,7 @@ class Application extends Model
         'resident_gender',
         'unit_location',
         'unit_type',
+        'unit_room_mate',
         'unit_lease_length',
         'unit_car_parking',
         'unit_bike_parking',

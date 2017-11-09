@@ -89,7 +89,7 @@
 
                         <div class="row">
                             <div class="column">
-                               Email:
+                                Email:
                             </div>
                             <div class="column">
                                 {{application.email}}
@@ -626,7 +626,7 @@
                         </div>
                     </div>
 
-                    <div class="table__row table__row--padded even">
+                    <div class="table__row table__row--padded">
 
                         <div class="row">
                             <div class="column">
@@ -634,6 +634,18 @@
                             </div>
                             <div class="column">
                                 {{application.unit_fee_split}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table__row table__row--padded even">
+
+                        <div class="row">
+                            <div class="column">
+                                Room mate name:
+                            </div>
+                            <div class="column">
+                                {{application.unit_room_mate}}
                             </div>
                         </div>
                     </div>
@@ -813,7 +825,7 @@
                         </div>
                     </div>
 
-                    <div class="table__row table__row--padded odd"  v-if="application.leaseholder_id">
+                    <div class="table__row table__row--padded odd" v-if="application.leaseholder_id">
                         <div class="row">
                             <div class="column">
                                 Leaseholder ID:
@@ -940,8 +952,7 @@
                             </div>
 
                             <div class="columns">
-                                <button id="cancel-application" class="button button--cancel --expanded"
-                                        v-on:click="submitForCancel()" v-bind:disabled="loading">
+                                <button id="cancel-application" class="button button--cancel --expanded" v-on:click="submitForCancel()" v-bind:disabled="loading">
                                     Cancel
                                 </button>
                             </div>
@@ -964,24 +975,21 @@
                     </div>
                     <div class="row column">
 
-                        <button id="view-contract" class="button button--cancel --expanded"
-                                v-on:click="viewContract()" v-bind:disabled="loading">
+                        <button id="view-contract" class="button button--cancel --expanded" v-on:click="viewContract()" v-bind:disabled="loading">
                             View Contract
                         </button>
 
                     </div>
                     <div class="row column">
 
-                        <button id="renew-application" class="button button--cancel --expanded"
-                                v-on:click="submitForRenew()" v-bind:disabled="loading">
+                        <button id="renew-application" class="button button--cancel --expanded" v-on:click="submitForRenew()" v-bind:disabled="loading">
                             Renew Contract
                         </button>
 
                     </div>
                     <div class="row column">
 
-                        <button id="cancel-application" class="button button--cancel --expanded"
-                                v-on:click="submitForCancel()" v-bind:disabled="loading">
+                        <button id="cancel-application" class="button button--cancel --expanded" v-on:click="submitForCancel()" v-bind:disabled="loading">
                             Cancel Current
                         </button>
 
@@ -1000,7 +1008,7 @@
 
     export default {
         props: ['propApplication'],
-        data(){
+        data() {
             return {
                 application: {},
                 declineInput: false,
@@ -1010,7 +1018,7 @@
         mounted() {
 
             this.application = JSON.parse(this.propApplication);
-            this.declineInput = false;            
+            this.declineInput = false;
 
         },
 
@@ -1026,28 +1034,28 @@
             },
 
             getApproveUrl: (id) => {
-                return "/application/"+id+"/approve";
+                return "/application/" + id + "/approve";
             },
             getPendingUrl: (id) => {
-                return "/application/"+id+"/pending";
+                return "/application/" + id + "/pending";
             },
 
-            decline: function() {
+            decline: function () {
                 this.declineInput = !this.declineInput;
             },
 
-            viewContract: function() {
+            viewContract: function () {
                 window.location.href = '/contracts/secure/' + this.application.contract.secure_link;
             },
 
-            submitDecline: function(){
+            submitDecline: function () {
 
                 this.loading = true;
 
                 this.$http.post(
                     '/application/' + this.application.id + '/decline',
                     {
-                        'reason' : this.declineReason
+                        'reason': this.declineReason
                     }
                 ).then((response) => {
 

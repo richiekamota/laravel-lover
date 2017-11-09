@@ -17,32 +17,27 @@
                     <div class="small-12 columns">
                         <div class="table__row table__row--add">
                             <!-- Row Title -->
-                            <button class="accordion__heading accordion__heading--add --white"
-                                    v-on:click="addEntry = !addEntry">
+                            <button class="accordion__heading accordion__heading--add --white" v-on:click="addEntry = !addEntry">
                                 <h4 class="--white">Add new unit type</h4>
                             </button>
                             <!-- START Edit form -->
-                            <div class="accordion__content --bg-calm"
-                                 v-bind:class="{ 'accordion__content--active' : addEntry }" v-show="addEntry">
+                            <div class="accordion__content --bg-calm" v-bind:class="{ 'accordion__content--active' : addEntry }" v-show="addEntry">
 
                                 <div class="row column">
                                     <!-- START Location input form -->
                                     <label for="locationName">
                                         Location name*
-                                        <input type="text" id="locationName" ref="locationInput" name="locationName"
-                                               v-model="newLocation.name">
+                                        <input type="text" id="locationName" ref="locationInput" name="locationName" v-model="newLocation.name">
                                     </label>
 
                                     <label for="locationAddress">
                                         Address*
-                                        <textarea ref="locationAddress" id="locationAddress" name="locationAddress"
-                                                  v-model="newLocation.address"></textarea>
+                                        <textarea ref="locationAddress" id="locationAddress" name="locationAddress" v-model="newLocation.address"></textarea>
                                     </label>
 
                                     <label for="locationCity">
                                         City*
-                                        <select ref="locationCity" id="locationCity" name="locationCity"
-                                                v-model="newLocation.city">
+                                        <select ref="locationCity" id="locationCity" name="locationCity" v-model="newLocation.city">
                                             <option value=""></option>
                                             <option v-for="city in cities" v-bind:value="city">
                                                 {{ city }}
@@ -52,29 +47,27 @@
 
                                     <label for="locationRegion">
                                         Region*
-                                        <input type="text" id="locationRegion" ref="locationRegion"
-                                               name="locationRegion"
-                                               v-model="newLocation.region">
+                                        <input type="text" id="locationRegion" ref="locationRegion" name="locationRegion" v-model="newLocation.region">
                                     </label>
 
                                     <label for="locationCode">
                                         Code
-                                        <input type="text" id="locationCode" ref="locationCode" name="locationCode"
-                                               v-model="newLocation.code">
+                                        <input type="text" id="locationCode" ref="locationCode" name="locationCode" v-model="newLocation.code">
                                     </label>
                                 </div>
                                 <!-- END Edit form -->
 
                                 <div class="row column">
-                                    <button type="submit" id="addLocation" name="addLocation"
-                                            class="button focused --mt1" v-on:click="addLocation"
-                                            v-bind:disabled="loading">
-                                        <span v-if="loading"><loading></loading></span>
+                                    <button type="submit" id="addLocation" name="addLocation" class="button focused --mt1" v-on:click="addLocation" v-bind:disabled="loading">
+                                        <span v-if="loading">
+                                            <loading></loading>
+                                        </span>
                                         <span v-else>Add location</span>
                                     </button>
-                                    <button type="submit" name="cancelLocation" class="button float-right --mt1"
-                                            v-on:click="cancelAddLocation" v-bind:disabled="loading">
-                                        <span v-if="loading"><loading></loading></span>
+                                    <button type="submit" name="cancelLocation" class="button float-right --mt1" v-on:click="cancelAddLocation" v-bind:disabled="loading">
+                                        <span v-if="loading">
+                                            <loading></loading>
+                                        </span>
                                         <span v-else>Cancel</span>
                                     </button>
                                 </div>
@@ -86,31 +79,26 @@
 
                     <template v-for="(location, index) in locations">
                         <div class="small-12 columns">
-                            <div class="table__row"
-                                 :class="{ even: isEven(index), first: index == 0, last: index == locations.length -1 }">
+                            <div class="table__row" :class="{ even: isEven(index), first: index == 0, last: index == locations.length -1 }">
 
                                 <!-- Row Title -->
-                                <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{
-                                    location.name }} - {{location.address}}
+                                <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{ location.name }} - {{location.address}}
                                 </button>
                                 <!-- START Edit form -->
                                 <div class="accordion__content --bg-calm">
                                     <label for="editLocationName">
                                         Location name
-                                        <input type="text" id="editLocationName" ref="editLocationInput"
-                                               name="editLocationName" v-model="editLocation.name">
+                                        <input type="text" id="editLocationName" ref="editLocationInput" name="editLocationName" v-model="editLocation.name">
                                     </label>
 
                                     <label for="editLocationAddress">
                                         Address
-                                        <textarea ref="editLocationAddress" id="editLocationAddress"
-                                                  name="editLocationAddress" v-model="editLocation.address"></textarea>
+                                        <textarea ref="editLocationAddress" id="editLocationAddress" name="editLocationAddress" v-model="editLocation.address"></textarea>
                                     </label>
 
                                     <label for="editLocationCity">
                                         City
-                                        <select ref="editLocationCity" id="editLocationCity" name="editLocationCity"
-                                                v-model="editLocation.city">
+                                        <select ref="editLocationCity" id="editLocationCity" name="editLocationCity" v-model="editLocation.city">
                                             <option v-for="city in cities" v-bind:value="city">
                                                 {{ city }}
                                             </option>
@@ -119,18 +107,15 @@
 
                                     <label for="editLocationRegion">
                                         Region
-                                        <input type="text" id="editLocationRegion" ref="editLocationRegion"
-                                               name="editLocationRegion" v-model="editLocation.region">
+                                        <input type="text" id="editLocationRegion" ref="editLocationRegion" name="editLocationRegion" v-model="editLocation.region">
                                     </label>
 
                                     <label for="editLocationCode">
                                         Code
-                                        <input type="text" id="editLocationCode" ref="editLocationCode"
-                                               name="editLocationCode" v-model="editLocation.code">
+                                        <input type="text" id="editLocationCode" ref="editLocationCode" name="editLocationCode" v-model="editLocation.code">
                                     </label>
 
-                                    <button type="submit" class="success button" v-on:click="updateLocation"
-                                            v-bind:disabled="loading">
+                                    <button type="submit" class="success button" v-on:click="updateLocation" v-bind:disabled="loading">
                                         <span v-if="loading">
                                             <loading></loading>
                                         </span>
@@ -154,7 +139,8 @@
                         <div class="row column clearfix">
                             <h3 class="stats-box__header --focused --mt0">Stats</h3>
                         </div>
-                        Locations: <span class="float-right">{{locations.length}}</span>
+                        Locations:
+                        <span class="float-right">{{locations.length}}</span>
                     </div>
                 </div>
             </div>

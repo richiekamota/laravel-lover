@@ -184,7 +184,6 @@ return [
 
         Barryvdh\Snappy\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        // Sentry Error logging
         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
 
 

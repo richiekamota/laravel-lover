@@ -37,15 +37,11 @@
 
                     <template v-for="(filteredUser, index) in filteredUsers">
                         <div class="small-12 columns" v-show="index >= pagination.from && index <= pagination.to">
-                            <div class="table__row"
-                                 :class="{ even: isEven(index), first: index == 0, last: index == filteredUsers.length -1 }">
+                            <div class="table__row" :class="{ even: isEven(index), first: index == 0, last: index == filteredUsers.length -1 }">
                                 <!-- Row Title -->
                                 <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">
 
-                                    {{
-                                    filteredUser.first_name }} {{ filteredUser.last_name }} - {{
-                                    filteredUser.email
-                                    }}
+                                    {{ filteredUser.first_name }} {{ filteredUser.last_name }} - {{ filteredUser.email }}
                                     <span class="--right">{{ filteredUser.tenant_code }}</span>
 
                                 </button>
@@ -68,56 +64,65 @@
                                      </label>-->
                                     <label for="userTenantCode" class="row">
 
-                                        <div class="small-6 medium-6 column"> Tenant Code<input type="text"
-                                                                                                id="userTenantCode"
-                                                                                                ref="userTenantCode"
-                                                                                                name="userTenantCode"
-                                                                                                v-model="editUser.tenant_code">
+                                        <div class="small-6 medium-6 column"> Tenant Code
+                                            <input type="text" id="userTenantCode" ref="userTenantCode" name="userTenantCode"
+                                                v-model="editUser.tenant_code">
                                         </div>
-                                        <div class="small-6 medium-6 column">&nbsp;<br/>
-                                            <button type="submit" class="success button" v-on:click="updateUser"
-                                                    v-bind:disabled="loading">
-                                        <span v-if="loading">
-<loading></loading>
-                                        </span>
+                                        <div class="small-6 medium-6 column">&nbsp;
+                                            <br/>
+                                            <button type="submit" class="success button" v-on:click="updateUser" v-bind:disabled="loading">
+                                                <span v-if="loading">
+                                                    <loading></loading>
+                                                </span>
 
                                                 <span v-else>
-                                            Update User
-                                        </span>
+                                                    Update User
+                                                </span>
                                             </button>
                                         </div>
 
                                     </label>
 
                                     <hr/>
-                                    <template v-if="filteredUser.contracts.length == 0"><p>There are no contracts for
-                                        this user</p></template>
+                                    <template v-if="filteredUser.contracts.length == 0">
+                                        <p>There are no contracts for this user</p>
+                                    </template>
                                     <template v-else>
                                         <div class="row">
 
-                                            <div class="small-6 medium-6 column"><p><strong>CONTRACT UNIT</strong></p>
+                                            <div class="small-6 medium-6 column">
+                                                <p>
+                                                    <strong>CONTRACT UNIT</strong>
+                                                </p>
                                             </div>
-                                            <div class="small-3 medium-3 column"><p><strong>STATUS</strong></p></div>
-                                            <div class="small-3 medium-3 column"><p><strong>ACTIONS</strong></p></div>
+                                            <div class="small-3 medium-3 column">
+                                                <p>
+                                                    <strong>STATUS</strong>
+                                                </p>
+                                            </div>
+                                            <div class="small-3 medium-3 column">
+                                                <p>
+                                                    <strong>ACTIONS</strong>
+                                                </p>
+                                            </div>
                                         </div>
                                     </template>
                                     <template v-for="(filteredUsersContract, index) in filteredUser.contracts">
                                         <div class="row">
 
-                                            <div class="small-6 medium-6 column"><p>Unit
-                                                {{filteredUsersContract.unit_code}}</p></div>
-                                            <div class="small-3 medium-3 column"><p>{{filteredUsersContract.status}}</p>
+                                            <div class="small-6 medium-6 column">
+                                                <p>Unit {{filteredUsersContract.unit_code}}
+                                                </p>
                                             </div>
-                                            <div class="small-3 medium-3 column"
-                                                 v-if="filteredUsersContract.status != 'cancelled'">
+                                            <div class="small-3 medium-3 column">
+                                                <p>{{filteredUsersContract.status}}</p>
+                                            </div>
+                                            <div class="small-3 medium-3 column" v-if="filteredUsersContract.status != 'cancelled'">
                                                 <p>
-                                                    <button type="submit" class="success"
-                                                            v-on:click="submitForRenew(filteredUsersContract.application_id)"
-                                                            v-bind:disabled="loading">RENEW
+                                                    <button type="submit" class="success" v-on:click="submitForRenew(filteredUsersContract.application_id)" v-bind:disabled="loading">RENEW
                                                     </button>
                                                     |
-                                                    <button v-on:click="submitForCancel(filteredUsersContract.application_id)"
-                                                            type="submit" class="error" v-bind:disabled="loading">CANCEL
+                                                    <button v-on:click="submitForCancel(filteredUsersContract.application_id)" type="submit" class="error" v-bind:disabled="loading">CANCEL
                                                     </button>
                                                 </p>
                                             </div>
@@ -137,12 +142,14 @@
                         <ul class="pagination text-center" role="navigation" aria-label="Pagination">
                             <!-- <li class="pagination-previous" v-on:click="pagination.currentPage = pagination.currentPage - 1; calculatePagination()" v-bind:class="{disabled: pagination.previousPage > 0}" >Previous</li> -->
                             <template v-for="n in pagination.maxPages">
-                                <li class="current" v-show="n ==  pagination.currentPage"><span class="show-for-sr">You're on page</span>
+                                <li class="current" v-show="n ==  pagination.currentPage">
+                                    <span class="show-for-sr">You're on page</span>
                                     {{n}}
                                 </li>
-                                <li><a v-bind:aria-label="'Page ' + n"
-                                       v-on:click="pagination.currentPage = n; calculatePagination()"
-                                       v-show="n !=  pagination.currentPage"> {{n}}</a></li>
+                                <li>
+                                    <a v-bind:aria-label="'Page ' + n" v-on:click="pagination.currentPage = n; calculatePagination()"
+                                        v-show="n !=  pagination.currentPage"> {{n}}</a>
+                                </li>
                             </template>
                             <!-- <li class="pagination-next" v-on:click="pagination.currentPage = pagination.currentPage + 1; calculatePagination()" v-show="pagination.nextPage <= pagination.maxPages"><a aria-label="Next page">Next</a></li> -->
                         </ul>
@@ -171,7 +178,8 @@
                         <div class="row column clearfix">
                             <h3 class="stats-box__header --focused --mt0">Stats</h3>
                         </div>
-                        Users: <span class="float-right">{{users.length}}</span>
+                        Users:
+                        <span class="float-right">{{users.length}}</span>
                     </div>
                 </div>
             </div>

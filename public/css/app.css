@@ -1259,6 +1259,7 @@ textarea {
   background-color: #ffffff;
   box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);
   border-radius: 0;
+  -webkit-transition: box-shadow 0.5s, border-color 0.25s ease-in-out;
   transition: box-shadow 0.5s, border-color 0.25s ease-in-out;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -1270,6 +1271,7 @@ textarea:focus {
   background-color: #ffffff;
   outline: none;
   box-shadow: 0 0 5px #cacaca;
+  -webkit-transition: box-shadow 0.5s, border-color 0.25s ease-in-out;
   transition: box-shadow 0.5s, border-color 0.25s ease-in-out;
 }
 
@@ -1283,6 +1285,11 @@ textarea[rows] {
 
 input::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder {
+  color: #cacaca;
+}
+
+input::-moz-placeholder,
+textarea::-moz-placeholder {
   color: #cacaca;
 }
 
@@ -2208,6 +2215,7 @@ select[multiple] {
 .dropzone .dz-preview.dz-file-preview .dz-image {
   border-radius: 20px;
   background: #999;
+  background: -webkit-linear-gradient(top, #eee, #ddd);
   background: linear-gradient(to bottom, #eee, #ddd);
 }
 
@@ -2220,6 +2228,7 @@ select[multiple] {
 }
 
 .dropzone .dz-preview.dz-image-preview .dz-details {
+  -webkit-transition: opacity 0.2s linear;
   transition: opacity 0.2s linear;
 }
 
@@ -2335,11 +2344,13 @@ select[multiple] {
 
 .dropzone .dz-preview.dz-processing .dz-progress {
   opacity: 1;
+  -webkit-transition: all 0.2s linear;
   transition: all 0.2s linear;
 }
 
 .dropzone .dz-preview.dz-complete .dz-progress {
   opacity: 0;
+  -webkit-transition: opacity 0.4s ease-in;
   transition: opacity 0.4s ease-in;
 }
 
@@ -2367,12 +2378,14 @@ select[multiple] {
 
 .dropzone .dz-preview .dz-progress .dz-upload {
   background: #333;
+  background: -webkit-linear-gradient(top, #666, #444);
   background: linear-gradient(to bottom, #666, #444);
   position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
   width: 0;
+  -webkit-transition: width 300ms ease-in-out;
   transition: width 300ms ease-in-out;
 }
 
@@ -2392,6 +2405,7 @@ select[multiple] {
   display: block;
   display: none;
   opacity: 0;
+  -webkit-transition: opacity 0.3s ease;
   transition: opacity 0.3s ease;
   border-radius: 8px;
   font-size: 13px;
@@ -2399,6 +2413,7 @@ select[multiple] {
   left: -10px;
   width: 140px;
   background: #be2626;
+  background: -webkit-linear-gradient(top, #be2626, #a92222);
   background: linear-gradient(to bottom, #be2626, #a92222);
   padding: 0.5em 1.2em;
   color: white;
@@ -2591,6 +2606,7 @@ select[multiple] {
 }
 
 .flatpickr-next-month svg path, .flatpickr-prev-month svg path {
+  -webkit-transition: fill .1s;
   transition: fill .1s;
   fill: inherit;
 }
@@ -2895,6 +2911,7 @@ span.flatpickr-weekday {
   max-height: 40px;
   box-sizing: border-box;
   overflow: hidden;
+  -webkit-transition: height 0.33s cubic-bezier(0, 1, 0.5, 1);
   transition: height 0.33s cubic-bezier(0, 1, 0.5, 1);
   display: -webkit-box;
   display: flex;
@@ -3120,6 +3137,7 @@ body.stop-scrolling {
   padding: 0 10px;
   max-height: 0;
   webkit-transition: padding 0.15s, max-height 0.15s;
+  -webkit-transition: padding 0.15s, max-height 0.15s;
   transition: padding 0.15s, max-height 0.15s;
 }
 
@@ -3127,6 +3145,7 @@ body.stop-scrolling {
   padding: 10px 0;
   max-height: 100px;
   webkit-transition: padding 0.2s, max-height 0.2s;
+  -webkit-transition: padding 0.25s, max-height 0.25s;
   transition: padding 0.25s, max-height 0.25s;
 }
 
@@ -3157,6 +3176,7 @@ body.stop-scrolling {
   transform: scale(0.5);
   -webkit-transform-origin: 50% 50%;
   transform-origin: 50% 50%;
+  -webkit-transition: all 0.1s;
   transition: all 0.1s;
 }
 
@@ -3201,6 +3221,7 @@ body.stop-scrolling {
   box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.06);
   padding: 0 12px;
   display: none;
+  -webkit-transition: all 0.3s;
   transition: all 0.3s;
 }
 
@@ -3211,16 +3232,19 @@ body.stop-scrolling {
 }
 
 .sweet-alert input:focus::-moz-placeholder {
+  -webkit-transition: opacity 0.3s 0.03s ease;
   transition: opacity 0.3s 0.03s ease;
   opacity: 0.5;
 }
 
 .sweet-alert input:focus:-ms-input-placeholder {
+  -webkit-transition: opacity 0.3s 0.03s ease;
   transition: opacity 0.3s 0.03s ease;
   opacity: 0.5;
 }
 
 .sweet-alert input:focus::-webkit-input-placeholder {
+  -webkit-transition: opacity 0.3s 0.03s ease;
   transition: opacity 0.3s 0.03s ease;
   opacity: 0.5;
 }
@@ -3310,6 +3334,7 @@ body.stop-scrolling {
 .sweet-alert button.confirm[disabled] ~ .la-ball-fall {
   opacity: 1;
   visibility: visible;
+  -webkit-transition-delay: 0s;
   transition-delay: 0s;
 }
 
@@ -4152,6 +4177,7 @@ body.stop-scrolling {
   line-height: 1;
   cursor: pointer;
   -webkit-appearance: none;
+  -webkit-transition: background-color 0.25s ease-out, color 0.25s ease-out;
   transition: background-color 0.25s ease-out, color 0.25s ease-out;
   vertical-align: middle;
   border: 2px solid #1b696e;
@@ -4287,6 +4313,12 @@ body.stop-scrolling {
   font-size: 14px;
 }
 
+.support-button {
+  bottom: 0;
+  left: 1em;
+  position: absolute;
+}
+
 h1, .h1 {
   font-size: 36px;
   line-height: 27px;
@@ -4363,6 +4395,7 @@ h4, .h4 {
   text-align: left;
   outline: none;
   font-size: 15px;
+  -webkit-transition: 0.4s;
   transition: 0.4s;
   color: #0a0a0a;
 }
@@ -4389,6 +4422,7 @@ h4, .h4 {
   padding: 0 1rem;
   max-height: 0;
   overflow: hidden;
+  -webkit-transition: 0.6s ease-in-out;
   transition: 0.6s ease-in-out;
   opacity: 0;
 }
@@ -4467,6 +4501,7 @@ h4, .h4 {
 .header__link--nav:hover {
   color: #000;
   box-shadow: 0 -1px 0 #000;
+  -webkit-transition: 700ms box-shadow;
   transition: 700ms box-shadow;
 }
 
@@ -4493,6 +4528,7 @@ label {
   background-color: #fefefe;
   box-shadow: 0 1px 2px rgba(10, 10, 10, 0.1);
   border-radius: 0.3rem;
+  -webkit-transition: box-shadow 0.5s, border-color 0.25s ease-in-out;
   transition: box-shadow 0.5s, border-color 0.25s ease-in-out;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -4500,6 +4536,7 @@ label {
 
 [type='text']:hover, [type='password']:hover, [type='date']:hover, [type='datetime']:hover, [type='datetime-local']:hover, [type='month']:hover, [type='week']:hover, [type='email']:hover, [type='number']:hover, [type='search']:hover, [type='tel']:hover, [type='time']:hover, [type='url']:hover, [type='color']:hover, textarea:hover {
   border: 1px solid #4a494b;
+  -webkit-transition: border-color 0.25s ease-in-out;
   transition: border-color 0.25s ease-in-out;
 }
 
@@ -4508,6 +4545,7 @@ label {
   background-color: #bdfbff;
   outline: none;
   box-shadow: 0 0 5px #cacaca;
+  -webkit-transition: box-shadow 0.5s, border-color 0.25s ease-in-out, background-color 0.25s ease-in-out;
   transition: box-shadow 0.5s, border-color 0.25s ease-in-out, background-color 0.25s ease-in-out;
 }
 
@@ -5074,6 +5112,7 @@ body, html {
   padding: 0 2rem;
   max-height: 0;
   overflow: hidden;
+  -webkit-transition: 0.6s ease-in-out;
   transition: 0.6s ease-in-out;
   opacity: 0;
 }

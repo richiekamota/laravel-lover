@@ -84,6 +84,15 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'documents_store_error' => 'On no, there was an error saving the document, please try again'
+    'documents_store_error' => 'On no, there was an error saving the document, please try again',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Support
+    |--------------------------------------------------------------------------
+    */
+
+    'support_admin_issue_complete' => 'Issue logged!',
+    'support_admin_error' => 'Oh no, there was an error sending the email to GitLab!'
 
 ];

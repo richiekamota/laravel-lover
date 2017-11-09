@@ -2,7 +2,6 @@
     <div class="page-items">
         <div class="row columns">
             <h2 class="--focused">APPLICATION REVIEW</h2>
-
         </div>
 
         <div class="row" v-if="application">
@@ -637,6 +636,18 @@
 
                         <div class="row">
                             <div class="column">
+                                Room mate name:
+                            </div>
+                            <div class="column">
+                                {{application.unit_room_mate}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table__row table__row--padded">
+
+                        <div class="row">
+                            <div class="column">
                                 Motor vehicle parking bay:
                             </div>
                             <div class="column">
@@ -645,7 +656,7 @@
                         </div>
                     </div>
 
-                    <div class="table__row table__row--padded">
+                    <div class="table__row table__row--padded even">
 
                         <div class="row">
                             <div class="column">
@@ -657,7 +668,7 @@
                         </div>
                     </div>
 
-                    <div class="table__row table__row--padded even">
+                    <div class="table__row table__row--padded">
 
                         <div class="row">
                             <div class="column">
@@ -669,7 +680,7 @@
                         </div>
                     </div>
 
-                    <div class="table__row table__row--padded">
+                    <div class="table__row table__row--padded even">
 
                         <div class="row">
                             <div class="column">
@@ -681,7 +692,7 @@
                         </div>
                     </div>
 
-                    <div class="table__row table__row--padded even">
+                    <div class="table__row table__row--padded">
 
                         <div class="row">
                             <div class="column">
@@ -876,7 +887,7 @@
 
     export default {
         props: ['propApplication'],
-        data(){
+        data() {
             return {
                 application: {},
                 declineInput: false,
@@ -902,24 +913,24 @@
             },
 
             getApproveUrl: (id) => {
-                return "/application/"+id+"/approve";
+                return "/application/" + id + "/approve";
             },
             getPendingUrl: (id) => {
-                return "/application/"+id+"/pending";
+                return "/application/" + id + "/pending";
             },
 
-            decline: function() {
+            decline: function () {
                 this.declineInput = !this.declineInput;
             },
 
-            submitDecline: function(){
+            submitDecline: function () {
 
                 this.loading = true;
 
                 this.$http.post(
                     '/application/' + this.application.id + '/decline',
                     {
-                        'reason' : this.declineReason
+                        'reason': this.declineReason
                     }
                 ).then((response) => {
 
