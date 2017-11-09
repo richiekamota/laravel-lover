@@ -373,8 +373,11 @@
                         var isValid = false;
                         var filteredInput = this.$refs['filterInput'].value;
                         Object.keys(unit).forEach(function (key) {
+                            // If the key is the code
+                            // TODO: This needs to take into account the location
+                            // in the filter values and not just the code
                             let obj = unit[key];
-                            if (obj && obj.indexOf(filteredInput) !== -1) {
+                            if ((key === 'code') && obj && obj.indexOf(filteredInput) !== -1) {
                                 isValid = true;
                             }
                         });
