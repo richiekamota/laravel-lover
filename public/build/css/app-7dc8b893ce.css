@@ -4316,7 +4316,7 @@ body.stop-scrolling {
 .support-button {
   bottom: 0;
   left: 1em;
-  position: absolute;
+  position: fixed;
 }
 
 h1, .h1 {
