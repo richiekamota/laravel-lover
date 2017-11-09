@@ -16,7 +16,9 @@ use Portal\Document;
 use Portal\OccupationDate;
 use Portal\Http\Requests\ContractCreateRequest;
 use Portal\Http\Requests\ContractApproveRequest;
+use Portal\Http\Requests\ContractDeclineRequest;
 use Portal\Jobs\SendApprovedContractToAccounts;
+use Portal\Jobs\SendContractDeclinedEmail;
 use Portal\Jobs\SendContractToUserEmail;
 use Portal\Unit;
 use Portal\User;
@@ -70,12 +72,12 @@ class ContractsController extends Controller
 
         // Check if selected unit available for occupation date period
         $occupiedUnit = OccupationDate::where('unit_id', '=', $request->unit_id)
-            ->where('start_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
-            ->where('start_date', '<=', Carbon::parse($request->unit_vacation_date)->format("Y-m-d H:i:s"))
-            ->where('end_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
-            ->where('end_date', '<=', Carbon::parse($request->unit_vacation_date)->format("Y-m-d H:i:s"))
-            ->where('status', '<>', 'cancelled')
-            ->get();
+        ->where('start_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
+        ->where('start_date', '<=', Carbon::parse($request->unit_vacation_date)->format("Y-m-d H:i:s"))
+        ->where('end_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
+        ->where('end_date', '<=', Carbon::parse($request->unit_vacation_date)->format("Y-m-d H:i:s"))
+        ->where('status', '<>', 'cancelled')
+        ->get();
 
         if (!empty($occupiedUnit->toArray())) {
             return Response::json([
@@ -189,7 +191,6 @@ class ContractsController extends Controller
                 unlink(storage_path('contracts/' . $pdfName . '.pdf'));
             }
 
-
             $pdf = PDF::loadView('pdf.contract', $data)->save($filePath);
 
             $document = Document::create([
@@ -206,7 +207,7 @@ class ContractsController extends Controller
             // Attach the document to the contract record
             $contract->document_id = $document->id;
             $contract->save();
-            
+
 
             // Log an event against the application
             ApplicationEvent::create([
@@ -242,9 +243,7 @@ class ContractsController extends Controller
                 'error'   => 'contracts_store_error',
                 'message' => json_encode($e),
             ], 422);
-
         }
-
     }
 
     /**
@@ -321,7 +320,6 @@ class ContractsController extends Controller
         } catch (DecryptException $e) {
             abort(500);
         }
-
     }
 
     /**
@@ -345,16 +343,16 @@ class ContractsController extends Controller
 
             // find the contract
             DB::table('contracts')
-                ->where('id', $contract->id)
-                ->update(['status' => 'approved']);
+            ->where('id', $contract->id)
+            ->update(['status' => 'approved']);
 
             DB::table('applications')
-                ->where('id', $contract->application_id)
-                ->update(['status' => 'approved']);
+            ->where('id', $contract->application_id)
+            ->update(['status' => 'approved']);
 
             DB::table('occupation_dates')
-                ->where('contract_id', $contract->id)
-                ->update(['status' => 'approved']);
+            ->where('contract_id', $contract->id)
+            ->update(['status' => 'approved']);
 
             // TODO do we need to update the contract on the file system
             // to show that a user has approved it.
@@ -380,10 +378,7 @@ class ContractsController extends Controller
                 'error'   => 'contracts_approve_error',
                 'message' => trans('portal.contracts_approve_error'),
             ], 422);
-
         }
-
-
     }
 
     public function download($id)
@@ -405,12 +400,76 @@ class ContractsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function destroy($id)
     {
 
         // abort unless Auth > tenant
 
-        // soft delete the record
+       // soft delete the record
+    }
 
+    /**
+    * Allow a user to decline a contract.
+    *
+    * @param  int $id
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function decline(ContractDeclineRequest $request, $id)
+    {
+
+        // If the logged in user is matching the ID
+        abort_unless($request->user_id == Auth::user()->id, 422);
+
+        DB::beginTransaction();
+
+        $data = $request->all();
+        // $request->data;
+
+        try {
+
+            $contract = Contract::findOrFail($id);
+
+            $application = Application::where('id', $contract->application_id)->orderBy('created_at', 'DESC')->first();
+            $application->status ='pending';
+            $application->contract_decline_reason = $request->data;
+            $application->save();
+
+            ApplicationEvent::create([
+                'user_id'        => $data['user_id'],
+                'application_id' => $contract->application_id,
+                'action'         => 'Contract declined',
+                'note'           => $data['data']
+            ]);
+
+            $occupation = OccupationDate::where('application_id', $contract->application_id)->first();
+            $occupation->status = 'declined';
+            $occupation->save();
+
+            $contract = Contract::where('application_id', $contract->application_id)->first();
+            $contract->status = 'declined';
+            $contract->save();
+
+            //Send an email to the admin to notify them of the cancellation
+            dispatch(new SendContractDeclinedEmail(Auth::user(), $contract, $application));
+
+            DB::commit();
+
+            return Response::json([
+                'message' => trans('portal.contracts_approve_complete')
+            ], 200);
+
+        } catch (\Exception $e) {
+
+            \Log::info($e);
+
+            DB::rollback();
+
+            return Response::json([
+                'error'   => 'contracts_approve_error',
+                'message' => trans('portal.contracts_decline_error' . json_encode($e)),
+            ], 422);
+        }
     }
 }

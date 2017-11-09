@@ -12,7 +12,7 @@
 
     <!-- Styles -->
     {{--<link href="/css/app.css" rel="stylesheet">--}}
-    <link rel="stylesheet" href="{{ elixir('css/app.css') }}">
+    <link rel="stylesheet" href="{{ elixir('css/app.css') }}">    
 
     <!-- Scripts -->
     <script>

@@ -28,19 +28,31 @@
         <label for="contract-check">I {{contractUser.first_name}} {{contractUser.last_name}} approve this contract.</label>
 
         <!-- Submit button -->
+        <div class="row">
+            <div class="column">
+                <button type="submit" id="contract-approve" class="button button--focused --mt2" v-on:click="accept()">
+                    <span v-if="loading">
+                        <loading></loading>
+                    </span>
 
-        <div class="row column">
-            <button type="submit" id="contract-approve" class="button button--focused --mt2" v-on:click="accept()">
-                <span v-if="loading">
-                    <loading></loading>
-                </span>
+                    <template v-if="!loading">
+                        Accept Contract
+                    </template>
+                </button>
+            </div>
 
-                <template v-if="!loading">
-                    Accept Contract
-                </template>
-            </button>
+            <div class="column">
+                <button type="submit" id="contract-approve" class="button button--decline --mt2 float-right" v-on:click="declineContract()">
+                    <span v-if="loading">
+                        <loading></loading>
+                    </span>
+
+                    <template v-if="!loading">
+                        Decline Contract
+                    </template>
+                </button>
+            </div>
         </div>
-
 
     </div>
 </template>
@@ -118,33 +130,16 @@
                         if (!this.contractAccept) {
                             swal({
                                 title: "Error!",
-                                text: "You have not approved the contract.",
+                                text: "You have not approved "+ item.name +". You need to approve this item before accepting.",
                                 type: "error",
                                 confirmButtonText: "Ok"
                             });
                             throw null;
                         }
-
-                    })
-                    .then(() => {
-
-                        // Sweet alert
-                        swal({
-                            title: "Confirm!",
-                            text: "You are about to approve the contract, please confirm this is the correct action.",
-                            type: "warning",
-                            showCancelButton: true,
-                            confirmButtonText: "Ok"
-                        },
-                            () => {
-                                this.submitApproval();
-                            }
-                        );
                     })
                     .catch(() => { });
 
-            },
-
+            },    
             submitApproval: function () {
 
                 this.loading = true;
@@ -157,9 +152,9 @@
                         'items': this.items
                     }
 
-                ).then((response) => {
+                    ).then((response) => {
 
-                    this.loading = false;
+                        this.loading = false;
 
                     // Redirect user to dashboard
                     swal({
@@ -174,9 +169,8 @@
                     this.loading = false;
                     this.displayError(err);
                 });
-            },
-
-            displayError(err) {
+                },
+                displayError(err) {
                 // There is an error, let's display an alert.
                 let errorMessage = '';
                 if (err.body.message) {
@@ -199,8 +193,29 @@
                     confirmButtonText: "Ok"
                 });
             },
-
+            declineContract: function (){
+                swal({
+                  title: "Are you sure?",
+                  text: "Please provide a reason for declining the contract, perhaps you wish to change something?",
+                  showCancelButton: true,
+                  confirmButtonText: "Submit",
+                  closeOnConfirm: false,
+                  type: 'input',
+                  animation: "slide-from-top"
+                }, (inputValue) => {
+                  this.$http.post('/contracts/' + this.contract.id + '/decline',{'data' : inputValue,'user_id' : this.contractUser.id,})
+                  .then((response) => {
+                      if(response.status == 200){
+                          swal("Cancellation Successful!","The contract has been cancelled", "success");
+                      }else{
+                          swal("Oh no!", "The submission failed!", "error");
+                      }
+                  }, (err) => {
+                      this.loading = false;
+                      this.displayError(err);
+                  });
+                });
+            }
         }
-
     }
 </script>

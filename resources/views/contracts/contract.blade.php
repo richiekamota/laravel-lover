@@ -1,10 +1,3 @@
-<style type="text/css" media="print">
-    div.page {
-        page-break-after: always;
-        page-break-inside: avoid;
-    }
-</style>
-
 <div class="contract">
 
     <div class="page" style="page-break-after: always; page-break-inside: avoid;">

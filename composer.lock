@@ -953,7 +953,11 @@
                 "parser",
                 "php"
             ],
+<<<<<<< HEAD
             "time": "2017-09-02 17:10:46"
+=======
+            "time": "2017-06-28 20:53:48"
+>>>>>>> origin/feature-an_applicant_should_be_able_to_decline_a_contract
         },
         {
             "name": "paragonie/random_compat",
@@ -1188,6 +1192,7 @@
                 "uuid"
             ],
             "time": "2017-03-26 20:37:53"
+<<<<<<< HEAD
         },
         {
             "name": "sentry/sentry",
@@ -1315,6 +1320,8 @@
                 "sentry"
             ],
             "time": "2017-08-11 17:29:14"
+=======
+>>>>>>> origin/feature-an_applicant_should_be_able_to_decline_a_contract
         },
         {
             "name": "spatie/laravel-migrate-fresh",
@@ -1966,7 +1973,11 @@
                 "portable",
                 "shim"
             ],
+<<<<<<< HEAD
             "time": "2017-10-11 12:05:26"
+=======
+            "time": "2017-06-09 08:25:21"
+>>>>>>> origin/feature-an_applicant_should_be_able_to_decline_a_contract
         },
         {
             "name": "symfony/polyfill-util",
@@ -2018,7 +2029,11 @@
                 "polyfill",
                 "shim"
             ],
+<<<<<<< HEAD
             "time": "2017-10-11 12:05:26"
+=======
+            "time": "2017-06-09 08:25:21"
+>>>>>>> origin/feature-an_applicant_should_be_able_to_decline_a_contract
         },
         {
             "name": "symfony/process",
@@ -2326,6 +2341,70 @@
             "description": "CssToInlineStyles is a class that enables you to convert HTML-pages/files into HTML-pages/files with inline styles. This is very useful when you're sending emails.",
             "homepage": "https://github.com/tijsverkoyen/CssToInlineStyles",
             "time": "2016-09-20 12:50:39"
+<<<<<<< HEAD
+=======
+        },
+        {
+            "name": "uxweb/sweet-alert",
+            "version": "1.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/uxweb/sweet-alert.git",
+                "reference": "92519b916755d673f92343767edd06110b167d05"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/uxweb/sweet-alert/zipball/92519b916755d673f92343767edd06110b167d05",
+                "reference": "92519b916755d673f92343767edd06110b167d05",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/session": "~5.0",
+                "illuminate/support": "~5.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9.5",
+                "phpunit/phpunit": "^5.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "UxWeb\\SweetAlert\\SweetAlertServiceProvider"
+                    ],
+                    "aliases": {
+                        "Alert": "UxWeb\\SweetAlert\\SweetAlert"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "UxWeb\\SweetAlert\\": "src/SweetAlert/"
+                },
+                "files": [
+                    "src/SweetAlert/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Uziel Bueno",
+                    "email": "ux.webs@gmail.com"
+                }
+            ],
+            "description": "A simple PHP package to show Sweet Alerts with the Laravel Framework",
+            "keywords": [
+                "alert",
+                "laravel",
+                "notifier",
+                "sweet"
+            ],
+            "time": "2017-09-10 17:14:08"
+>>>>>>> origin/feature-an_applicant_should_be_able_to_decline_a_contract
         },
         {
             "name": "vlucas/phpdotenv",

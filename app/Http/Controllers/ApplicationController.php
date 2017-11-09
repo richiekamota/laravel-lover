@@ -87,9 +87,9 @@ class ApplicationController extends Controller
                 ]);
 
                 $applicationForm = Application::whereUserId(Auth::user()->id)
-                    ->whereStatus('draft')
-                    ->whereStep(1)
-                    ->first();
+                ->whereStatus('draft')
+                ->whereStep(1)
+                ->first();
 
                 // Redirect to the edit form page
 
@@ -123,9 +123,9 @@ class ApplicationController extends Controller
         // Validation handled in Request
 
         $applications = Application::with('user', 'location')
-            ->where('user_id', '=', Auth::user()->id)
-            ->where('status', '=', 'draft')
-            ->get();
+        ->where('user_id', '=', Auth::user()->id)
+        ->where('status', '=', 'draft')
+        ->get();
 
         if (!empty($applications->toArray())) {
             return Response::json([
@@ -146,9 +146,9 @@ class ApplicationController extends Controller
                 ]);
 
                 $applicationForm = Application::whereUserId(Auth::user()->id)
-                    ->whereStatus('draft')
-                    ->whereStep(1)
-                    ->first();
+                ->whereStatus('draft')
+                ->whereStep(1)
+                ->first();
 
                 // Redirect to the edit form page
 
@@ -454,12 +454,12 @@ class ApplicationController extends Controller
 
             foreach($units as $u) {
                 $occupiedUnit = OccupationDate::where('unit_id', '=', $u->id)
-                    ->where('start_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
-                    ->where('start_date', '<=', Carbon::parse($unit_vacation_date)->format("Y-m-d H:i:s"))
-                    ->where('end_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
-                    ->where('end_date', '<=', Carbon::parse($unit_vacation_date)->format("Y-m-d H:i:s"))
-                    ->where('status', '<>', 'cancelled')
-                    ->get();
+                ->where('start_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
+                ->where('start_date', '<=', Carbon::parse($unit_vacation_date)->format("Y-m-d H:i:s"))
+                ->where('end_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
+                ->where('end_date', '<=', Carbon::parse($unit_vacation_date)->format("Y-m-d H:i:s"))
+                ->where('status', '<>', 'cancelled')
+                ->get();
 
                 if (empty($occupiedUnit->toArray())) {
                     $found++;
@@ -857,9 +857,10 @@ class ApplicationController extends Controller
             'resident_financial_aid'         => 'required',
             'leaseholder_id'                 => 'required',
             'leaseholder_address_proof'      => 'required',
-            'leaseholder_payslip'            => 'required'
+            'leaseholder_payslip'            => 'required',
+            'contract_decline_reason'        => 'sometimes',
         ]);
-    }
+}
 
     /**
      * Get a validator step 7 (images) update request

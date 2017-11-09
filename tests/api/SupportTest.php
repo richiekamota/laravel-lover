@@ -5,7 +5,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Portal\Jobs\SendContractToUserEmail;
 use MailThief\Testing\InteractsWithMail;
 
-class ApplicationProcessTest extends Tests\TestCase
+class SupportTest extends Tests\TestCase
 {
 
     use DatabaseMigrations;
