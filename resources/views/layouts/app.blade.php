@@ -4,9 +4,13 @@
     <div id="app">
         <div class="row expanded collapse">
             <div class="medium-3 large-2 columns admin-menu --bg-iced">
+                @if (env('APP_ENV')!='production')
+                <h1 class="--text-center --expanded">TESTING</h1>
+                @else
                 <a href="{{ url('/') }}" class="header__logo text-center">
                     <img src="/img/logo.svg" alt="Portal Logo">
                 </a>
+                @endif
 
                 @if(!Gate::check('is-tenant'))
                     <ul class="admin-menu__links">
