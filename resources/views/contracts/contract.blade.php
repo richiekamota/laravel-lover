@@ -1,25 +1,41 @@
-<style type="text/css" media="print">
-    div.page {
-        page-break-after: always;
-        page-break-inside: avoid;
-    }
-</style>
-
 <div class="contract">
 
     <div class="page" style="page-break-after: always; page-break-inside: avoid;">
         <h3 class="--text-center">{{$contract['unit']['name']}} LEASE AGREEMENT AND TENANT RULES</h3>
 
         <h4 class="--text-center">Between</h4>
+        </br>
         <h4 class="--text-center">The "Landlord" MY DOMAIN RENTALS (PTY) LTD Company Registration Number: 2014 / 241 873
             / 07 (Represented by Chrystal Grauso)</h4>
+            </br>
         <h4 class="--text-center">And</h4>
-        <h4 class="--text-center">The "Tenant" ID / Passport Number:
-            @if ($contract['application']['resident_sa_id_number'] != '')
-                {{$contract['application']['resident_sa_id_number']}}
+        </br>
+        <h4 class="--text-center">
+            <!-- If the sa_id_number or passport and different from the resident_sa_id_number -->
+            @if($contract['isSamePerson'])
+                The "Leaseholder" / The "Tenant" ID / Passport Number:</br>
+                @if ($contract['application']['sa_id_number'] != '')
+                    {{$contract['application']['sa_id_number']}}
+                @else
+                    {{$contract['application']['passport_number']}}
+                @endif
             @else
-                {{$contract['application']['resident_passport_number']}}
-            @endif </h4>
+                The "Tenant" ID / Passport Number:</br>
+                @if ($contract['application']['resident_sa_id_number'] != '')
+                    {{$contract['application']['resident_sa_id_number']}}
+                @else
+                    {{$contract['application']['resident_passport_number']}}
+                @endif </br>
+                The "Leaseholder" ID / Passport Number:</br>
+                @if ($contract['application']['sa_id_number'] != '')
+                    {{$contract['application']['sa_id_number']}}
+                @else
+                    {{$contract['application']['passport_number']}}
+                @endif 
+            @endif
+            
+        </h4>
+        </br>
         <h4 class="--text-center">For</h4>
         <h4 class="--text-center">{{$contract['unit']['code']}} {{$contract['unit']['name']}} {{$contract['location']['name']}}
             , {{$contract['location']['address']}}
@@ -58,7 +74,7 @@
             </tr>
             <tr>
                 <td width="30%">Physical Address</td>
-                <td>C/O Swish Property Group, Upper East Side, Pickwick Street, Parking Level - E1, Woodstock, 7925</td>
+                <td>C/O Swish Property Group, 80 Strand Street,8th floor, Cape Town</td>
             </tr>
             <tr>
                 <td width="30%">Telephone Number</td>
@@ -75,7 +91,7 @@
             <tbody>
             <tr>
                 <td width="30%">Full Name</td>
-                <td>{{$contract['application']['resident_first_name']}} {{$contract['application']['resident_last']}}</td>
+                <td>{{$contract['application']['resident_first_name']}} {{$contract['application']['resident_last_name']}}</td>
             </tr>
             <tr>
                 <td width="30%">Identity or Passport Number</td>
@@ -163,11 +179,11 @@
             </tr>
             <tr>
                 <td width="30%">Telephone Number</td>
-                <td>+27 21 447 2744</td>
+                <td>+27 83 541 7845</td>
             </tr>
             <tr>
                 <td width="30%">Email Address</td>
-                <td>elzette@swishproperties.co.za</td>
+                <td>natasha@mydomainliving.co.za</td>
             </tr>
             </tbody>
         </table>
@@ -205,13 +221,19 @@
                     April 2011;
                 </li>
                 <li>The"LeaseAgreement" means this Agreement between the Landlord and Tenant;</li>
-                <li>The "Lease Period" means 1 July 2016 to 30 June 2017;</li>
+                <li>The "Lease Period" means {{$contract['start_date']}} to {{$contract['end_date']}};</li>
                 <li>The"Unit" means {{$contract['unit']['code']}} {{$contract['unit']['name']}} {{$contract['location']['name']}}
                     , {{$contract['location']['address']}}
                     , {{$contract['location']['city']}} {{$contract['location']['region']}}</li>
                 <li>The "Landlord" means My Domain Rentals (Pty) Ltd (represented by Chrystal Grauso);</li>
-                <li>The"Tenant" means</li>
-                <li>The"Parties" means the Landlord and the Tenant;</li>
+                <li>
+                    The "Tenant" means {{$contract['application']['resident_first_name']}} {{$contract['application']['resident_last_name']}} - ID @if ($contract['application']['resident_sa_id_number'] != '')
+                        {{$contract['application']['resident_sa_id_number']}}
+                    @else
+                        {{$contract['application']['resident_passport_number']}}
+                    @endif 
+                </li>
+                <li>The "Parties" means the Landlord and the Tenant;</li>
                 <li>"Month" means a calendar month;</li>
                 <li>The "monthly rental" means the rental that must be paid by the Tenant to the Landlord for renting
                     the Unit;
@@ -298,8 +320,8 @@
                     whatsoever, the Landlord may charge the Tenant a penalty fee for early termination of the Lease
                     Agreement. The penalty fee will amount to a maximum charge of two (2) months of the rental amount
                     which the Tenant pays to the Landlord at the time that the Tenant cancels the Lease Agreement. For
-                    example if the Tenant is paying R{{$contract['rental_total']}} for rent per month, the penalty fee for early
-                    cancellation will amount to a maximum of R{{($contract['rental_total']*2)}}.
+                    example if the Tenant is paying R{{$contract['monthly_total']}} for rent per month, the penalty fee for early
+                    cancellation will amount to a maximum of R{{$contract['monthly_total_max_cancel']}}.
                 </li>
                 <li>The deposit may be used by the Landlord to pay or pay a part of the penalty fee only if the Tenant
                     does not owe any money to the Landlord for monthly rental or damages. If the Tenant does owe money
@@ -312,7 +334,7 @@
                 </li>
                 <li>The deposit may not be used to pay for monthly rental at any time during the Lease Period.</li>
                 <li>
-                    TheLandlordisentitledto:
+                    The Landlord is entitled to:
                     <ol>
                         <li>Deduct money from the deposit to repair any damage that exceeds reasonable wear and tear in
                             the Unit or damage caused by the Tenant to My Domain property and assets. Reasonable wear
@@ -427,18 +449,11 @@
             <p>The Tenant is expected to carefully inspect the Unit and report any damage in writing to My Domain
                 Management within twenty four (24) hours of moving in. My Domain Management will follow up on all
                 reported problems and take corrective action as appropriate.</p>
-            <ul>
-                <li>1 x 3/4 bedbase</li>
-                <li>1 x 3/4 mattress</li>
-                <li>1 x 3/4 mattress protector</li>
-                <li>1 x Wardrobe</li>
-                <li>1xDesk</li>
-                <li>1 x Mini refrigerator</li>
-                <li>1 x Induction plate</li>
-                <li>Blind(s) / 1.5m Curtain rail(s) fitted on window(s) <br> (Please note the curtain rail(s) is fitted
-                    for a standard 218cm long taped curtain)
-                </li>
-            </ul>
+            
+            <p>
+                {{$contract['unit_description']}}
+            </p>    
+
             <p>The Tenant accepts responsibility for these items on occupation.</p>
             <p>The Tenant must supply his own linen, i.e. pillows, sheets, blankets or duvets, pillowcases, curtain(s)
                 and towels. Sheets must be used on the beds at all times. Mattresses must NOT be removed from the Units

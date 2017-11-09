@@ -39,7 +39,6 @@ class ContractsApiTest extends Tests\TestCase
      */
     public function testFailUnitIdValidation()
     {
-
         $user = factory(Portal\User::class)->create([
             'role' => 'application'
         ]);
@@ -383,4 +382,69 @@ class ContractsApiTest extends Tests\TestCase
 
     }
 
+    /**
+     * Test that user can decline a contract
+     * @group failing
+     */
+    public function testUserCanDeclineContract()
+    {
+
+        $user = factory(Portal\User::class)->create([
+            'role' => 'application'
+        ]);
+        $location = factory(Portal\Location::class)->create();
+        $unitType = factory(Portal\UnitType::class)->create([
+            'location_id' => $location->id
+        ]);
+        $unit = factory(Portal\Unit::class)->create([
+            'location_id' => $location->id,
+            'type_id'     => $unitType->id
+        ]);
+        $application = factory(Portal\Application::class)->states('forApproval')->create([
+            'user_id'       => $user->id,
+            'unit_location' => $location->id,
+            'unit_type'     => $unitType->id
+        ]);
+
+        $items = factory(Portal\Item::class, 5)->create();
+
+        $contract = factory(Portal\Contract::class)->create([
+            'user_id'        => $user->id,
+            'unit_id'        => $unit->id,
+            'application_id' => $application->id,
+            'status'         => 'pending'
+        ]);
+
+        $occupationDate = factory(Portal\OccupationDate::class)->create([
+            'contract_id'    => $contract->id,
+            'application_id' => $application->id,
+            'unit_id'        => $unit->id
+        ]);
+
+        $response = $this->actingAs($user)->json('POST', '/contracts/' . $contract->id . '/decline', [
+            'data'    => 'Decline Reason',
+            'user_id' => $user->id
+        ]);
+
+        $response->assertResponseStatus(200);
+
+        // Check that an email was sent to this email address
+        $this->seeMessageFor('info@mydomainliving.co.za');
+
+        // Make sure the email has the correct subject
+        $this->seeMessageWithSubject('An applicant has declined a contract');
+
+        // Make sure the email was sent from the correct address
+        $this->seeMessageFrom('info@mydomainliving.co.za');
+
+        // Make sure the email contains text in the body of the message
+        // Default is to search the html rendered view
+        $this->assertTrue($this->lastMessage()->contains('was declined'));
+
+        //Make sure that the database is updated
+         $this->seeInDatabase('applications', [
+        'contract_decline_reason' => 'Decline reason',
+        'status'                  => 'pending'
+        ]);
+    }
 }

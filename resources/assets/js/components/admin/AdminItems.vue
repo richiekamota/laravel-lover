@@ -3,9 +3,8 @@
         <div class="row columns">
             <h2 class="--focused">ITEMS | things people pay for</h2>
             <p>
-                Items are things people pay for as part of their contract. This can include parking bays, DSTV, beds
-                etc.
-                They are also added to a contract for reference.
+                Items are things people pay for as part of their contract. This can include parking bays, DSTV, beds etc. They are also added
+                to a contract for reference.
             </p>
         </div>
 
@@ -18,32 +17,27 @@
                     <div class="small-12 columns">
                         <div class="table__row table__row--add">
                             <!-- Row Title -->
-                            <button class="accordion__heading accordion__heading--add --white"
-                                    v-on:click="addEntry = !addEntry">
+                            <button class="accordion__heading accordion__heading--add --white" v-on:click="addEntry = !addEntry">
                                 <h4 class="--white">Add new item</h4>
                             </button>
                             <!-- START Edit form -->
-                            <div class="accordion__content --bg-calm"
-                                 v-bind:class="{ 'accordion__content--active' : addEntry }" v-show="addEntry">
+                            <div class="accordion__content --bg-calm" v-bind:class="{ 'accordion__content--active' : addEntry }" v-show="addEntry">
 
                                 <div class="row column">
                                     <!-- START Location input form -->
                                     <label for="itemName">
                                         Name
-                                        <input type="text" id="itemName" ref="itemInput"
-                                               name="itemName" v-model="newItem.name">
+                                        <input type="text" id="itemName" ref="itemInput" name="itemName" v-model="newItem.name">
                                     </label>
 
                                     <label for="itemDescription">
                                         Description
-                                        <textarea ref="itemDescription" id="itemDescription"
-                                                  name="itemDescription" v-model="newItem.description"></textarea>
+                                        <textarea ref="itemDescription" id="itemDescription" name="itemDescription" v-model="newItem.description"></textarea>
                                     </label>
 
                                     <label for="itemCost">
                                         Cost
-                                        <input type="number" id="itemCost" ref="itemCost"
-                                               name="editItemCost" v-model="newItem.cost">
+                                        <input type="number" id="itemCost" ref="itemCost" name="editItemCost" v-model="newItem.cost">
                                     </label>
 
                                     <label for="itemPaymentType">
@@ -70,26 +64,22 @@
                                     <label for="qty" v-if="newItem.for_lease == 1">
                                         Total Quantity
 
-                                        <input type="number" id="qty" ref="qty"
-                                               name="qty" v-model="newItem.qty">
+                                        <input type="number" id="qty" ref="qty" name="qty" v-model="newItem.qty">
                                     </label>
 
-                                    <label  for="itemUnitTypes">
+                                    <label for="itemUnitTypes">
                                         Unit Types* - (add and remove the required unit types)
                                     </label>
 
                                     <hr class="selected-unit-types__line" v-if="selectedUnitTypes.length > 0">
-                                    <div v-for="(unit_type , index) in selectedUnitTypes"
-                                         class="selected-unit-types clearfix">
-                                        <span class="selected-unit-types__name">{{unit_type.name}}</span> <span
-                                            class="selected-unit-types__remove float-right"
-                                            v-on:click="removeSelectedUnitType(unit_type, index)">remove</span>
+                                    <div v-for="(unit_type , index) in selectedUnitTypes" class="selected-unit-types clearfix">
+                                        <span class="selected-unit-types__name">{{unit_type.name}}</span>
+                                        <span class="selected-unit-types__remove float-right" v-on:click="removeSelectedUnitType(unit_type, index)">remove</span>
                                     </div>
                                     <hr class="selected-unit-types__line" v-if="selectedUnitTypes.length > 0">
 
                                     <select multiple ref="itemUnitTypes" id="itemUnitTypes" name="itemUnitTypes">
-                                        <option v-for="(unit_type , index) in unitTypes" v-bind:value="unit_type.id"
-                                                v-on:click="addSelectedUnitType(unit_type, index)">
+                                        <option v-for="(unit_type , index) in unitTypes" v-bind:value="unit_type.id" v-on:click="addSelectedUnitType(unit_type, index)">
                                             {{ unit_type.name }}
                                         </option>
                                     </select>
@@ -98,14 +88,16 @@
                                 <!-- END Edit form -->
 
                                 <div class="row column">
-                                    <button type="submit" name="addItem" class="button focused --mt1"
-                                            v-on:click="addItem" v-bind:disabled="loading">
-                                        <span v-if="loading"><loading></loading></span>
+                                    <button type="submit" name="addItem" class="button focused --mt1" v-on:click="addItem" v-bind:disabled="loading">
+                                        <span v-if="loading">
+                                            <loading></loading>
+                                        </span>
                                         <span v-else>Add item</span>
                                     </button>
-                                    <button type="submit" name="cancelItem" class="button float-right --mt1"
-                                            v-on:click="cancelAddItem" v-bind:disabled="loading">
-                                        <span v-if="loading"><loading></loading></span>
+                                    <button type="submit" name="cancelItem" class="button float-right --mt1" v-on:click="cancelAddItem" v-bind:disabled="loading">
+                                        <span v-if="loading">
+                                            <loading></loading>
+                                        </span>
                                         <span v-else>Cancel</span>
                                     </button>
                                 </div>
@@ -117,32 +109,27 @@
 
                     <template v-for="(item, index) in items">
                         <div class="small-12 columns">
-                            <div class="table__row"
-                                 :class="{ even: isEven(index), first: index == 0, last: index == items.length -1 }">
+                            <div class="table__row" :class="{ even: isEven(index), first: index == 0, last: index == items.length -1 }">
 
                                 <!-- Row Title -->
-                                <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{
-                                    item.name }} : R{{item.cost}} ({{item.payment_type}})
+                                <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{ item.name }} : R{{item.cost}} ({{item.payment_type}})
                                 </button>
                                 <!-- START Edit form -->
                                 <div class="accordion__content --bg-calm">
 
                                     <label for="editItemName">
                                         Name
-                                        <input type="text" id="editItemName" ref="editItemInput"
-                                               name="editItemName" v-model="editItem.name">
+                                        <input type="text" id="editItemName" ref="editItemInput" name="editItemName" v-model="editItem.name">
                                     </label>
 
                                     <label for="editItemDescription">
                                         Description
-                                        <textarea ref="editItemDescription" id="editItemDescription"
-                                                  name="editItemDescription" v-model="editItem.description"></textarea>
+                                        <textarea ref="editItemDescription" id="editItemDescription" name="editItemDescription" v-model="editItem.description"></textarea>
                                     </label>
 
                                     <label for="editItemCost">
                                         Cost
-                                        <input type="number" id="editItemCost" ref="editItemCost"
-                                               name="editItemCost" v-model="editItem.cost">
+                                        <input type="number" id="editItemCost" ref="editItemCost" name="editItemCost" v-model="editItem.cost">
                                     </label>
 
 
@@ -170,8 +157,7 @@
                                     <label for="qty" v-if="editItem.for_lease == 1">
                                         Total Quantity
 
-                                        <input type="number" id="qty" ref="qty"
-                                               name="qty" v-model="editItem.qty">
+                                        <input type="number" id="qty" ref="qty" name="qty" v-model="editItem.qty">
                                     </label>
 
 
@@ -180,24 +166,18 @@
                                     </label>
 
                                     <hr class="selected-unit-types__line">
-                                    <div v-for="(unit_type , index) in editItem.unit_types"
-                                         class="selected-unit-types clearfix">
-                                        <span class="selected-unit-types__name">{{unit_type.name}}</span> <span
-                                            class="selected-unit-types__remove float-right"
-                                            v-on:click="removeEditSelectedUnitType(unit_type, index)">remove</span>
+                                    <div v-for="(unit_type , index) in editItem.unit_types" class="selected-unit-types clearfix">
+                                        <span class="selected-unit-types__name">{{unit_type.name}}</span>
+                                        <span class="selected-unit-types__remove float-right" v-on:click="removeEditSelectedUnitType(unit_type, index)">remove</span>
                                     </div>
                                     <hr class="selected-unit-types__line">
-                                    <select multiple ref="editItemUnitTypes" id="editItemUnitTypes"
-                                            name="editItemUnitTypes">
-                                        <option v-for="(unit_type , index) in editingUnitTypes"
-                                                v-bind:value="unit_type.id"
-                                                v-on:click="addEditSelectedUnitType(unit_type, index)">
+                                    <select multiple ref="editItemUnitTypes" id="editItemUnitTypes" name="editItemUnitTypes">
+                                        <option v-for="(unit_type , index) in editingUnitTypes" v-bind:value="unit_type.id" v-on:click="addEditSelectedUnitType(unit_type, index)">
                                             {{ unit_type.name }}
                                         </option>
                                     </select>
 
-                                    <button type="submit" class="success button" v-on:click="updateItem"
-                                            v-bind:disabled="loading">
+                                    <button type="submit" class="success button" v-on:click="updateItem" v-bind:disabled="loading">
                                         <span v-if="loading">
                                             <loading></loading>
                                         </span>
@@ -221,7 +201,8 @@
                         <div class="row column clearfix">
                             <h3 class="stats-box__header --focused --mt0">Stats</h3>
                         </div>
-                        Items: <span class="float-right">{{items.length}}</span>
+                        Items:
+                        <span class="float-right">{{items.length}}</span>
                     </div>
                 </div>
             </div>
@@ -232,7 +213,7 @@
 
     export default {
         props: ['propItems', 'propUnitTypes'],
-        data(){
+        data() {
             return {
                 items: [],
                 unitTypes: [],

@@ -144,3 +144,13 @@ $factory->define(Portal\Document::class, function (Faker\Generator $faker) {
     ];
 
 });
+
+$factory->define(Portal\OccupationDate::class, function (Faker\Generator $faker) {
+
+    return [
+        'start_date' => \Carbon\Carbon::today(),
+        'end_date'   => \Carbon\Carbon::today()->addMonths(11),
+        'status'     => "pending"
+    ];
+
+});

@@ -115,8 +115,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/contracts/secure/{secureLink}', 'ContractsController@show');
     Route::post('/contracts/{id}/approved', 'ContractsController@approve');
+    Route::post('/contracts/{id}/decline', 'ContractsController@decline');
     Route::get('/contracts/{id}/review', 'ContractsController@review');
     Route::post('/contracts/{id}', 'ContractsController@store');
+
 
     /*
     |--------------------------------------------------------------------------
@@ -165,5 +167,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/application/{id}/decline', 'ApplicationProcessController@processDecline');
     Route::post('/application/{id}/cancel', 'ApplicationProcessController@processCancelApproved');
     Route::post('/application/{id}/renew', 'ApplicationProcessController@renew');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Support - admin support routes
+    |--------------------------------------------------------------------------
+    |
+    */
+    Route::post('/submit-admin-issue', 'SupportController@adminIssue');
 
 });

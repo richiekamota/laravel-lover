@@ -5,8 +5,8 @@
             <div class="medium-9 columns">
                 <h2 class="--focused">UNITS | the rooms people stay in</h2>
                 <p>
-                    A full list of all the units across all the locations. Use the filter option to narrow your results.
-                    A unit can be linked to a tenant and have a current active contract.
+                    A full list of all the units across all the locations. Use the filter option to narrow your results. A unit can be linked
+                    to a tenant and have a current active contract.
                 </p>
             </div>
         </div>
@@ -60,11 +60,15 @@
 
                                 <div class="row column">
                                     <button type="submit" name="addUnit" class="button button--focused --mt1" v-on:click="addUnit" v-bind:disabled="loading">
-                                        <span v-if="loading"><loading></loading></span>
+                                        <span v-if="loading">
+                                            <loading></loading>
+                                        </span>
                                         <span v-else>Add unit</span>
                                     </button>
                                     <button type="submit" name="addLocation" class="button float-right --mt1" v-on:click="cancelUnit" v-bind:disabled="loading">
-                                        <span v-if="loading"><loading></loading></span>
+                                        <span v-if="loading">
+                                            <loading></loading>
+                                        </span>
                                         <span v-else>Cancel</span>
                                     </button>
                                 </div>
@@ -76,7 +80,7 @@
 
                     <!-- Repeat in here -->
 
-                    <template v-for="(filteredUnit, index) in filteredUnits" >
+                    <template v-for="(filteredUnit, index) in filteredUnits">
                         <div class="small-12 columns" v-show="index >= pagination.from && index <= pagination.to">
                             <div class="table__row" :class="{ even: isEven(index), first: index == 0, last: index == units.length -1 }">
                                 <!-- Row Title -->
@@ -128,8 +132,12 @@
                         <ul class="pagination text-center" role="navigation" aria-label="Pagination">
                             <!-- <li class="pagination-previous" v-on:click="pagination.currentPage = pagination.currentPage - 1; calculatePagination()" v-bind:class="{disabled: pagination.previousPage > 0}" >Previous</li> -->
                             <template v-for="n in pagination.maxPages">
-                                <li class="current" v-show="n ==  pagination.currentPage"><span class="show-for-sr">You're on page</span> {{n}} </li>
-                                <li><a v-bind:aria-label="'Page ' + n" v-on:click="pagination.currentPage = n; calculatePagination()" v-show="n !=  pagination.currentPage" > {{n}}</a></li>
+                                <li class="current" v-show="n ==  pagination.currentPage">
+                                    <span class="show-for-sr">You're on page</span> {{n}} </li>
+                                <li>
+                                    <a v-bind:aria-label="'Page ' + n" v-on:click="pagination.currentPage = n; calculatePagination()"
+                                        v-show="n !=  pagination.currentPage"> {{n}}</a>
+                                </li>
                             </template>
                             <!-- <li class="pagination-next" v-on:click="pagination.currentPage = pagination.currentPage + 1; calculatePagination()" v-show="pagination.nextPage <= pagination.maxPages"><a aria-label="Next page">Next</a></li> -->
                         </ul>
@@ -158,7 +166,8 @@
                         <div class="row column clearfix">
                             <h3 class="stats-box__header --focused --mt0">Stats</h3>
                         </div>
-                        Units: <span class="float-right">{{units.length}}</span>
+                        Units:
+                        <span class="float-right">{{units.length}}</span>
                     </div>
                 </div>
             </div>
@@ -170,8 +179,8 @@
 <script>
     export default {
         props: ['propLocations', 'propUnitTypes', 'propUnits'],
-        data(){
-            return{
+        data() {
+            return {
                 locations: [],
                 unitTypes: [],
                 units: [],
@@ -216,7 +225,7 @@
                 return n % 2 == 0;
             },
 
-            addUnit : function() {
+            addUnit: function () {
                 this.loading = true;
 
                 this.$http.post(
@@ -244,7 +253,7 @@
                 this.addEntry = false;
             },
 
-            updateUnit: function() {
+            updateUnit: function () {
                 console.log('edit unit');
                 this.loading = true;
 
@@ -258,12 +267,12 @@
                     this.units[this.editUnit.index] = this.editUnit;
                     // To prevent reactivity from going accross, let's reassign the object.
                     this.createEditableObject(this.editUnit.index);
-                    if(this.$el.querySelector(".accordion__heading--active")) {
-                        this.$el.querySelectorAll(".accordion__heading--active").forEach(function(element) {
+                    if (this.$el.querySelector(".accordion__heading--active")) {
+                        this.$el.querySelectorAll(".accordion__heading--active").forEach(function (element) {
                             element.classList.toggle("accordion__heading--active");
                         });
 
-                        this.$el.querySelectorAll(".accordion__content--active").forEach(function(element) {
+                        this.$el.querySelectorAll(".accordion__content--active").forEach(function (element) {
                             element.classList.toggle("accordion__content--active");
                         });
                     }
@@ -275,7 +284,7 @@
 
             },
 
-            accordionToggle: function(index, event) {
+            accordionToggle: function (index, event) {
                 event.preventDefault();
                 let selectedElement = event.target;
 
@@ -283,17 +292,17 @@
                 let shouldClose = !selectedElement.classList.contains('accordion__heading--active');
 
                 // Let's close all accordions fist
-                if(this.$el.querySelector(".accordion__heading--active")) {
-                    this.$el.querySelectorAll(".accordion__heading--active").forEach(function(element) {
+                if (this.$el.querySelector(".accordion__heading--active")) {
+                    this.$el.querySelectorAll(".accordion__heading--active").forEach(function (element) {
                         element.classList.toggle("accordion__heading--active");
                     });
 
-                    this.$el.querySelectorAll(".accordion__content--active").forEach(function(element) {
+                    this.$el.querySelectorAll(".accordion__content--active").forEach(function (element) {
                         element.classList.toggle("accordion__content--active");
                     });
                 }
                 // If the button was open, we don't want to reopen it.
-                if(shouldClose) {
+                if (shouldClose) {
                     selectedElement.classList.toggle("accordion__heading--active");
                     selectedElement.nextElementSibling.classList.toggle("accordion__content--active");
                 }
@@ -308,15 +317,15 @@
             },
 
             createEditableObject(index) {
-                 // If we want to assign a completly new object which will not update the other form due to
-                 // reactivity, we must manually assign whatever is needed.
-                 // We also need the array index so when we update succesfully we know which index to update.
+                // If we want to assign a completly new object which will not update the other form due to
+                // reactivity, we must manually assign whatever is needed.
+                // We also need the array index so when we update succesfully we know which index to update.
                 this.editUnit = {};
                 this.editUnit.index = index;
                 this.editUnit.id = this.filteredUnits[index].id;
                 this.editUnit.location_id = this.filteredUnits[index].location_id;
                 this.editUnit.code = this.filteredUnits[index].code;
-                this.editUnit.type_id  = this.filteredUnits[index].type_id;
+                this.editUnit.type_id = this.filteredUnits[index].type_id;
                 this.editUnit.user_id = '';
                 this.editUnit.contract_id = '';
             },
@@ -324,33 +333,33 @@
             displayError(err) {
                 // There is an error, let's display an alert.
                 let errorMessage = '';
-                if(err.body.message) {
+                if (err.body.message) {
                     errorMessage = err.body.message;
                 } else {
                     // This should occur if there are any validation errors.
                     // Let's iterate over the list of errors.
                     Object.keys(err.body).forEach(function (key) {
-                     let obj = err.body[key];
-                     obj = obj.toString();
-                     errorMessage = errorMessage + obj + '\r \n';
+                        let obj = err.body[key];
+                        obj = obj.toString();
+                        errorMessage = errorMessage + obj + '\r \n';
                     });
                 }
 
                 // THere is an error, let's display an alert.
                 swal({
-                  title: "Error!",
-                  text: errorMessage,
-                  type: "error",
-                  confirmButtonText: "Ok"
+                    title: "Error!",
+                    text: errorMessage,
+                    type: "error",
+                    confirmButtonText: "Ok"
                 });
             },
 
             initializeUnit() {
                 return {
-                        location_id: '',
-                        code: '',
-                        type_id: ''
-                    };
+                    location_id: '',
+                    code: '',
+                    type_id: ''
+                };
             },
 
             filter() {
@@ -358,14 +367,14 @@
                 this.filteredUnits = this.units;
 
                 // If the input field is blank, let's not apply filter logic and return everything.
-                if(this.$refs['filterInput'].value != '') {
+                if (this.$refs['filterInput'].value != '') {
                     this.filteredUnits = this.filteredUnits.filter((unit) => {
                         // Let's iterate over the attributes of the unit.
                         var isValid = false;
                         var filteredInput = this.$refs['filterInput'].value;
                         Object.keys(unit).forEach(function (key) {
                             let obj = unit[key];
-                            if(obj && obj.indexOf(filteredInput) !== -1) {
+                            if (obj && obj.indexOf(filteredInput) !== -1) {
                                 isValid = true;
                             }
                         });
@@ -375,12 +384,12 @@
                     this.pagination.currentPage = 1;
                 }
 
-                if(this.$el.querySelector(".accordion__heading--active")) {
-                    this.$el.querySelectorAll(".accordion__heading--active").forEach(function(element) {
+                if (this.$el.querySelector(".accordion__heading--active")) {
+                    this.$el.querySelectorAll(".accordion__heading--active").forEach(function (element) {
                         element.classList.toggle("accordion__heading--active");
                     });
 
-                    this.$el.querySelectorAll(".accordion__content--active").forEach(function(element) {
+                    this.$el.querySelectorAll(".accordion__content--active").forEach(function (element) {
                         element.classList.toggle("accordion__content--active");
                     });
                 }

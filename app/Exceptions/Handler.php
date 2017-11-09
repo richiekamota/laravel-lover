@@ -16,7 +16,7 @@ class Handler extends ExceptionHandler
     protected $dontReport = [
         \Illuminate\Auth\AuthenticationException::class,
         \Illuminate\Auth\Access\AuthorizationException::class,
-        \Symfony\Component\HttpKernel\Exception\HttpException::class,
+        // \Symfony\Component\HttpKernel\Exception\HttpException::class,
         \Illuminate\Database\Eloquent\ModelNotFoundException::class,
         \Illuminate\Session\TokenMismatchException::class,
         \Illuminate\Validation\ValidationException::class,
@@ -32,6 +32,9 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        if (app()->bound('sentry') && $this->shouldReport($exception)) {
+            app('sentry')->captureException($exception);
+        }
         parent::report($exception);
     }
 
@@ -45,14 +48,14 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
 
-        if ($this->isHttpException($exception))
-        {
-            return $this->renderHttpException($exception);
+        // Convert all non-http exceptions to a proper 500 http exception
+        // if we don't do this exceptions are shown as a default template
+        // instead of our own view in resources/views/errors/500.blade.php
+        if ($this->shouldReport($exception) && !$this->isHttpException($exception) && !config('app.debug')) {
+            $exception = new HttpException(500, 'Whoops!');
         }
-        else
-        {
-            return parent::render($request, $exception);
-        }
+
+        return parent::render($request, $exception);
     }
 
     /**

@@ -87,9 +87,9 @@ class ApplicationController extends Controller
                 ]);
 
                 $applicationForm = Application::whereUserId(Auth::user()->id)
-                    ->whereStatus('draft')
-                    ->whereStep(1)
-                    ->first();
+                ->whereStatus('draft')
+                ->whereStep(1)
+                ->first();
 
                 // Redirect to the edit form page
 
@@ -105,12 +105,7 @@ class ApplicationController extends Controller
 
             \Log::info($e);
 
-            //Bugsnag::notifyException($e);
-
-            return Response::json([
-                'error'   => 'application_form_step1_error',
-                'message' => trans('portal.application_form_step1_error' . json_encode($e)),
-            ], 422);
+            return redirect()->back()->withInput();
 
         }
 
@@ -128,9 +123,9 @@ class ApplicationController extends Controller
         // Validation handled in Request
 
         $applications = Application::with('user', 'location')
-            ->where('user_id', '=', Auth::user()->id)
-            ->where('status', '=', 'draft')
-            ->get();
+        ->where('user_id', '=', Auth::user()->id)
+        ->where('status', '=', 'draft')
+        ->get();
 
         if (!empty($applications->toArray())) {
             return Response::json([
@@ -151,9 +146,9 @@ class ApplicationController extends Controller
                 ]);
 
                 $applicationForm = Application::whereUserId(Auth::user()->id)
-                    ->whereStatus('draft')
-                    ->whereStep(1)
-                    ->first();
+                ->whereStatus('draft')
+                ->whereStep(1)
+                ->first();
 
                 // Redirect to the edit form page
 
@@ -459,12 +454,12 @@ class ApplicationController extends Controller
 
             foreach($units as $u) {
                 $occupiedUnit = OccupationDate::where('unit_id', '=', $u->id)
-                    ->where('start_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
-                    ->where('start_date', '<=', Carbon::parse($unit_vacation_date)->format("Y-m-d H:i:s"))
-                    ->where('end_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
-                    ->where('end_date', '<=', Carbon::parse($unit_vacation_date)->format("Y-m-d H:i:s"))
-                    ->where('status', '<>', 'cancelled')
-                    ->get();
+                ->where('start_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
+                ->where('start_date', '<=', Carbon::parse($unit_vacation_date)->format("Y-m-d H:i:s"))
+                ->where('end_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
+                ->where('end_date', '<=', Carbon::parse($unit_vacation_date)->format("Y-m-d H:i:s"))
+                ->where('status', '<>', 'cancelled')
+                ->get();
 
                 if (empty($occupiedUnit->toArray())) {
                     $found++;
@@ -570,13 +565,10 @@ class ApplicationController extends Controller
 
             return Response::json(
                 $message
-                , 422);
+            , 422);
         }
 
         try {
-
-            // Validate images
-
 
             // Update the form
             $applicationForm->update([
@@ -594,8 +586,8 @@ class ApplicationController extends Controller
             DB::rollback();
 
             return Response::json([
-                'error'   => 'application_form_step6_error',
-                'message' => trans('portal.application_form_step6_error'),
+                'error'   => 'application_form_step7_error',
+                'message' => trans('portal.application_form_step7_error'),
             ], 422);
 
         }
@@ -865,7 +857,8 @@ class ApplicationController extends Controller
             'resident_financial_aid'         => 'required',
             'leaseholder_id'                 => 'required',
             'leaseholder_address_proof'      => 'required',
-            'leaseholder_payslip'            => 'required'
+            'leaseholder_payslip'            => 'required',
+            'contract_decline_reason'        => 'sometimes',
         ]);
     }
 
@@ -882,7 +875,7 @@ class ApplicationController extends Controller
         return Validator::make($data, [
             'resident_id'               => 'required',
             'resident_study_permit'     => 'sometimes',
-            'resident_acceptance'       => 'required',
+            'resident_acceptance'       => 'sometimes',
             'resident_financial_aid'    => 'required',
             'leaseholder_id'            => 'required',
             'leaseholder_address_proof' => 'required',
