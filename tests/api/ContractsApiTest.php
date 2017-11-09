@@ -442,5 +442,10 @@ class ContractsApiTest extends Tests\TestCase
         // Default is to search the html rendered view
         $this->assertTrue($this->lastMessage()->contains('was declined'));
 
+        //Make sure that the database is updated
+         $this->seeInDatabase('applications', [
+        'contract_decline_reason' => 'Decline reason',
+        'status'                  => 'pending'
+        ]);
     }
 }
