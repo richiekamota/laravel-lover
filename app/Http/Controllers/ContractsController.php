@@ -65,30 +65,51 @@ class ContractsController extends Controller
      */
     public function store(ContractCreateRequest $request, $id = NULL)
     {
-
+        
         // about unless Auth is level above tenant
         $this->authorize('create', Contract::class);
         $filePath = FALSE;
 
-        // Check if selected unit available for occupation date period
-        $occupiedUnit = OccupationDate::where('unit_id', '=', $request->unit_id)
-        ->where('start_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
-        ->where('start_date', '<=', Carbon::parse($request->unit_vacation_date)->format("Y-m-d H:i:s"))
-        ->where('end_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
-        ->where('end_date', '<=', Carbon::parse($request->unit_vacation_date)->format("Y-m-d H:i:s"))
-        ->where('status', '<>', 'cancelled')
-        ->get();
-
-        if (!empty($occupiedUnit->toArray())) {
-            return Response::json([
-                'error'   => '',
-                'message' => "The selected unit is not available for the occupation date period specified." . json_encode($occupiedUnit->toArray(), TRUE)
-            ], 422);
-        }
-
         DB::beginTransaction();
 
         try {
+
+            $oldContract = Contract::where('application_id', $id)
+                                    ->where('status', '<>', 'cancelled')                        
+                                    ->first();
+            // Cancell the existing applications if there are any
+            if(!empty($oldContract)){
+                $oldContract->status = 'cancelled';
+                $oldContract->save();
+
+                // Log an event against the application
+                ApplicationEvent::create([
+                    'user_id'        => Auth::user()->id,
+                    'application_id' => $id,
+                    'action'         => 'Application cancelled',
+                    'note'           => 'New incoming application'
+                ]);
+
+                OccupationDate::where('application_id', $id)
+                                ->update(['status' => 'cancelled']);
+
+            }
+
+            // Check if selected unit available for occupation date period
+            $occupiedUnit = OccupationDate::where('unit_id', '=', $request->unit_id)
+            ->where('start_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
+            ->where('start_date', '<=', Carbon::parse($request->unit_vacation_date)->format("Y-m-d H:i:s"))
+            ->where('end_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
+            ->where('end_date', '<=', Carbon::parse($request->unit_vacation_date)->format("Y-m-d H:i:s"))
+            ->where('status', '<>', 'cancelled')
+            ->get();
+
+            if (!empty($occupiedUnit->toArray())) {
+                return Response::json([
+                    'error'   => '',
+                    'message' => "The selected unit is not available for the occupation date period specified." . json_encode($occupiedUnit->toArray(), TRUE)
+                ], 422);
+            }
 
             $application = Application::findOrFail($id);
 
@@ -172,6 +193,7 @@ class ContractsController extends Controller
 
                 $item->value = number_format($item->value,2,".",",");
             }
+
             $contract_data->onceoff_total = number_format($contract_data->onceoff_total,2,".",",");
             $contract_data->monthly_total = number_format($contract_data->monthly_total,2,".",",");
 
@@ -369,8 +391,6 @@ class ContractsController extends Controller
         } catch (\Exception $e) {
 
             \Log::info($e);
-
-            //Bugsnag::notifyException($e);
 
             DB::rollback();
 

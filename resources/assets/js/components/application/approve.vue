@@ -200,6 +200,7 @@
             unit_vacation_date: function () {
                 this.filterUnits();
             }
+
         },
 
         methods: {
@@ -248,26 +249,22 @@
                                         if (this.application.unit_fee_split) {
                                             isValid = true;
                                         }
-                                    } else {
-                                        isValid = true;
                                     }
-                                }
 
-                                ll++;
+                                    ll++;
+                                }
                             }
                         } else {
                             isValid = true;
                         }
-                    } else {
-                        isValid = true;
-                    }
 
-                    if (isValid == true) {
-                        this.filteredUnits.push(unit);
-                    }
-                };
+                        if (isValid == true) {
+                            this.filteredUnits.push(unit);
+                        }
+                    };
 
 
+                }
             },
 
             toNiceDate: (date) => {
@@ -390,5 +387,6 @@
                 });
             },
         }
+        
     };
 </script>

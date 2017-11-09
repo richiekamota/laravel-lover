@@ -182,7 +182,7 @@
                                     <!-- Rental Amount -->
                                     <label for="rental_amount">
                                         Monthly rental amount *
-                                        <input type="number" name="rental_amount" v-model="appForm.rental_amount" required>
+                                        <input type="number" name="rental_amount" v-model.number="appForm.rental_amount" required>
                                     </label>
 
                                     <!-- Rental Name -->

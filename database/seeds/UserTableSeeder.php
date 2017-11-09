@@ -22,5 +22,14 @@ class UserTableSeeder extends Seeder
             'role'       => 'admin'
         ] );
 
+        DB::table( 'users' )->insert( [
+            'id'         => Uuid::generate()->string,
+            'first_name' => "Craig",
+            'last_name'  => "Getz",
+            'email'      => 'craig@swishproperties.co.za',
+            'password'   => bcrypt( 'craig20!7' ),
+            'role'       => 'admin'
+        ] );
+
     }
 }

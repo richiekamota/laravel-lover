@@ -39,7 +39,6 @@ class ContractsApiTest extends Tests\TestCase
      */
     public function testFailUnitIdValidation()
     {
-
         $user = factory(Portal\User::class)->create([
             'role' => 'application'
         ]);

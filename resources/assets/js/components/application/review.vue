@@ -97,7 +97,6 @@
                         </div>
                     </div>
 
-
                     <div class="table__row table__row--padded">
 
                         <div class="row">
@@ -960,9 +959,10 @@
                         </div>
 
                     </div>
-                </div>
 
+                </div>
             </div>
+
             <div class="medium-4 columns" v-if="application.status == 'approved'">
 
                 <div class="stats-box">
@@ -978,28 +978,29 @@
                         <button id="view-contract" class="button button--cancel --expanded" v-on:click="viewContract()" v-bind:disabled="loading">
                             View Contract
                         </button>
-
                     </div>
                     <div class="row column">
 
                         <button id="renew-application" class="button button--cancel --expanded" v-on:click="submitForRenew()" v-bind:disabled="loading">
                             Renew Contract
                         </button>
-
                     </div>
                     <div class="row column">
 
                         <button id="cancel-application" class="button button--cancel --expanded" v-on:click="submitForCancel()" v-bind:disabled="loading">
                             Cancel Current
                         </button>
-
+                    </div>
+                    <div class="row column">
+                        <button id="edit-application" class="button button--cancel --expanded" v-on:click="reviewForEdit()" v-bind:disabled="loading">
+                            Edit Contract
+                        </button>
                     </div>
 
                 </div>
 
             </div>
         </div>
-
     </div>
 </template>
 <script>
@@ -1050,14 +1051,7 @@
 
             submitDecline: function () {
 
-                this.loading = true;
-
-                this.$http.post(
-                    '/application/' + this.application.id + '/decline',
-                    {
-                        'reason': this.declineReason
-                    }
-                ).then((response) => {
+                this.$http.post('/application/' + this.application.id + '/decline', { 'reason': this.declineReason }).then((response) => {
 
                     this.loading = false;
                     // If the decline call is successful then update the shown application.
@@ -1074,7 +1068,6 @@
                     this.loading = false;
                     this.displayError(err);
                 });
-
 
             },
             submitForCancel: function (event) {
@@ -1105,9 +1098,7 @@
             submitForRenew: function (event) {
                 this.loading = true;
 
-                this.$http.post(
-                    '/application/' + this.application.id + '/renew'
-                ).then((response) => {
+                this.$http.post('/application/' + this.application.id + '/renew').then((response) => {
 
                     this.loading = false;
                     // If the decline call is successful then update the shown application.
