@@ -122,8 +122,8 @@ class BaseDataSeeder extends Seeder
         $craig = User::whereEmail('craig@swishproperties.co.za')->first();
 
         factory( Portal\Application::class, 5 )->states( 'forApproval' )->create( [
-            'user_id' => $craig->id,
-            'email' => 'craig@swishproperties.co.za',
+            'user_id' => $user->id,
+            'email' => $user->email,
             'resident_id' => $residentId->id,
             'unit_location' => $location->id,
             'unit_type' => $location->unitTypes->first()->id

@@ -860,7 +860,7 @@ class ApplicationController extends Controller
             'leaseholder_payslip'            => 'required',
             'contract_decline_reason'        => 'sometimes',
         ]);
-}
+    }
 
     /**
      * Get a validator step 7 (images) update request
