@@ -1116,6 +1116,9 @@
                     this.displayError(err);
                 });
             },
+            reviewForEdit: function () {
+                window.location.href = '/application/' + this.application.id + '/approve';
+            },
 
             displayError(err) {
                 // There is an error, let's display an alert.
