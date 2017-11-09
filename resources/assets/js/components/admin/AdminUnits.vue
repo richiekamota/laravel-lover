@@ -254,7 +254,7 @@
             },
 
             updateUnit: function () {
-                console.log('edit unit');
+
                 this.loading = true;
 
                 this.$http.patch(
@@ -328,6 +328,7 @@
                 this.editUnit.type_id = this.filteredUnits[index].type_id;
                 this.editUnit.user_id = '';
                 this.editUnit.contract_id = '';
+                this.editUnit.location = this.filteredUnits[index].location;
             },
 
             displayError(err) {

@@ -99,7 +99,7 @@ class UnitsController extends Controller
 
             return Response::json([
                 'message' => trans('portal.unit_edit_complete'),
-                'data' => Unit::findOrFail($id)->toArray()
+                'data' => Unit::with('location','unitType')->find($id)->toArray()
             ], 200);
 
         } catch (\Exception $e) {
