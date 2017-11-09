@@ -238,7 +238,8 @@ return [
         'PDF'          => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'SnappyImage'  => Barryvdh\Snappy\Facades\SnappyImage::class,
         'Excel'        => Maatwebsite\Excel\Facades\Excel::class,
-        'Sentry' => Sentry\SentryLaravel\SentryFacade::class,
+        'Sentry'       => Sentry\SentryLaravel\SentryFacade::class,
+
     ],
 
 ];

@@ -39,8 +39,9 @@
     </head>
     <body>
         <div class="container">
-        <divclass="content">
-                <div class="title">Something went wrong.</div>
+            <div class="content">
+
+                <div class="title">Oh no! There has been an error.</div>
 
                 @if(app()->bound('sentry') && !empty(Sentry::getLastEventID()))
                     <div class="subtitle">Error ID: {{ Sentry::getLastEventID() }}</div>
