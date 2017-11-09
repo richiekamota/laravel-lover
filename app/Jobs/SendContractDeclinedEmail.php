@@ -44,7 +44,7 @@ class SendContractDeclinedEmail implements ShouldQueue
             'application' => $this->application,
             'user' => $this->user
         ], function ($message) {
-            $message->to("richiekamota@gmail.com");
+            $message->to("craig@swishproperties.co.za");
             $message->subject('An applicant has declined a contract');
         });
 

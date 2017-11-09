@@ -16,6 +16,8 @@ class AddContractDeclineReasonToApplication extends Migration
         Schema::table('applications', function (Blueprint $table) {
             $table->text("contract_decline_reason")->nullable();
         });
+
+        DB::statement("ALTER TABLE application_events MODIFY COLUMN action ENUM('Application approved', 'Application pending', 'Application declined', 'Contract Accepted', 'Application Cancelled','Contract declined')");
     }
 
     /**

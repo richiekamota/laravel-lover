@@ -37,7 +37,7 @@
                     </template>
                 </button>
             </div>
-            
+
             <div class="column">
                 <button type="submit" id="contract-approve" class="button button--decline --mt2 float-right" v-on:click="declineContract()">
                     <span v-if="loading">
@@ -46,13 +46,13 @@
 
                     <template v-if="!loading">
                         Decline Contract
-                    </template> 
+                    </template>
                 </button>
             </div>
-        </div> 
+        </div>
 
     </div>
-</template>  
+</template>
 
 <script>
 
@@ -82,7 +82,7 @@
             this.items = this.contract.items;
             this.contractUser = this.contract.user;
 
-            
+
             this.items = this.items.map(function(item){
                 item.checked = false;
                 return item;
@@ -207,10 +207,10 @@
             declineContract: function (){
                 swal({
                     title: 'Are you sure?',
-                    html:                    
-                    '<p>Please provide a reason for declining the contract, perhaps you wish to change something?</p><input type="text" id="swal-input1" class="swal2-input" placeholder="Tell us why you declined the contract">', 
+                    html:
+                    '<p>Please provide a reason for declining the contract, perhaps you wish to change something?</p><input type="text" id="swal-input1" class="swal2-input" placeholder="Tell us why you declined the contract">',
                     confirmButtonText: 'Submit',
-                    allowOutsideClick: true,           
+                    allowOutsideClick: true,
                     focusConfirm: false
                 })
                 .then(function (result) {
@@ -220,14 +220,14 @@
 
                         this.$http.post(
                             url,
-                            { 
+                            {
                                 'data' : $('#swal-input1').val(),
-                                'user_id' : this.contractUser.id, 
+                                'user_id' : this.contractUser.id,
                             }
 
                             ).then((response) => {
 
-                                if(response.status == 200){ 
+                                if(response.status == 200){
                                     swal("Cancellation Successful!","The contract has been cancelled", "success");
                                 }else{
                                     swal("Oh no!", "The submission failed!", "error");
@@ -241,7 +241,7 @@
                             this.displayError(err);
                         });
 
-                        }else{                        
+                        }else{
                             swal("Oh no!", "The submission failed! Please fill in the field properly", "error");
                         }
                     }.bind(this))
@@ -251,4 +251,4 @@
             }
         }
     }
-    </script>
+</script>
