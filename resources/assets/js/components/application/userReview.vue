@@ -755,7 +755,7 @@
                                 Resident ID:
                             </div>
                             <div class="column">
-                                <a v-bind:href="getDocumentDownloadLink(application.resident_id.id)">
+                                <a v-bind:href="getDocumentDownloadLink(application.resident_id)" target="_blank">
                                     Download
                                 </a>
                             </div>
@@ -769,7 +769,7 @@
                                 Resident Study Permit:
                             </div>
                             <div class="column">
-                                <a v-bind:href="getDocumentDownloadLink(application.resident_study_permit.id)">
+                                <a v-bind:href="getDocumentDownloadLink(application.resident_study_permit)"  target="_blank">
                                     Download
                                 </a>
                             </div>
@@ -784,7 +784,7 @@
                                 Resident Acceptance:
                             </div>
                             <div class="column">
-                                <a v-bind:href="getDocumentDownloadLink(application.resident_acceptance.id)">
+                                <a v-bind:href="getDocumentDownloadLink(application.resident_acceptance)"  target="_blank">
                                     Download
                                 </a>
                             </div>
@@ -799,7 +799,7 @@
                                 Resident Financial Aid:
                             </div>
                             <div class="column">
-                                <a v-bind:href="getDocumentDownloadLink(application.resident_financial_aid.id)">
+                                <a v-bind:href="getDocumentDownloadLink(application.resident_financial_aid)"  target="_blank">
                                     Download
                                 </a>
                             </div>
@@ -813,7 +813,7 @@
                                 Leaseholder ID:
                             </div>
                             <div class="column">
-                                <a v-bind:href="getDocumentDownloadLink(application.leaseholder_id.id)">
+                                <a v-bind:href="getDocumentDownloadLink(application.leaseholder_id)"  target="_blank">
                                     Download
                                 </a>
                             </div>
@@ -827,7 +827,7 @@
                                 Resident Proof of Address:
                             </div>
                             <div class="column">
-                                <a v-bind:href="getDocumentDownloadLink(application.leaseholder_address_proof.id)">
+                                <a v-bind:href="getDocumentDownloadLink(application.leaseholder_address_proof)"  target="_blank">
                                     Download
                                 </a>
                             </div>
@@ -842,7 +842,7 @@
                                 Leaseholder's payslip:
                             </div>
                             <div class="column">
-                                <a v-bind:href="getDocumentDownloadLink(application.leaseholder_payslip.id)">
+                                <a v-bind:href="getDocumentDownloadLink(application.leaseholder_payslip)"  target="_blank">
                                     Download
                                 </a>
                             </div>
@@ -908,7 +908,6 @@
             },
 
             getDocumentDownloadLink: (id) => {
-
                 return '/documents/' + id;
             },
 

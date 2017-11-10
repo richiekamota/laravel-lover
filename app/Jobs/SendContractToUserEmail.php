@@ -62,9 +62,11 @@ class SendContractToUserEmail implements ShouldQueue
             $m->cc($this->application->email);
             $m->subject('My Domain contract for review');
             $m->from('noreply@mydomain.co.za');
-            $m->attach($this->filePath);
+            $m->attach(storage_path($this->filePath));
         });
 
+        // After we have sent the email we remove the local file
+        unlink(storage_path($this->filePath));
 
     }
 }

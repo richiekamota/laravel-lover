@@ -185,6 +185,7 @@ return [
         Barryvdh\Snappy\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
+        Laravel\Tinker\TinkerServiceProvider::class,
 
 
     ],

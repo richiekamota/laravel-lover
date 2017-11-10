@@ -7,6 +7,8 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Contracts\Encryption\DecryptException;
 use PDF;
+use Storage;
+use File;
 use Illuminate\Http\Request;
 use Portal\Application;
 use Portal\ApplicationEvent;
@@ -161,7 +163,7 @@ class ContractsController extends Controller
             // Generate a PDF of the contract based on the application
             // The name should be the user first and last name and the date
             // eg FirstName20160424.pdf
-            $pdfName = ucfirst(preg_replace('/[^\w-]/', '', $applicationUser->first_name)) . ucfirst(preg_replace('/[^\w-]/', '', $applicationUser->last_name)) . \Carbon\Carbon::today()->toDateString();
+            $pdfName = ucfirst(preg_replace('/[^\w-]/', '', $applicationUser->first_name)) . ucfirst(preg_replace('/[^\w-]/', '', $applicationUser->last_name)) . \Carbon\Carbon::today()->toDateString() .'-'. \Carbon\Carbon::now()->toTimeString();
 
             $contract_data = Contract::where('id', '=', $contract->id)->with('items', 'user')->first();
             $contract_data->application = Application::findOrFail($contract_data->application_id);
@@ -207,23 +209,20 @@ class ContractsController extends Controller
             $contract_data->deposit_total = number_format($contract_data->deposit_total,2,".",",");
 
             $data = ['name' => $applicationUser->first_name, 'contract' => $contract_data];
-            $filePath = storage_path('contracts/' . $pdfName . '.pdf');
 
-            // Delete existing PDF
-            if (file_exists(storage_path('contracts/' . $pdfName . '.pdf'))) {
-                unlink(storage_path('contracts/' . $pdfName . '.pdf'));
-            }
-
-            $pdf = PDF::loadView('pdf.contract', $data)->save($filePath);
-
+            $fileFolderAndName = 'contracts/' . $pdfName . '.pdf';
+            
+            // Save the PDF locally so the email can get it
+            $pdf = PDF::loadView('pdf.contract', $data)->save(storage_path($fileFolderAndName));
+            // Save the PDF to S3 for keeping
+            Storage::put('contracts/'.$pdfName . '.pdf', $pdf->output());
+            // Update the document record
             $document = Document::create([
                 'user_id'   => $applicationUser->id,
-                'location'  => $pdfName . '.pdf',
+                'location'  => $fileFolderAndName,
                 'type'      => 'contract',
                 'file_name' => $pdfName . '.pdf'
             ]);
-
-            // TODO Save the PDF into S3
 
             // Generate a secure link for the user_id passed in
             $contract->secure_link = encrypt($applicationUser->email . '##' . $filePath);
@@ -241,7 +240,7 @@ class ContractsController extends Controller
             ]);
 
             // Generate the secure return email for this contract
-            dispatch(new SendContractToUserEmail($filePath, $applicationUser->id, $contract->secure_link, $application->id));
+            dispatch(new SendContractToUserEmail($fileFolderAndName, $applicationUser->id, $contract->secure_link, $application->id));
 
             DB::commit();
 
@@ -280,15 +279,19 @@ class ContractsController extends Controller
     public function show($secureLink)
     {
 
+        \Log::info('SHOW');
+
         // Decrypt the link
         try {
             $decrypted = decrypt($secureLink);
             $secureArray = explode("##", $decrypted);
 
-            abort_unless($secureArray[0] == Auth::user()->email, 401);
-
             // Find the secureLink in the DB
             $contract = Contract::whereSecureLink($secureLink)->with('items', 'user')->first();
+            
+            // Abort unless admin or owner of the contact
+            abort_unless(($contract->user_id == Auth::user()->id || Auth::user()->role != 'tenant'), 401);
+
             $contract->items = $contract->items->sortByDesc('cost');
             $contract->application = Application::findOrFail($contract->application_id);
             $contract->unit = Unit::with('unitType')->find($contract->unit_id);
@@ -354,10 +357,6 @@ class ContractsController extends Controller
             } else {
                 $contract->isSamePerson = false;
             }
-
-
-            // Check the secure link user_id matches that of the Auth::user()
-            abort_unless($contract->user_id == Auth::user()->id, 401);
 
             // Return the use the view with their contract details
             return view('contracts.review', compact('contract'));

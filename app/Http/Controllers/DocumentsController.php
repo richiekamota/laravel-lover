@@ -43,23 +43,25 @@ class DocumentsController extends Controller
 
         DB::beginTransaction();
 
+        // The type of document the user has uploaded
+        // eg 
         $type = $request->document_type;
 
         // Save the file into storage
-        $path = $request->file->store('documents');
+        $path = Storage::putFile('documents', $request->file);
+        // The new name of the file in storage
         $fileName = str_replace('documents/', '', $path);
-        // Split at . to leave only name left
-        $fileNameArray = explode('.', $fileName);
 
+        // Save the document to the DB
         $document = Document::create([
             'user_id'   => Auth::user()->id,
-            'location'  => $fileName,
+            'location'  => $path,
             'type'      => $type,
-            'file_name' => $fileNameArray[0]
+            'file_name' => $fileName
         ]);
-        $applicationData = $application->toArray();
-        $applicationData[$type] = $document->id;
-        $application->update($applicationData);
+
+        $application[$type] = $document->id;
+        $application->save();
 
         DB::commit();
 
@@ -78,20 +80,22 @@ class DocumentsController extends Controller
     {
 
         $document = Document::findOrFail($id);
+        // Abort unless the user is an admin or uploaded the document
+        abort_unless(($document->user_id === Auth::user()->id || Auth::user()->role != 'tenant'), 403);
 
-        \Log::info($document);
-
-        // abort unless Auth owns the doc ID
-        // abort_unless(($document->user_id == Auth::user()->id || Auth::user()->role != 'tenant'), 403);
-
-        if ($document->type == "contract") {
-            return response()->download(storage_path('contracts/' . $document->location));
-        }
-
-        // serve the doc back as a download
-        $storagePath = Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix();
-
-        return response()->download($storagePath . "documents/" . $document->location);
+        // Get the details from Storage, then stream them back to the 
+        // requester. This ensures the file path is not released
+        // to the client and the S3 bucket security is maintained
+        $s3Client = Storage::getAdapter()->getClient();
+        $stream = $s3Client->getObject([
+            'Bucket' => 'swish-portal',
+            'Key'    => $document->location
+        ]);
+        return response($stream['Body'], 200)->withHeaders([
+            'Content-Type'        => $stream['ContentType'],
+            'Content-Length'      => $stream['ContentLength'],
+            'Content-Disposition' => 'inline; filename="' . $document->file_name . '"'
+        ]);
 
     }
 
