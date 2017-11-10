@@ -279,8 +279,6 @@ class ContractsController extends Controller
     public function show($secureLink)
     {
 
-        \Log::info('SHOW');
-
         // Decrypt the link
         try {
             $decrypted = decrypt($secureLink);
@@ -288,7 +286,7 @@ class ContractsController extends Controller
 
             // Find the secureLink in the DB
             $contract = Contract::whereSecureLink($secureLink)->with('items', 'user')->first();
-            
+
             // Abort unless admin or owner of the contact
             abort_unless(($contract->user_id == Auth::user()->id || Auth::user()->role != 'tenant'), 401);
 
