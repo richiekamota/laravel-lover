@@ -197,7 +197,8 @@
                 filteredUsers: [],
                 editUser: {
                     id: '',
-                    tenant_code: ''
+                    tenant_code: '',
+                    contract_amended: ''
                 },
                 loading: false,
                 pagination: {
@@ -217,6 +218,12 @@
 
             this.filteredUsers = this.users;
             this.calculatePagination();
+
+            let contractAmendedDropzone = new Dropzone("#contract_amended", { url: "/documents/amendment" });
+            contractAmendedDropzone.on('sending', (file, xhr, data) => {
+            data.append("document_type", "contract_amended");
+            data.append("id", this.editUser.id);
+        });
         },
         methods: {
 
@@ -277,7 +284,6 @@
                     // There is an error, let's display an alert.
                     this.displayError(err);
                 });
-
             },
 
             submitForCancel: function (app_id) {
@@ -447,8 +453,6 @@
                 // Since Arrays start at 0 we need to increment this value
                 this.pagination.maxPages = Math.round((this.pagination.total / this.pagination.per_page));
             }
-
         }
     }
-
 </script>

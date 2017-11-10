@@ -154,4 +154,52 @@ class DocumentsApiTest extends Tests\TestCase
 
     }
 
+    /**
+     * Test that an uploaded file has been linked to an application
+     * and is listed in the DB
+     */
+    public function testUploadPassesWhenContractIsAmended()
+    {
+
+        $user = factory(Portal\User::class)->create([
+            'role' => 'admin'
+        ]);
+        $application = factory(Portal\Application::class)->create([
+            'user_id' => $user->id
+        ]);
+
+        $file = $this->getImageSetup();
+
+        $values = [
+            'document_type' => 'contract amended',
+            'id' => $application->id
+        ];
+
+        //  $this->actingAs($user)->json('POST', '/contracts', $values);
+
+        $this->actingAs( $user );
+        $response = $this->actingAs( $user )->call(
+            'POST',
+            'documents/application',
+            $values,
+            [],
+
+            [ 'file' => $file ],
+            [],
+            []
+        );
+
+        $this->assertEquals($response->getStatusCode(), 200);
+
+        // Check there is a document in the DB
+        $this->actingAs( $user )->seeInDatabase('documents', [
+            'type'    => $values['document_type'],
+            'user_id' => $user->id
+        ]);
+
+        $this->actingAs( $user )->seeInDatabase('contract_amendments', [
+            'document_id'    => $document_id,
+            'contract_id'    => $request->contract_id
+        ]);
+    }
 }

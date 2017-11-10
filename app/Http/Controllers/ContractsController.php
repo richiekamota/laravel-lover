@@ -65,7 +65,7 @@ class ContractsController extends Controller
      */
     public function store(ContractCreateRequest $request, $id = NULL)
     {
-        
+
         // about unless Auth is level above tenant
         $this->authorize('create', Contract::class);
         $filePath = FALSE;
@@ -75,7 +75,7 @@ class ContractsController extends Controller
         try {
 
             $oldContract = Contract::where('application_id', $id)
-                                    ->where('status', '<>', 'cancelled')                        
+                                    ->where('status', '<>', 'cancelled')
                                     ->first();
             // Cancell the existing applications if there are any
             if(!empty($oldContract)){

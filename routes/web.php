@@ -128,6 +128,7 @@ Route::group(['middleware' => 'auth'], function () {
     */
 
     Route::post('documents/application', 'DocumentsController@storeApplicationDocument');
+    Route::post('documents/amendment', 'DocumentsController@storeContractAmendmentDocument');
     Route::get('documents/{id}', 'DocumentsController@returnDocument');
 
     /*
