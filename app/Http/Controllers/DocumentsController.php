@@ -97,19 +97,16 @@ class DocumentsController extends Controller
     }
 
     /**
-     * Store an amended document in storage.
+     * Store an amended document in storage
      *
-     * @param ContractAmendmentRequest $request
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
     public function storeContractAmendmentDocument(Request $request)
     {
 
-        \Log::info($request->all());
-
         $validator = Validator::make($request->all(), [
-            'file'    => 'required',
+            'file'        => 'required',
             'contract_id' => 'required'
         ]);
 
@@ -152,8 +149,6 @@ class DocumentsController extends Controller
             ], 200);
 
         } catch (\Exception $e) {
-
-            \Log::info($e);
 
             DB::rollback();
 
