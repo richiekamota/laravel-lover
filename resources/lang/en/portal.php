@@ -84,7 +84,8 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'documents_store_error' => 'On no, there was an error saving the document, please try again',
+    'documents_store_error' => 'Oh no, there was an error saving the document, please try again',
+    'contracts_amendment_complete' => 'Great, the contract amendment has been saved',
 
     /*
     |--------------------------------------------------------------------------

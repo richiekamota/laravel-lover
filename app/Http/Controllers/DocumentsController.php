@@ -7,6 +7,7 @@ use DB;
 use Gate;
 use Illuminate\Http\Request;
 use Portal\Http\Requests\ContractAmendmentRequest;
+use Portal\ContractAmendment;
 use Portal\Application;
 use Portal\Document;
 use Response;
@@ -66,7 +67,6 @@ class DocumentsController extends Controller
         DB::commit();
 
         return response(200);
-
     }
 
     /**
@@ -103,8 +103,22 @@ class DocumentsController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function storeContractAmendmentDocument(ContractAmendmentRequest $request,$id)
+    public function storeContractAmendmentDocument(Request $request)
     {
+
+        \Log::info($request->all());
+
+        $validator = Validator::make($request->all(), [
+            'file'    => 'required',
+            'contract_id' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            \Log::info($validator->errors());
+            return Response::json([
+                'message' => json_encode($validator->errors())
+            ], 422);
+        }
 
         // abort unless Auth > tenant
         abort_unless(Gate::allows('is-admin'), 401);
@@ -113,29 +127,28 @@ class DocumentsController extends Controller
 
         try {
 
-        // Save the file into storage
-        $path = $request->file->store('documents');
-        $fileName = str_replace('documents/', '', $path);
-        // Split at . to leave only name left
-        $fileNameArray = explode('.', $fileName);
+            // Save the file into storage
+            $path = $request->file->store('amendedContracts');
+            $fileName = str_replace('amendedContracts/', '', $path);
+            // Split at . to leave only name left
+            $fileNameArray = explode('.', $fileName);
 
-        $document = Document::create([
-            'user_id'   => Auth::user()->id,
-            'location'  => $fileName,
-            'type'      => 'contract amendment',
-            'file_name' => $fileNameArray[0]
-        ]);
+            $document = Document::create([
+                'user_id'   => Auth::user()->id,
+                'location'  => $fileName,
+                'type'      => 'contract_amendment',
+                'file_name' => $fileNameArray[0]
+            ]);
 
-        $amendment = ContractAmendment::create([
+            $amendment = ContractAmendment::create([
+                'document_id'  => $document->id,
+                'contract_id'  => $request->contract_id
+            ]);
 
-            'document_id'  => $document->id,
-            'contract_id'  => $request->contract_id
-        ]);
+            DB::commit();
 
-        DB::commit();
-
-        return Response::json([
-            'message' => trans('portal.contracts_ammendment_complete')
+            return Response::json([
+                'message' => trans('portal.contracts_amendment_complete')
             ], 200);
 
         } catch (\Exception $e) {
@@ -144,9 +157,9 @@ class DocumentsController extends Controller
 
             DB::rollback();
 
-        return Response::json([
-            'error'   => 'contracts_ammendment_error',
-            'message' => trans('portal.contracts_decline_error' . json_encode($e)),
+            return Response::json([
+                'error'   => 'documents_store_error',
+                'message' => trans('portal.documents_store_error' . json_encode($e)),
             ], 422);
         }
     }

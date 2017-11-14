@@ -18,11 +18,6 @@ class ContractAmendment extends Model
 
     public $incrementing = false;
 
-    public function user()
-    {
-        return $this->belongsTo('Portal\User');
-    }
-
     public function contract()
     {
     	return $this->belongsTo('Portal\Contract');
@@ -30,6 +25,6 @@ class ContractAmendment extends Model
 
     public function document()
     {
-        return $this->hasMany('Portal\Document');
+        return $this->hasOne('Portal\Document');
     }
 }

@@ -14,10 +14,12 @@ class CreateContractAmendmentsTable extends Migration
     public function up()
     {
         Schema::create('contract_amendments', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id');
+            $table->primary('id');
             $table->uuid('document_id');
             $table->uuid('contract_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

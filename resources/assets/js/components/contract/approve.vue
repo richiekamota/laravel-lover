@@ -138,11 +138,11 @@
                         }
                     })
                     .catch(() => { });
-
-            },    
+            },
             submitApproval: function () {
 
                 this.loading = true;
+                console.log(this.contract);
 
                 this.$http.post(
                     '/contracts/' + this.contract.id + '/approved',

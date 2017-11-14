@@ -650,7 +650,7 @@
                             <!-- Comments -->
                             <label for="comments">
                                 <strong>Comments</strong> <br>
-                                <span>Please add a second choice of Unit Type below, should your preferred choice not be available.</span><br/> 
+                                <span>Please add a second choice of Unit Type below, should your preferred choice not be available.</span><br/>
                                 <textarea name="comments" v-model="appForm.comments"></textarea>
                             </label>
 

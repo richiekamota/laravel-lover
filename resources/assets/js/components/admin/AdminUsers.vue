@@ -5,7 +5,7 @@
             <div class="medium-9 columns">
                 <h2 class="--focused">UNITS | users currently signed up for the portal</h2>
                 <p>
-                    A full list of all the all users.
+                    A full list of all the users.
                 </p>
             </div>
         </div>
@@ -28,8 +28,6 @@
                                     <div class="small-4 medium-4 columns">Tenant Code</div>
                                 </h4>
                             </button>
-
-
                         </div>
                     </div>
 
@@ -43,7 +41,6 @@
 
                                     {{ filteredUser.first_name }} {{ filteredUser.last_name }} - {{ filteredUser.email }}
                                     <span class="--right">{{ filteredUser.tenant_code }}</span>
-
                                 </button>
                                 <!-- START Edit form -->
                                 <div class="accordion__content  --bg-calm">
@@ -80,7 +77,6 @@
                                                 </span>
                                             </button>
                                         </div>
-
                                     </label>
 
                                     <hr/>
@@ -107,12 +103,11 @@
                                             </div>
                                         </div>
                                     </template>
-                                    <template v-for="(filteredUsersContract, index) in filteredUser.contracts">
+                                    <template v-for="(filteredUsersContract, filterIndex) in filteredUser.contracts">
                                         <div class="row">
 
                                             <div class="small-6 medium-6 column">
-                                                <p>Unit {{filteredUsersContract.unit_code}}
-                                                </p>
+                                                <p>Unit {{filteredUsersContract.unit_code}}</p>
                                             </div>
                                             <div class="small-3 medium-3 column">
                                                 <p>{{filteredUsersContract.status}}</p>
@@ -124,13 +119,19 @@
                                                     |
                                                     <button v-on:click="submitForCancel(filteredUsersContract.application_id)" type="submit" class="error" v-bind:disabled="loading">CANCEL
                                                     </button>
+
+                                                    <button class="success" v-on:click="addAmendment(filteredUsersContract.id, 'amendDropZone' + index + filterIndex)" v-bind:disabled="loading">ADD AMENDMENT
+                                                    </button>
                                                 </p>
                                             </div>
                                         </div>
-
+                                        <div class="row" v-if="showAmendmentDropzone">
+                                            <div class="small-6 column">
+                                                <p>Please upload your amendment here.</p>
+                                                <div v-bind:id="'amendDropZone' + index + filterIndex" class="dropzone"></div>
+                                            </div>
+                                        </div>
                                     </template>
-
-
                                 </div>
                                 <!-- END Edit form -->
                             </div>
@@ -155,9 +156,7 @@
                         </ul>
                     </div>
                     <!-- END Pagination buttons -->
-
                 </div>
-
             </div>
 
             <div class="medium-3 columns">
@@ -183,9 +182,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
 </template>
 <script>
@@ -197,7 +194,6 @@
                 filteredUsers: [],
                 editUser: {
                     id: '',
-                    tenant_code: '',
                     contract_amended: ''
                 },
                 loading: false,
@@ -210,20 +206,18 @@
                     nextPage: 1,
                     previousPage: 1,
                     maxPages: 0
-                }
+                },
+                showAmendmentDropzone: false,
+                dropZone: {}
             }
         },
+
         mounted() {
             this.users = JSON.parse(this.propUsers);
 
             this.filteredUsers = this.users;
             this.calculatePagination();
 
-            let contractAmendedDropzone = new Dropzone("#contract_amended", { url: "/documents/amendment" });
-            contractAmendedDropzone.on('sending', (file, xhr, data) => {
-            data.append("document_type", "contract_amended");
-            data.append("id", this.editUser.id);
-        });
         },
         methods: {
 
@@ -234,6 +228,8 @@
             accordionToggle: function (index, event) {
                 event.preventDefault();
                 let selectedElement = event.target;
+                this.showAmendmentDropzone = false;
+                this.updateDropZone(false, false, false);
 
                 // Lets check the initial classes to see if we should close the current accordion or open a new one.
                 let shouldClose = !selectedElement.classList.contains('accordion__heading--active');
@@ -364,7 +360,6 @@
                 });
             },
 
-
             createEditableObject(index) {
                 // If we want to assign a completly new object which will not update the other form due to
                 // reactivity, we must manually assign whatever is needed.
@@ -377,7 +372,6 @@
                 this.editUser.email = this.filteredUsers[index].email;
                 this.editUser.tenant_code = this.filteredUsers[index].tenant_code;
             },
-
 
             displayError(err) {
                 // There is an error, let's display an alert.
@@ -402,7 +396,6 @@
                     confirmButtonText: "Ok"
                 });
             },
-
 
             filter() {
                 // Let's get a fresh list before filter.
@@ -431,8 +424,6 @@
                                     isValid = true;
                                 }
                             }
-
-
                         });
                         return isValid;
                     });
@@ -452,6 +443,40 @@
                 this.pagination.previousPage = this.pagination.currentPage - 1;
                 // Since Arrays start at 0 we need to increment this value
                 this.pagination.maxPages = Math.round((this.pagination.total / this.pagination.per_page));
+            },
+
+            addAmendment(contractId, dropZoneId) {
+
+                this.showAmendmentDropzone = !this.showAmendmentDropzone;
+                this.updateDropZone(contractId, dropZoneId, this.showAmendmentDropzone);
+            },
+
+            updateDropZone (contractId, dropZoneId, shouldCreate) {
+                if (shouldCreate) {
+                    Vue.nextTick(() => {
+                        this.dropZone = new Dropzone("#" + dropZoneId, {
+                            url: "/documents/amendment"
+                        });
+                        this.dropZone.on('sending', (file, xhr, data) => {
+                            data.append("document_type", "contract_amendment");
+                            data.append("contract_id", contractId);
+                        });
+                    });
+                } else {
+                    if(!this.isEmpty(this.dropZone)){
+                        Vue.nextTick(() => {
+                            this.dropZone.destroy();
+                        });
+                    }
+                }
+            },
+
+            isEmpty(obj) {
+                for(var key in obj) {
+                    if(obj.hasOwnProperty(key))
+                        return false;
+                }
+                return true;
             }
         }
     }

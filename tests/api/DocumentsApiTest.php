@@ -155,6 +155,7 @@ class DocumentsApiTest extends Tests\TestCase
     }
 
     /**
+     * @group failing
      * Test that an uploaded file has been linked to an application
      * and is listed in the DB
      */
@@ -164,15 +165,16 @@ class DocumentsApiTest extends Tests\TestCase
         $user = factory(Portal\User::class)->create([
             'role' => 'admin'
         ]);
-        $application = factory(Portal\Application::class)->create([
+
+        $contract = factory(Portal\Contract::class)->create([
             'user_id' => $user->id
         ]);
 
         $file = $this->getImageSetup();
 
         $values = [
-            'document_type' => 'contract amended',
-            'id' => $application->id
+            'document_type' => 'contract_amendment',
+            'contract_id' => $contract->id
         ];
 
         //  $this->actingAs($user)->json('POST', '/contracts', $values);
@@ -180,10 +182,9 @@ class DocumentsApiTest extends Tests\TestCase
         $this->actingAs( $user );
         $response = $this->actingAs( $user )->call(
             'POST',
-            'documents/application',
+            '/documents/amendment',
             $values,
             [],
-
             [ 'file' => $file ],
             [],
             []
@@ -198,8 +199,33 @@ class DocumentsApiTest extends Tests\TestCase
         ]);
 
         $this->actingAs( $user )->seeInDatabase('contract_amendments', [
-            'document_id'    => $document_id,
-            'contract_id'    => $request->contract_id
+            'contract_id' => $contract->id
         ]);
+    }
+
+    /*
+     * Test an document upload fails when
+     * a user is not admin
+     */
+     public function testUploadFailsWhenUserIsNotAdmin()
+    {
+
+        $user = factory(Portal\User::class)->create([
+            'role' => 'tenant'
+        ]);
+
+        $file = $this->getImageSetup();
+
+        $this->actingAs($user);
+        $response = $this->call(
+            'POST',
+            'documents/amendment',
+            [],
+            [],
+            [],
+            ['file' => $file]
+        );
+
+        $this->assertEquals($response->getStatusCode(), 422);
     }
 }

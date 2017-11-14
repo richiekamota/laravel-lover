@@ -7,6 +7,7 @@ use DB;
 use Portal\User;
 use Portal\Contract;
 use Portal\Unit;
+use Portal\ContractAmendment;
 use Illuminate\Http\Request;
 use Portal\Http\Requests\UserEditRequest;
 use Response;
@@ -23,6 +24,10 @@ class UsersController extends Controller
         abort_unless(Gate::allows('is-admin'), 401);
         $users = User::where("role","=","tenant")->get();
 
+        // $users = User::whereRole('tenant')
+        //              ->with(['unit','contract.contractAmendments'])
+        //              ->get();
+
         $usersArr = User::where("role","=","tenant")->get();
         $users = array();
         foreach ($usersArr->toArray() as $u) {
@@ -34,7 +39,15 @@ class UsersController extends Controller
 
                 $unit = Unit::where("id", "=", $c['unit_id'])->get()->toArray();
 
-                $c['unit_code'] = $unit[0]['code'];
+                if(!empty($unit)){
+                    $c['unit_code'] = $unit[0]['code'];
+                }
+
+                $amendments = ContractAmendment::whereContractId($c['id'])->get();
+                if(!empty($amendments)){
+                    $c['amendments'] = $amendments;
+                }
+
                 $u['contracts'][] = $c;
 
             }

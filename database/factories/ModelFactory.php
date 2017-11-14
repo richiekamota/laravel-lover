@@ -152,5 +152,14 @@ $factory->define(Portal\OccupationDate::class, function (Faker\Generator $faker)
         'end_date'   => \Carbon\Carbon::today()->addMonths(11),
         'status'     => "pending"
     ];
+});
+
+$factory->define(Portal\ContractAmendment::class, function (Faker\Generator $faker) {
+
+    return [
+        'id'        => Uuid::generate()->string,
+        'contract_id' => '460c117919ba8720624c6592acaacb88',
+        'document_id'   => '460c117919ba8720624c6592acaacb88'
+    ];
 
 });
