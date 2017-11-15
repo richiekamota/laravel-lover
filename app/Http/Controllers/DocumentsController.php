@@ -81,8 +81,6 @@ class DocumentsController extends Controller
 
         $document = Document::findOrFail($id);
 
-        \Log::info($document);
-
         // abort unless Auth owns the doc ID
         // abort_unless(($document->user_id == Auth::user()->id || Auth::user()->role != 'tenant'), 403);
 
@@ -111,7 +109,6 @@ class DocumentsController extends Controller
         ]);
 
         if ($validator->fails()) {
-            \Log::info($validator->errors());
             return Response::json([
                 'message' => json_encode($validator->errors())
             ], 422);

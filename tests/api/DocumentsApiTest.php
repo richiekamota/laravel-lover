@@ -204,7 +204,7 @@ class DocumentsApiTest extends Tests\TestCase
     }
 
     /*
-     * Test an document upload fails when
+     * Tests that a document upload fails when
      * a user is not admin
      */
      public function testUploadFailsWhenUserIsNotAdmin()
