@@ -461,76 +461,84 @@
             },
 
             exportToCSV: function () {
-                this.loading = true;
 
-                var i = 0;
-                var exportUnits = [];
-                while (i < this.filteredUnits.length) {
-                    exportUnits = exportUnits + ',' + this.filteredUnits[i].id;
-                    i++;
-                }
+                if (this.filteredUnits.length == 0) {
+                    return false;
 
-                var postArray = {
-                    location: this.filterLocation,
-                    start_date: this.filterStartDate,
-                    end_date: this.filterEndDate,
-                    occupation: this.occupied,
-                    export_ids: exportUnits
-                };
+                } else {
+                    this.loading = true;
 
-                this.$http.post(
-                    '/occupations/export',
-                    JSON.stringify(postArray)
-                ).then((response) => {
-                    swal({
-                        title: "Export to CSV",
-                        text: "Your CSV export will download shortly.",
-                        type: "success",
-                        confirmButtonText: "Ok",
-                    });
-
-                    var blob = response.body;
-                    var base64data = '';
-
-                    var reader = new window.FileReader();
-                    reader.readAsDataURL(blob);
-                    reader.onloadend = function () {
-                        base64data = reader.result;
-
-                        var encodedUri = base64data;
-                        var link = document.createElement("a");
-                        link.setAttribute("href", encodedUri);
-                        link.setAttribute("download", "export.csv");
-                        document.body.appendChild(link); // Required for FF
-
-                        link.click();
+                    var i = 0;
+                    var exportUnits = '';
+                    while (i < this.filteredUnits.length) {
+                        exportUnits = exportUnits + ',' + this.filteredUnits[i].id;
+                        i++;
                     }
 
-                    this.loading = false;
+                    var postArray = {
+                        location: this.filterLocation,
+                        start_date: this.filterStartDate,
+                        end_date: this.filterEndDate,
+                        occupation: this.occupied,
+                        export_ids: exportUnits
+                    };
 
-                }, (err) => {
-                    console.log("An error occured", err);
-                    let errorMessage = '';
-                    if (err.body.message) {
-                        errorMessage = err.body.message;
-                    } else {
-                        // This should occur if there are any validation errors.
-                        // Let's iterate over the list of errors.
-                        Object.keys(err.body).forEach(function (key) {
-                            let obj = err.body[key];
-                            obj = obj.toString();
-                            errorMessage = errorMessage + obj + '\r \n';
+                    this.$http.post(
+                        '/occupations/export',
+                        JSON.stringify(postArray)
+                    ).then((response) => {
+                        swal({
+                            title: "Export to CSV",
+                            text: "Your CSV export will download shortly.",
+                            type: "success",
+                            confirmButtonText: "Ok",
                         });
-                    }
-                    swal({
-                        title: "Error exporting data",
-                        text: errorMessage,
-                        type: "error",
-                        confirmButtonText: "Ok"
-                    });
 
-                    this.loading = false;
-                });
+                        var blob = new Blob([response.body], {type: "text/plain"});
+
+                        var base64data = '';
+
+                        var reader = new window.FileReader();
+
+                        reader.readAsDataURL(blob);
+                        reader.onloadend = function () {
+                            base64data = reader.result;
+
+                            var encodedUri = base64data;
+                            var link = document.createElement("a");
+                            link.setAttribute("href", encodedUri);
+                            link.setAttribute("download", "export.csv");
+                            document.body.appendChild(link); // Required for FF
+
+                            link.click();
+                        }
+
+                        this.loading = false;
+
+                        }, (err) => {
+                        console.log("An error occured", err);
+                        let errorMessage = '';
+                        if (err.body.message) {
+                            errorMessage = err.body.message;
+                        } else {
+                            // This should occur if there are any validation errors.
+                            // Let's iterate over the list of errors.
+                            Object.keys(err.body).forEach(function (key) {
+                                let obj = err.body[key];
+                                obj = obj.toString();
+                                errorMessage = errorMessage + obj + '\r \n';
+                            });
+                        }
+                        swal({
+                            title: "Error exporting data",
+                            text: errorMessage,
+                            type: "error",
+                            confirmButtonText: "Ok"
+                        });
+
+                        this.loading = false;
+                    });
+                }
             },
 
             calculatePagination() {

@@ -1,4 +1,9 @@
 {
+<<<<<<< HEAD
   "css/app.css": "css/app-7dc8b893ce.css",
   "js/app.js": "js/app-953699e592.js"
+=======
+  "css/app.css": "css/app-978ecb3b2d.css",
+  "js/app.js": "js/app-77a3168426.js"
+>>>>>>> origin/bugfix#104-unit_occupations_download_CSV
 }

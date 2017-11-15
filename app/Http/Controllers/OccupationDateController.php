@@ -179,11 +179,10 @@ class OccupationDateController extends Controller
     }
     //Updating lease end date changes in the database
     public function updateEndDate(Request $request, $id)
-    {          
+    {
         abort_unless(Gate::allows('is-admin'), 401);
 
         $updateEndDate = $request['date'];
-        
         DB::beginTransaction();
         try {
 
@@ -192,7 +191,7 @@ class OccupationDateController extends Controller
             DB::commit();
 
             return Response::json([
-                'message' => trans('End date succesfully updated!'),               
+                'message' => trans('End date succesfully updated!'),
             ], 200);
 
         } catch (\Exception $e) {

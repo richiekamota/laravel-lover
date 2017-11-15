@@ -49,7 +49,6 @@ class UsersController extends Controller
                 }
 
                 $u['contracts'][] = $c;
-
             }
             $users[] = $u;
         }
