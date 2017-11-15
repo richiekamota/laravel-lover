@@ -34,9 +34,10 @@ class UsersController extends Controller
 
                 $unit = Unit::where("id", "=", $c['unit_id'])->get()->toArray();
 
+                if($unit){
                 $c['unit_code'] = $unit[0]['code'];
                 $u['contracts'][] = $c;
-
+                }
             }
             $users[] = $u;
         }
