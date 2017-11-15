@@ -149,7 +149,7 @@
     </div>
 </template>
 <script>
-
+    
     import VueFlatpickr from 'vue-flatpickr';
 
     Vue.use(VueFlatpickr);
