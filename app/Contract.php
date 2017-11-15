@@ -49,4 +49,8 @@ class Contract extends Model
     public function items(){
         return $this->hasMany('Portal\ContractItem');
     }
+
+    public function contractAmendments(){
+        return $this->hasMany('Portal\ContractAmendments');
+    }
 }

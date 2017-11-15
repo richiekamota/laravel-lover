@@ -13,6 +13,7 @@ class VerifyCsrfToken extends BaseVerifier
      */
     protected $except = [
         'documents/application',
+        'documents/amendment',
         'application/*',
     ];
 }

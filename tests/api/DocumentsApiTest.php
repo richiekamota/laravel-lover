@@ -12,7 +12,7 @@ use Portal\Document;
 class DocumentsApiTest extends Tests\TestCase
 {
 
-    use DatabaseMigrations;
+    // use DatabaseMigrations;
     use DatabaseTransactions;
     use InteractsWithDatabase;
 
@@ -79,9 +79,6 @@ class DocumentsApiTest extends Tests\TestCase
             'id' => $application->id
         ];
 
-        //  $this->actingAs($user)->json('POST', '/contracts', $values);
-
-        $this->actingAs( $user );
         $response = $this->actingAs( $user )->call(
             'POST',
             'documents/application',
@@ -113,6 +110,7 @@ class DocumentsApiTest extends Tests\TestCase
     /**
      * Test that a user can download a given file URL
      * if they are the owner of that file
+     * @group failing
      */
     public function testUserCanDownloadFileWithId()
     {
@@ -120,10 +118,12 @@ class DocumentsApiTest extends Tests\TestCase
         $user = factory(Portal\User::class)->create([
             'role' => 'tenant'
         ]);
+
         $application = factory(Portal\Application::class)->create([
             'user_id' => $user->id
         ]);
 
+        // Setup Image in the DB to test against
         $file = $this->getImageSetup();
 
         $values = [
@@ -131,9 +131,6 @@ class DocumentsApiTest extends Tests\TestCase
             'id' => $application->id
         ];
 
-        //  $this->actingAs($user)->json('POST', '/contracts', $values);
-
-        $this->actingAs( $user );
         $response = $this->actingAs( $user )->call(
             'POST',
             'documents/application',
@@ -144,14 +141,87 @@ class DocumentsApiTest extends Tests\TestCase
             [],
             []
         );
+        // END of document setup
 
+        $document = Document::whereUserId($user->id)->first();
 
-        $document = Document::all()->last();
-
-        $response =  $this->call('GET', 'documents/' . $document->id);
-
-        $this->assertEquals($response->getStatusCode(), 200);
+        $this->actingAs($user);
+        $this->call('GET', "documents/" . $document->id);
+        $this->assertResponseStatus(200);
 
     }
 
+    /**
+     * Test that an uploaded file has been linked to an application
+     * and is listed in the DB
+     */
+    public function testUploadPassesWhenContractIsAmended()
+    {
+
+        $user = factory(Portal\User::class)->create([
+            'role' => 'admin'
+        ]);
+
+        $contract = factory(Portal\Contract::class)->create([
+            'user_id' => $user->id
+        ]);
+
+        $file = $this->getImageSetup();
+
+        $values = [
+            'document_type' => 'contract_amendment',
+            'contract_id' => $contract->id
+        ];
+
+        //  $this->actingAs($user)->json('POST', '/contracts', $values);
+
+        $this->actingAs( $user );
+        $response = $this->actingAs( $user )->call(
+            'POST',
+            '/documents/amendment',
+            $values,
+            [],
+            [ 'file' => $file ],
+            [],
+            []
+        );
+
+        $this->assertEquals($response->getStatusCode(), 200);
+
+        // Check there is a document in the DB
+        $this->actingAs( $user )->seeInDatabase('documents', [
+            'type'    => $values['document_type'],
+            'user_id' => $user->id
+        ]);
+
+        $this->actingAs( $user )->seeInDatabase('contract_amendments', [
+            'contract_id' => $contract->id
+        ]);
+    }
+
+    /*
+     * Tests that a document upload fails when
+     * a user is not admin
+     */
+    public function testUploadFailsWhenUserIsNotAdmin()
+    {
+
+        $user = factory(Portal\User::class)->create([
+            'role' => 'tenant'
+        ]);
+
+        $file = $this->getImageSetup();
+
+        $this->actingAs($user);
+        $response = $this->call(
+            'POST',
+            'documents/amendment',
+            [],
+            [],
+            [],
+            ['file' => $file]
+        );
+
+        $this->assertEquals($response->getStatusCode(), 422);
+    }
 }

@@ -20,12 +20,17 @@ class Document extends Model
         'location', 'user_id', 'type', 'file_name'
     ];
 
-    protected $dates = ['deleted_at'];
+    //protected $dates = ['deleted_at'];
 
     public $incrementing = false;
 
     public function user()
     {
         return $this->belongsTo('Portal\User');
+    }
+
+    public function contractAmendment()
+    {
+        return $this->belongsTo('Portal\ContractAmendment');
     }
 }

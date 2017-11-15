@@ -117,6 +117,7 @@ class ContractsApiTest extends Tests\TestCase
 
     /*
      * Test an item submission fails on unit type validation
+     * 
      */
     public function testPassValidation()
     {
@@ -150,14 +151,13 @@ class ContractsApiTest extends Tests\TestCase
             ])
             ->assertResponseStatus(200);
 
-        $pdfName = ucfirst(preg_replace('/[^\w-]/', '', $user->first_name)) . ucfirst(preg_replace('/[^\w-]/', '', $user->last_name)) . \Carbon\Carbon::today()->toDateString();
-        $uploaded = 'contracts' . DIRECTORY_SEPARATOR . $pdfName . '.pdf';
-        unlink(storage_path($uploaded));
+        
 
     }
 
     /**
      * Test for PDF creation
+     * @group failing
      */
     public function testPDFIsGenerated()
     {
@@ -191,12 +191,10 @@ class ContractsApiTest extends Tests\TestCase
             ])
             ->assertResponseStatus(200);
 
-        $pdfName = ucfirst(preg_replace('/[^\w-]/', '', $user->first_name)) . ucfirst(preg_replace('/[^\w-]/', '', $user->last_name)) . \Carbon\Carbon::today()->toDateString();
-        $uploaded = 'contracts' . DIRECTORY_SEPARATOR . $pdfName . '.pdf';
-        $this->assertFileExists(storage_path($uploaded));
+        $this->seeMessageFor($user->email);
+        $this->seeMessageWithSubject('My Domain contract for review');
+        $this->seeMessageFrom('noreply@mydomain.co.za');   
 
-        // remove the file after the test
-        unlink(storage_path($uploaded));
     }
 
     /**
@@ -247,10 +245,6 @@ class ContractsApiTest extends Tests\TestCase
         // Default is to search the html rendered view
         $this->assertTrue($this->lastMessage()->contains('Congratulations!'));
 
-        $pdfName = ucfirst(preg_replace('/[^\w-]/', '', $user->first_name)) . ucfirst(preg_replace('/[^\w-]/', '', $user->last_name)) . \Carbon\Carbon::today()->toDateString();
-        $uploaded = 'contracts' . DIRECTORY_SEPARATOR . $pdfName . '.pdf';
-        unlink(storage_path($uploaded));
-
     }
 
     /**
@@ -297,10 +291,6 @@ class ContractsApiTest extends Tests\TestCase
             'name'  => $items[0]->name,
             'value' => $items[0]->cost
         ]);
-
-        $pdfName = ucfirst(preg_replace('/[^\w-]/', '', $user->first_name)) . ucfirst(preg_replace('/[^\w-]/', '', $user->last_name)) . \Carbon\Carbon::today()->toDateString();
-        $uploaded = 'contracts' . DIRECTORY_SEPARATOR . $pdfName . '.pdf';
-        unlink(storage_path($uploaded));
 
     }
 

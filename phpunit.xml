@@ -33,12 +33,12 @@
         <env name="DB_HOST" value="localhost"/>
         <env name="DB_USERNAME" value="root"/>
         <env name="DB_PASSWORD" value="root"/>
-        <env name="PDF_BINARY" value="/usr/bin/wkhtmltopdf"/>
+        <env name="PDF_BINARY" value="/usr/local/bin/wkhtmltopdf"/>
         <env name="MAIL_DRIVER" value="smtp"/>
         <env name="MAIL_HOST" value="smtp.mailtrap.io"/>
         <env name="MAIL_PORT" value="2525"/>
-        <env name="MAIL_USERNAME" value="7825b85d6200be"/>
-        <env name="MAIL_PASSWORD" value="fe33de7e575ca3"/>
+        <env name="MAIL_USERNAME" value="31201c46aebafb6c3"/>
+        <env name="MAIL_PASSWORD" value="3c27c21faa5ee1"/>
         <env name="MAIL_ENCRYPTION" value="null"/>
     </php>
 </phpunit>
