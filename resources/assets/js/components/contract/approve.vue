@@ -137,7 +137,23 @@
                             throw null;
                         }
                     })
+                    .then(() => {
+
+                        // Sweet alert
+                        swal({
+                            title: "Confirm!",
+                            text: "You are about to approve the contract, please confirm this is the correct action.",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonText: "Ok"
+                        },
+                            () => {
+                                this.submitApproval();
+                            }
+                        );
+                    })
                     .catch(() => { });
+
             },
             submitApproval: function () {
 
