@@ -592,19 +592,19 @@
 
                             <!-- Resident Study permit -->
                             <label for="resident_study_permit">
-                                Resident Study Permit (optional)
+                                Resident Study Permit (Optional)
                                 <div id="resident_study_permit" name="resident_study_permit" class="dropzone"></div>
                             </label>
 
                             <!-- Resident Acceptance -->
                             <label for="resident_acceptance">
-                                Resident Acceptance Letter (optional)
+                                Resident Acceptance Letter (Optional)
                                 <div id="resident_acceptance" name="resident_acceptance" class="dropzone"></div>
                             </label>
 
                             <!-- Resident Financial Aid -->
                             <label for="resident_financial_aid">
-                                Resident Financial Aid *
+                                Resident Financial Aid (Optional)
                                 <div id="resident_financial_aid" name="resident_financial_aid" class="dropzone"></div>
                             </label>
 
@@ -792,7 +792,7 @@ export default {
             resident_id: '',
             resident_study_permit: false,
             resident_acceptance: '',
-            resident_financial_aid: '',
+            resident_financial_aid: false,
             leaseholder_id: '',
             leaseholder_address_proof: '',
             leaseholder_payslip: '',
@@ -1258,14 +1258,11 @@ export default {
                         comments: this.appForm.comments,
                         confirm: this.appForm.confirm,
                         confirm_time: this.appForm.confirm_time
-
                     };
 
                     break;
             }
         }
-
     }
 }
-
 </script>

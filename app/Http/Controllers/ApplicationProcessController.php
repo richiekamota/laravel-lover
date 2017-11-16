@@ -346,7 +346,7 @@ class ApplicationProcessController extends Controller
             $u->occupation_dates = $occupationDates->toArray();
             $availableUnits[] = $u;
         }
-        
+
         $availableUnits = json_encode($availableUnits);
 
         return view('applications.approve', compact('application', 'location', 'suggestedItems', 'items', 'availableUnits'));

@@ -101,17 +101,13 @@ class ApplicationController extends Controller
                 );
 
             } else {
-                \Log::info('error authing user');
+
             }
 
         } catch (\Exception $e) {
 
-            \Log::info($e);
-
             return redirect()->back()->withInput();
-
         }
-
     }
 
     /**
@@ -160,12 +156,10 @@ class ApplicationController extends Controller
                 );
 
             } else {
-                \Log::info('error authing user');
+
             }
 
         } catch (\Exception $e) {
-
-            \Log::info($e);
 
             //Bugsnag::notifyException($e);
 
@@ -173,9 +167,7 @@ class ApplicationController extends Controller
                 'error'   => 'application_form_step1_error',
                 'message' => trans('portal.application_form_step1_error'),
             ], 422);
-
         }
-
     }
 
     /**
@@ -275,8 +267,6 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
 
-            \Log::info($e);
-
             //Bugsnag::notifyException($e);
 
             DB::rollback();
@@ -285,10 +275,7 @@ class ApplicationController extends Controller
                 'error'   => 'application_form_step1_error',
                 'message' => $e,
             ], 422);
-
         }
-
-
     }
 
     /**
@@ -320,8 +307,6 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
 
-            \Log::info($e);
-
             //Bugsnag::notifyException($e);
 
             DB::rollback();
@@ -330,9 +315,7 @@ class ApplicationController extends Controller
                 'error'   => 'application_form_step2_error',
                 'message' => trans('portal.application_form_step2_error'),
             ], 422);
-
         }
-
     }
 
     /**
@@ -364,8 +347,6 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
 
-            \Log::info($e);
-
             //Bugsnag::notifyException($e);
 
             DB::rollback();
@@ -374,10 +355,7 @@ class ApplicationController extends Controller
                 'error'   => 'application_form_step3_error',
                 'message' => trans('portal.application_form_step3_error'),
             ], 422);
-
         }
-
-
     }
 
     /**
@@ -409,8 +387,6 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
 
-            \Log::info($e);
-
             //Bugsnag::notifyException($e);
 
             DB::rollback();
@@ -419,10 +395,7 @@ class ApplicationController extends Controller
                 'error'   => 'application_form_step4_error',
                 'message' => trans('portal.application_form_step4_error') . "<!-- " . $e . " -->",
             ], 422);
-
         }
-
-
     }
 
     /**
@@ -480,8 +453,6 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
 
-            \Log::info($e);
-
             //Bugsnag::notifyException($e);
 
             DB::rollback();
@@ -490,10 +461,7 @@ class ApplicationController extends Controller
                 'error'   => 'application_form_step5_error',
                 'message' => trans('portal.application_form_step5_error'),
             ], 422);
-
         }
-
-
     }
 
     /**
@@ -521,12 +489,9 @@ class ApplicationController extends Controller
             // Update the form
             $applicationForm->update($data);
 
-
             DB::commit();
 
         } catch (\Exception $e) {
-
-            \Log::info($e);
 
             //Bugsnag::notifyException($e);
 
@@ -574,6 +539,7 @@ class ApplicationController extends Controller
         try {
 
             // Update the form
+
             $applicationForm->update([
                 'step' => 8
             ]);
@@ -581,8 +547,6 @@ class ApplicationController extends Controller
             DB::commit();
 
         } catch (\Exception $e) {
-
-            \Log::info($e);
 
             //Bugsnag::notifyException($e);
 
@@ -640,8 +604,6 @@ class ApplicationController extends Controller
             DB::commit();
 
         } catch (\Exception $e) {
-
-            \Log::info($e);
 
             //Bugsnag::notifyException($e);
 
@@ -705,8 +667,6 @@ class ApplicationController extends Controller
             DB::commit();
 
         } catch (\Exception $e) {
-
-            \Log::info($e);
 
             //Bugsnag::notifyException($e);
 
@@ -788,17 +748,13 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
 
-            \Log::info($e);
-
             DB::rollback();
 
             return Response::json([
                 'error'   => 'application_form_cancel_error',
                 'message' => $e,
             ], 422);
-
         }
-
     }
 
     /**
@@ -864,7 +820,7 @@ class ApplicationController extends Controller
             'resident_id'                    => 'required',
             'resident_study_permit'          => 'sometimes',
             'resident_acceptance'            => 'sometimes',
-            'resident_financial_aid'         => 'required',
+            'resident_financial_aid'         => 'sometimes',
             'leaseholder_id'                 => 'required',
             'leaseholder_address_proof'      => 'required',
             'leaseholder_payslip'            => 'required',
@@ -886,11 +842,10 @@ class ApplicationController extends Controller
             'resident_id'               => 'required',
             'resident_study_permit'     => 'sometimes',
             'resident_acceptance'       => 'sometimes',
-            'resident_financial_aid'    => 'required',
+            'resident_financial_aid'    => 'sometimes',
             'leaseholder_id'            => 'required',
             'leaseholder_address_proof' => 'required',
             'leaseholder_payslip'       => 'required'
         ]);
     }
-
 }
