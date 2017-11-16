@@ -33,7 +33,7 @@
         <env name="DB_HOST" value="localhost"/>
         <env name="DB_USERNAME" value="root"/>
         <env name="DB_PASSWORD" value="radio"/>
-        <env name="PDF_BINARY" value="/usr/local/bin/wkhtmltopdf"/>
+        <env name="PDF_BINARY" value="/usr/local/bin/wkhtmltopdf-amd64"/>
         <env name="MAIL_DRIVER" value="smtp"/>
         <env name="MAIL_HOST" value="smtp.mailtrap.io"/>
         <env name="MAIL_PORT" value="2525"/>

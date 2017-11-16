@@ -159,7 +159,7 @@ class DocumentsApiTest extends Tests\TestCase
     {
 
         $user = factory(Portal\User::class)->create([
-            'role' => 'admin'
+             'role' => 'admin'
         ]);
 
         $contract = factory(Portal\Contract::class)->create([
@@ -168,12 +168,12 @@ class DocumentsApiTest extends Tests\TestCase
 
         $file = $this->getImageSetup();
 
-        $values = [
+       $values = [
             'document_type' => 'contract_amendment',
             'contract_id' => $contract->id
         ];
 
-        //  $this->actingAs($user)->json('POST', '/contracts', $values);
+      // $this->actingAs($user)->json('POST', '/contracts', $values);
 
         $this->actingAs( $user );
         $response = $this->actingAs( $user )->call(
@@ -223,5 +223,132 @@ class DocumentsApiTest extends Tests\TestCase
         );
 
         $this->assertEquals($response->getStatusCode(), 422);
+    }
+
+     /*
+     * Tests that a document upload fails when
+     * a user is not admin
+     */
+    public function testUploadPassesWhenResidentFinancialAidIsEmpty()
+    {
+
+        $user = factory(Portal\User::class)->create([
+            'role' => 'tenant'
+        ]);
+        $application = factory(Portal\Application::class)->create([
+            'user_id' => $user->id
+        ]);
+
+        $file = $this->getImageSetup();
+
+        $values = [
+            'document_type' => 'resident_financial_aid',
+            'id' => $application->id
+        ];
+
+        $response = $this->actingAs( $user )->call(
+            'POST',
+            'documents/application',
+            $values,
+            [],
+
+            [ 'file' => $file ],
+            [],
+            []
+        );
+
+        $this->assertEquals($response->getStatusCode(), 200);
+
+        // Find the updated application
+        $updatedApplication = Application::find($application->id);
+
+        // Check that the field resident_financial_aid is empty
+        $this->assertNotEquals($updatedApplication->resident_financial_aid, NULL);
+    }
+
+    /*
+     * Tests that a document upload passes when
+     * the acceptance letter is not uploaded
+     *
+     */
+
+     public function testUploadPassesWhenResidentAcceptanceIsEmpty()
+    {
+
+        $user = factory(Portal\User::class)->create([
+            'role' => 'tenant'
+        ]);
+        $application = factory(Portal\Application::class)->create([
+            'user_id' => $user->id
+        ]);
+
+        $file = $this->getImageSetup();
+
+        $values = [
+            'document_type' => 'resident_acceptance',
+            'id' => $application->id
+        ];
+
+        $response = $this->actingAs( $user )->call(
+            'POST',
+            'documents/application',
+            $values,
+            [],
+
+            [ 'file' => $file ],
+            [],
+            []
+        );
+
+        $this->assertEquals($response->getStatusCode(), 200);
+
+        // Find the updated application
+        $updatedApplication = Application::find($application->id);
+
+        // Check that the field resident_acceptance is empty
+        $this->assertNotEquals($updatedApplication->resident_acceptance, NULL);
+    }
+
+     /*
+     * Tests that a document upload fails when
+     * study permit is not uploaded
+     *
+     */
+
+     public function testUploadPassesWhenResidentStudyPermitIsEmpty()
+    {
+
+        $user = factory(Portal\User::class)->create([
+            'role' => 'tenant'
+        ]);
+        $application = factory(Portal\Application::class)->create([
+            'user_id' => $user->id
+        ]);
+
+        $file = $this->getImageSetup();
+
+        $values = [
+            'document_type' => 'resident_study_permit',
+            'id' => $application->id
+        ];
+
+        $response = $this->actingAs( $user )->call(
+            'POST',
+            'documents/application',
+            $values,
+            [],
+
+            [ 'file' => $file ],
+            [],
+            []
+        );
+
+        $this->assertEquals($response->getStatusCode(), 200);
+
+        // Find the updated application
+        $updatedApplication = Application::find($application->id);
+
+        // Check that the field resident_study_permit is empty
+        $this->assertNotEquals($updatedApplication->resident_study_permit, NULL);
     }
 }
