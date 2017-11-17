@@ -101,13 +101,17 @@ class ApplicationController extends Controller
                 );
 
             } else {
-
+                \Log::info('error authing user');
             }
 
         } catch (\Exception $e) {
 
+            \Log::info($e);
+
             return redirect()->back()->withInput();
+
         }
+
     }
 
     /**
@@ -156,10 +160,12 @@ class ApplicationController extends Controller
                 );
 
             } else {
-
+                \Log::info('error authing user');
             }
 
         } catch (\Exception $e) {
+
+            \Log::info($e);
 
             //Bugsnag::notifyException($e);
 
@@ -267,6 +273,8 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
 
+            \Log::info($e);
+
             //Bugsnag::notifyException($e);
 
             DB::rollback();
@@ -306,6 +314,8 @@ class ApplicationController extends Controller
             DB::commit();
 
         } catch (\Exception $e) {
+
+            \Log::info($e);
 
             //Bugsnag::notifyException($e);
 
@@ -347,6 +357,8 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
 
+            \Log::info($e);
+
             //Bugsnag::notifyException($e);
 
             DB::rollback();
@@ -386,6 +398,8 @@ class ApplicationController extends Controller
             DB::commit();
 
         } catch (\Exception $e) {
+
+            \Log::info($e);
 
             //Bugsnag::notifyException($e);
 
@@ -453,6 +467,8 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
 
+            \Log::info($e);
+
             //Bugsnag::notifyException($e);
 
             DB::rollback();
@@ -489,9 +505,12 @@ class ApplicationController extends Controller
             // Update the form
             $applicationForm->update($data);
 
+
             DB::commit();
 
         } catch (\Exception $e) {
+
+            \Log::info($e);
 
             //Bugsnag::notifyException($e);
 
@@ -501,10 +520,7 @@ class ApplicationController extends Controller
                 'error'   => 'application_form_step6_error',
                 'message' => trans('portal.application_form_step6_error'),
             ], 422);
-
         }
-
-
     }
 
     /**
@@ -539,7 +555,6 @@ class ApplicationController extends Controller
         try {
 
             // Update the form
-
             $applicationForm->update([
                 'step' => 8
             ]);
@@ -547,6 +562,8 @@ class ApplicationController extends Controller
             DB::commit();
 
         } catch (\Exception $e) {
+
+            \Log::info($e);
 
             //Bugsnag::notifyException($e);
 
@@ -556,10 +573,7 @@ class ApplicationController extends Controller
                 'error'   => 'application_form_step7_error',
                 'message' => trans('portal.application_form_step7_error'),
             ], 422);
-
         }
-
-
     }
 
     /**
@@ -605,6 +619,8 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
 
+            \Log::info($e);
+
             //Bugsnag::notifyException($e);
 
             DB::rollback();
@@ -613,10 +629,7 @@ class ApplicationController extends Controller
                 'error'   => 'application_form_step8_error',
                 'message' => trans('portal.application_form_step8_error'),
             ], 422);
-
         }
-
-
     }
 
     /**
@@ -668,6 +681,8 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
 
+            \Log::info($e);
+
             //Bugsnag::notifyException($e);
 
             DB::rollback();
@@ -676,9 +691,7 @@ class ApplicationController extends Controller
                 'error'   => 'application_form_step8_error',
                 'message' => $e,
             ], 422);
-
         }
-
     }
 
     /**
@@ -693,7 +706,6 @@ class ApplicationController extends Controller
 
         // abort unless logged in user owns this application form
         // It must also not be submission
-
     }
 
     /**
@@ -748,13 +760,17 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
 
+            \Log::info($e);
+
             DB::rollback();
 
             return Response::json([
                 'error'   => 'application_form_cancel_error',
                 'message' => $e,
             ], 422);
+
         }
+
     }
 
     /**
@@ -848,4 +864,5 @@ class ApplicationController extends Controller
             'leaseholder_payslip'       => 'required'
         ]);
     }
+
 }
