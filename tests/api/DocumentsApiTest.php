@@ -12,7 +12,6 @@ use Portal\Document;
 class DocumentsApiTest extends Tests\TestCase
 {
 
-    // use DatabaseMigrations;
     use DatabaseTransactions;
     use InteractsWithDatabase;
 

@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Portal\Jobs\SendContractToUserEmail;
 use MailThief\Testing\InteractsWithMail;
 use Carbon\Carbon;
@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class ContractsApiTest extends Tests\TestCase
 {
 
-    use DatabaseMigrations;
+    use DatabaseTransactions;
 
     // Provides convenient testing traits and initializes MailThief
     use InteractsWithMail;
