@@ -20,6 +20,7 @@ use Portal\Http\Requests\ApplicationStepThreeRequest;
 use Portal\Http\Requests\ApplicationStepTwoRequest;
 use Portal\Http\Requests\ApplicationSubmitRequest;
 use Portal\Jobs\SendContractCancelledEmail;
+use Portal\Jobs\SendApplicationSubmittedEmail;
 use Portal\Location;
 use Portal\UnitType;
 use Portal\User;
@@ -701,6 +702,9 @@ class ApplicationController extends Controller
             unset($data['leaseholder_payslip']);
 
             $applicationForm->update($data);
+
+             //Send an email to the admin to notify them of the application
+            dispatch(new SendApplicationSubmittedEmail($applicationForm));
 
             DB::commit();
 
