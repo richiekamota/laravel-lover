@@ -13,8 +13,6 @@ class SendApplicationSubmittedEmail implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $user;
-    protected $reason;
     protected $application;
 
     /**
@@ -40,8 +38,8 @@ class SendApplicationSubmittedEmail implements ShouldQueue
         Mail::send('emails.SendApplicationSubmittedEmail', [
             'application' => $this->application,
         ], function ($message) {
-            $message->to("info@mydomainliving.co.za");
-            $message->subject('A new application has been made!');
+            $message->to('info@mydomainliving.co.za');
+            $message->subject('A new application has been received!');
         });
 
     }

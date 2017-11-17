@@ -150,9 +150,6 @@ class ContractsApiTest extends Tests\TestCase
                 'status'               => 'pending'
             ])
             ->assertResponseStatus(200);
-
-        
-
     }
 
     /**
@@ -193,7 +190,7 @@ class ContractsApiTest extends Tests\TestCase
 
         $this->seeMessageFor($user->email);
         $this->seeMessageWithSubject('My Domain contract for review');
-        $this->seeMessageFrom('noreply@mydomain.co.za');   
+        $this->seeMessageFrom('noreply@mydomain.co.za');
 
     }
 
