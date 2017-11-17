@@ -101,11 +101,14 @@ class ApplicationController extends Controller
                 );
 
             } else {
+
+                //Logging information for live testing
                 \Log::info('error authing user');
             }
 
         } catch (\Exception $e) {
 
+            //Logging info for live testing
             \Log::info($e);
 
             return redirect()->back()->withInput();
@@ -160,11 +163,13 @@ class ApplicationController extends Controller
                 );
 
             } else {
+
                 \Log::info('error authing user');
             }
 
         } catch (\Exception $e) {
 
+            //Logging info for live testing
             \Log::info($e);
 
             //Bugsnag::notifyException($e);
@@ -273,6 +278,7 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
 
+            //Logging info for live testing
             \Log::info($e);
 
             //Bugsnag::notifyException($e);
@@ -315,6 +321,7 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
 
+            //Logging info for live testing
             \Log::info($e);
 
             //Bugsnag::notifyException($e);
@@ -357,6 +364,7 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
 
+            //Logging info for live testing
             \Log::info($e);
 
             //Bugsnag::notifyException($e);
@@ -399,6 +407,7 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
 
+            //Logging info for live testing
             \Log::info($e);
 
             //Bugsnag::notifyException($e);
@@ -467,6 +476,7 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
 
+            //Logging info for live testing
             \Log::info($e);
 
             //Bugsnag::notifyException($e);
@@ -510,6 +520,7 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
 
+            //Logging info for live testing
             \Log::info($e);
 
             //Bugsnag::notifyException($e);
@@ -563,6 +574,7 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
 
+            //Logging info for live testing
             \Log::info($e);
 
             //Bugsnag::notifyException($e);
@@ -619,6 +631,7 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
 
+            //Logging info for live testing
             \Log::info($e);
 
             //Bugsnag::notifyException($e);
@@ -681,6 +694,7 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
 
+            //Logging info for live testing
             \Log::info($e);
 
             //Bugsnag::notifyException($e);
@@ -760,6 +774,7 @@ class ApplicationController extends Controller
 
         } catch (\Exception $e) {
 
+            //Logging info for live testing
             \Log::info($e);
 
             DB::rollback();
@@ -864,5 +879,4 @@ class ApplicationController extends Controller
             'leaseholder_payslip'       => 'required'
         ]);
     }
-
 }
