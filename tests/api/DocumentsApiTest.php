@@ -159,7 +159,7 @@ class DocumentsApiTest extends Tests\TestCase
     {
 
         $user = factory(Portal\User::class)->create([
-             'role' => 'admin'
+            'role' => 'admin'
         ]);
 
         $contract = factory(Portal\Contract::class)->create([
@@ -168,7 +168,7 @@ class DocumentsApiTest extends Tests\TestCase
 
         $file = $this->getImageSetup();
 
-       $values = [
+        $values = [
             'document_type' => 'contract_amendment',
             'contract_id' => $contract->id
         ];
@@ -226,10 +226,10 @@ class DocumentsApiTest extends Tests\TestCase
     }
 
      /*
-     * Tests that a document upload fails when
-     * a user is not admin
+     * Tests that a document financial aid upload succeeds
+     *
      */
-    public function testUploadPassesWhenResidentFinancialAidIsEmpty()
+    public function testUploadPassesWhenResidentFinancialAidUploads()
     {
 
         $user = factory(Portal\User::class)->create([
@@ -267,12 +267,12 @@ class DocumentsApiTest extends Tests\TestCase
     }
 
     /*
-     * Tests that a document upload passes when
-     * the acceptance letter is not uploaded
+     * Tests that a resident acceptance upload succeeds
+     *
      *
      */
 
-     public function testUploadPassesWhenResidentAcceptanceIsEmpty()
+     public function testUploadPassesWhenResidentAcceptanceUploads()
     {
 
         $user = factory(Portal\User::class)->create([
@@ -309,13 +309,12 @@ class DocumentsApiTest extends Tests\TestCase
         $this->assertNotEquals($updatedApplication->resident_acceptance, NULL);
     }
 
-     /*
-     * Tests that a document upload fails when
-     * study permit is not uploaded
+    /*
+     * Tests that a document resident study permit upload succeeds
      *
      */
 
-     public function testUploadPassesWhenResidentStudyPermitIsEmpty()
+    public function testUploadPassesWhenResidentStudyPermitUploads()
     {
 
         $user = factory(Portal\User::class)->create([
@@ -350,5 +349,52 @@ class DocumentsApiTest extends Tests\TestCase
 
         // Check that the field resident_study_permit is empty
         $this->assertNotEquals($updatedApplication->resident_study_permit, NULL);
+    }
+
+
+     public function testApplicationPassesWhenOptionalUploadsAreEmpty()
+    {
+
+        $user = factory(Portal\User::class)->create([
+            'role' => 'tenant'
+        ]);
+        $application = factory(Portal\Application::class)->create([
+            'user_id' => $user->id
+        ]);
+
+        $file = $this->getImageSetup();
+
+        $values = [
+            'document_type' => 'resident_id',
+            'id' => $application->id
+        ];
+
+        $response = $this->actingAs( $user )->call(
+            'POST',
+            'documents/application',
+            $values,
+            [],
+
+            [ 'file' => $file ],
+            [],
+            []
+        );
+
+        $this->assertEquals($response->getStatusCode(), 200);
+
+        // Check there is a document in the DB
+        $this->actingAs( $user )->seeInDatabase('documents', [
+            'type'    => $values['document_type'],
+            'user_id' => $user->id
+        ]);
+
+        // Find the updated application
+        $updatedApplication = Application::find($application->id);
+
+        // Check that the field resident_id is not empty, this
+        // will have been filled in with the id of the document
+        $this->assertEquals($updatedApplication->resident_financial_aid, NULL);
+        $this->assertEquals($updatedApplication->resident_acceptance, NULL);
+        $this->assertEquals($updatedApplication->resident_study_permit, NULL);
     }
 }
