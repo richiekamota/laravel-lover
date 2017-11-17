@@ -9,3 +9,4 @@ reports/
 selenium-debug.log
 /bin
 /storage/contracts
+phpunit.xml
