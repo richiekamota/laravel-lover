@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="bootstrap/autoload.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         syntaxCheck="false"
+>
+    <testsuites>
+        <testsuite name="API Test Suite">
+            <directory suffix="Test.php">./tests/api</directory>
+        </testsuite>
+        <testsuite name="Frontend Test Suite">
+            <directory suffix="Test.php">./tests/frontend</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./app</directory>
+        </whitelist>
+    </filter>
+    <php>
+        <env name="APP_ENV" value="local"/>
+        <env name="CACHE_DRIVER" value="file"/>
+        <env name="SESSION_DRIVER" value="file"/>
+        <env name="QUEUE_DRIVER" value="sync"/>
+        <env name="DB_CONNECTION" value="mysql"/>
+        <env name="DB_DATABASE" value="portal"/>
+        <env name="DB_HOST" value="localhost"/>
+        <env name="DB_USERNAME" value="root"/>
+        <env name="DB_PASSWORD" value="root"/>
+        <env name="PDF_BINARY" value="/usr/local/bin/wkhtmltopdf-amd64"/>
+        <env name="MAIL_DRIVER" value="smtp"/>
+        <env name="MAIL_HOST" value="smtp.mailtrap.io"/>
+        <env name="MAIL_PORT" value="2525"/>
+        <env name="MAIL_USERNAME" value="31201c46aebafb6c3"/>
+        <env name="MAIL_PASSWORD" value="3c27c21faa5ee1"/>
+        <env name="MAIL_ENCRYPTION" value="null"/>
+    </php>
+</phpunit>
