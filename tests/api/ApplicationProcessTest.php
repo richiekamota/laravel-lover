@@ -67,7 +67,7 @@ class ApplicationProcessTest extends Tests\TestCase
     }
 
     /**
-     * Test that a user can view the pending
+     * Test that a user can view the request changes
      */
     public function testCanSeeRequestChangesPage()
     {
@@ -80,7 +80,6 @@ class ApplicationProcessTest extends Tests\TestCase
 
     /**
      * Test an contract submission can be marked back to draft
-     * @group test
      */
     public function testRequestChangesToApplication()
     {

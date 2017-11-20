@@ -906,8 +906,6 @@
                 application: {},
                 location: {},
                 unitTypes: [],
-                declineInput: false,
-                showStep: 0,
                 loading: false
             }
         },
@@ -917,15 +915,12 @@
             this.application = JSON.parse(this.propApplication);
             this.location = JSON.parse(this.propLocation);
             this.unitTypes = JSON.parse(this.propUnitTypes);
-            this.declineInput = false;
 
         },
 
         methods: {
 
             accordionToggle: function (step, event) {
-
-
 
                 event.preventDefault();
 
@@ -940,7 +935,6 @@
             },
 
             getDocumentDownloadLink: (id) => {
-
                 return '/documents/' + id;
             },
 

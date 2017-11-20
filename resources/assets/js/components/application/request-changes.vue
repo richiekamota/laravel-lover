@@ -16,9 +16,7 @@
                     <div class="column">
                         <label for="changesRequestedComment">
                             Your message to the applicant
-                            <textarea name="changesRequestedComment" id="changesRequestedComment" cols="30" rows="3" placeholder="Type your message to the applicant here"
-                                v-model="requestChangesInput"></textarea>
-                                {{requestChangesInput}}
+                            <textarea name="changesRequestedComment" id="changesRequestedComment" cols="30" rows="3" placeholder="Type your message to the applicant here" v-model="requestChangesInput"></textarea>
                         </label>
                     </div>
                 </div>
@@ -931,7 +929,6 @@
             return {
                 application: {},
                 requestChangesInput: '',
-                showStep: 0,
                 loading: false
             }
         },
@@ -954,6 +951,10 @@
 
             },
 
+            getDocumentDownloadLink: (id) => {
+                return '/documents/' + id;
+            },
+
             toNiceDate: (date) => {
                 return moment(date).format("dddd, MMMM Do YYYY");
             },
@@ -963,7 +964,7 @@
                 this.loading = true;
 
                 this.$http.post(
-                    '/application/' + this.application.id + '/processChangesRequested',
+                    '/application/' + this.application.id + '/changes',
                     {
                         'reason': this.requestChangesInput
                     }
