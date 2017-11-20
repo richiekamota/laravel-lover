@@ -10,7 +10,7 @@ class ApplicationProcessTest extends Tests\TestCase
 
     use DatabaseTransactions;
 
-   // Provides convenient testing traits and initializes MailThief
+    // Provides convenient testing traits and initializes MailThief
     use InteractsWithMail;
 
     /**
@@ -231,7 +231,7 @@ class ApplicationProcessTest extends Tests\TestCase
         $this->seeMessageFor('info@mydomainliving.co.za');
 
         // Make sure the email has the correct subject
-        $this->seeMessageWithSubject('A new application has been received!');
+        $this->seeMessageWithSubject('A new application has been made!');
 
         // Make sure the email was sent from the correct address
         $this->seeMessageFrom('info@mydomainliving.co.za');

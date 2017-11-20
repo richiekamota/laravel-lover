@@ -38,8 +38,8 @@ class SendApplicationSubmittedEmail implements ShouldQueue
         Mail::send('emails.SendApplicationSubmittedEmail', [
             'application' => $this->application,
         ], function ($message) {
-            $message->to('info@mydomainliving.co.za');
-            $message->subject('A new application has been received!');
+            $message->to("info@mydomainliving.co.za");
+            $message->subject('A new application has been made!');
         });
 
     }

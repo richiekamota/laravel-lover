@@ -89,6 +89,18 @@
 
                         <div class="row">
                             <div class="column">
+                                Name:
+                            </div>
+                            <div class="column">
+                                {{application.first_name}} {{application.last_name}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table__row table__row--padded even">
+
+                        <div class="row">
+                            <div class="column">
                                 Email:
                             </div>
                             <div class="column">
@@ -608,7 +620,7 @@
                                 Unit Location:
                             </div>
                             <div class="column">
-                                {{application.unit_location}}
+                                {{application.location.name}}
                             </div>
                         </div>
                     </div>
@@ -620,7 +632,7 @@
                                 Unit Type:
                             </div>
                             <div class="column">
-                                {{application.unit_type}}
+                                {{application.unit_type.name}}
                             </div>
                         </div>
                     </div>
@@ -632,7 +644,7 @@
                                 Rental Cost Split:
                             </div>
                             <div class="column">
-                                {{application.unit_fee_split}}
+                                {{ boolToText(application.unit_fee_split) }}
                             </div>
                         </div>
                     </div>
@@ -668,7 +680,7 @@
                                 Motor vehicle parking bay:
                             </div>
                             <div class="column">
-                                {{application.unit_car_parking}}
+                                {{boolToText(application.unit_car_parking)}}
                             </div>
                         </div>
                     </div>
@@ -680,7 +692,7 @@
                                 Motorcycle parking bay:
                             </div>
                             <div class="column">
-                                {{application.unit_bike_parking}}
+                                {{boolToText(application.unit_bike_parking)}}
                             </div>
                         </div>
                     </div>
@@ -692,7 +704,7 @@
                                 DSTV:
                             </div>
                             <div class="column">
-                                {{application.unit_tv}}
+                                {{boolToText(application.unit_tv)}}
                             </div>
                         </div>
                     </div>
@@ -704,7 +716,7 @@
                                 Storeroom
                             </div>
                             <div class="column">
-                                {{application.unit_storeroom}}
+                                {{boolToText(application.unit_storeroom)}}
                             </div>
                         </div>
                     </div>
@@ -738,7 +750,7 @@
                                 Judgements:
                             </div>
                             <div class="column">
-                                {{application.judgements}}
+                                {{boolToText(application.judgements)}}
                             </div>
                         </div>
                     </div>
@@ -1011,7 +1023,10 @@
         props: ['propApplication'],
         data() {
             return {
-                application: {},
+                application: {
+                    'location': {},
+                    'unit_type': {}
+                },
                 declineInput: false,
                 loading: false
             }
@@ -1019,11 +1034,16 @@
         mounted() {
 
             this.application = JSON.parse(this.propApplication);
+            console.log(this.application);
             this.declineInput = false;
 
         },
 
         methods: {
+
+            boolToText: (input) => {
+                return (input) ? 'True' : 'False';
+            },
 
             toNiceDate: (date) => {
                 return moment(date).format("dddd, MMMM Do YYYY");

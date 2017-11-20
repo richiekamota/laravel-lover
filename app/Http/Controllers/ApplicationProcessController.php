@@ -38,7 +38,7 @@ class ApplicationProcessController extends Controller
     {
 
         // Find the application based on the ID
-        $application = Application::find($id);
+        $application = Application::with(['location', 'unitType'])->find($id);
         $contract = Contract::where('application_id','=',$id)->first();
         $application->contract = $contract;
 
@@ -346,7 +346,7 @@ class ApplicationProcessController extends Controller
             $u->occupation_dates = $occupationDates->toArray();
             $availableUnits[] = $u;
         }
-        
+
         $availableUnits = json_encode($availableUnits);
 
         return view('applications.approve', compact('application', 'location', 'suggestedItems', 'items', 'availableUnits'));
