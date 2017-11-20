@@ -66,6 +66,48 @@ class ApplicationProcessTest extends Tests\TestCase
 
     }
 
+    /**
+     * Test that a user can view the request changes
+     */
+    public function testCanSeeRequestChangesPage()
+    {
+
+        $this->actingAs( $this->user )
+            ->visit('/application/'. $this->application->id.'/changes')
+            ->assertResponseStatus(200);
+
+    }
+
+    /**
+     * Test an contract submission can be marked back to draft
+     */
+    public function testRequestChangesToApplication()
+    {
+
+        $this->actingAs( $this->user )
+            ->json( 'POST', '/application/' . $this->application->id . '/changes', [
+                'reason' => 'Please change these fields'
+            ] )
+            ->assertResponseStatus( 200 )
+
+            ->seeInDatabase( 'applications', [
+                'id' => $this->application->id,
+                'status' => 'draft'
+            ] )
+            ->seeInDatabase( 'application_events', [
+                'application_id' => $this->application->id,
+                'user_id' => $this->user->id,
+                'action' => 'Application changes requested',
+                'note' => 'Please change these fields'
+            ] );
+
+        $this->seeMessageFor($this->userTenant->email);
+        $this->seeMessageWithSubject('We need some changes made to your application');
+        $this->seeMessageFrom('info@mydomainliving.co.za');
+        $this->assertTrue($this->lastMessage()->contains('To update your application please login to the MD Portal at'));
+        
+    }
+
     /*
      * Test an contract submission fails on user id validation
      */

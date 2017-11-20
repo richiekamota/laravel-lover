@@ -40,6 +40,7 @@ Vue.component('tenant-contracts', require('./components/dashboard/TenantContract
 
 Vue.component('application-review', require('./components/application/review.vue'));
 Vue.component('application-pending', require('./components/application/pending.vue'));
+Vue.component('application-request-changes', require('./components/application/request-changes.vue'));
 Vue.component('application-approve', require('./components/application/approve.vue'));
 
 Vue.component('contract-approve', require('./components/contract/approve.vue'));

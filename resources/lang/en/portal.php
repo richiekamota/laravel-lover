@@ -28,7 +28,18 @@ return [
     'application_form_step8_error'  => 'There has been an error saving your submission, please try again.',
     'application_form_cancel_error' => 'There has been an error cancelling your application, please try again.',
     'application_form_new_error'    => 'You already have an active draft application. Please complete or cancel this application before attempting to create a new one.',
-
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Application Process
+    |--------------------------------------------------------------------------
+    */
+    'process_decline_complete'              => 'The application has been marked declined and the user emailed.',
+    'process_decline_error'                 => 'There was an error marking your application declined',
+    'process_changes_requested_complete'    => 'The application has been marked draft and the user emailed.',
+    'process_changes_requested_error'       => 'There was an error marking your application draft',
+    'process_cancel_complete'               => 'The application has been marked cancelled and the user emailed',
+    'process_cancel_error'                  => 'There was an error marking your application cancelled',
 
     /*
     |--------------------------------------------------------------------------

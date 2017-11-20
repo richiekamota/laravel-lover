@@ -10,11 +10,13 @@ use Portal\ApplicationEvent;
 use Portal\Http\Requests\ApplicationApproveRequest;
 use Portal\Http\Requests\ApplicationDeclineRequest;
 use Portal\Http\Requests\ApplicationPendingRequest;
+use Portal\Http\Requests\ApplicationDraftRequest;
 use Portal\Http\Requests\ApplicationCancelRequest;
 use Portal\Item;
 use Portal\Jobs\SendApplicationAcceptedEmail;
 use Portal\Jobs\SendApplicationDeclinedEmail;
 use Portal\Jobs\SendApplicationPendingEmail;
+use Portal\Jobs\SendApplicationChangesRequestedEmail;
 use Portal\Jobs\SendApplicationRenewalEmail;
 use Portal\Jobs\SendContractCancelledEmail;
 use Portal\Location;
@@ -45,6 +47,79 @@ class ApplicationProcessController extends Controller
         // return the view to the user
         return view('applications.review', compact('application'));
 
+    }
+
+    /**
+     * View the chagnes requested page
+     *
+     * @param $id
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function changesRequested($id)
+    {
+
+        $this->authorize('review', Application::class);
+
+        $application = Application::with([
+            'user',
+            'residentId',
+            'residentStudyPermit',
+            'residentAcceptance',
+            'residentFinancialAid',
+            'leaseholderId',
+            'leaseholderAddressProof',
+            'leaseholderPayslip',
+        ])->find($id);
+
+        return view('applications.changesRequested', compact('application'));
+
+    }
+
+    /**
+     * Mark an applcation back to draft so a user can edit
+     */
+    public function processChangesRequested(ApplicationDraftRequest $request, $id)
+    {
+        // Abort unless its policy approves
+        $this->authorize('draft', Application::class);
+
+        DB::beginTransaction();
+
+        try {
+
+            $application = Application::findOrFail($id);
+
+            $application->status = 'draft';
+            $application->save();
+
+            ApplicationEvent::create([
+                'user_id'        => Auth::user()->id,
+                'application_id' => $id,
+                'action'         => 'Application changes requested',
+                'note'           => $request->reason
+            ]);
+
+            dispatch(new SendApplicationChangesRequestedEmail($application->user, $application, $request->reason));
+
+            DB::commit();
+
+            return Response::json([
+                'message' => trans('portal.process_changes_requested_complete')
+            ], 200);
+
+        } catch (\Exception $e) {
+
+            \Log::info($e); // LIVE log of issue
+
+            DB::rollback();
+
+            return Response::json([
+                'error'   => 'process_changes_requested_error',
+                'message' => trans('portal.process_changes_requested_error').json_encode($e),
+            ], 422);
+
+        }
     }
 
     /**
@@ -88,9 +163,7 @@ class ApplicationProcessController extends Controller
 
         } catch (\Exception $e) {
 
-            \Log::info($e);
-
-            //Bugsnag::notifyException($e);
+            \Log::info($e); // LIVE log of issue
 
             DB::rollback();
 
@@ -100,12 +173,6 @@ class ApplicationProcessController extends Controller
             ], 422);
 
         }
-
-        // Update the application status
-
-        // Email the user with the reason
-
-        // Return the updated application to the user
 
 
     }
@@ -175,9 +242,7 @@ class ApplicationProcessController extends Controller
 
         } catch (\Exception $e) {
 
-            \Log::info($e);
-
-            //Bugsnag::notifyException($e);
+            \Log::info($e); // LIVE log of issue
 
             DB::rollback();
 
@@ -285,9 +350,7 @@ class ApplicationProcessController extends Controller
 
         } catch (\Exception $e) {
 
-            \Log::info($e);
-
-            //Bugsnag::notifyException($e);
+            \Log::info($e); // LIVE log of issue
 
             DB::rollback();
 
@@ -364,7 +427,6 @@ class ApplicationProcessController extends Controller
     {
 
         // Validation handled in Request
-
         try {
 
             // Create new application based on existing approved application
@@ -383,9 +445,7 @@ class ApplicationProcessController extends Controller
 
         } catch (\Exception $e) {
 
-            \Log::info($e);
-
-            //Bugsnag::notifyException($e);
+            \Log::info($e); // LIVE log of issue
 
             return Response::json([
                 'error'   => 'application_form_step1_error',

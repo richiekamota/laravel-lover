@@ -939,6 +939,16 @@
 
                     <div class="row column">
 
+                        <a v-bind:href="getRequestChangesUrl(application.id)">
+                            <button id="request-changes-application" class="button button--request-changes --expanded">
+                                Request Changes
+                            </button>
+                        </a>
+
+                    </div>
+
+                    <div class="row column">
+
                         <a v-bind:href="getPendingUrl(application.id)">
                             <button id="pending-application" class="button button--pending --expanded">
                                 Pending
@@ -1071,6 +1081,9 @@
             },
             getPendingUrl: (id) => {
                 return "/application/" + id + "/pending";
+            },
+            getRequestChangesUrl: (id) => {
+                return "/application/" + id + "/changes";
             },
 
             decline: function () {
