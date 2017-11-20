@@ -105,29 +105,21 @@ class ApplicationProcessController extends Controller
             DB::commit();
 
             return Response::json([
-                'message' => trans('portal.process_decline_complete')
+                'message' => trans('portal.process_changes_requested_complete')
             ], 200);
 
         } catch (\Exception $e) {
 
-            \Log::info($e);
-
-            //Bugsnag::notifyException($e);
+            \Log::info($e); // LIVE log of issue
 
             DB::rollback();
 
             return Response::json([
-                'error'   => 'process_decline_error',
-                'message' => trans('portal.process_decline_error').json_encode($e),
+                'error'   => 'process_changes_requested_error',
+                'message' => trans('portal.process_changes_requested_error').json_encode($e),
             ], 422);
 
         }
-
-        // Update the application status
-
-        // Email the user with the reason
-
-        // Return the updated application to the user
     }
 
     /**
@@ -171,9 +163,7 @@ class ApplicationProcessController extends Controller
 
         } catch (\Exception $e) {
 
-            \Log::info($e);
-
-            //Bugsnag::notifyException($e);
+            \Log::info($e); // LIVE log of issue
 
             DB::rollback();
 
@@ -183,12 +173,6 @@ class ApplicationProcessController extends Controller
             ], 422);
 
         }
-
-        // Update the application status
-
-        // Email the user with the reason
-
-        // Return the updated application to the user
 
 
     }
@@ -258,9 +242,7 @@ class ApplicationProcessController extends Controller
 
         } catch (\Exception $e) {
 
-            \Log::info($e);
-
-            //Bugsnag::notifyException($e);
+            \Log::info($e); // LIVE log of issue
 
             DB::rollback();
 
@@ -368,9 +350,7 @@ class ApplicationProcessController extends Controller
 
         } catch (\Exception $e) {
 
-            \Log::info($e);
-
-            //Bugsnag::notifyException($e);
+            \Log::info($e); // LIVE log of issue
 
             DB::rollback();
 
@@ -447,7 +427,6 @@ class ApplicationProcessController extends Controller
     {
 
         // Validation handled in Request
-
         try {
 
             // Create new application based on existing approved application
@@ -466,9 +445,7 @@ class ApplicationProcessController extends Controller
 
         } catch (\Exception $e) {
 
-            \Log::info($e);
-
-            //Bugsnag::notifyException($e);
+            \Log::info($e); // LIVE log of issue
 
             return Response::json([
                 'error'   => 'application_form_step1_error',
