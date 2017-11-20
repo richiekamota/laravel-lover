@@ -20,7 +20,7 @@
 
                     <div class="table__row table__row--padded last">
                         <div class="row column">
-                            {{application.user.first_name}} {{application.user.last_name}}
+                            {{application.first_name}} {{application.last_name}}
                         </div>
                         <div class="row column">
                             Location: {{application.location.name}} - Type: {{application.unit_type.name}}
