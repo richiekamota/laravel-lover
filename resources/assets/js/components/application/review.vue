@@ -89,10 +89,22 @@
 
                         <div class="row">
                             <div class="column">
-                                Name:
+                                First Name:
                             </div>
                             <div class="column">
-                                {{application.first_name}} {{application.last_name}}
+                                {{application.first_name}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table__row table__row--padded">
+
+                        <div class="row">
+                            <div class="column">
+                                Last Name:
+                            </div>
+                            <div class="column">
+                                {{application.last_name}}
                             </div>
                         </div>
                     </div>
