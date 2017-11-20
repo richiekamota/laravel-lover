@@ -93,4 +93,22 @@ class ApplicationPolicy
 
     }
 
+    /**
+     * Can the logged in user mark this application draft
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function draft( User $user )
+    {
+
+        if ( $user->role != 'tenant' ) {
+            return TRUE;
+        }
+
+        return FALSE;
+
+    }
+
 }

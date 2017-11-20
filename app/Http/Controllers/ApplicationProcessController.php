@@ -10,11 +10,13 @@ use Portal\ApplicationEvent;
 use Portal\Http\Requests\ApplicationApproveRequest;
 use Portal\Http\Requests\ApplicationDeclineRequest;
 use Portal\Http\Requests\ApplicationPendingRequest;
+use Portal\Http\Requests\ApplicationDraftRequest;
 use Portal\Http\Requests\ApplicationCancelRequest;
 use Portal\Item;
 use Portal\Jobs\SendApplicationAcceptedEmail;
 use Portal\Jobs\SendApplicationDeclinedEmail;
 use Portal\Jobs\SendApplicationPendingEmail;
+use Portal\Jobs\SendApplicationChangesRequestedEmail;
 use Portal\Jobs\SendApplicationRenewalEmail;
 use Portal\Jobs\SendContractCancelledEmail;
 use Portal\Location;
@@ -45,6 +47,87 @@ class ApplicationProcessController extends Controller
         // return the view to the user
         return view('applications.review', compact('application'));
 
+    }
+
+    /**
+     * View the chagnes requested page
+     *
+     * @param $id
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function changesRequested($id)
+    {
+
+        $this->authorize('review', Application::class);
+
+        $application = Application::with([
+            'user',
+            'residentId',
+            'residentStudyPermit',
+            'residentAcceptance',
+            'residentFinancialAid',
+            'leaseholderId',
+            'leaseholderAddressProof',
+            'leaseholderPayslip',
+        ])->find($id);
+
+        return view('applications.changesRequested', compact('application'));
+
+    }
+
+    /**
+     * Mark an applcation back to draft so a user can edit
+     */
+    public function processChangesRequested(ApplicationDraftRequest $request, $id)
+    {
+        // Abort unless its policy approves
+        $this->authorize('draft', Application::class);
+
+        DB::beginTransaction();
+
+        try {
+
+            $application = Application::findOrFail($id);
+
+            $application->status = 'draft';
+            $application->save();
+
+            ApplicationEvent::create([
+                'user_id'        => Auth::user()->id,
+                'application_id' => $id,
+                'action'         => 'Application changes requested',
+                'note'           => $request->reason
+            ]);
+
+            dispatch(new SendApplicationChangesRequestedEmail($application->user, $application, $request->reason));
+
+            DB::commit();
+
+            return Response::json([
+                'message' => trans('portal.process_decline_complete')
+            ], 200);
+
+        } catch (\Exception $e) {
+
+            \Log::info($e);
+
+            //Bugsnag::notifyException($e);
+
+            DB::rollback();
+
+            return Response::json([
+                'error'   => 'process_decline_error',
+                'message' => trans('portal.process_decline_error').json_encode($e),
+            ], 422);
+
+        }
+
+        // Update the application status
+
+        // Email the user with the reason
+
+        // Return the updated application to the user
     }
 
     /**
