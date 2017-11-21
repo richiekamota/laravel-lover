@@ -20,7 +20,10 @@
 
                     <div class="table__row table__row--padded last">
                         <div class="row column">
-                            {{application.first_name}} {{application.last_name}}
+                            Leaseholder: {{application.first_name}} {{application.last_name}}
+                        </div>
+                        <div class="row column">
+                            Resident: {{application.resident_first_name}} {{application.resident_last_name}}
                         </div>
                         <div class="row column">
                             Location: {{application.location.name}} - Type: {{application.unit_type.name}}
