@@ -63,7 +63,7 @@
                 <select class="styled-select" name="selectedUnit" v-model="selectedUnit" required v-if="filteredUnits.length != 0">
 
                     <option v-for="unit in filteredUnits" v-bind:value="unit.id">
-                        {{ unit.code }}
+                        {{ unit.code }} - {{unit.unit_type.name}}
                     </option>
                 </select>
                 <p v-else>
