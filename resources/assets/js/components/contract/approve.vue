@@ -85,7 +85,7 @@
             this.items = this.contract.items;
             this.contractUser = this.contract.user;
 
-
+            console.log(this.contract);
             this.items = this.items.map(function (item) {
                 item.checked = false;
                 return item;

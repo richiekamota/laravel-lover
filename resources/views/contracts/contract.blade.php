@@ -1,7 +1,7 @@
 <div class="contract">
 
     <div class="page" style="page-break-after: always; page-break-inside: avoid;">
-        <h3 class="--text-center">{{$contract['unit']['name']}} LEASE AGREEMENT AND TENANT RULES</h3>
+        <h3 class="--text-center">{{strtoupper($contract['unit']['unitType']['name'])}} LEASE AGREEMENT AND TENANT RULES</h3>
 
         <h4 class="--text-center">Between</h4>
         </br>
@@ -13,22 +13,25 @@
         <h4 class="--text-center">
             <!-- If the sa_id_number or passport and different from the resident_sa_id_number -->
             @if($contract['isSamePerson'])
-                The "Leaseholder" / The "Tenant" ID / Passport Number:</br>
+                The "Leaseholder" / The "Tenant":</br>
                 @if ($contract['application']['sa_id_number'] != '')
-                    {{$contract['application']['sa_id_number']}}
+                    Name: {{$contract['application']['first_name']}} {{$contract['application']['last_name']}}<br><br>
+                    ID / Passport Number: {{$contract['application']['sa_id_number']}}
                 @else
                     {{$contract['application']['passport_number']}}
                 @endif
             @else
-                The "Tenant" ID / Passport Number:</br>
+                The "Tenant":</br>
                 @if ($contract['application']['resident_sa_id_number'] != '')
-                    {{$contract['application']['resident_sa_id_number']}}
+                    Name: {{$contract['application']['resident_first_name']}} {{$contract['application']['resident_last_name']}}<br>
+                    ID / Passport Number: {{$contract['application']['resident_sa_id_number']}}
                 @else
                     {{$contract['application']['resident_passport_number']}}
                 @endif </br>
-                The "Leaseholder" ID / Passport Number:</br>
+                The "Leaseholder":</br>
                 @if ($contract['application']['sa_id_number'] != '')
-                    {{$contract['application']['sa_id_number']}}
+                    Name: {{$contract['application']['first_name']}} {{$contract['application']['last_name']}}<br>
+                    ID / Passport Number: {{$contract['application']['sa_id_number']}}
                 @else
                     {{$contract['application']['passport_number']}}
                 @endif 
@@ -86,6 +89,39 @@
             </tr>
             </tbody>
         </table>
+        <div class="h4 --mt1">LEASEHOLDERS'S DETAILS</div>
+        <table class="--expanded">
+            <tbody>
+            <tr>
+                <td width="30%">Full Name</td>
+                <td>{{$contract['application']['first_name']}} {{$contract['application']['last_name']}}</td>
+            </tr>
+            <tr>
+                <td width="30%">Identity or Passport Number</td>
+                <td>  @if ($contract['application']['sa_id_number'] != '')
+                        {{$contract['application']['sa_id_number']}}
+                    @else
+                        {{$contract['application']['passport_number']}}
+                    @endif</td>
+            </tr>
+            <tr>
+                <td width="30%">Physical Address</td>
+                <td>{{$contract['application']['current_address']}}</td>
+            </tr>
+            <tr>
+                <td width="30%">Telephone Number</td>
+                <td>{{$contract['application']['phone_mobile']}}</td>
+            </tr>
+            <tr>
+                <td width="30%">Email Address</td>
+                <td>{{$contract['application']['email']}}</td>
+            </tr>
+            <tr>
+                <td width="30%">Lease Period</td>
+                <td>{{$contract['length']}} months</td>
+            </tr>
+            </tbody>
+        </table>
         <div class="h4 --mt1">TENANT'S DETAILS</div>
         <table class="--expanded">
             <tbody>
@@ -103,7 +139,7 @@
             </tr>
             <tr>
                 <td width="30%">Physical Address</td>
-                <td>{{$contract['application']['resident_current_address']}}</td>
+                <td>{{$contract['unit']['code']}} {{$contract['unit']['name']}} {{$contract['location']['name']}}, {{$contract['location']['address']}}, {{$contract['location']['city']}} {{$contract['location']['region']}}</td>
             </tr>
             <tr>
                 <td width="30%">Telephone Number</td>
@@ -115,7 +151,7 @@
             </tr>
             <tr>
                 <td width="30%">Lease Period</td>
-                <td>{{$contract['application']['unit_lease_length']}} months</td>
+                <td>{{$contract['length']}} months</td>
             </tr>
             </tbody>
         </table>
@@ -124,7 +160,7 @@
             <tbody>
             <tr>
                 <td width="30%">Lease Period</td>
-                <td>{{$contract['application']['unit_lease_length']}} months</td>
+                <td>{{$contract['length']}} months</td>
             </tr>
             <tr>
                 <td width="30%">Start Date</td>
@@ -226,6 +262,13 @@
                     , {{$contract['location']['address']}}
                     , {{$contract['location']['city']}} {{$contract['location']['region']}}</li>
                 <li>The "Landlord" means My Domain Rentals (Pty) Ltd (represented by Chrystal Grauso);</li>
+                <li>
+                    The "Leaseholder" means {{$contract['application']['first_name']}} {{$contract['application']['last_name']}} - ID @if ($contract['application']['sa_id_number'] != '')
+                        {{$contract['application']['sa_id_number']}}
+                    @else
+                        {{$contract['application']['passport_number']}}
+                    @endif 
+                </li>
                 <li>
                     The "Tenant" means {{$contract['application']['resident_first_name']}} {{$contract['application']['resident_last_name']}} - ID @if ($contract['application']['resident_sa_id_number'] != '')
                         {{$contract['application']['resident_sa_id_number']}}
@@ -1011,7 +1054,7 @@
             <p>Letters or Notices delivered to the My Domain Units by hand or sent to the email addresses below, shall
                 be considered received on the date of delivery or transmission.</p>
             <p>Landlord: angelo@swishproperties.co.za</p>
-            <p>Tenant: runyararonaz@gmail.com</p>
+            <p>Tenant: {{$contract['application']}}</p>
         </li>
         <li>
             <div class="h4">COSTS</div>
