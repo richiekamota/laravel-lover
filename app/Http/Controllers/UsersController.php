@@ -22,11 +22,8 @@ class UsersController extends Controller
     {
 
         abort_unless(Gate::allows('is-admin'), 401);
+        
         $users = User::where("role","=","tenant")->get();
-
-        // $users = User::whereRole('tenant')
-        //              ->with(['unit','contract.contractAmendments'])
-        //              ->get();
 
         $usersArr = User::where("role","=","tenant")->get();
         $users = array();

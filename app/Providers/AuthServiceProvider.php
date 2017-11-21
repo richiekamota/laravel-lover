@@ -33,7 +33,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define( 'is-admin', function ( $user ) {
-            return $user->role == 'admin';
+            return $user->role != 'tenant';
         } );
 
         Gate::define( 'is-tenant', function ( $user ) {

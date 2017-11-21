@@ -15,6 +15,15 @@ class UserTableSeeder extends Seeder
 
         DB::table( 'users' )->insert( [
             'id'         => Uuid::generate()->string,
+            'first_name' => "Phil",
+            'last_name'  => "Benoit",
+            'email'      => 'phil@incendiaryblue.com',
+            'password'   => bcrypt( 'qwerty123' ),
+            'role'       => 'admin'
+        ] );
+
+        DB::table( 'users' )->insert( [
+            'id'         => Uuid::generate()->string,
             'first_name' => "Catherine",
             'last_name'  => "Dohlhoff",
             'email'      => 'Catherine@swishproperties.co.za',
