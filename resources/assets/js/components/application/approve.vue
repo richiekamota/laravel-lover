@@ -20,7 +20,10 @@
 
                     <div class="table__row table__row--padded last">
                         <div class="row column">
-                            {{application.first_name}} {{application.last_name}}
+                            Leaseholder: {{application.first_name}} {{application.last_name}}
+                        </div>
+                        <div class="row column">
+                            Resident: {{application.resident_first_name}} {{application.resident_last_name}}
                         </div>
                         <div class="row column">
                             Location: {{application.location.name}} - Type: {{application.unit_type.name}}
@@ -60,7 +63,7 @@
                 <select class="styled-select" name="selectedUnit" v-model="selectedUnit" required v-if="filteredUnits.length != 0">
 
                     <option v-for="unit in filteredUnits" v-bind:value="unit.id">
-                        {{ unit.code }}
+                        {{ unit.code }} - {{unit.unit_type.name}}
                     </option>
                 </select>
                 <p v-else>
@@ -329,7 +332,7 @@
                     // Redirect user to dashboard
                     swal({
                         title: "Success!",
-                        text: "The application has been marked pending and the applicant has been emailed.",
+                        text: "The contract has been marked pending and the applicant has been emailed.",
                         type: "success",
                         confirmButtonText: "Ok"
                     },

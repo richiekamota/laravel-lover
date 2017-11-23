@@ -398,7 +398,8 @@ class ApplicationProcessController extends Controller
 
         $items = Item::all();
 
-        $availableUnitsArr = Unit::where('user_id', '=', '')
+        $availableUnitsArr = Unit::with('unitType')
+            ->where('user_id', '=', '')
             ->orWhere('user_id', '=', NULL)
             ->where('type_id', $application->unit_type)
             ->get();

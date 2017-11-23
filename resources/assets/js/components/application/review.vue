@@ -865,7 +865,7 @@
 
                         <div class="row">
                             <div class="column">
-                                Resident Proof of Address:
+                                Leaseholder Proof of Address:
                             </div>
                             <div class="column">
                                 <a v-bind:href="getDocumentDownloadLink(application.leaseholder_address_proof)">
@@ -1064,7 +1064,7 @@
         methods: {
 
             boolToText: (input) => {
-                return (input) ? 'True' : 'False';
+                return (input) ? 'Yes' : 'No';
             },
 
             toNiceDate: (date) => {

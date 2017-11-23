@@ -34,7 +34,7 @@ class UnitPolicy
      * @param  \Portal\Unit  $unit
      * @return mixed
      */
-    public function view(User $user, Unit $unit)
+    public function view(User $user)
     {
         if ($user->role != 'tenant') {
             return true;
