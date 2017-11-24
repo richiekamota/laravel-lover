@@ -492,10 +492,14 @@
             <p>The Tenant is expected to carefully inspect the Unit and report any damage in writing to My Domain
                 Management within twenty four (24) hours of moving in. My Domain Management will follow up on all
                 reported problems and take corrective action as appropriate.</p>
-            
+
             <p>
                 {{$contract['unit_description']}}
-            </p>    
+            </p>
+
+             <p>
+                {{$contract['unit_furnishings']}}
+            </p>
 
             <p>The Tenant accepts responsibility for these items on occupation.</p>
             <p>The Tenant must supply his own linen, i.e. pillows, sheets, blankets or duvets, pillowcases, curtain(s)

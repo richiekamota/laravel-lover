@@ -55,6 +55,12 @@
                                         <input type="number" ref="unitTypeOccupants" id="unitTypeOccupants" name="unitTypeOccupants" v-model="newUnitType.occupants">
                                     </label>
 
+                                    <label for="editUnitTypeDescription">
+                                        Furnishings
+                                        <textarea ref="unitTypeFurnishings" id="unitTypeFurnishings" name="unitTypeFurnishings" v-model="newUnitType.furnishings"></textarea>
+                                    </label>
+
+
                                     <!--<label for="unitTypeCost">-->
                                     <!--Unit type Cost*-->
                                     <!--<input type="number" ref="unitTypeCost" id="unitTypeCost" name="unitTypeCost" v-model="newUnitType.cost">-->
@@ -122,9 +128,7 @@
                                         </span>
                                     </button>
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
 
@@ -163,6 +167,11 @@
                                     <label for="unitTypeOccupants">
                                         Max Occupants
                                         <input type="number" ref="editUnitTypeOccupants" id="editUnitTypeOccupants" name="editUnitTypeOccupants" v-model="editUnitType.occupants">
+                                    </label>
+
+                                    <label for="editUnitTypeDescription">
+                                        Furnishings
+                                        <textarea rows="3" ref="editUnitTypeFurnishings" id="editUnitTypeFurnishings" name="editUnitTypeFurnishings" v-model="editUnitType.furnishings"></textarea>
                                     </label>
 
                                     <div class="row column">
@@ -216,7 +225,6 @@
                                             Update unit type
                                         </span>
                                     </button>
-
                                 </div>
                                 <!-- END Edit form -->
                             </div>
@@ -224,7 +232,6 @@
                     </template>
                 </div>
                 <!-- END List Section -->
-
             </div>
 
             <div class="medium-3 columns">
@@ -238,9 +245,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
 </template>
 <script>
@@ -264,7 +269,8 @@
                     dstv: '',
                     parking_car: '',
                     parking_bike: '',
-                    storeroom: ''
+                    storeroom: '',
+                    furnishings: '',
                 },
                 newUnitType: {},
                 addEntry: false,
@@ -304,8 +310,8 @@
                     this.loading = false;
                     this.displayError(err);
                 });
-
             },
+
             cancelUnitType: function () {
                 this.newUnitType = this.initializeUnitType();
                 this.addEntry = false;
@@ -331,7 +337,6 @@
                     this.loading = false;
                     this.displayError(err);
                 });
-
             },
 
             accordionToggle: function (index, event) {
@@ -394,6 +399,7 @@
                 this.editUnitType.parking_car = this.unitTypes[index].parking_car;
                 this.editUnitType.parking_bike = this.unitTypes[index].parking_bike;
                 this.editUnitType.storeroom = this.unitTypes[index].storeroom;
+                this.editUnitType.furnishings = this.unitTypes[index].furnishings;
             },
 
             initializeUnitType() {
@@ -408,7 +414,8 @@
                     dstv: false,
                     parking_car: false,
                     parking_bike: false,
-                    storeroom: false
+                    storeroom: false,
+                    furnishings: ''
                 };
             },
 
@@ -435,8 +442,6 @@
                     confirmButtonText: "Ok"
                 });
             }
-
         }
     }
-
 </script>

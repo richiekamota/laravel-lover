@@ -474,4 +474,36 @@ class UnitTypesApiTest extends Tests\TestCase
 
     }
 
+    /**
+     * Test a unit type furnishings passes
+     *
+     * @return void
+     */
+    public function testUnitTypeFurnishingsPasses()
+    {
+
+        $user = factory(Portal\User::class)->create([
+            'role' => 'admin'
+        ]);
+
+        $location = factory(Portal\Location::class)->create();
+
+        $createUnitType = factory( Portal\UnitType::class )->create();
+
+        $this->actingAs( $user )
+            ->json( 'POST', '/unit-types/',[
+                "name"         => "Castle Swish",
+                "location_id"  => $location->id,
+                "cost"         => '123456',
+                "wifi"         => FALSE,
+                "electricity"  => FALSE,
+                "dstv"         => FALSE,
+                "parking_car"  => FALSE,
+                "parking_bike" => FALSE,
+                "storeroom"    => FALSE
+            ])
+            ->assertResponseStatus( 200 );
+
+        $this->assertNotEquals($createUnitType->furnishings, NULL);
+    }
 }
