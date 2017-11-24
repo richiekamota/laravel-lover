@@ -288,4 +288,46 @@ class ItemsController extends Controller
 
     }
 
+    /**
+     * Delete an item
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteItem(Request $request)
+    {
+
+        // abort unless Auth > tenant
+        $this->authorize('delete', Item::class);
+
+        DB::beginTransaction();
+
+        try {
+
+            $item = Item::findOrFail($request->id);
+
+            $item->delete();
+
+            DB::commit();
+
+            return Response::json([
+                'message' => trans('portal.item_deleted')
+            ], 200);
+
+        } catch (\Exception $e) {
+
+            \Log::info( $e );// Live testing logging  info
+
+            //Bugsnag::notifyException($e);
+
+            DB::rollback();
+
+            return Response::json( [
+                'error'   => 'item_delete_error',
+                'message' => trans( 'portal.item_delete_error' ),
+            ], 422 );
+
+        }
+
+    }
+
 }

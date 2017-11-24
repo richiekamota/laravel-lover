@@ -112,8 +112,12 @@
                             <div class="table__row" :class="{ even: isEven(index), first: index == 0, last: index == items.length -1 }">
 
                                 <!-- Row Title -->
+                                <div class="row column">
                                 <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{ item.name }} : R{{item.cost}} ({{item.payment_type}})
+
+                                <button class="button button--small float-right item_delete" v-on:click="deleteItem(item,index)" >Delete</button>
                                 </button>
+                                </div>
                                 <!-- START Edit form -->
                                 <div class="accordion__content --bg-calm">
 
@@ -335,7 +339,6 @@
                     // There is an error, let's display an alert.
                     this.displayError(err);
                 });
-
             },
 
             accordionToggle: function (index, event) {
@@ -408,7 +411,6 @@
                 this.editItem.qty = this.items[index].qty;
                 this.editItem.payment_type = this.items[index].payment_type;
                 this.editItem.unit_types = this.items[index].unit_types;
-
             },
 
             displayError(err) {
@@ -445,9 +447,34 @@
                     qty: 0,
                     payment_type: ''
                 };
-            }
+            },
 
+            deleteItem: function (item,index) {
+                swal({
+                    title: "Are you sure?",
+                    text: "Your will not be able to recover this item!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    confirmButtonText: "Yes, delete it!",
+                    closeOnConfirm: false,
+                    animation: "slide-from-top"
+                },  () => {
+                    this.$http.delete(
+                    '/items/' + this.items[index].id + '/delete')
+                    .then((response) => {
+                    this.items.splice(index, 1);
+                    if(response.status == 200){
+                        swal("Item Successfuly Deleted!","The item has been deleted", "success");
+                    }else{
+                        swal("Oh no!", "Delete Error!", "error");
+                    }
+                  }, (err) => {
+                    this.loading = false;
+                    this.displayError(err);
+                  });
+                });
+            }
         }
     }
-
 </script>
