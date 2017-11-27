@@ -298,6 +298,7 @@ class ContractsController extends Controller
             $contract->start_date = Carbon::parse($contract->start_date)->format("d F Y");
             $contract->end_date = Carbon::parse($contract->end_date)->format("d F Y");
             $contract->unit_description = UnitType::find($contract->unit->type_id)->description;
+            $contract->unit_furnishings = UnitType::find($contract->unit->type_id)->furnishings;
             $contract->length = Carbon::parse($contract->start_date)->diffInMonths(Carbon::parse($contract->end_date), false);
 
             $contract->onceoff_total = 0;

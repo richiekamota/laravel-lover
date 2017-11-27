@@ -32,7 +32,7 @@ class UnitTypeCreateRequest extends FormRequest
             'dstv'         => 'required|boolean',
             'parking_car'  => 'required|boolean',
             'parking_bike' => 'required|boolean',
-            'storeroom'    => 'required|boolean'
+            'storeroom'    => 'required|boolean',
         ];
     }
 }

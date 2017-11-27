@@ -104,6 +104,7 @@ $factory->define(Portal\UnitType::class, function (Faker\Generator $faker) {
         'parking_car'  => $faker->boolean(50),
         'parking_bike' => $faker->boolean(50),
         'storeroom'    => $faker->boolean(50),
+        'furnishings'  => $faker->realText($maxNbChars = 200, $indexSize = 2),
     ];
 });
 
