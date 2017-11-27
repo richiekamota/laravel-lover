@@ -11,6 +11,7 @@ use Portal\Item;
 use Portal\User;
 use Portal\UnitType;
 use Portal\ItemLeaseDate;
+use Gate;
 use Response;
 
 class ItemsController extends Controller
@@ -288,4 +289,43 @@ class ItemsController extends Controller
 
     }
 
+    /**
+     * Delete an item
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteItem(Request $request)
+    {
+
+        // abort unless Auth is admin
+        abort_unless(Gate::allows('is-admin'), 401);
+
+        DB::beginTransaction();
+
+        try {
+
+            $item = Item::findOrFail($request->id);
+
+            $item->delete();
+
+            DB::commit();
+
+            return Response::json([
+                'message' => trans('portal.item_deleted')
+            ], 200);
+
+        } catch (\Exception $e) {
+
+            \Log::info( $e );// Live testing logging  info
+
+            //Bugsnag::notifyException($e);
+
+            DB::rollback();
+
+            return Response::json( [
+                'error'   => 'item_delete_error',
+                'message' => trans( 'portal.item_delete_error' ),
+            ], 422 );
+        }
+    }
 }

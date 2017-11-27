@@ -103,6 +103,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('items-leased', 'ItemsController@leasedItems');
     Route::delete('items/lease/{id}', 'ItemsController@deleteItemLease');
     Route::post('items/lease', 'ItemsController@createItemLease');
+    Route::delete('items/{id}/delete', 'ItemsController@deleteItem');
 
     /*
     |--------------------------------------------------------------------------

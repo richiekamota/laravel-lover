@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Carbon\Carbon;
 
 class ItemsApiTest extends Tests\TestCase
 {
@@ -294,4 +295,45 @@ class ItemsApiTest extends Tests\TestCase
 
     }
 
+    /*
+     * Tests whether an item gets deleted
+     */
+    public function testPassDeleteItem()
+    {
+
+        $user = factory( Portal\User::class )->create( [
+            'role' => 'admin'
+        ] );
+
+        $current_time = Carbon::now();
+
+        $item = factory( Portal\Item::class )->create();
+
+        $this->actingAs( $user )
+            ->json( 'DELETE', '/items/' .$item->id. '/delete')
+            ->assertResponseStatus( 200 )
+            ->seeInDatabase('items',[
+             'deleted_at' => $current_time
+            ]);
+    }
+
+     /*
+     * Tests fails when an unauthorised user deletes the item
+     */
+    public function testFailsForUnauthorisedUser()
+    {
+
+        $user = factory( Portal\User::class )->create( [
+            'role' => 'tenant'
+        ] );
+
+        $item = factory( Portal\Item::class )->create();
+
+        $this->actingAs( $user )
+            ->json( 'DELETE', '/items/' .$item->id. '/delete')
+            ->assertResponseStatus( 401 )
+            ->seeInDatabase('items',[
+             'deleted_at' => NULL
+            ]);
+    }
 }

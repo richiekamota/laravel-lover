@@ -79,7 +79,8 @@ return [
     | Items
     |--------------------------------------------------------------------------
     */
-
+     'item_deleted'      => 'Success! The item has been successfuly deleted',
+     'item_delete_error' => 'Oh no,there was an error deleting the item,please try again',
     /*
     |--------------------------------------------------------------------------
     | Contracts

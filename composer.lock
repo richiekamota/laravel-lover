@@ -9,16 +9,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.38.5",
+            "version": "3.39.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "13ffa481127c08e04244f116ae85a64b4172479c"
+                "reference": "da5872e6e5704fa5c2d138ed91fa87f80bb44d84"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/13ffa481127c08e04244f116ae85a64b4172479c",
-                "reference": "13ffa481127c08e04244f116ae85a64b4172479c",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/da5872e6e5704fa5c2d138ed91fa87f80bb44d84",
+                "reference": "da5872e6e5704fa5c2d138ed91fa87f80bb44d84",
                 "shasum": ""
             },
             "require": {
@@ -85,7 +85,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-11-17 22:08:25"
+            "time": "2017-11-22 23:17:02"
         },
         {
             "name": "barryvdh/laravel-snappy",
