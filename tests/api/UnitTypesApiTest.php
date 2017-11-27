@@ -475,7 +475,7 @@ class UnitTypesApiTest extends Tests\TestCase
     }
 
     /**
-     * Test a unit type furnishings passes
+     * Test whether unit type furnishings passes
      *
      * @return void
      */

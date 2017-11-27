@@ -61,10 +61,10 @@
                                     </label>
 
 
-                                    <!--<label for="unitTypeCost">-->
-                                    <!--Unit type Cost*-->
-                                    <!--<input type="number" ref="unitTypeCost" id="unitTypeCost" name="unitTypeCost" v-model="newUnitType.cost">-->
-                                    <!--</label>-->
+                                    <label for="unitTypeCost">
+                                    Unit type Cost*
+                                    <input type="number" ref="unitTypeCost" id="unitTypeCost" name="unitTypeCost" v-model="newUnitType.cost">
+                                    </label>
 
                                     <div class="row column">
                                         <input type="checkbox" ref="unitTypeWifi" id="unitTypeWifi" name="unitTypeWifi" v-model="newUnitType.wifi">
@@ -136,7 +136,7 @@
                         <div class="small-12 columns">
                             <div class="table__row" :class="{ even: isEven(index), first: index == 0, last: index == unitTypes.length -1 }">
                                 <!-- Row Title -->
-                                <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{ unitType.name }}</button>
+                                <button class="accordion__heading" v-on:click="accordionToggle(index, $event)">{{ unitType.name }} <span class="float-right"> From R{{unitType.cost}}</span></button>
                                 <!-- START Edit form -->
                                 <div class="accordion__content --bg-calm">
 
@@ -159,10 +159,10 @@
                                         </select>
                                     </label>
 
-                                    <!--<label for="editUnitTypeCost">-->
-                                    <!--Unit type Cost*-->
-                                    <!--<input type="number" id="editUnitTypeCost" ref="editUnitTypeCost" name="editUnitTypeCost" v-model="editUnitType.cost">-->
-                                    <!--</label>-->
+                                    <label for="editUnitTypeCost">
+                                    Unit type Cost*
+                                    <input type="number" id="editUnitTypeCost" ref="editUnitTypeCost" name="editUnitTypeCost" v-model="editUnitType.cost">
+                                    </label>
 
                                     <label for="unitTypeOccupants">
                                         Max Occupants
