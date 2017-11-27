@@ -449,7 +449,7 @@
                 };
             },
 
-            deleteItem: function (item,index) {
+            deleteItem: function (item,index,err) {
                 swal({
                     title: "Are you sure?",
                     text: "Your will not be able to recover this item!",
@@ -464,15 +464,18 @@
                     '/items/' + this.items[index].id + '/delete')
                     .then((response) => {
                     this.items.splice(index, 1);
-                    if(response.status == 200){
-                        swal("Item Successfuly Deleted!","The item has been deleted", "success");
-                    }else{
-                        swal("Oh no!", "Delete Error!", "error");
-                    }
-                  }, (err) => {
-                    this.loading = false;
-                    this.displayError(err);
-                  });
+
+                        if (response.status == 200) {
+                            swal("Item Successfuly Deleted!","The item has been deleted", "success");
+                        }
+                    }, function (err) {
+                        if (err.status == 401){
+                            swal("Not Authorised!","You are not authorised to make any changes", "error");
+                        } else {
+                            swal("Oh no!", "Delete Error!", "error");
+                            this.displayError(err);
+                        }
+                    });
                 });
             }
         }
