@@ -316,4 +316,24 @@ class ItemsApiTest extends Tests\TestCase
              'deleted_at' => $current_time
             ]);
     }
+
+     /*
+     * Tests fails when an unauthorised user deletes the item
+     */
+    public function testFailsForUnauthorisedUser()
+    {
+
+        $user = factory( Portal\User::class )->create( [
+            'role' => 'tenant'
+        ] );
+
+        $item = factory( Portal\Item::class )->create();
+
+        $this->actingAs( $user )
+            ->json( 'DELETE', '/items/' .$item->id. '/delete')
+            ->assertResponseStatus( 401 )
+            ->seeInDatabase('items',[
+             'deleted_at' => NULL
+            ]);
+    }
 }
