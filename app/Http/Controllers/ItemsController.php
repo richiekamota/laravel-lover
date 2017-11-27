@@ -297,12 +297,8 @@ class ItemsController extends Controller
     public function deleteItem(Request $request)
     {
 
-        // abort unless Auth is tenant
+        // abort unless Auth is admin
         abort_unless(Gate::allows('is-admin'), 401);
-
-        if(Gate::denies('is-tenant') || Gate::denies('is-not-tenant')){
-        return;
-        }
 
         DB::beginTransaction();
 
