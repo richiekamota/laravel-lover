@@ -493,12 +493,8 @@
                 Management within twenty four (24) hours of moving in. My Domain Management will follow up on all
                 reported problems and take corrective action as appropriate.</p>
 
-            <p>
-                {{$contract['unit_description']}}
-            </p>
-
              <p>
-                {{$contract['unit_furnishings']}}
+                {{$contract['unit']['unitType']['furnishings']}}
             </p>
 
             <p>The Tenant accepts responsibility for these items on occupation.</p>
