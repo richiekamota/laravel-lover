@@ -2,6 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Portal\Jobs\SendContractToUserEmail;
+use Portal\Jobs\SendApprovedContractToAccounts;
 use MailThief\Testing\InteractsWithMail;
 use Carbon\Carbon;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -371,7 +372,7 @@ class ContractsApiTest extends Tests\TestCase
 
     /**
      * Test that user can decline a contract
-     * @group failing
+     *
      */
     public function testUserCanDeclineContract()
     {
@@ -433,5 +434,71 @@ class ContractsApiTest extends Tests\TestCase
         'contract_decline_reason' => 'Decline reason',
         'status'                  => 'pending'
         ]);
+    }
+
+     /**
+     * Test that email is send for approved contract
+     * @group failing
+     */
+    public function testEmailIsSendForApprovedContract()
+    {
+
+      $user = factory(Portal\User::class)->create([
+            'role' => 'application'
+        ]);
+        $location = factory(Portal\Location::class)->create();
+        $unitType = factory(Portal\UnitType::class)->create([
+            'location_id' => $location->id
+        ]);
+        $unit = factory(Portal\Unit::class)->create([
+            'location_id' => $location->id,
+            'type_id'     => $unitType->id
+        ]);
+        $application = factory(Portal\Application::class)->states('forApproval')->create([
+            'user_id'       => $user->id,
+            'unit_location' => $location->id,
+            'unit_type'     => $unitType->id
+        ]);
+
+        $items = factory(Portal\Item::class, 5)->create();
+
+        $contract = factory(Portal\Contract::class)->create([
+            'user_id'        => $user->id,
+            'unit_id'        => $unit->id,
+            'application_id' => $application->id,
+            'status'         => 'pending'
+        ]);
+
+        $occupationDate = factory(Portal\OccupationDate::class)->create([
+            'contract_id'    => $contract->id,
+            'application_id' => $application->id,
+            'unit_id'        => $unit->id
+        ]);
+
+        $response = $this->actingAs($user)->json('POST', '/contracts/' . $contract->id . '/approved', [
+            'user_id' => $user->id,
+            'contractApproved' => 'true',
+            'items' => $items
+        ]);
+
+        $response->assertResponseStatus(200);
+
+        // Check that an email was sent to this email address
+        $this->seeMessageFor('catherine@swishproperties.co.za');
+
+        // Make sure the email has the correct subject
+        $this->seeMessageWithSubject('A user has approved their contract');
+
+        // Make sure the email was sent from the correct address
+        $this->seeMessageFrom('info@mydomainliving.co.za');
+
+        // Make sure the email contains text in the body of the message
+        // Default is to search the html rendered view
+        $this->assertTrue($this->lastMessage()->contains('Tenants name:'));
+
+        //Make sure that the database is updated
+         $this->seeInDatabase('contracts', [
+         'status' => 'approved'
+         ]);
     }
 }
