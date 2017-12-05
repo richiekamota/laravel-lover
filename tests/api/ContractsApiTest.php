@@ -499,6 +499,6 @@ class ContractsApiTest extends Tests\TestCase
         //Make sure that the database is updated
          $this->seeInDatabase('contracts', [
          'status' => 'approved'
-         ]);
+        ]);
     }
 }
