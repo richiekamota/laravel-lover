@@ -1054,7 +1054,7 @@
             <p>Letters or Notices delivered to the My Domain Units by hand or sent to the email addresses below, shall
                 be considered received on the date of delivery or transmission.</p>
             <p>Landlord: angelo@swishproperties.co.za</p>
-            <p>Tenant: {{$contract['application']}}</p>
+            <p>Tenant: {{$contract['application']['first_name']}} {{$contract['application']['last_name']}}</p>
         </li>
         <li>
             <div class="h4">COSTS</div>

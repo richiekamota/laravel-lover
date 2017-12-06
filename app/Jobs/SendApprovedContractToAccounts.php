@@ -40,12 +40,13 @@ class SendApprovedContractToAccounts implements ShouldQueue
     public function handle()
     {
 
-        Mail::send('emails.sendApprovedContractToAccounts', [
+         Mail::send('emails.sendApprovedContractToAccounts', [
             'contract' => $this->contract,
             'application' => $this->application,
             'user' => $this->user
         ], function ($message) {
-            $message->to("accounts@swish.co.za");
+            $message->to("catherine@swishproperties.co.za");
+            $message->cc("info@mydomainliving.co.za");
             $message->subject('A user has approved their contract');
         });
 
