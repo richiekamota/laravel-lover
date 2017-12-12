@@ -45,7 +45,7 @@ class SendApprovedContractToAccounts implements ShouldQueue
             'application' => $this->application,
             'user' => $this->user
         ], function ($message) {
-            $message->to("catherine@swishproperties.co.za");
+            $message->to("Catherine@swishproperties.co.za");
             $message->cc("info@mydomainliving.co.za");
             $message->subject('A user has approved their contract');
         });

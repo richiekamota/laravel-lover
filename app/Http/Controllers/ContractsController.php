@@ -294,6 +294,8 @@ class ContractsController extends Controller
             $contract->application = Application::findOrFail($contract->application_id);
             $contract->unit = Unit::with('unitType')->find($contract->unit_id);
             $contract->location = Location::findOrFail($contract->unit->location_id);
+            $contract->application->resident_first_name = Application::find($contract->application_id)->resident_first_name;
+            $contract->application->resident_last_name = Application::find($contract->application_id)->resident_last_name;
             $contract->occupation_date = OccupationDate::where('application_id', '=', $contract->application_id)->first();
             $contract->start_date = Carbon::parse($contract->start_date)->format("d F Y");
             $contract->end_date = Carbon::parse($contract->end_date)->format("d F Y");
@@ -385,6 +387,8 @@ class ContractsController extends Controller
 
             $contract = Contract::findOrFail($id);
             $application = Application::findOrFail($contract->application_id);
+            $leaseHolderId = $application->resident_sa_id_number;
+            $residentId = $application->sa_id_number;
 
             // find the contract
             DB::table('contracts')

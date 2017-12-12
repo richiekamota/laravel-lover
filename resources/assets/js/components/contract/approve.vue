@@ -13,6 +13,18 @@
             </span>
         </label>
 
+        <!-- Input for name(leaseholder) -->
+
+        <label for="upperNameTenant" v-if="this.contractPartnership == false">
+            <p>Please enter the name of the tenant in UPPER CASE
+            <br>this must match the tenant name used to create your application</p>
+            <span class="row">
+                <span class="small-6 column">
+                    <input type="text" name="upperNameTenant" v-model="upperNameTenant">
+                </span>
+            </span>
+        </label>
+
         <p>Contract Items Acceptance</p>
         <!-- List of items with tick box -->
         <ul class="--plain">
@@ -26,6 +38,10 @@
         <p>Contract Acceptance</p>
         <input id="contract-check" type="checkbox" v-model="contractAccept">
         <label for="contract-check">I {{contractUser.first_name}} {{contractUser.last_name}} approve this contract.</label>
+        <div v-if="this.contractPartnership == false">
+            <input id="contract-check" type="checkbox" v-model="contractCoAccept">
+            <label for="contract-check">I {{contractUser.application.resident_first_name}} {{contractUser.application.resident_last_name}} approve this contract.</label>
+        </div>
 
         <!-- Submit button -->
         <div class="row">
@@ -72,9 +88,12 @@
             return {
                 test: "test",
                 upperName: "",
+                upperNameTenant:"",
                 items: [],
                 contractUser: {},
+                contractPartnership:"",
                 contractAccept: false,
+                contractCoAccept: false,
                 loading: false
             }
 
@@ -84,6 +103,7 @@
             this.contract = JSON.parse(this.propContract);
             this.items = this.contract.items;
             this.contractUser = this.contract.user;
+            this.contractSamePerson = this.contract.isSamePerson;
 
             console.log(this.contract);
             this.items = this.items.map(function (item) {
@@ -97,8 +117,18 @@
             accept: function () {
 
                 let name = this.contractUser.first_name + " " + this.contractUser.last_name;
+                let tenantName = this.contractUser.resident_first_name + " " + this.contractUser.resident_first_name;
 
                 if (this.upperName != name.toUpperCase()) {
+                    swal({
+                        title: "Error!",
+                        text: "The entered name does not match that of the user who created this application.",
+                        type: "error",
+                        confirmButtonText: "Ok"
+                    });
+                    return;
+
+                if (this.contractPartnership == false && this.upperNameTenant != name.toUpperCase()) {
                     swal({
                         title: "Error!",
                         text: "The entered name does not match that of the user who created this application.",
@@ -127,7 +157,7 @@
                     .then(() => {
 
                         // Check if the checkbox is checked
-                        if (!this.contractAccept) {
+                        if (!this.contractAccept || !this.contractCoAccept) {
                             swal({
                                 title: "Error!",
                                 text: "You have not approved "+ item.name +". You need to approve this item before accepting.",
@@ -164,6 +194,7 @@
                     '/contracts/' + this.contract.id + '/approved',
                     {
                         'user_id': this.contractUser.id,
+                        'contractPartnership': this.ContractPartnership,
                         'contractApproved': this.contractAccept,
                         'items': this.items
                     }
