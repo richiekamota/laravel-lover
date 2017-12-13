@@ -27,8 +27,8 @@ class ContractApproveRequest extends FormRequest
 
         return [
             'user_id'             => 'required|exists:users,id',
-            'contractApproved'    => 'required',
-            'contractPartnership' => 'required',
+            'contractApproved'    => 'required|boolean',
+            'contractSamePerson' => 'required|boolean|nullable',
             'items'               => 'required'
         ];
     }

@@ -477,15 +477,15 @@ class ContractsApiTest extends Tests\TestCase
 
         $response = $this->actingAs($user)->json('POST', '/contracts/' . $contract->id . '/approved', [
             'user_id' => $user->id,
-            'contractApproved' => 'true',
-            'contractPartnership' => 'false',
+            'contractApproved' => true,
+            'contractSamePerson' => true,
             'items' => $items
         ]);
 
         $response->assertResponseStatus(200);
 
         // Check that an email was sent to this email address
-        $this->seeMessageFor('Catherine@swishproperties.co.za');
+        $this->seeMessageFor('catherine@swishproperties.co.za');
 
         // Make sure the email has the correct subject
         $this->seeMessageWithSubject('A user has approved their contract');
@@ -505,7 +505,7 @@ class ContractsApiTest extends Tests\TestCase
 
      /**
      * Test that email is send for approved contract when the tenant is not the leaseholder
-     * @group failing
+     *
      */
     public function testEmailIsSendForApprovedContractForTenantNotLeaseholder()
     {
@@ -544,15 +544,15 @@ class ContractsApiTest extends Tests\TestCase
 
         $response = $this->actingAs($user)->json('POST', '/contracts/' . $contract->id . '/approved', [
             'user_id' => $user->id,
-            'contractApproved' => 'true',
-            'contractPartnership' => 'true',
+            'contractApproved' => true,
+            'contractSamePerson' => false,
             'items' => $items
         ]);
 
         $response->assertResponseStatus(200);
 
         // Check that an email was sent to this email address
-        $this->seeMessageFor('Catherine@swishproperties.co.za');
+        $this->seeMessageFor('catherine@swishproperties.co.za');
 
         // Make sure the email has the correct subject
         $this->seeMessageWithSubject('A user has approved their contract');
