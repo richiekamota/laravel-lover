@@ -27,7 +27,8 @@
                     Name: {{$contract['application']['resident_first_name']}} {{$contract['application']['resident_last_name']}}<br>
                     ID / Passport Number: {{$contract['application']['resident_sa_id_number']}}
                 @else
-                    {{$contract['application']['resident_passport_number']}}
+                    Name: {{$contract['application']['resident_first_name']}} {{$contract['application']['resident_last_name']}}<br>
+                    ID / Passport Number: {{$contract['application']['resident_passport_number']}}
                 @endif </br>
                 The "Leaseholder":</br>
                 @if ($contract['application']['sa_id_number'] != '')
