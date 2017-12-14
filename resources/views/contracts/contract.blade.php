@@ -18,7 +18,8 @@
                     Name: {{$contract['application']['first_name']}} {{$contract['application']['last_name']}}<br><br>
                     ID / Passport Number: {{$contract['application']['sa_id_number']}}
                 @else
-                    {{$contract['application']['passport_number']}}
+                    Name: {{$contract['application']['first_name']}} {{$contract['application']['last_name']}}<br><br>
+                    ID / Passport Number: {{$contract['application']['passport_number']}}
                 @endif
             @else
                 The "Tenant":</br>
@@ -33,7 +34,8 @@
                     Name: {{$contract['application']['first_name']}} {{$contract['application']['last_name']}}<br>
                     ID / Passport Number: {{$contract['application']['sa_id_number']}}
                 @else
-                    {{$contract['application']['passport_number']}}
+                    Name: {{$contract['application']['first_name']}} {{$contract['application']['last_name']}}<br>
+                    ID / Passport Number: {{$contract['application']['passport_number']}}
                 @endif 
             @endif
             
