@@ -102,7 +102,7 @@ class Application extends Model
 
     public function contract()
     {
-        return $this->belongsTo( 'Portal\Contract', 'application_id');
+        return $this->hasOne( 'Portal\Contract', 'application_id');
     }
 
     public function unitType()

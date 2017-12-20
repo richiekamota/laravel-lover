@@ -38,18 +38,12 @@ class DashboardController extends Controller
             ->orWhere('status', '=', 'approved')
             ->get();
 
-            //$cancelledContracts = Application::with('contract')->get();
-
-            $cancelledContracts = Contract::where('status', '=', 'declined')->with('application')->get();
-
-            // cancelledContracts = Contract::where(status = declined)->with('application.user, application.unitType')->get();
+            $cancelledContracts = Application::whereHas('contract', function($query) {
+                $query->where('status', '=' ,'declined');
+                })->get();
 
 
             return view('dashboard', compact('openApplications', 'pendingApplications', 'allApplications', 'cancelledContracts'));
-
-        \Log::info('==================================================================================================');
-        \Log::info($cancelledContracts);
-        \Log::info('//////////////////////////////////////////////////////////////////////////////////////////////////');
 
         } else {
 
@@ -58,9 +52,7 @@ class DashboardController extends Controller
             $contracts = Auth::user()->contracts;
 
             return view('dashboard', compact('applications', 'contracts'));
-
         }
-
     }
 
     /**
@@ -72,6 +64,5 @@ class DashboardController extends Controller
     {
 
         return view('ui-kit');
-
     }
 }

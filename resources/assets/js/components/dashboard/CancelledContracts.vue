@@ -14,21 +14,7 @@
                 </div>
             </div>
 
-            <template v-for="(cancelledContract, index) in cancelledContracts">
-                <div class="small-12 columns">
-                    <div class="table__row" :class="{ even: isEven(index), first: index == 0, last: index == cancelledContract.length -1 }">
-
-                        <!-- Row Title -->
-
-                            <button class="accordion__heading">
-                                <!-- cancelledContract.application.user.first_name -->
-                                {{cancelledContract.application_id}}
-                            </button>
-                    </div>
-                </div>
-            </template>
-
-            <div class="small-12 columns" v-if="cancelledContracts.length === 0">
+              <div class="small-12 columns" v-if="cancelledContracts.length === 0">
                     <div class="table__row even last">
 
                         <button class="accordion__heading">
@@ -36,8 +22,22 @@
                         </button>
                     </div>
             </div>
+
+            <template v-for="(cancelledContract, index) in cancelledContracts">
+                <div class="small-12 columns">
+                    <div class="table__row" :class="{ even: isEven(index), first: index == 0, last: index == cancelledContracts.length -1 }">
+
+                        <!-- Row Title -->
+
+                            <button class="accordion__heading">
+                                {{cancelledContract.created_at}} - <strong>Leaseholder:</strong> {{cancelledContract.first_name}} {{cancelledContract.last_name}}  <strong>Tenant:</strong> {{cancelledContract.resident_first_name}} {{cancelledContract.resident_last_name}}
+                            </button>
+                    </div>
+                </div>
+            </template>
         </div>
     </div>
+
 </template>
 
 <script>
@@ -51,7 +51,6 @@ export default {
     },
     mounted() {
         this.cancelledContracts = JSON.parse(this.propCancelledContracts);
-        console.log(this.propCancelledContracts);
     },
     methods: {
 
