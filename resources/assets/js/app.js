@@ -33,7 +33,7 @@ Vue.component('admin-users', require('./components/admin/AdminUsers.vue'));
 Vue.component('admin-occupation-dates', require('./components/admin/AdminOccupationDates.vue'));
 
 Vue.component('open-applications', require('./components/dashboard/OpenApplications.vue'));
-Vue.component('pending-applications', require('./components/dashboard/PendingApplications.vue'));
+Vue.component('cancelled-contracts', require('./components/dashboard/CancelledContracts.vue'));
 Vue.component('all-applications', require('./components/dashboard/AllApplications.vue'));
 Vue.component('tenant-applications', require('./components/dashboard/TenantApplications.vue'));
 Vue.component('tenant-contracts', require('./components/dashboard/TenantContracts.vue'));

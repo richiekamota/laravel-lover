@@ -10,7 +10,6 @@
                     <div class="accordion__heading accordion__heading--add --white">
                         <h4 class="--white">Applications</h4>
                     </div>
-
                 </div>
             </div>
 
@@ -26,7 +25,6 @@
                                 {{getTime(application.created_at)}} <span class="float-right --caps-first">{{application.status}}</span>
                             </button>
                         </a>
-
                     </div>
                     <div class="table__row"
                          :class="{ even: isEven(index), first: index == 0, last: index == applications.length -1 }"
@@ -39,9 +37,6 @@
                                 {{getTime(application.created_at)}} <span class="float-right --caps-first">{{application.status}}</span>
                             </button>
                         </a>
-
-
-
                     </div>
                 </div>
             </template>
@@ -53,17 +48,10 @@
                             <button class="accordion__heading">
                                No applications found...
                             </button>
-
-
                     </div>
-
                 </div>
-
-
         </div>
-
     </div>
-
 </template>
 <script>
 
@@ -78,7 +66,7 @@
         },
         mounted() {
             this.applications = JSON.parse(this.propApplications);
-            
+
         },
         methods: {
 

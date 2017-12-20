@@ -6,6 +6,7 @@ use Auth;
 use Gate;
 use Illuminate\Http\Request;
 use Portal\Application;
+use Portal\Contract;
 
 class DashboardController extends Controller
 {
@@ -28,7 +29,7 @@ class DashboardController extends Controller
         // If the user is not a tenant
         if (Gate::denies('is-tenant')) {
 
-            $openApplications = Application::with('user', 'location')->whereStatus('open')->get();            
+            $openApplications = Application::with('user', 'location')->whereStatus('open')->get();
 
             $pendingApplications = Application::with('user', 'location')->whereStatus('pending')->get();
 
@@ -37,7 +38,18 @@ class DashboardController extends Controller
             ->orWhere('status', '=', 'approved')
             ->get();
 
-            return view('dashboard', compact('openApplications', 'pendingApplications', 'allApplications'));
+            //$cancelledContracts = Application::with('contract')->get();
+
+            $cancelledContracts = Contract::where('status', '=', 'declined')->with('application')->get();
+
+            // cancelledContracts = Contract::where(status = declined)->with('application.user, application.unitType')->get();
+
+
+            return view('dashboard', compact('openApplications', 'pendingApplications', 'allApplications', 'cancelledContracts'));
+
+        \Log::info('==================================================================================================');
+        \Log::info($cancelledContracts);
+        \Log::info('//////////////////////////////////////////////////////////////////////////////////////////////////');
 
         } else {
 
