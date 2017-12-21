@@ -278,7 +278,6 @@ class ContractsController extends Controller
      */
     public function show($secureLink)
     {
-
         // Decrypt the link
         try {
             $decrypted = decrypt($secureLink);
@@ -294,6 +293,8 @@ class ContractsController extends Controller
             $contract->application = Application::findOrFail($contract->application_id);
             $contract->unit = Unit::with('unitType')->find($contract->unit_id);
             $contract->location = Location::findOrFail($contract->unit->location_id);
+            $contract->resident_first_name = $contract->application->resident_first_name;
+            $contract->resident_last_name = $contract->application->resident_last_name;
             $contract->occupation_date = OccupationDate::where('application_id', '=', $contract->application_id)->first();
             $contract->start_date = Carbon::parse($contract->start_date)->format("d F Y");
             $contract->end_date = Carbon::parse($contract->end_date)->format("d F Y");
@@ -343,14 +344,14 @@ class ContractsController extends Controller
             // We need to check that the fields are not null also hence the != NULL checks
             if(
                 (
-                    ($contract->application->sa_id_number === $contract->application->resident_sa_id_number) && 
-                    ($contract->application->sa_id_number != NULL) && 
+                    ($contract->application->sa_id_number === $contract->application->resident_sa_id_number) &&
+                    ($contract->application->sa_id_number != NULL) &&
                     ($contract->application->resident_sa_id_number != NULL)
                 )
-                || 
+                ||
                 (
-                    ($contract->application->passport_number === $contract->application->resident_passport_number) && 
-                    ($contract->application->passport_number != NULL) && 
+                    ($contract->application->passport_number === $contract->application->resident_passport_number) &&
+                    ($contract->application->passport_number != NULL) &&
                     ($contract->application->resident_passport_number != NULL)
                 )
             ){
@@ -375,7 +376,6 @@ class ContractsController extends Controller
      */
     public function approve(ContractApproveRequest $request, $id)
     {
-
         // If the logged in user is matching the ID
         abort_unless($request->user_id == Auth::user()->id, 422);
 
