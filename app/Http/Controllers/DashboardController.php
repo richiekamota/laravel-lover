@@ -6,7 +6,6 @@ use Auth;
 use Gate;
 use Illuminate\Http\Request;
 use Portal\Application;
-use Portal\Contract;
 
 class DashboardController extends Controller
 {
