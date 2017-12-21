@@ -38,7 +38,7 @@ class Contract extends Model
 
     public function application()
     {
-        return $this->hasOne('Portal\Application');
+        return $this->belongsTo('Portal\Application', 'id');
     }
 
     public function document()

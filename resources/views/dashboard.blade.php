@@ -14,6 +14,8 @@
 
                 <all-applications prop-all-applications="{{$allApplications}}"></all-applications>
 
+                <cancelled-contracts prop-cancelled-contracts="{{$cancelledContracts}}"></cancelled-contracts>
+
             @endif
 
             @if(Gate::check('is-tenant'))

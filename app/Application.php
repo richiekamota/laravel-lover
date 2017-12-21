@@ -100,6 +100,11 @@ class Application extends Model
         return $this->hasOne( 'Portal\Location', 'id', 'unit_location' );
     }
 
+    public function contract()
+    {
+        return $this->hasOne( 'Portal\Contract', 'application_id');
+    }
+
     public function unitType()
     {
         return $this->hasOne( 'Portal\UnitType', 'id', 'unit_type' );
