@@ -484,7 +484,7 @@ class ContractsApiTest extends Tests\TestCase
         $response->assertResponseStatus(200);
 
         // Check that an email was sent to this email address
-        $this->seeMessageFor('catherine@swishproperties.co.za');
+        $this->seeMessageFor('Catherine@swishproperties.co.za');
 
         // Make sure the email has the correct subject
         $this->seeMessageWithSubject('A user has approved their contract');
@@ -494,7 +494,7 @@ class ContractsApiTest extends Tests\TestCase
 
         // Make sure the email contains text in the body of the message
         // Default is to search the html rendered view
-        $this->assertTrue($this->lastMessage()->contains('Tenants name:'));
+        $this->assertTrue($this->lastMessage()->contains('Total Rental Amount:'));
 
         //Make sure that the database is updated
          $this->seeInDatabase('contracts', [

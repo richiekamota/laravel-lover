@@ -211,7 +211,7 @@ class ContractsController extends Controller
             $data = ['name' => $applicationUser->first_name, 'contract' => $contract_data];
 
             $fileFolderAndName = 'contracts/' . $pdfName . '.pdf';
-            
+
             // Save the PDF locally so the email can get it
             $pdf = PDF::loadView('pdf.contract', $data)->save(storage_path($fileFolderAndName));
             // Save the PDF to S3 for keeping
@@ -385,6 +385,8 @@ class ContractsController extends Controller
 
             $contract = Contract::findOrFail($id);
             $application = Application::findOrFail($contract->application_id);
+            $unitId = $contract->unit_id;
+            $unit = Unit::findOrFail($unitId);
 
             // find the contract
             DB::table('contracts')
@@ -403,7 +405,7 @@ class ContractsController extends Controller
             // to show that a user has approved it.
 
             // Send an email to the accounting team so they can update the user
-            dispatch(new SendApprovedContractToAccounts(Auth::user(), $contract, $application));
+            dispatch(new SendApprovedContractToAccounts(Auth::user(), $contract, $application, $unit));
 
             DB::commit();
 
