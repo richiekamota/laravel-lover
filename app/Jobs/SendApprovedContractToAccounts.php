@@ -20,6 +20,7 @@ class SendApprovedContractToAccounts implements ShouldQueue
     protected $contract;
     protected $application;
     protected $unit;
+    protected $data;
 
     /**
      * Create a new job instance.
@@ -27,12 +28,13 @@ class SendApprovedContractToAccounts implements ShouldQueue
      * @param User $user
      * @param Contract $contract
      */
-    public function __construct(User $user, Contract $contract, Application $application, Unit $unit)
+    public function __construct(User $user, Contract $contract, Application $application, Unit $unit, $data)
     {
         $this->user = $user;
         $this->contract = $contract;
         $this->application = $application;
         $this->unit = $unit;
+        $this->data = $data;
     }
 
     /**
@@ -47,7 +49,8 @@ class SendApprovedContractToAccounts implements ShouldQueue
             'contract' => $this->contract,
             'application' => $this->application,
             'unit'    => $this->unit,
-            'user' => $this->user
+            'user' => $this->user,
+            'data'  => $this->data,
         ], function ($message) {
             $message->to("Catherine@swishproperties.co.za");
             $message->cc("info@mydomainliving.co.za");
