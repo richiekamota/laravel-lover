@@ -55,9 +55,13 @@
 										<li><strong>Lease End Date: </strong> {{$contract->end_date}}</li>
 										<li><strong>Lease Duration: </strong> {{$application->unit_lease_length}} months</li>
 										@foreach ($contract->items as $item)
-										<li><strong>Rental Item: </strong> {{$item->name}}</li>
-										@endforeach
-										<li><strong>Total Rental Amount: </strong>R {{number_format($item->sum('value'),2,".",",")}}</li>
+										<li><strong>Rental Item: </strong> {{$item->name}} {{'R'.' '.number_format($item->value,2,".",",")}}</li>
+                                        @endforeach
+                                        @if ($contract->items)
+                                        <li><strong>Total Amount: </strong>
+                                            {{'R'.' '.number_format($contract->items->sum('value'),2,".",",")}}
+                                        </li>
+                                        @endif
 									</ul>
                                 </div>
                             </td>
