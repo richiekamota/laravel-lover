@@ -56,6 +56,5 @@ class SendApprovedContractToAccounts implements ShouldQueue
             $message->cc("info@mydomainliving.co.za");
             $message->subject('A user has approved their contract');
         });
-
     }
 }

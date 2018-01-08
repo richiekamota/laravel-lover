@@ -494,7 +494,7 @@ class ContractsApiTest extends Tests\TestCase
 
         // Make sure the email contains text in the body of the message
         // Default is to search the html rendered view
-        $this->assertTrue($this->lastMessage()->contains('Total Rental Amount:'));
+        $this->assertTrue($this->lastMessage()->contains('Total Once-off Amount:'));
 
         //Make sure that the database is updated
          $this->seeInDatabase('contracts', [

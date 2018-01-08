@@ -369,7 +369,7 @@ class ContractsController extends Controller
 
     /**
      * @param ContractApproveRequest $request
-     * @param                        $id
+     * @param $id
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -385,7 +385,6 @@ class ContractsController extends Controller
 
             $contract = Contract::findOrFail($id);
             $application = Application::findOrFail($contract->application_id);
-            // $c
             $unitId = $contract->unit_id;
             $unit = Unit::findOrFail($unitId);
             $contractItems = $request->items;
@@ -399,15 +398,14 @@ class ContractsController extends Controller
             foreach($contractItems as $item){
 
                 if($item['payment_type'] == 'Monthly'){
-                    $data['monthly_total'] += number_format($item['value'],2,".",");
-                    var_dump( number_format($item['value'], 0, '',''));
 
+                    $data['monthly_total'] += str_replace(",", "", $item['value']);
                 }
 
                 if($item['payment_type'] == 'Once-off'){
-                    $data['onceoff_total'] += number_format($item['value'],2,".",");
-                }
 
+                    $data['onceoff_total'] += str_replace(",", "", $item['value']);
+                }
             }
 
             // find the contract
