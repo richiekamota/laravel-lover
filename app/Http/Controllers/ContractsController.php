@@ -17,6 +17,7 @@ use Portal\ContractItem;
 use Portal\Document;
 use Portal\OccupationDate;
 use Portal\Http\Requests\ContractCreateRequest;
+use Portal\Http\Requests\ContractEditRequest;
 use Portal\Http\Requests\ContractApproveRequest;
 use Portal\Http\Requests\ContractDeclineRequest;
 use Portal\Jobs\SendApprovedContractToAccounts;
@@ -69,36 +70,11 @@ class ContractsController extends Controller
     public function store(ContractCreateRequest $request, $id = NULL)
     {
 
-        // about unless Auth is level above tenant
+       // about unless Auth is level above tenant
         $this->authorize('create', Contract::class);
         $filePath = FALSE;
 
-        DB::beginTransaction();
-
-        try {
-
-            $oldContract = Contract::where('application_id', $id)
-                                    ->where('status', '<>', 'cancelled')
-                                    ->first();
-            // Cancell the existing applications if there are any
-            if(!empty($oldContract)){
-                $oldContract->status = 'cancelled';
-                $oldContract->save();
-
-                // Log an event against the application
-                ApplicationEvent::create([
-                    'user_id'        => Auth::user()->id,
-                    'application_id' => $id,
-                    'action'         => 'Application cancelled',
-                    'note'           => 'New incoming application'
-                ]);
-
-                OccupationDate::where('application_id', $id)
-                                ->update(['status' => 'cancelled']);
-
-            }
-
-            // Check if selected unit available for occupation date period
+        // Check if selected unit available for occupation date period
             $occupiedUnit = OccupationDate::where('unit_id', '=', $request->unit_id)
             ->where('start_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
             ->where('start_date', '<=', Carbon::parse($request->unit_vacation_date)->format("Y-m-d H:i:s"))
@@ -113,6 +89,10 @@ class ContractsController extends Controller
                     'message' => "The selected unit is not available for the occupation date period specified." . json_encode($occupiedUnit->toArray(), TRUE)
                 ], 422);
             }
+
+        DB::beginTransaction();
+
+        try {
 
             $application = Application::findOrFail($id);
 
@@ -211,7 +191,7 @@ class ContractsController extends Controller
             $data = ['name' => $applicationUser->first_name, 'contract' => $contract_data];
 
             $fileFolderAndName = 'contracts/' . $pdfName . '.pdf';
-            
+
             // Save the PDF locally so the email can get it
             $pdf = PDF::loadView('pdf.contract', $data)->save(storage_path($fileFolderAndName));
             // Save the PDF to S3 for keeping
@@ -267,6 +247,7 @@ class ContractsController extends Controller
             ], 422);
         }
     }
+
 
     /**
      * Show a user a copy of the contract for approval.
@@ -528,7 +509,7 @@ class ContractsController extends Controller
     {
 
         // about unless Auth is level above tenant
-        $this->authorize('create', Contract::class);
+        $this->authorize('edit', Contract::class);
         $filePath = FALSE;
 
         DB::beginTransaction();
@@ -551,9 +532,8 @@ class ContractsController extends Controller
                     'note'           => 'New incoming application'
                 ]);
 
-                OccupationDate::where('application_id', $id)
-                                ->update(['status' => 'cancelled']);
-
+                Application::where('id', $id)
+                                ->update(['email' => $request->leaseholder_email, 'phone_mobile' => $request->leaseholder_mobile, 'resident_email' => $request->resident_email, 'resident_phone_mobile' => $request->resident_mobile]);
             }
 
             // Check if selected unit available for occupation date period
@@ -572,6 +552,10 @@ class ContractsController extends Controller
                 ], 422);
             }
 
+            OccupationDate::where('application_id', $id)
+                                ->update(['reservation' => 'reserved', 'updated_at'  => Carbon::now(), 'start_date' => Carbon::parse($request->unit_occupation_date), 'end_date' => Carbon::parse($request->unit_vacation_date)]);
+
+
             $application = Application::findOrFail($id);
 
             // Approve the application
@@ -588,16 +572,6 @@ class ContractsController extends Controller
                 'end_date'       => Carbon::parse($request->unit_vacation_date),
                 'application_id' => $id,
                 'status'         => 'pending'
-            ]);
-
-            // Create entry in occupation dates table
-            $occupationDate = OccupationDate::create([
-                'contract_id'    => $contract->id,
-                'application_id' => $id,
-                'unit_id'        => $request->unit_id,
-                'status'         => 'pending',
-                'start_date'     => Carbon::parse($request->unit_occupation_date),
-                'end_date'       => Carbon::parse($request->unit_vacation_date)
             ]);
 
             // Save the items array into the contract so we
@@ -669,7 +643,7 @@ class ContractsController extends Controller
             $data = ['name' => $applicationUser->first_name, 'contract' => $contract_data];
 
             $fileFolderAndName = 'contracts/' . $pdfName . '.pdf';
-            
+
             // Save the PDF locally so the email can get it
             $pdf = PDF::loadView('pdf.contract', $data)->save(storage_path($fileFolderAndName));
             // Save the PDF to S3 for keeping
@@ -698,7 +672,7 @@ class ContractsController extends Controller
             ]);
 
             // Generate the secure return email for this contract
-            dispatch(new SendContractToUserEmail($fileFolderAndName, $applicationUser->id, $contract->secure_link, $application->id));
+            //dispatch(new SendContractToUserEmail($fileFolderAndName, $applicationUser->id, $contract->secure_link, $application->id));
 
             DB::commit();
 

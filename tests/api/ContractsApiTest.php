@@ -118,7 +118,7 @@ class ContractsApiTest extends Tests\TestCase
 
     /*
      * Test an item submission fails on unit type validation
-     * 
+     *
      */
     public function testPassValidation()
     {
@@ -192,7 +192,6 @@ class ContractsApiTest extends Tests\TestCase
         $this->seeMessageFor($user->email);
         $this->seeMessageWithSubject('My Domain contract for review');
         $this->seeMessageFrom('noreply@mydomain.co.za');
-
     }
 
     /**
@@ -367,7 +366,6 @@ class ContractsApiTest extends Tests\TestCase
         $this->actingAs($user)
             ->visit('/contracts/secure/' . $secureLink)
             ->see('This is your contract');
-
     }
 
     /**
@@ -438,7 +436,7 @@ class ContractsApiTest extends Tests\TestCase
 
      /**
      * Test that email is send for approved contract
-     * @group failing
+     *
      */
     public function testEmailIsSendForApprovedContract()
     {
@@ -506,6 +504,7 @@ class ContractsApiTest extends Tests\TestCase
      * When saving a contract we need to be sure we are saving
      * the contract items, these are specific items of value on
      * the contract that must be listed.
+     * @group failing
      */
     public function testContractItemsAreSavedOnEdit()
     {
@@ -525,12 +524,7 @@ class ContractsApiTest extends Tests\TestCase
         $application = factory(Portal\Application::class)->create([
             'user_id'               => $user->id,
             'unit_location'         => $location->id,
-            'unit_type'             => $unitType->id,
-            'application_id'        => $application->id,
-            'leaseholder_email'     => $application->email,
-            'leaseholder_phone'     => $application->phone,
-            'resident_email'        => $application->resident_email,
-            'resident_phone_mobile' => $application->resident_phone_mobile,
+            'unit_type'             => $unitType->id
         ]);
 
         $items = factory(Portal\Item::class, 5)->create();
@@ -548,26 +542,37 @@ class ContractsApiTest extends Tests\TestCase
             'unit_id'        => $unit->id
         ]);
 
-        $this->actingAs($user)
-            ->json('POST', '/contracts/' . $application->id . '/edit/', [
+        $response = $this->actingAs($user)->json('POST', '/contracts/' . $application->id . '/edit/', [
                 'user_id'               => $user->id,
                 'unit_id'               => $unit->id,
-                'application_id'        => $application->id,
-                'leaseholder_email'     => $application->email,
-                'leaseholder_phone'     => $application->phone,
-                'resident_email'        => $application->resident_email,
-                'resident_phone_mobile' => $application->resident_phone_mobile,
+                'leaseholder_email'     => 'xxx@gmail.com',
+                'leaseholder_mobile'    => '077 777 7777',
+                'resident_email'        => 'xxx@gmail.com',
+                'resident_mobile'       => '077 777 7777',
                 'unit_occupation_date'  => '2021-01-01',
                 'unit_vacation_date'    => '2021-11-01',
-                'status'                => 'pending',
                 'items'                 => $items
             ])
             ->assertResponseStatus(200);
 
-        $response = $this->actingAs($user)->seeInDatabase('occupation_date', [
-            'reservation'  => 'reserved',
-            'updated_at' => Carbon::now()
+        $this->actingAs($user)->seeInDatabase('contracts', [
+               'start_date'  => '2021-01-01',
+               'end_date'    => '2021-11-01',
+               'status'      => 'pending'
         ]);
 
+        $this->actingAs($user)->seeInDatabase('occupation_dates', [
+               'start_date'  => '2021-01-01',
+               'end_date'    => '2021-11-01',
+               'reservation' => 'reserved',
+               'status'      => 'pending'
+        ]);
+
+        $this->actingAs($user)->seeInDatabase('applications', [
+            'email'                 => 'xxx@gmail.com',
+            'phone_mobile'          => '077 777 7777',
+            'resident_email'        => 'xxx@gmail.com',
+            'resident_phone_mobile' => '077 777 7777'
+        ]);
     }
 }

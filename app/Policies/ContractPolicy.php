@@ -73,4 +73,19 @@ class ContractPolicy
 
         return FALSE;
     }
+
+    /**
+     * Determine whether the users can edit contracts.
+     *
+     * @param  \Portal\User $user
+     * @return mixed
+     */
+    public function edit( User $user )
+    {
+        if ( $user->role != 'tenant' ) {
+            return TRUE;
+        }
+
+        return FALSE;
+    }
 }

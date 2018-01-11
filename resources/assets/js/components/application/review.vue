@@ -1162,7 +1162,7 @@
                 });
             },
             reviewForEdit: function () {
-                window.location.href = '/application/' + this.application.id + '/approve';
+                window.location.href = '/application/' + this.application.id + '/approve-edit';
             },
 
             displayError(err) {

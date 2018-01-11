@@ -163,6 +163,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/application/{id}/review', 'ApplicationProcessController@review');
     Route::get('/application/{id}/approve', 'ApplicationProcessController@approve');
+    Route::get('/application/{id}/approve-edit', 'ApplicationProcessController@approveEdit');
     Route::post('/application/{id}/approve', 'ContractsController@store');
     Route::get('/application/{id}/changes', 'ApplicationProcessController@changesRequested');
     Route::post('/application/{id}/changes', 'ApplicationProcessController@processChangesRequested');
