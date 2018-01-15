@@ -165,6 +165,8 @@ class ContractsController extends Controller
             // eg FirstName20160424.pdf
             $pdfName = ucfirst(preg_replace('/[^\w-]/', '', $applicationUser->first_name)) . ucfirst(preg_replace('/[^\w-]/', '', $applicationUser->last_name)) . \Carbon\Carbon::today()->toDateString() .'-'. \Carbon\Carbon::now()->toTimeString();
 
+            $pdfName = str_replace(":","-",$pdfName);
+
             $contract_data = Contract::where('id', '=', $contract->id)->with('items', 'user')->first();
             $contract_data->application = Application::findOrFail($contract_data->application_id);
             $contract_data->unit = Unit::findOrFail($contract_data->unit_id);
@@ -211,6 +213,7 @@ class ContractsController extends Controller
             $data = ['name' => $applicationUser->first_name, 'contract' => $contract_data];
 
             $fileFolderAndName = 'contracts/' . $pdfName . '.pdf';
+
 
             // Save the PDF locally so the email can get it
             $pdf = PDF::loadView('pdf.contract', $data)->save(storage_path($fileFolderAndName));
