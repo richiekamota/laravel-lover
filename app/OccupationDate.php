@@ -17,7 +17,7 @@ class OccupationDate extends Model
      */
 
     protected $fillable = [
-        'contract_id', 'application_id', 'unit_id', 'start_date', 'end_date','status'
+        'contract_id', 'application_id', 'unit_id', 'start_date', 'end_date','status','reservation'
     ];
 
     protected $dates = ['deleted_at'];

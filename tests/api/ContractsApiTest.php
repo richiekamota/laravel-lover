@@ -118,7 +118,7 @@ class ContractsApiTest extends Tests\TestCase
 
     /*
      * Test an item submission fails on unit type validation
-     * 
+     *
      */
     public function testPassValidation()
     {
@@ -192,7 +192,6 @@ class ContractsApiTest extends Tests\TestCase
         $this->seeMessageFor($user->email);
         $this->seeMessageWithSubject('My Domain contract for review');
         $this->seeMessageFrom('noreply@mydomain.co.za');
-
     }
 
     /**
@@ -367,7 +366,6 @@ class ContractsApiTest extends Tests\TestCase
         $this->actingAs($user)
             ->visit('/contracts/secure/' . $secureLink)
             ->see('This is your contract');
-
     }
 
     /**
@@ -437,8 +435,9 @@ class ContractsApiTest extends Tests\TestCase
     }
 
      /**
-     * Test that email is send for approved contract when the tenant is the leaseholder
-     * @group failing
+
+     * Test that email is send for approved contract
+     *
      */
     public function testEmailIsSendForApprovedContractForTenantAsLeaseholder()
     {
@@ -503,14 +502,18 @@ class ContractsApiTest extends Tests\TestCase
         ]);
     }
 
-     /**
-     * Test that email is send for approved contract when the tenant is not the leaseholder
-     *
+
+    /**
+     * When saving a contract we need to be sure we are saving
+     * the contract items, these are specific items of value on
+     * the contract that must be listed.
+     * @group failing
      */
-    public function testEmailIsSendForApprovedContractForTenantNotLeaseholder()
+    public function testContractItemsAreSavedOnEdit()
     {
 
-      $user = factory(Portal\User::class)->create([
+        $user = factory(Portal\User::class)->create([
+
             'role' => 'application'
         ]);
         $location = factory(Portal\Location::class)->create();
@@ -521,10 +524,13 @@ class ContractsApiTest extends Tests\TestCase
             'location_id' => $location->id,
             'type_id'     => $unitType->id
         ]);
-        $application = factory(Portal\Application::class)->states('forApproval')->create([
-            'user_id'       => $user->id,
-            'unit_location' => $location->id,
-            'unit_type'     => $unitType->id
+
+
+        $application = factory(Portal\Application::class)->create([
+            'user_id'               => $user->id,
+            'unit_location'         => $location->id,
+            'unit_type'             => $unitType->id
+
         ]);
 
         $items = factory(Portal\Item::class, 5)->create();
@@ -542,31 +548,39 @@ class ContractsApiTest extends Tests\TestCase
             'unit_id'        => $unit->id
         ]);
 
-        $response = $this->actingAs($user)->json('POST', '/contracts/' . $contract->id . '/approved', [
-            'user_id' => $user->id,
-            'contractApproved' => true,
-            'contractSamePerson' => false,
-            'items' => $items
+
+        $response = $this->actingAs($user)->json('POST', '/contracts/' . $application->id . '/edit/', [
+                'user_id'               => $user->id,
+                'unit_id'               => $unit->id,
+                'leaseholder_email'     => 'xxx@gmail.com',
+                'leaseholder_mobile'    => '077 777 7777',
+                'resident_email'        => 'xxx@gmail.com',
+                'resident_mobile'       => '077 777 7777',
+                'unit_occupation_date'  => '2021-01-01',
+                'unit_vacation_date'    => '2021-11-01',
+                'items'                 => $items
+            ])
+            ->assertResponseStatus(200);
+
+        $this->actingAs($user)->seeInDatabase('contracts', [
+               'start_date'  => '2021-01-01',
+               'end_date'    => '2021-11-01',
+               'status'      => 'pending'
         ]);
 
-        $response->assertResponseStatus(200);
+        $this->actingAs($user)->seeInDatabase('occupation_dates', [
+               'start_date'  => '2021-01-01',
+               'end_date'    => '2021-11-01',
+               'reservation' => 'reserved',
+               'status'      => 'pending'
+        ]);
 
-        // Check that an email was sent to this email address
-        $this->seeMessageFor('Catherine@swishproperties.co.za');
+        $this->actingAs($user)->seeInDatabase('applications', [
+            'email'                 => 'xxx@gmail.com',
+            'phone_mobile'          => '077 777 7777',
+            'resident_email'        => 'xxx@gmail.com',
+            'resident_phone_mobile' => '077 777 7777'
 
-        // Make sure the email has the correct subject
-        $this->seeMessageWithSubject('A user has approved their contract');
-
-        // Make sure the email was sent from the correct address
-        $this->seeMessageFrom('info@mydomainliving.co.za');
-
-        // Make sure the email contains text in the body of the message
-        // Default is to search the html rendered view
-        $this->assertTrue($this->lastMessage()->contains('Total Once-off Amount:'));
-
-        //Make sure that the database is updated
-         $this->seeInDatabase('contracts', [
-         'status' => 'approved'
         ]);
     }
 }

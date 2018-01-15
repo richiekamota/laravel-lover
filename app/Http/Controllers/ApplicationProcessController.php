@@ -417,6 +417,63 @@ class ApplicationProcessController extends Controller
 
     }
 
+     /**
+     * View the approve page
+     *
+     * @param $id
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function approveEdit($id)
+    {
+
+        $this->authorize('review', Application::class);
+
+        $application = Application::with([
+            'user',
+            'residentId',
+            'residentStudyPermit',
+            'residentAcceptance',
+            'residentFinancialAid',
+            'leaseholderId',
+            'leaseholderAddressProof',
+            'leaseholderPayslip',
+            'location',
+            'unitType'
+        ])->find($id);
+
+        $contract = Contract::where('application_id', $application->id)->first();
+
+        $application->contract = $contract;
+
+        // Find out the unit types at this applications location
+        $location = Location::find($application->unit_location);
+
+        // TODO Attached the items for this application to assist with
+        // the contract generation
+        $suggestedItems = UnitType::find($application->unit_type)->items;
+
+        $items = Item::all();
+
+        $availableUnitsArr = Unit::with('unitType')
+            ->where('user_id', '=', '')
+            ->orWhere('user_id', '=', NULL)
+            ->where('type_id', $application->unit_type)
+            ->get();
+
+        $availableUnits = array();
+        foreach ($availableUnitsArr as $u) {
+            $occupationDates = OccupationDate::where("unit_id", "=", $u->id)->where("status", "<>", "cancelled")->get();
+            $u->occupation_dates = $occupationDates->toArray();
+            $availableUnits[] = $u;
+        }
+
+        $availableUnits = json_encode($availableUnits);
+
+        return view('applications.approve-edit', compact('application', 'location', 'suggestedItems', 'items', 'availableUnits'));
+
+    }
+
     /**
      * Renew an existing application
      *

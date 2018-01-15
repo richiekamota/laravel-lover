@@ -117,6 +117,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/contracts/secure/{secureLink}', 'ContractsController@show');
     Route::post('/contracts/{id}/approved', 'ContractsController@approve');
     Route::post('/contracts/{id}/decline', 'ContractsController@decline');
+    Route::post('/contracts/{id}/edit', 'ContractsController@edit');
     Route::get('/contracts/{id}/review', 'ContractsController@review');
     Route::post('/contracts/{id}', 'ContractsController@store');
 
@@ -162,6 +163,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/application/{id}/review', 'ApplicationProcessController@review');
     Route::get('/application/{id}/approve', 'ApplicationProcessController@approve');
+    Route::get('/application/{id}/approve-edit', 'ApplicationProcessController@approveEdit');
     Route::post('/application/{id}/approve', 'ContractsController@store');
     Route::get('/application/{id}/changes', 'ApplicationProcessController@changesRequested');
     Route::post('/application/{id}/changes', 'ApplicationProcessController@processChangesRequested');
