@@ -370,7 +370,7 @@ class ContractsController extends Controller
 
     /**
      * @param ContractApproveRequest $request
-     * @param                        $id
+     * @param $id
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -387,6 +387,26 @@ class ContractsController extends Controller
             $application = Application::findOrFail($contract->application_id);
             $unitId = $contract->unit_id;
             $unit = Unit::findOrFail($unitId);
+            $contractItems = $request->items;
+
+            $data = array(
+                "monthly_total" => 0,
+                "onceoff_total" => 0
+            );
+
+
+            foreach($contractItems as $item){
+
+                if($item['payment_type'] == 'Monthly'){
+
+                    $data['monthly_total'] += str_replace(",", "", $item['value']);
+                }
+
+                if($item['payment_type'] == 'Once-off'){
+
+                    $data['onceoff_total'] += str_replace(",", "", $item['value']);
+                }
+            }
 
             // find the contract
             DB::table('contracts')
@@ -405,7 +425,7 @@ class ContractsController extends Controller
             // to show that a user has approved it.
 
             // Send an email to the accounting team so they can update the user
-            dispatch(new SendApprovedContractToAccounts(Auth::user(), $contract, $application, $unit));
+            dispatch(new SendApprovedContractToAccounts(Auth::user(), $contract, $application, $unit, $data));
 
             DB::commit();
 

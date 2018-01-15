@@ -34,35 +34,35 @@
                      style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
                     <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
                         <tbody>
-                        <tr>
-                            <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="center">
-                                <div style="cursor:auto;color:#58585d;font-family:Ubuntu;font-size:15px;line-height:22px;">
-                                    The contract with the following details has been approved by the user.
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="center">
-                                <div style="cursor:auto;color:#58585d;font-family:Ubuntu;font-size:15px;line-height:22px;">
-                                    <ul style="list-style: none">
-										<li><strong>Leaseholders name: </strong> {{$application->first_name}} {{$application->last_name}}</li>
-									    <li><strong>Leaseholders email: </strong> {{$application->email}}</li>
-									    <li><strong>Tenants name: </strong> {{$application->resident_first_name}} {{$application->resident_last_name}}</li>
-									    <li><strong>Tenants email: </strong>{{$application->resident_email}}</li>
-									    <li><strong>Tertiary Institution: </strong> {{$application->resident_study_location}}</li>
-									    <li><strong>Unit Number: </strong> {{$unit->code}}</li>
-									    <li><strong>Lease Start Date: </strong> {{$contract->start_date}}</li>
-										<li><strong>Lease End Date: </strong> {{$contract->end_date}}</li>
-										<li><strong>Lease Duration: </strong> {{$application->unit_lease_length}} months</li>
-										@foreach ($contract->items as $item)
-										<li><strong>Rental Item: </strong> {{$item->name}}</li>
-										@endforeach
-										<li><strong>Total Rental Amount: </strong>R {{number_format($item->sum('value'),2,".",",")}}</li>
-									</ul>
-                                </div>
-                            </td>
-                        </tr>
-
+                            <tr>
+                                <td style="word-break:break-word;font-size:0px;padding:10px 0px;" align="center">
+                                    <div style="cursor:auto;color:#58585d;font-family:Ubuntu;font-size:15px;line-height:22px;">
+                                        The contract with the following details has been approved by the user.
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="word-break:break-word;font-size:0px;padding:10px 0px;" align="center">
+                                    <div style="cursor:auto;color:#58585d;font-family:Ubuntu;font-size:15px;line-height:22px;">
+                                        <ul style="list-style: none">
+    										<li><strong>Leaseholders name: </strong> {{$application->first_name}} {{$application->last_name}}</li>
+    									    <li><strong>Leaseholders email: </strong> {{$application->email}}</li>
+    									    <li><strong>Tenants name: </strong> {{$application->resident_first_name}} {{$application->resident_last_name}}</li>
+    									    <li><strong>Tenants email: </strong>{{$application->resident_email}}</li>
+    									    <li><strong>Tertiary Institution: </strong> {{$application->resident_study_location}}</li>
+    									    <li><strong>Unit Number: </strong> {{$unit->code}}</li>
+    									    <li><strong>Lease Start Date: </strong> {{$contract->start_date}}</li>
+    										<li><strong>Lease End Date: </strong> {{$contract->end_date}}</li>
+    										<li><strong>Lease Duration: </strong> {{$application->unit_lease_length}} months</li>
+    										@foreach ($contract->items as $item)
+    										<li><strong>Rental Item: </strong> {{$item->name}} ({{$item->payment_type}}) {{'R'.' '.number_format($item->value,2,".",",")}}</li>
+                                            @endforeach
+                                            <li><strong>Total Monthly Amount: </strong>{{'R'.' '.number_format($data['monthly_total'],2,".",",")}}</li>
+                                            <li><strong>Total Once-off Amount: </strong>{{'R'.' '.number_format($data['onceoff_total'],2,".",",")}}</li>
+    									</ul>
+                                    </div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
