@@ -107,7 +107,7 @@
                 <hr class="--mt2 --mb2">
 
                 <h4 class="--mb0">Contract Unit | the unit the tenant will be living in</h4>
-                <p class="--mt1">Select the unit from the list, these are the available units matching the applicants requested type and location.</p>
+                <p class="--mt1">Select the unit from the list. The users CURRENT unit has been pre-selected for you. The user's requested type is:</p>
 
                 <select class="styled-select" name="selectedUnit" v-model="selectedUnit" required v-if="filteredUnits.length != 0">
 
@@ -126,6 +126,9 @@
                 <h4 class="--mb0">Contract Items | individual items that need to go on the contract</h4>
                 <p class="--mt1">Select or deselect items by clicking on them.</p>
 
+                <!-- <div v-if="" class="row column">
+                            <span>{{item.name}}</span>
+                </div> -->
                 <!-- Loop suggested items -->
 
                 <div class="title-bar --mt1">
