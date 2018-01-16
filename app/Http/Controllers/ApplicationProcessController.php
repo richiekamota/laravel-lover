@@ -21,6 +21,7 @@ use Portal\Jobs\SendApplicationRenewalEmail;
 use Portal\Jobs\SendContractCancelledEmail;
 use Portal\Location;
 use Portal\Contract;
+use Portal\ContractItem;
 use Portal\Unit;
 use Portal\UnitType;
 use Portal\OccupationDate;
@@ -442,9 +443,17 @@ class ApplicationProcessController extends Controller
             'unitType'
         ])->find($id);
 
-        $contract = Contract::where('application_id', $application->id)->first();
+        $contract = Contract::where('application_id', $application->id)->where('status','pending')->first();
 
         $application->contract = $contract;
+
+        $contractItems = ContractItem::where('contract_id', $contract->id)->get();
+
+        $application->contractItems = $contractItems;
+
+        $unit = Unit::find($contract->unit_id);
+
+        $application->unit = $unit;
 
         // Find out the unit types at this applications location
         $location = Location::find($application->unit_location);

@@ -27,7 +27,6 @@ class ContractEditRequest extends FormRequest
 
             'user_id'                     => 'required|exists:users,id',
             'unit_id'                     => 'required|exists:units,id',
-            // 'application_id'              => 'sometimes|exists:documents,id',
             'leaseholder_email'           => 'sometimes|email',
             'leaseholder_mobile'          => 'sometimes',
             'resident_email'              => 'sometimes|email',
