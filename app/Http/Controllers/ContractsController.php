@@ -75,20 +75,20 @@ class ContractsController extends Controller
         $filePath = FALSE;
 
         // Check if selected unit available for occupation date period
-            $occupiedUnit = OccupationDate::where('unit_id', '=', $request->unit_id)
-            ->where('start_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
-            ->where('start_date', '<=', Carbon::parse($request->unit_vacation_date)->format("Y-m-d H:i:s"))
-            ->where('end_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
-            ->where('end_date', '<=', Carbon::parse($request->unit_vacation_date)->format("Y-m-d H:i:s"))
-            ->where('status', '<>', 'cancelled')
-            ->get();
+        $occupiedUnit = OccupationDate::where('unit_id', '=', $request->unit_id)
+        ->where('start_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
+        ->where('start_date', '<=', Carbon::parse($request->unit_vacation_date)->format("Y-m-d H:i:s"))
+        ->where('end_date', '>=', Carbon::parse($request->unit_occupation_date)->format("Y-m-d H:i:s"))
+        ->where('end_date', '<=', Carbon::parse($request->unit_vacation_date)->format("Y-m-d H:i:s"))
+        ->where('status', '<>', 'cancelled')
+        ->get();
 
-            if (!empty($occupiedUnit->toArray())) {
-                return Response::json([
-                    'error'   => '',
-                    'message' => "The selected unit is not available for the occupation date period specified." . json_encode($occupiedUnit->toArray(), TRUE)
-                ], 422);
-            }
+        if (!empty($occupiedUnit->toArray())) {
+            return Response::json([
+                'error'   => '',
+                'message' => "The selected unit is not available for the occupation date period specified." . json_encode($occupiedUnit->toArray(), TRUE)
+            ], 422);
+        }
 
         DB::beginTransaction();
 
@@ -541,8 +541,8 @@ class ContractsController extends Controller
         try {
 
             $oldContract = Contract::where('application_id', $id)
-                                    ->where('status', '<>', 'cancelled')
-                                    ->first();
+            ->where('status', '<>', 'cancelled')
+            ->first();
             // Cancell the existing applications if there are any
             if(!empty($oldContract)){
                 $oldContract->status = 'cancelled';
@@ -556,8 +556,13 @@ class ContractsController extends Controller
                     'note'           => 'New incoming application'
                 ]);
 
-                Application::where('id', $id)
-                                ->update(['email' => $request->leaseholder_email, 'phone_mobile' => $request->leaseholder_mobile, 'resident_email' => $request->resident_email, 'resident_phone_mobile' => $request->resident_mobile]);
+                $updateApplication = Application::where('id', $id)->first();
+                $updateApplication->update([
+                    'email' => $request->leaseholder_email != '' ? $request->leaseholder_email : $updateApplication->email,
+                    'phone_mobile' => $request->leaseholder_mobile != '' ? $request->leaseholder_mobile : $updateApplication->phone_mobile,
+                    'resident_email' => $request->resident_email != '' ? $request->resident_email : $updateApplication->resident_email,
+                    'resident_phone_mobile' => $request->resident_mobile != '' ? $request->resident_mobile : $updateApplication->resident_phone_mobile
+                ]);
             }
 
             // Check if selected unit available for occupation date period
@@ -577,7 +582,7 @@ class ContractsController extends Controller
             }
 
             OccupationDate::where('application_id', $id)
-                                ->update(['reservation' => 'reserved', 'updated_at'  => Carbon::now(), 'start_date' => Carbon::parse($request->unit_occupation_date), 'end_date' => Carbon::parse($request->unit_vacation_date)]);
+            ->update(['reservation' => 'reserved', 'updated_at'  => Carbon::now(), 'start_date' => Carbon::parse($request->unit_occupation_date), 'end_date' => Carbon::parse($request->unit_vacation_date)]);
 
 
             $application = Application::findOrFail($id);

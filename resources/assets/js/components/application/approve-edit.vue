@@ -84,7 +84,7 @@
                 <hr class="--mt2 --mb2">
 
                 <h4 class="--mb0">Contract Timings | start and end date of the contract</h4>
-                <p class="--mt1">These dates has been taken from the users contract requests but you can update them if needed.
+                <p class="--mt1">These dates have been taken from the users contract requests but you can update them if needed.
                 </p>
 
                 <div class="row">
@@ -107,7 +107,12 @@
                 <hr class="--mt2 --mb2">
 
                 <h4 class="--mb0">Contract Unit | the unit the tenant will be living in</h4>
-                <p class="--mt1">Select the unit from the list, these are the available units matching the applicants requested type and location.</p>
+                <p class="--mt1" >
+                    Select the unit from the list.
+                    The users CURRENT unit has been pre-selected for you.
+                    The user's requested type is: {{application.unit.code}} - {{application.unit_type.name}}
+                </p>
+
 
                 <select class="styled-select" name="selectedUnit" v-model="selectedUnit" required v-if="filteredUnits.length != 0">
 
@@ -124,10 +129,14 @@
                 <!-- List of items, some are preselected, others can be added. -->
 
                 <h4 class="--mb0">Contract Items | individual items that need to go on the contract</h4>
-                <p class="--mt1">Select or deselect items by clicking on them.</p>
 
+                <p class="--mt1">Previously selected items:</p>
+
+                <div v-for="contractItem in application.contractItems" class="row column">
+                            <span>{{contractItem["name"]}}</span>
+                </div>
                 <!-- Loop suggested items -->
-
+                <p class="--mt1">Select or deselect items by clicking on them.</p>
                 <div class="title-bar --mt1">
                     <h4>Available Items</h4>
                 </div>
